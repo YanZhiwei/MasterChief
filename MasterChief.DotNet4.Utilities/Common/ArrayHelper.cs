@@ -1,6 +1,8 @@
 ﻿namespace MasterChief.DotNet4.Utilities.Common
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// Array 辅助类
@@ -51,6 +53,16 @@
                 return true;
             }
             return false;
+        }
+
+        /// <summary>
+        /// 将array转为具体List对象集合
+        /// </summary>
+        /// <param name="data">Array</param>
+        /// <returns>List对象集合</returns>
+        public static List<T> ToList<T>(this Array data)
+        {
+            return data.Cast<T>().ToList<T>();
         }
 
         #endregion Methods
