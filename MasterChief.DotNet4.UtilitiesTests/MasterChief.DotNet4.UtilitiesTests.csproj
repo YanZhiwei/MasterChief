@@ -51,6 +51,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Common\ArrayHelperTests.cs" />
     <Compile Include="Common\CollectionHelperTests.cs" />
     <Compile Include="Common\ObjectHelperTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

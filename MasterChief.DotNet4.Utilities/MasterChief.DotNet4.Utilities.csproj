@@ -41,6 +41,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\BCDHelper.cs" />
+    <Compile Include="Common\ArrayHelper.cs" />
+    <Compile Include="Common\ASCIIHelper.cs" />
+    <Compile Include="Common\AttributeHelper.cs" />
+    <Compile Include="Common\Base64Helper.cs" />
+    <Compile Include="Common\BitArrayHelper.cs" />
     <Compile Include="Common\CollectionHelper.cs" />
     <Compile Include="Common\ObjectHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
