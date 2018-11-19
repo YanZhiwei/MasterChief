@@ -69,6 +69,8 @@
     <Compile Include="Common\EnumHelper.cs" />
     <Compile Include="Common\EventHandlerHelper.cs" />
     <Compile Include="Common\ExceptionHelper.cs" />
+    <Compile Include="Common\FileHelper.cs" />
+    <Compile Include="Common\FontHelper.cs" />
     <Compile Include="Common\FuzzyHelper.cs" />
     <Compile Include="Common\GuidHelper.cs" />
     <Compile Include="Common\HexHelper.cs" />
