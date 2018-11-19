@@ -16,19 +16,19 @@
         /// <returns>COMB类型 Guid 数据</returns>
         public static Guid CreateCOMB()
         {
-            byte[] _guidArray = Guid.NewGuid().ToByteArray();
-            DateTime _dtBase = new DateTime(1900, 1, 1);
-            DateTime _dtNow = DateTime.Now;
-            long _nowTicks = (new DateTime(_dtNow.Year, _dtNow.Month, _dtNow.Day)).Ticks;
-            TimeSpan _days = new TimeSpan(_dtNow.Ticks - _dtBase.Ticks),
-            _msecs = new TimeSpan(_dtNow.Ticks - _nowTicks);
-            byte[] _daysArray = BitConverter.GetBytes(_days.Days);
-            byte[] _msecsArray = BitConverter.GetBytes((long)(_msecs.TotalMilliseconds / 3.333333));
-            Array.Reverse(_daysArray);
-            Array.Reverse(_msecsArray);
-            Array.Copy(_daysArray, _daysArray.Length - 2, _guidArray, _guidArray.Length - 6, 2);
-            Array.Copy(_msecsArray, _msecsArray.Length - 4, _guidArray, _guidArray.Length - 4, 4);
-            return new Guid(_guidArray);
+            byte[] guidArray = Guid.NewGuid().ToByteArray();
+            DateTime initDate = new DateTime(1900, 1, 1);
+            DateTime now = DateTime.Now;
+            long nowTicks = (new DateTime(now.Year, now.Month, now.Day)).Ticks;
+            TimeSpan days = new TimeSpan(now.Ticks - initDate.Ticks),
+            msecs = new TimeSpan(now.Ticks - nowTicks);
+            byte[] daysArray = BitConverter.GetBytes(days.Days);
+            byte[] msecsArray = BitConverter.GetBytes((long)(msecs.TotalMilliseconds / 3.333333));
+            Array.Reverse(daysArray);
+            Array.Reverse(msecsArray);
+            Array.Copy(daysArray, daysArray.Length - 2, guidArray, guidArray.Length - 6, 2);
+            Array.Copy(msecsArray, msecsArray.Length - 4, guidArray, guidArray.Length - 4, 4);
+            return new Guid(guidArray);
         }
 
         /// <summary>
@@ -45,32 +45,32 @@
         /// 备注：
         public static string FormatGuid(this Guid guid, int guidMode)
         {
-            string _formatString = string.Empty;
+            string formatString = string.Empty;
 
             switch (guidMode)
             {
                 case 0:
-                    _formatString = guid.ToString("N");//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                    formatString = guid.ToString("N");//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
                     break;
 
                 case 1:
-                    _formatString = guid.ToString("D");//xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+                    formatString = guid.ToString("D");//xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
                     break;
 
                 case 2:
-                    _formatString = guid.ToString("B");//{xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx}
+                    formatString = guid.ToString("B");//{xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx}
                     break;
 
                 case 3:
-                    _formatString = guid.ToString("P");//(xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx)
+                    formatString = guid.ToString("P");//(xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx)
                     break;
 
                 default:
-                    _formatString = guid.ToString();
+                    formatString = guid.ToString();
                     break;
             }
 
-            return _formatString;
+            return formatString;
         }
 
         /// <summary>
@@ -82,19 +82,19 @@
         /// 备注：
         public static DateTime ParseCOMBGuid(Guid combGuid)
         {
-            DateTime _baseDate = new DateTime(1900, 1, 1);
-            byte[] _daysArray = new byte[4];
-            byte[] _msecsArray = new byte[4];
-            byte[] _guidArray = combGuid.ToByteArray();
-            Array.Copy(_guidArray, _guidArray.Length - 6, _daysArray, 2, 2);
-            Array.Copy(_guidArray, _guidArray.Length - 4, _msecsArray, 0, 4);
-            Array.Reverse(_daysArray);
-            Array.Reverse(_msecsArray);
-            int _days = BitConverter.ToInt32(_daysArray, 0);
-            int _msecs = BitConverter.ToInt32(_msecsArray, 0);
-            DateTime _date = _baseDate.AddDays(_days);
-            _date = _date.AddMilliseconds(_msecs * 3.333333);
-            return _date;
+            DateTime guidTime = new DateTime(1900, 1, 1);
+            byte[] daysArray = new byte[4];
+            byte[] msecsArray = new byte[4];
+            byte[] guidArray = combGuid.ToByteArray();
+            Array.Copy(guidArray, guidArray.Length - 6, daysArray, 2, 2);
+            Array.Copy(guidArray, guidArray.Length - 4, msecsArray, 0, 4);
+            Array.Reverse(daysArray);
+            Array.Reverse(msecsArray);
+            int days = BitConverter.ToInt32(daysArray, 0);
+            int msecs = BitConverter.ToInt32(msecsArray, 0);
+            DateTime date = guidTime.AddDays(days);
+            date = date.AddMilliseconds(msecs * 3.333333);
+            return date;
         }
 
         /// <summary>
@@ -106,8 +106,8 @@
         /// 备注：
         public static string ToBase64String(Guid guid)
         {
-            byte[] _buffer = guid.ToByteArray();
-            return Convert.ToBase64String(_buffer);
+            byte[] guidArray = guid.ToByteArray();
+            return Convert.ToBase64String(guidArray);
         }
 
         /// <summary>
@@ -117,11 +117,11 @@
         /// <returns>符合SQL Server的GUID</returns>
         public static Guid ToCOMBGuid(this Guid guid)
         {
-            byte[] _guid = guid.ToByteArray();
-            Array.Reverse(_guid, 0, 4);
-            Array.Reverse(_guid, 4, 2);
-            Array.Reverse(_guid, 6, 2);
-            return new Guid(_guid);
+            byte[] guidArray = guid.ToByteArray();
+            Array.Reverse(guidArray, 0, 4);
+            Array.Reverse(guidArray, 4, 2);
+            Array.Reverse(guidArray, 6, 2);
+            return new Guid(guidArray);
         }
 
         /// <summary>
@@ -133,8 +133,8 @@
         /// 备注：
         public static long ToLongId(Guid value)
         {
-            byte[] _guid = value.ToByteArray();
-            return BitConverter.ToInt64(_guid, 0);
+            byte[] guidArray = value.ToByteArray();
+            return BitConverter.ToInt64(guidArray, 0);
         }
 
         #endregion Methods

@@ -19,19 +19,19 @@
         /// <returns>根据键获取的值与期待的值一致</returns>
         public static bool Check(this NameValueCollection collection, string key, string expect)
         {
-            bool _result = false;
+            bool result = false;
 
             if (collection != null && !string.IsNullOrEmpty(key))
             {
-                string _value = collection[key];
+                string kvalue = collection[key];
 
-                if (!string.IsNullOrEmpty(_value))
+                if (!string.IsNullOrEmpty(kvalue))
                 {
-                    _result = _value.Equals(expect);
+                    result = kvalue.Equals(expect);
                 }
             }
 
-            return _result;
+            return result;
         }
 
         /// <summary>
@@ -46,10 +46,10 @@
         /// <returns>自定义返回类型</returns>
         public static T Check<T>(this NameValueCollection collection, string key, string expect, Func<bool, T> checkedHanlder)
         {
-            T _instance = default(T);
-            bool _result = Check(collection, key, expect);
-            _instance = checkedHanlder(_result);
-            return _instance;
+            T instance = default(T);
+            bool result = Check(collection, key, expect);
+            instance = checkedHanlder(result);
+            return instance;
         }
 
         /// <summary>
@@ -63,10 +63,10 @@
         /// <returns>自定义返回类型</returns>
         public static T Check<T>(this string value, string expect, Func<bool, T> checkedHanlder)
         {
-            T _instance = default(T);
-            bool _result = value.Equals(expect);
-            _instance = checkedHanlder(_result);
-            return _instance;
+            T instance = default(T);
+            bool result = value.Equals(expect);
+            instance = checkedHanlder(result);
+            return instance;
         }
 
         #endregion Methods

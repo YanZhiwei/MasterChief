@@ -30,18 +30,18 @@
         /// <returns>本地Ip4地址集合</returns>
         public static List<IPAddress> GetLocalIp4Address()
         {
-            List<IPAddress> _localIp4s = new List<IPAddress>();
-            IPHostEntry _ipHostEntry = Dns.GetHostEntry(Dns.GetHostName());
+            List<IPAddress> addresses = new List<IPAddress>();
+            IPHostEntry hostEntry = Dns.GetHostEntry(Dns.GetHostName());
 
-            foreach (IPAddress ip in _ipHostEntry.AddressList)
+            foreach (IPAddress ip in hostEntry.AddressList)
             {
                 if (ip.AddressFamily == AddressFamily.InterNetwork)
                 {
-                    _localIp4s.Add(ip);
+                    addresses.Add(ip);
                 }
             }
 
-            return _localIp4s;
+            return addresses;
         }
 
         /// <summary>

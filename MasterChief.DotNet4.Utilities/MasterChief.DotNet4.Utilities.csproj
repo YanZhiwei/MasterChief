@@ -54,7 +54,6 @@
     <Compile Include="Common\BitHelper.cs" />
     <Compile Include="Common\CheckHelper.cs" />
     <Compile Include="Common\CollectionHelper.cs" />
-    <Compile Include="Common\ComparisonHelper.cs" />
     <Compile Include="Common\ConvertHelper.cs" />
     <Compile Include="Common\DataBaseHelper.cs" />
     <Compile Include="Common\DataSetHelper.cs" />
@@ -68,7 +67,6 @@
     <Compile Include="Common\EnumHelper.cs" />
     <Compile Include="Common\EventHandlerHelper.cs" />
     <Compile Include="Common\ExceptionHelper.cs" />
-    <Compile Include="Common\FileExtInfoHelper.cs" />
     <Compile Include="Common\FuzzyHelper.cs" />
     <Compile Include="Common\GuidHelper.cs" />
     <Compile Include="Common\HexHelper.cs" />

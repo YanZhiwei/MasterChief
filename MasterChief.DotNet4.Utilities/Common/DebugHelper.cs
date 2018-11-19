@@ -7,7 +7,7 @@
     /// <summary>
     /// Debug 帮助类
     /// </summary>
-    public class DebugHelper
+    public static class DebugHelper
     {
         #region Methods
 
@@ -16,8 +16,8 @@
         /// </summary>
         public static void ConsoleOutput()
         {
-            TextWriterTraceListener _listener = new TextWriterTraceListener(Console.Out);
-            Debug.Listeners.Add(_listener);
+            TextWriterTraceListener traceListener = new TextWriterTraceListener(Console.Out);
+            Debug.Listeners.Add(traceListener);
         }
 
         /// <summary>
@@ -31,8 +31,8 @@
                 path = DateTime.Now.ToString("yyyyMMdd") + ".log";
             }
 
-            TextWriterTraceListener _listener = new TextWriterTraceListener(File.CreateText(path));
-            Debug.Listeners.Add(_listener);
+            TextWriterTraceListener traceListener = new TextWriterTraceListener(File.CreateText(path));
+            Debug.Listeners.Add(traceListener);
         }
 
         /// <summary>

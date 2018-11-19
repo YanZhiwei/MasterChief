@@ -18,15 +18,15 @@ namespace MasterChief.DotNet4.Utilities.Common
         /// 备注：
         public static string GetGeneratedQuery(this IDbCommand cmd)
         {
-            string _sql = cmd.CommandText;
+            string sqlText = cmd.CommandText;
 
             for (int i = 0; i < cmd.Parameters.Count; i++)
             {
                 IDbDataParameter _parameter = cmd.Parameters[i] as IDbDataParameter;
-                _sql = _sql.Replace(_parameter.ParameterName, _parameter.Value.ToStringOrDefault(string.Empty));
+                sqlText = sqlText.Replace(_parameter.ParameterName, _parameter.Value.ToStringOrDefault(string.Empty));
             }
 
-            return _sql;
+            return sqlText;
         }
     }
 }

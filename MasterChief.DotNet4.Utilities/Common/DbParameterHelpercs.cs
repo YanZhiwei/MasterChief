@@ -18,7 +18,7 @@ namespace MasterChief.DotNet4.Utilities.Common
         /// <returns>DbParameter</returns>
         /// 时间：2016-01-29 17:11
         /// 备注：
-        public static DbParameter HanlderNull(this DbParameter paramter)
+        public static DbParameter SetDbNull(this DbParameter paramter)
         {
             if (paramter != null)
             {

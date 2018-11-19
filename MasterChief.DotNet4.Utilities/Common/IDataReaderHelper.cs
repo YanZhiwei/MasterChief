@@ -24,8 +24,8 @@
         /// 备注：
         public static T GetValue<T>(this IDataReader reader, string columnName, T failValue)
         {
-            bool _result = reader[columnName] != DBNull.Value;
-            return _result == true ? (T)reader[columnName] : failValue;
+            bool result = reader[columnName] != DBNull.Value;
+            return result ? (T)reader[columnName] : failValue;
         }
 
         /// <summary>
@@ -54,16 +54,16 @@
         /// 备注：
         public static T GetValueOrDefault<T>(this IDataReader reader, string columnName, T defaultValue)
         {
-            T _returnValue = defaultValue;
-            object _columnValue = reader[columnName];
+            T result = defaultValue;
+            object dbColValue = reader[columnName];
 
-            if (!(_columnValue is DBNull))
+            if (!(dbColValue is DBNull))
             {
-                Type _returnType = Nullable.GetUnderlyingType(typeof(T)) ?? typeof(T);
-                _returnValue = (T)Convert.ChangeType(_columnValue, _returnType);
+                Type dbColType = Nullable.GetUnderlyingType(typeof(T)) ?? typeof(T);
+                result = (T)Convert.ChangeType(dbColValue, dbColType);
             }
 
-            return _returnValue;
+            return result;
         }
 
         #endregion Methods

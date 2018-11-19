@@ -16,14 +16,14 @@
         /// <returns>十六进制字符串</returns>
         public static string ToHexString(uint number)
         {
-            string _hex = string.Format("{0:X}", number);
+            string hexString = string.Format("{0:X}", number);
 
-            if (_hex.Length % 2 != 0)
+            if (hexString.Length % 2 != 0)
             {
-                _hex = string.Format("0{0}", _hex);
+                hexString = string.Format("0{0}", hexString);
             }
 
-            return _hex;
+            return hexString;
         }
 
         /// <summary>
@@ -33,14 +33,14 @@
         /// <returns>十六进制字符串</returns>
         public static string ToHexString(ushort number)
         {
-            string _hex = string.Format("{0:X}", number);
+            string hexString = string.Format("{0:X}", number);
 
-            if (_hex.Length % 2 != 0)
+            if (hexString.Length % 2 != 0)
             {
-                _hex = string.Format("0{0}", _hex);
+                hexString = string.Format("0{0}", hexString);
             }
 
-            return _hex;
+            return hexString;
         }
 
         /// <summary>
@@ -50,14 +50,14 @@
         /// <returns>十六进制字符串</returns>
         public static string ToHexString(ulong number)
         {
-            string _hex = string.Format("{0:X}", number);
+            string hexString = string.Format("{0:X}", number);
 
-            if (_hex.Length % 2 != 0)
+            if (hexString.Length % 2 != 0)
             {
-                _hex = string.Format("0{0}", _hex);
+                hexString = string.Format("0{0}", hexString);
             }
 
-            return _hex;
+            return hexString;
         }
 
         /// <summary>
