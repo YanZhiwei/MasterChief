@@ -56,6 +56,7 @@
     <Compile Include="Common\CheckHelper.cs" />
     <Compile Include="Common\CollectionHelper.cs" />
     <Compile Include="Common\ConvertHelper.cs" />
+    <Compile Include="Common\CSVHelper.cs" />
     <Compile Include="Common\DataBaseHelper.cs" />
     <Compile Include="Common\DataSetHelper.cs" />
     <Compile Include="Common\DataTableHelper.cs" />
@@ -91,6 +92,7 @@
     <Compile Include="Common\UnixEpochHelper.cs" />
     <Compile Include="Common\XMLHelper.cs" />
     <Compile Include="Enum\DateTimePart.cs" />
+    <Compile Include="Model\CsvRow.cs" />
     <Compile Include="Model\LatLngPoint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegexPattern.cs" />
