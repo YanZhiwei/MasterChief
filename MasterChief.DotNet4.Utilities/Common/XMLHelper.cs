@@ -24,10 +24,10 @@
             {
                 using (XmlTextWriter writer = new XmlTextWriter(stream, null))
                 {
-                    XmlDocument _xDoc = new XmlDocument();
+                    XmlDocument xmlDocument = new XmlDocument();
                     writer.Formatting = Formatting.Indented;
-                    _xDoc.LoadXml(xmlString);
-                    _xDoc.WriteTo(writer);
+                    xmlDocument.LoadXml(xmlString);
+                    xmlDocument.WriteTo(writer);
                     return encoding.GetString(stream.ToArray());
                 }
             }
@@ -40,12 +40,12 @@
         /// <returns>返回DataSet，若发生异常则返回NULL</returns>
         public static DataSet ParseXMLFile(string xmlFilePath)
         {
-            XmlDocument _doc = new XmlDocument();
-            _doc.Load(xmlFilePath);
-            XmlNodeReader _xmlReader = new XmlNodeReader(_doc);
-            DataSet _dataSet = new DataSet();
-            _dataSet.ReadXml(_xmlReader);
-            return _dataSet;
+            XmlDocument xmlDocument = new XmlDocument();
+            xmlDocument.Load(xmlFilePath);
+            XmlNodeReader nodeReader = new XmlNodeReader(xmlDocument);
+            DataSet dataSet = new DataSet();
+            dataSet.ReadXml(nodeReader);
+            return dataSet;
         }
 
         #endregion Methods

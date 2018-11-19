@@ -85,8 +85,8 @@
         /// 备注说明:<c>null</c>
         public static TimeSpan SetToday(this TimeSpan ts)
         {
-            DateTime _now = DateTime.Now;
-            return new TimeSpan(_now.Day, ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds);
+            DateTime now = DateTime.Now;
+            return new TimeSpan(now.Day, ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds);
         }
 
         #endregion Methods

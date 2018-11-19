@@ -6,7 +6,7 @@
     /// <summary>
     /// 资源文件操作帮助类
     /// </summary>
-    public class ResourceHelper
+    public static class ResourceHelper
     {
         #region Methods
 
@@ -18,22 +18,22 @@
         /// <returns>是否成功</returns>
         public static bool WriteFile(string resourceName, string filename)
         {
-            bool _result = false;
-            Assembly _curCall = Assembly.GetCallingAssembly();
-            using (Stream stream = _curCall.GetManifestResourceStream(resourceName))
+            bool result = false;
+            Assembly assembly = Assembly.GetCallingAssembly();
+            using (Stream stream = assembly.GetManifestResourceStream(resourceName))
             {
                 if (stream != null)
                 {
-                    using (FileStream fs = new FileStream(filename, FileMode.Create))
+                    using (FileStream fileStream = new FileStream(filename, FileMode.Create))
                     {
-                        byte[] _byte = new byte[stream.Length];
-                        stream.Read(_byte, 0, _byte.Length);
-                        fs.Write(_byte, 0, _byte.Length);
-                        _result = true;
+                        byte[] data = new byte[stream.Length];
+                        stream.Read(data, 0, data.Length);
+                        fileStream.Write(data, 0, data.Length);
+                        result = true;
                     }
                 }
             }
-            return _result;
+            return result;
         }
 
         #endregion Methods

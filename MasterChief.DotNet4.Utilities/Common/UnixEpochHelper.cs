@@ -5,7 +5,7 @@
     /// <summary>
     /// Unix 时间戳 帮助类
     /// </summary>
-    public class UnixEpochHelper
+    public static class UnixEpochHelper
     {
         #region Fields
 

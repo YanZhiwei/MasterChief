@@ -44,10 +44,9 @@ namespace MasterChief.DotNet4.Utilities.Common
         public static bool IsMatch(string checkString, string regexString, out Match result)
         {
             result = null;
-            Regex _regex = new Regex(regexString);
-            result = _regex.Match(checkString);
-            bool _checkResult = result.Success;
-            return _checkResult;
+            Regex regex = new Regex(regexString);
+            result = regex.Match(checkString);
+            return result.Success;
         }
 
         #endregion Methods

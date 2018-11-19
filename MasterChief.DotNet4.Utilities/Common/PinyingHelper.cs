@@ -15,7 +15,7 @@
         /// </summary>
         /// 日期：2015-10-09 17:23
         /// 备注：
-        private static Hashtable pinyinHash;
+        private static Hashtable _pinyinHash;
 
         #endregion Fields
 
@@ -28,7 +28,7 @@
         /// 备注：
         static PinyingHelper()
         {
-            pinyinHash = new Hashtable
+            _pinyinHash = new Hashtable
             {
                 { -20319, "a" },
                 { -20317, "ai" },
@@ -441,26 +441,26 @@
         /// <returns>拼音</returns>
         public static string GetPinyin(string chineseChars)
         {
-            byte[] _bytes = Encoding.Default.GetBytes(chineseChars);
-            int _value;
-            StringBuilder _builder = new StringBuilder(chineseChars.Length * 4);
+            byte[] data = Encoding.Default.GetBytes(chineseChars);
+            int tmp;
+            StringBuilder builder = new StringBuilder(chineseChars.Length * 4);
 
-            for (int i = 0; i < _bytes.Length; i++)
+            for (int i = 0; i < data.Length; i++)
             {
-                _value = _bytes[i];
+                tmp = data[i];
 
-                if (_value > 160)
+                if (tmp > 160)
                 {
-                    _value = _value * 256 + _bytes[++i] - 65536;
-                    _builder.Append(GetPinyin(_value));
+                    tmp = tmp * 256 + data[++i] - 65536;
+                    builder.Append(GetPinyin(tmp));
                 }
                 else
                 {
-                    _builder.Append((char)_value);
+                    builder.Append((char)tmp);
                 }
             }
 
-            return _builder.ToString();
+            return builder.ToString();
         }
 
         /// <summary>
@@ -470,33 +470,33 @@
         /// <returns>拼音简写</returns>
         public static string GetShortPinyin(string chineseChars)
         {
-            byte[] _bytes = Encoding.Default.GetBytes(chineseChars);
-            int _value;
-            StringBuilder _builder = new StringBuilder(chineseChars.Length * 4);
+            byte[] data = Encoding.Default.GetBytes(chineseChars);
+            int tmp;
+            StringBuilder builder = new StringBuilder(chineseChars.Length * 4);
 
-            for (int i = 0; i < _bytes.Length; i++)
+            for (int i = 0; i < data.Length; i++)
             {
-                _value = _bytes[i];
+                tmp = data[i];
 
-                if (_value > 160)
+                if (tmp > 160)
                 {
-                    _value = _value * 256 + _bytes[++i] - 65536;
-                    string charPinyin = GetPinyin(_value);
+                    tmp = tmp * 256 + data[++i] - 65536;
+                    string charPinyin = GetPinyin(tmp);
 
                     if (!string.IsNullOrEmpty(charPinyin))
                     {
                         charPinyin = new string(charPinyin[0], 1);
                     }
 
-                    _builder.Append(charPinyin);
+                    builder.Append(charPinyin);
                 }
                 else
                 {
-                    _builder.Append((char)_value);
+                    builder.Append((char)tmp);
                 }
             }
 
-            return _builder.ToString();
+            return builder.ToString();
         }
 
         /// <summary>
@@ -511,12 +511,12 @@
                 return string.Empty;
             }
 
-            while (!pinyinHash.ContainsKey(charValue))
+            while (!_pinyinHash.ContainsKey(charValue))
             {
                 charValue--;
             }
 
-            return (string)pinyinHash[charValue];
+            return (string)_pinyinHash[charValue];
         }
 
         #endregion Methods

@@ -14,8 +14,8 @@
         /// <param name="lon">经度</param>
         public LatLngPoint(double lat, double lon)
         {
-            this.LatY = lat;
-            this.LonX = lon;
+            LatY = lat;
+            LonX = lon;
         }
 
         /// <summary>
@@ -34,7 +34,8 @@
         /// </summary>
         public double LatY
         {
-            get; set;
+            get;
+            set;
         }
 
         /// <summary>
@@ -42,7 +43,8 @@
         /// </summary>
         public double LonX
         {
-            get; set;
+            get;
+            set;
         }
 
         #endregion Properties

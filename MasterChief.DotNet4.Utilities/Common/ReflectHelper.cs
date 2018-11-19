@@ -34,8 +34,8 @@
         public static bool Contain<T>(T model, string propertyName)
         where T : class
         {
-            PropertyInfo _findedPropertyInfo = model.GetType().GetProperty(propertyName);
-            return _findedPropertyInfo != null;
+            PropertyInfo propertyInfo = model.GetType().GetProperty(propertyName);
+            return propertyInfo != null;
         }
 
         /// <summary>
@@ -50,10 +50,10 @@
         public static T CreateInstance<T>(string fullName, string assemblyName)
         where T : class, new()
         {
-            string _path = fullName + "," + assemblyName;//命名空间.类型名,程序集
-            Type _loadType = Type.GetType(_path);//加载类型
-            object _getType = Activator.CreateInstance(_loadType, true);//根据类型创建实例
-            return (T)_getType;//类型转换并返回
+            string path = fullName + "," + assemblyName;//命名空间.类型名,程序集
+            Type loadType = Type.GetType(path);//加载类型
+            object instance = Activator.CreateInstance(loadType, true);//根据类型创建实例
+            return (T)instance;//类型转换并返回
         }
 
         /// <summary>
@@ -69,8 +69,8 @@
         public static F GetFieldValue<T, F>(T model, string propertyName)
         where T : class
         {
-            FieldInfo _fi = model.GetType().GetField(propertyName, bindingFlags);
-            return (F)_fi.GetValue(model);
+            FieldInfo fieldInfo = model.GetType().GetField(propertyName, bindingFlags);
+            return (F)fieldInfo.GetValue(model);
         }
 
         /// <summary>
@@ -94,17 +94,17 @@
         /// 备注：
         public static IDictionary<string, string> GetPropertyName<T>() where T : class
         {
-            IDictionary<string, string> _fields = new Dictionary<string, string>();
-            PropertyInfo[] _properties = typeof(T).GetProperties();
-            int _properityCnt = _properties.Length;
+            IDictionary<string, string> dict = new Dictionary<string, string>();
+            PropertyInfo[] properties = typeof(T).GetProperties();
+            int _properityCnt = properties.Length;
 
-            foreach (PropertyInfo property in _properties)
+            foreach (PropertyInfo property in properties)
             {
-                object[] _attribute = property.GetCustomAttributes(typeof(DisplayNameAttribute), false);
-                _fields.Add(property.Name, _attribute.Length == 0 ? property.Name : ((DisplayNameAttribute)_attribute[0]).DisplayName);
+                object[] attris = property.GetCustomAttributes(typeof(DisplayNameAttribute), false);
+                dict.Add(property.Name, attris.Length == 0 ? property.Name : ((DisplayNameAttribute)attris[0]).DisplayName);
             }
 
-            return _fields;
+            return dict;
         }
 
         /// <summary>
@@ -115,18 +115,18 @@
         /// <returns>字典</returns>
         public static Dictionary<string, object> DictionaryFromType<T>(this T model) where T : class
         {
-            PropertyInfo[] _props = GetPropertyInfo<T>();
-            Dictionary<string, object> _dict = new Dictionary<string, object>();
+            PropertyInfo[] properties = GetPropertyInfo<T>();
+            Dictionary<string, object> dict = new Dictionary<string, object>();
 
-            foreach (PropertyInfo prp in _props)
+            foreach (PropertyInfo item in properties)
             {
-                object[] _attribute = prp.GetCustomAttributes(typeof(DisplayNameAttribute), false);
-                string _proName = _attribute.Length == 0 ? prp.Name : ((DisplayNameAttribute)_attribute[0]).DisplayName;
-                object _proValue = prp.GetValue(model, new object[] { });
-                _dict.Add(_proName, _proValue);
+                object[] attris = item.GetCustomAttributes(typeof(DisplayNameAttribute), false);
+                string attrName = attris.Length == 0 ? item.Name : ((DisplayNameAttribute)attris[0]).DisplayName;
+                object attrValue = item.GetValue(model, new object[] { });
+                dict.Add(attrName, attrValue);
             }
 
-            return _dict;
+            return dict;
         }
 
         /// <summary>
@@ -138,10 +138,8 @@
         /// <returns>方法返回值</returns>
         public static object InvokeMethod(object item, string methodName, object[] args)
         {
-            object _objReturn = null;
-            Type _type = item.GetType();
-            _objReturn = _type.InvokeMember(methodName, bindingFlags | BindingFlags.InvokeMethod, null, item, args);
-            return _objReturn;
+            Type type = item.GetType();
+            return type.InvokeMember(methodName, bindingFlags | BindingFlags.InvokeMethod, null, item, args);
         }
 
         /// <summary>
@@ -155,8 +153,8 @@
         public static void SetFieldValue<T, F>(T model, string name, F fieldValue)
         where T : class
         {
-            FieldInfo _fi = model.GetType().GetField(name, bindingFlags);
-            _fi.SetValue(model, fieldValue);
+            FieldInfo fieldInfo = model.GetType().GetField(name, bindingFlags);
+            fieldInfo.SetValue(model, fieldValue);
         }
 
         #endregion Methods

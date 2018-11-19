@@ -7,7 +7,7 @@
     /// <summary>
     /// Process 帮助类
     /// </summary>
-    public class ProcessHelper
+    public static class ProcessHelper
     {
         #region Methods
 
@@ -20,41 +20,41 @@
         /// <para>cmd("exit 0");</para>
         /// <para> });</para>
         /// </summary>
-        /// <param name="execFactory">委托 </param>
-        public static void ExecBatCommand(Action<Action<string>> execFactory)
+        /// <param name="keySelector">委托 </param>
+        public static void ExecBatCommand(Action<Action<string>> keySelector)
         {
-            Process _process = null;
+            Process process = null;
 
             try
             {
-                _process = new Process();
-                _process.StartInfo.FileName = "cmd.exe";
-                _process.StartInfo.UseShellExecute = false;
-                _process.StartInfo.CreateNoWindow = true;
-                _process.StartInfo.RedirectStandardInput = true;
-                _process.StartInfo.RedirectStandardOutput = true;
-                _process.StartInfo.RedirectStandardError = true;
-                _process.OutputDataReceived += (sender, e) => Console.WriteLine(e.Data);
-                _process.ErrorDataReceived += (sender, e) => Console.WriteLine(e.Data);
-                _process.Start();
-                using (StreamWriter writer = _process.StandardInput)
+                process = new Process();
+                process.StartInfo.FileName = "cmd.exe";
+                process.StartInfo.UseShellExecute = false;
+                process.StartInfo.CreateNoWindow = true;
+                process.StartInfo.RedirectStandardInput = true;
+                process.StartInfo.RedirectStandardOutput = true;
+                process.StartInfo.RedirectStandardError = true;
+                process.OutputDataReceived += (sender, e) => Console.WriteLine(e.Data);
+                process.ErrorDataReceived += (sender, e) => Console.WriteLine(e.Data);
+                process.Start();
+                using (StreamWriter writer = process.StandardInput)
                 {
                     writer.AutoFlush = true;
-                    _process.BeginOutputReadLine();
-                    execFactory(value => writer.WriteLine(value));
+                    process.BeginOutputReadLine();
+                    keySelector(value => writer.WriteLine(value));
                 }
-                _process.WaitForExit();
+                process.WaitForExit();
             }
             finally
             {
-                if (_process != null && !_process.HasExited)
+                if (process != null && !process.HasExited)
                 {
-                    _process.Kill();
+                    process.Kill();
                 }
 
-                if (_process != null)
+                if (process != null)
                 {
-                    _process.Close();
+                    process.Close();
                 }
             }
         }

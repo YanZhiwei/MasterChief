@@ -11,27 +11,6 @@
         #region Methods
 
         /// <summary>
-        /// 条件添加
-        /// </summary>
-        /// <typeparam name="T">泛型</typeparam>
-        /// <param name="builder">StringBuilder</param>
-        /// <param name="appendFactory">条件委托</param>
-        /// <param name="values">数值</param>
-        /// <returns>StringBuilder</returns>
-        public static StringBuilder AppendIf<T>(this StringBuilder builder, Func<T, bool> appendFactory, params T[] values)
-        {
-            foreach (T value in values)
-            {
-                if (appendFactory(value))
-                {
-                    builder.Append(value);
-                }
-            }
-
-            return builder;
-        }
-
-        /// <summary>
         /// 清空StringBuilder
         /// </summary>
         /// <param name="builder">StringBuilder</param>
@@ -78,7 +57,7 @@
                 return builder;
             }
 
-            builder.Remove(builder.ToString().LastIndexOf(value), value.Length);
+            builder.Remove(builder.ToString().LastIndexOf(value, StringComparison.OrdinalIgnoreCase), value.Length);
             return builder;
         }
 
