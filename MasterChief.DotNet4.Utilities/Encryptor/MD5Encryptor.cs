@@ -1,4 +1,4 @@
-﻿namespace YanZhiwei.DotNet2.Utilities.Encryptor
+﻿namespace MasterChief.DotNet4.Utilities.Encryptor
 {
     using System;
     using System.Security.Cryptography;

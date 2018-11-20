@@ -14,14 +14,13 @@
     {
         #region Fields
 
-        private static readonly string xls = ".xls";
-        private static readonly string xlsx = ".xlsx";
+        private static readonly string _xls = ".xls";
+        private static readonly string _xlsx = ".xlsx";
 
-        private static bool x64Version = false;
-
-        private string excelConnectString = string.Empty;
-        private string excelExt = string.Empty; //后缀
-        private string excelPath = string.Empty; //路径
+        private readonly string _excelConnectString = string.Empty;
+        private readonly string _excelExt = string.Empty; //后缀
+        private readonly string _excelPath = string.Empty; //路径
+        private readonly bool _x64Version = false;
 
         #endregion Fields
 
@@ -36,11 +35,11 @@
         /// <param name="x64Version">是否是64位操作系统</param>
         public ExcelDataOperator(string excelPath, bool x64Version)
         {
-            string _excelExtension = Path.GetExtension(excelPath);
-            excelExt = _excelExtension.ToLower();
-            this.excelPath = excelPath;
-            ExcelDataOperator.x64Version = x64Version;
-            excelConnectString = BuilderConnectionString();
+            string excelExtension = Path.GetExtension(excelPath);
+            _excelExt = excelExtension.ToLower();
+            _excelPath = excelPath;
+            _x64Version = x64Version;
+            _excelConnectString = BuilderConnectionString();
         }
 
         #endregion Constructors
@@ -53,43 +52,45 @@
         /// <returns>DataSet</returns>
         public DataSet ExecuteDataSet()
         {
-            DataSet _excelDb = null;
-            using(OleDbConnection sqlcon = new OleDbConnection(excelConnectString))
+            DataSet excelDb = null;
+            using (OleDbConnection sqlcon = new OleDbConnection(_excelConnectString))
             {
                 try
                 {
                     sqlcon.Open();
-                    DataTable _schemaTable = sqlcon.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
+                    DataTable schemaTable = sqlcon.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
 
-                    if(_schemaTable != null)
+                    if (schemaTable != null)
                     {
                         int i = 0;
-                        _excelDb = new DataSet();
+                        excelDb = new DataSet();
 
-                        foreach(DataRow row in _schemaTable.Rows)
+                        foreach (DataRow row in schemaTable.Rows)
                         {
-                            string _sheetName = row["TABLE_NAME"].ToString().Trim();
-                            string _sql = string.Format("select * from [{0}]", _sheetName);
-                            using(OleDbCommand sqlcmd = new OleDbCommand(_sql, sqlcon))
+                            string sheetName = row["TABLE_NAME"].ToString().Trim();
+                            string sql = string.Format("select * from [{0}]", sheetName);
+                            using (OleDbCommand sqlcmd = new OleDbCommand(sql, sqlcon))
                             {
-                                using(OleDbDataAdapter sqldap = new OleDbDataAdapter(sqlcmd))
+                                using (OleDbDataAdapter sqldap = new OleDbDataAdapter(sqlcmd))
                                 {
-                                    DataTable _dtResult = new DataTable();
-                                    _dtResult.TableName = _sheetName;
+                                    DataTable _dtResult = new DataTable
+                                    {
+                                        TableName = sheetName
+                                    };
                                     sqldap.Fill(_dtResult);
-                                    _excelDb.Tables.Add(_dtResult);
+                                    excelDb.Tables.Add(_dtResult);
                                 }
                             }
                             i++;
                         }
                     }
                 }
-                catch(Exception)
+                catch (Exception)
                 {
                     return null;
                 }
             }
-            return _excelDb;
+            return excelDb;
         }
 
         /// <summary>
@@ -100,15 +101,15 @@
         /// <returns>DataTable</returns>
         public DataTable ExecuteDataTable(string sql)
         {
-            using(OleDbConnection sqlcon = new OleDbConnection(excelConnectString))
+            using (OleDbConnection sqlcon = new OleDbConnection(_excelConnectString))
             {
-                using(OleDbCommand sqlcmd = new OleDbCommand(sql, sqlcon))
+                using (OleDbCommand sqlcmd = new OleDbCommand(sql, sqlcon))
                 {
-                    using(OleDbDataAdapter sqldap = new OleDbDataAdapter(sqlcmd))
+                    using (OleDbDataAdapter sqldap = new OleDbDataAdapter(sqlcmd))
                     {
-                        DataTable _dtResult = new DataTable();
-                        sqldap.Fill(_dtResult);
-                        return _dtResult;
+                        DataTable table = new DataTable();
+                        sqldap.Fill(table);
+                        return table;
                     }
                 }
             }
@@ -122,16 +123,16 @@
         /// <returns>影响行数</returns>
         public int ExecuteNonQuery(string sql)
         {
-            int _affectedRows = -1;
-            using(OleDbConnection sqlcon = new OleDbConnection(excelConnectString))
+            int affectedRows = -1;
+            using (OleDbConnection sqlcon = new OleDbConnection(_excelConnectString))
             {
                 sqlcon.Open();
-                using(OleDbCommand sqlcmd = new OleDbCommand(sql, sqlcon))
+                using (OleDbCommand sqlcmd = new OleDbCommand(sql, sqlcon))
                 {
-                    _affectedRows = sqlcmd.ExecuteNonQuery();
+                    affectedRows = sqlcmd.ExecuteNonQuery();
                 }
             }
-            return _affectedRows;
+            return affectedRows;
         }
 
         /// <summary>
@@ -140,21 +141,21 @@
         /// <returns>sheet集合</returns>
         public string[] GetExcelSheetNames()
         {
-            DataTable _schemaTable = null;
-            using(OleDbConnection sqlcon = new OleDbConnection(excelConnectString))
+            DataTable schemaTable = null;
+            using (OleDbConnection sqlcon = new OleDbConnection(_excelConnectString))
             {
                 sqlcon.Open();
-                _schemaTable = sqlcon.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
-                String[] _excelSheets = new String[_schemaTable.Rows.Count];
+                schemaTable = sqlcon.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
+                string[] excelSheets = new string[schemaTable.Rows.Count];
                 int i = 0;
 
-                foreach(DataRow row in _schemaTable.Rows)
+                foreach (DataRow row in schemaTable.Rows)
                 {
-                    _excelSheets[i] = row["TABLE_NAME"].ToString().Trim();
+                    excelSheets[i] = row["TABLE_NAME"].ToString().Trim();
                     i++;
                 }
 
-                return _excelSheets;
+                return excelSheets;
             }
         }
 
@@ -164,46 +165,46 @@
         /// <returns></returns>
         private string BuilderConnectionString()
         {
-            Dictionary<string, string> _connectionParameter = new Dictionary<string, string>();
+            Dictionary<string, string> connectionDict = new Dictionary<string, string>();
 
-            if(!excelExt.Equals(xlsx) && !excelExt.Equals(xls))
+            if (!_excelExt.Equals(_xlsx) && !_excelExt.Equals(_xls))
             {
                 throw new ArgumentException("excelPath");
             }
 
-            if(!x64Version)
+            if (!_x64Version)
             {
-                if(excelExt.Equals(xlsx))
+                if (_excelExt.Equals(_xlsx))
                 {
                     // XLSX - Excel 2007, 2010, 2012, 2013
-                    _connectionParameter["Provider"] = "Microsoft.ACE.OLEDB.12.0;";
-                    _connectionParameter["Extended Properties"] = "'Excel 12.0 XML;IMEX=1'";
+                    connectionDict["Provider"] = "Microsoft.ACE.OLEDB.12.0;";
+                    connectionDict["Extended Properties"] = "'Excel 12.0 XML;IMEX=1'";
                 }
-                else if(excelExt.Equals(xls))
+                else if (_excelExt.Equals(_xls))
                 {
                     // XLS - Excel 2003 and Older
-                    _connectionParameter["Provider"] = "Microsoft.Jet.OLEDB.4.0";
-                    _connectionParameter["Extended Properties"] = "'Excel 8.0;IMEX=1'";
+                    connectionDict["Provider"] = "Microsoft.Jet.OLEDB.4.0";
+                    connectionDict["Extended Properties"] = "'Excel 8.0;IMEX=1'";
                 }
             }
             else
             {
-                _connectionParameter["Provider"] = "Microsoft.ACE.OLEDB.12.0;";
-                _connectionParameter["Extended Properties"] = "'Excel 12.0 XML;IMEX=1'";
+                connectionDict["Provider"] = "Microsoft.ACE.OLEDB.12.0;";
+                connectionDict["Extended Properties"] = "'Excel 12.0 XML;IMEX=1'";
             }
 
-            _connectionParameter["Data Source"] = excelPath;
-            StringBuilder _connectionString = new StringBuilder();
+            connectionDict["Data Source"] = _excelPath;
+            StringBuilder builder = new StringBuilder();
 
-            foreach(KeyValuePair<string, string> parameter in _connectionParameter)
+            foreach (KeyValuePair<string, string> keyValue in connectionDict)
             {
-                _connectionString.Append(parameter.Key);
-                _connectionString.Append('=');
-                _connectionString.Append(parameter.Value);
-                _connectionString.Append(';');
+                builder.Append(keyValue.Key);
+                builder.Append('=');
+                builder.Append(keyValue.Value);
+                builder.Append(';');
             }
 
-            return _connectionString.ToString();
+            return builder.ToString();
         }
 
         #endregion Methods

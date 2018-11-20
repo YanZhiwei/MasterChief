@@ -76,6 +76,7 @@
     <Compile Include="Common\EnumHelper.cs" />
     <Compile Include="Common\EventHandlerHelper.cs" />
     <Compile Include="Common\ExceptionHelper.cs" />
+    <Compile Include="Common\FetchHelper.cs" />
     <Compile Include="Common\FileHelper.cs" />
     <Compile Include="Common\FontHelper.cs" />
     <Compile Include="Common\FuzzyHelper.cs" />
@@ -108,6 +109,7 @@
     <Compile Include="Core\Counter.cs" />
     <Compile Include="DataOperator\AccessDataOperator.cs" />
     <Compile Include="DataOperator\ExcelDataOperator.cs" />
+    <Compile Include="Encryptor\AESEncryptor.cs" />
     <Compile Include="Encryptor\DESEncryptor.cs" />
     <Compile Include="Encryptor\MD5Encryptor.cs" />
     <Compile Include="Encryptor\SHA256Encryptor.cs" />
@@ -135,6 +137,14 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ValidateResource.resx</DependentUpon>
     </Compile>
+    <Compile Include="WebForm\ClientScriptHelper.cs" />
+    <Compile Include="WebForm\Core\CacheManger.cs" />
+    <Compile Include="WebForm\Core\CookieManger.cs" />
+    <Compile Include="WebForm\Core\PagerHtmlScript.cs" />
+    <Compile Include="WebForm\Core\SessionManager.cs" />
+    <Compile Include="WebForm\DropDownListHelper.cs" />
+    <Compile Include="WebForm\HtmlInputFileHelper.cs" />
+    <Compile Include="WebForm\StaticFileHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ValidateResource.resx">

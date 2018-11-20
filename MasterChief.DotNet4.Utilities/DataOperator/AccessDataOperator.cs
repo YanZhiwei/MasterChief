@@ -1,21 +1,27 @@
-﻿using MasterChief.DotNet4.Utilities.Interfaces;
-using MasterChief.DotNet4.Utilities.Operator;
-using System;
-using System.Data;
-using System.Data.Common;
-using System.Data.OleDb;
-
-namespace MasterChief.DotNet4.Utilities.DataOperator
+﻿namespace MasterChief.DotNet4.Utilities.DataOperator
 {
+    using MasterChief.DotNet4.Utilities.Interfaces;
+    using MasterChief.DotNet4.Utilities.Operator;
+    using System;
+    using System.Data;
+    using System.Data.Common;
+    using System.Data.OleDb;
+
     /// <summary>
     /// Access 数据访问操作类
     /// </summary>
     public sealed class AccessDataOperator : IDataOperator
     {
+        #region Fields
+
         /// <summary>
         /// 连接字符串
         /// </summary>
-        private readonly string connectString = string.Empty;
+        private readonly string _connectString = string.Empty;
+
+        #endregion Fields
+
+        #region Constructors
 
         /// <summary>
         /// 构造函数
@@ -24,7 +30,7 @@ namespace MasterChief.DotNet4.Utilities.DataOperator
         public AccessDataOperator(string path)
         {
             CheckedAccessDBPath(path);
-            connectString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + path;
+            _connectString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + path;
         }
 
         /// <summary>
@@ -36,8 +42,12 @@ namespace MasterChief.DotNet4.Utilities.DataOperator
         {
             CheckedAccessDBPath(path);
             ValidateOperator.Begin().NotNullOrEmpty(password, "Access数据库密码");
-            connectString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + path + ";Jet OLEDB:Database Password= " + password;
+            _connectString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + path + ";Jet OLEDB:Database Password= " + password;
         }
+
+        #endregion Constructors
+
+        #region Methods
 
         /// <summary>
         /// ExecuteDataTable
@@ -48,7 +58,7 @@ namespace MasterChief.DotNet4.Utilities.DataOperator
         public DataTable ExecuteDataTable(string sql, DbParameter[] parameters)
         {
             CheckedSql(sql);
-            using (OleDbConnection sqlcon = new OleDbConnection(connectString))
+            using (OleDbConnection sqlcon = new OleDbConnection(_connectString))
             {
                 using (OleDbCommand sqlcmd = new OleDbCommand(sql, sqlcon))
                 {
@@ -59,9 +69,9 @@ namespace MasterChief.DotNet4.Utilities.DataOperator
 
                     using (OleDbDataAdapter sqldap = new OleDbDataAdapter(sqlcmd))
                     {
-                        DataTable _table = new DataTable();
-                        sqldap.Fill(_table);
-                        return _table;
+                        DataTable table = new DataTable();
+                        sqldap.Fill(table);
+                        return table;
                     }
                 }
             }
@@ -76,8 +86,8 @@ namespace MasterChief.DotNet4.Utilities.DataOperator
         public int ExecuteNonQuery(string sql, DbParameter[] parameters)
         {
             CheckedSql(sql);
-            int _affectedRows = -1;
-            using (OleDbConnection sqlcon = new OleDbConnection(connectString))
+            int affectedRows = -1;
+            using (OleDbConnection sqlcon = new OleDbConnection(_connectString))
             {
                 sqlcon.Open();
                 using (OleDbCommand sqlcmd = new OleDbCommand(sql, sqlcon))
@@ -87,10 +97,10 @@ namespace MasterChief.DotNet4.Utilities.DataOperator
                         sqlcmd.Parameters.AddRange(parameters);
                     }
 
-                    _affectedRows = sqlcmd.ExecuteNonQuery();
+                    affectedRows = sqlcmd.ExecuteNonQuery();
                 }
             }
-            return _affectedRows;
+            return affectedRows;
         }
 
         /// <summary>
@@ -102,15 +112,15 @@ namespace MasterChief.DotNet4.Utilities.DataOperator
         public IDataReader ExecuteReader(string sql, DbParameter[] parameters)
         {
             CheckedSql(sql);
-            OleDbConnection _sqlcon = new OleDbConnection(connectString);
-            using (OleDbCommand sqlcmd = new OleDbCommand(sql, _sqlcon))
+            OleDbConnection sqlcon = new OleDbConnection(_connectString);
+            using (OleDbCommand sqlcmd = new OleDbCommand(sql, sqlcon))
             {
                 if (parameters != null)
                 {
                     sqlcmd.Parameters.AddRange(parameters);
                 }
 
-                _sqlcon.Open();
+                sqlcon.Open();
                 return sqlcmd.ExecuteReader(CommandBehavior.CloseConnection);
             }
         }
@@ -124,7 +134,7 @@ namespace MasterChief.DotNet4.Utilities.DataOperator
         public object ExecuteScalar(string sql, DbParameter[] parameters)
         {
             CheckedSql(sql);
-            using (OleDbConnection sqlcon = new OleDbConnection(connectString))
+            using (OleDbConnection sqlcon = new OleDbConnection(_connectString))
             {
                 using (OleDbCommand sqlcmd = new OleDbCommand(sql, sqlcon))
                 {
@@ -159,5 +169,7 @@ namespace MasterChief.DotNet4.Utilities.DataOperator
         {
             ValidateOperator.Begin().NotNullOrEmpty(sql, "SQL语句");
         }
+
+        #endregion Methods
     }
 }
