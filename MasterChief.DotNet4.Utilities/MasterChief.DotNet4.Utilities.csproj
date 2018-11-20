@@ -95,6 +95,7 @@
     <Compile Include="Common\XMLHelper.cs" />
     <Compile Include="Enum\DateTimePart.cs" />
     <Compile Include="Model\CsvRow.cs" />
+    <Compile Include="Model\FileDetail.cs" />
     <Compile Include="Model\LatLngPoint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegexPattern.cs" />

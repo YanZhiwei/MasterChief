@@ -1,10 +1,17 @@
-﻿using Microsoft.Win32;
-using System;
-using System.IO;
-using System.Runtime.InteropServices;
-
-namespace MasterChief.DotNet4.Utilities.Common
+﻿namespace MasterChief.DotNet4.Utilities.Common
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.IO;
+    using System.Runtime.InteropServices;
+    using System.Security.AccessControl;
+    using System.Text.RegularExpressions;
+
+    using MasterChief.DotNet4.Utilities.Model;
+
+    using Microsoft.Win32;
+
     /// <summary>
     /// 文件以及文件夹操作帮助类
     /// </summary>
@@ -71,9 +78,6 @@ namespace MasterChief.DotNet4.Utilities.Common
             return flag;
         }
 
-        [DllImport("kernel32.dll")]
-        private static extern bool CloseHandle(IntPtr hObject);
-
         /// <summary>
         /// 复制指定目录的所有文件,不包含子目录及子目录中的文件
         /// </summary>
@@ -95,21 +99,21 @@ namespace MasterChief.DotNet4.Utilities.Common
         public static void CopyFiles(string sourceDir, string targetDir, bool overWrite, bool copySubDir)
         {
             //复制当前目录文件
-            foreach (string sourceFileName in Directory.GetFiles(sourceDir))
+            foreach (string sourceFile in Directory.GetFiles(sourceDir))
             {
-                string targetFileName = Path.Combine(targetDir, sourceFileName.Substring(sourceFileName.LastIndexOf(PATH_SPLIT_CHAR) + 1));
+                string targetFile = Path.Combine(targetDir, sourceFile.Substring(sourceFile.LastIndexOf(PATH_SPLIT_CHAR, StringComparison.OrdinalIgnoreCase) + 1));
 
-                if (File.Exists(targetFileName))
+                if (File.Exists(targetFile))
                 {
                     if (overWrite)
                     {
-                        File.SetAttributes(targetFileName, FileAttributes.Normal);
-                        File.Copy(sourceFileName, targetFileName, overWrite);
+                        File.SetAttributes(targetFile, FileAttributes.Normal);
+                        File.Copy(sourceFile, targetFile, overWrite);
                     }
                 }
                 else
                 {
-                    File.Copy(sourceFileName, targetFileName, overWrite);
+                    File.Copy(sourceFile, targetFile, overWrite);
                 }
             }
 
@@ -146,23 +150,23 @@ namespace MasterChief.DotNet4.Utilities.Common
             }
 
             //复制当前目录文件
-            foreach (string sourceFileName in Directory.GetFiles(sourceDir))
+            foreach (string sourceFile in Directory.GetFiles(sourceDir))
             {
-                string targetFileName = Path.Combine(targetDir, sourceFileName.Substring(sourceFileName.LastIndexOf(PATH_SPLIT_CHAR) + 1));
+                string targetFile = Path.Combine(targetDir, sourceFile.Substring(sourceFile.LastIndexOf(PATH_SPLIT_CHAR, StringComparison.OrdinalIgnoreCase) + 1));
 
-                if (File.Exists(targetFileName))
+                if (File.Exists(targetFile))
                 {
-                    if (overWrite == true)
+                    if (overWrite)
                     {
-                        File.SetAttributes(targetFileName, FileAttributes.Normal);
-                        string backFileName = Path.Combine(backDir, sourceFileName.Substring(sourceFileName.LastIndexOf(PATH_SPLIT_CHAR) + 1));
-                        File.Copy(targetFileName, backFileName, true);
-                        File.Copy(sourceFileName, targetFileName, overWrite);
+                        File.SetAttributes(targetFile, FileAttributes.Normal);
+                        string backFileName = Path.Combine(backDir, sourceFile.Substring(sourceFile.LastIndexOf(PATH_SPLIT_CHAR) + 1));
+                        File.Copy(targetFile, backFileName, true);
+                        File.Copy(sourceFile, targetFile, overWrite);
                     }
                 }
                 else
                 {
-                    File.Copy(sourceFileName, targetFileName, overWrite);
+                    File.Copy(sourceFile, targetFile, overWrite);
                 }
             }
 
@@ -207,61 +211,61 @@ namespace MasterChief.DotNet4.Utilities.Common
              * 参考
              * 1：http://www.cnblogs.com/zfanlong1314/p/3922803.html
              */
-            bool _copyResult = true;
+            bool copyResult = true;
             //将源文件 读取成文件流
-            FileStream _fromFile = new FileStream(fromPath, FileMode.Open, FileAccess.Read);
+            FileStream fileStream = new FileStream(fromPath, FileMode.Open, FileAccess.Read);
             //已追加的方式 写入文件流
-            FileStream _toFile = new FileStream(toPath, FileMode.Append, FileAccess.Write);
+            FileStream appendFile = new FileStream(toPath, FileMode.Append, FileAccess.Write);
 
             try
             {
                 //实际读取的文件长度
-                int _toCopyLength = 0;
+                int readFileCount = 0;
 
                 //如果每次读取的长度小于 源文件的长度 分段读取
-                if (eachReadLength < _fromFile.Length)
+                if (eachReadLength < fileStream.Length)
                 {
-                    byte[] _buffer = new byte[eachReadLength];
-                    long _copied = 0;
+                    byte[] buffer = new byte[eachReadLength];
+                    long copyCnt = 0;
 
-                    while (_copied <= _fromFile.Length - eachReadLength)
+                    while (copyCnt <= fileStream.Length - eachReadLength)
                     {
-                        _toCopyLength = _fromFile.Read(_buffer, 0, eachReadLength);
-                        _fromFile.Flush();
-                        _toFile.Write(_buffer, 0, eachReadLength);
-                        _toFile.Flush();
+                        readFileCount = fileStream.Read(buffer, 0, eachReadLength);
+                        fileStream.Flush();
+                        appendFile.Write(buffer, 0, eachReadLength);
+                        appendFile.Flush();
                         //流的当前位置
-                        _toFile.Position = _fromFile.Position;
-                        _copied += _toCopyLength;
+                        appendFile.Position = fileStream.Position;
+                        copyCnt += readFileCount;
                     }
 
-                    int _left = (int)(_fromFile.Length - _copied);
-                    _toCopyLength = _fromFile.Read(_buffer, 0, _left);
-                    _fromFile.Flush();
-                    _toFile.Write(_buffer, 0, _left);
-                    _toFile.Flush();
+                    int leftCount = (int)(fileStream.Length - copyCnt);
+                    readFileCount = fileStream.Read(buffer, 0, leftCount);
+                    fileStream.Flush();
+                    appendFile.Write(buffer, 0, leftCount);
+                    appendFile.Flush();
                 }
                 else
                 {
                     //如果每次拷贝的文件长度大于源文件的长度 则将实际文件长度直接拷贝
-                    byte[] _buffer = new byte[_fromFile.Length];
-                    _fromFile.Read(_buffer, 0, _buffer.Length);
-                    _fromFile.Flush();
-                    _toFile.Write(_buffer, 0, _buffer.Length);
-                    _toFile.Flush();
+                    byte[] buffer = new byte[fileStream.Length];
+                    fileStream.Read(buffer, 0, buffer.Length);
+                    fileStream.Flush();
+                    appendFile.Write(buffer, 0, buffer.Length);
+                    appendFile.Flush();
                 }
             }
             catch (Exception)
             {
-                _copyResult = false;
+                copyResult = false;
             }
             finally
             {
-                _fromFile.Close();
-                _toFile.Close();
+                fileStream.Close();
+                appendFile.Close();
             }
 
-            return _copyResult;
+            return copyResult;
         }
 
         /// <summary>
@@ -271,30 +275,30 @@ namespace MasterChief.DotNet4.Utilities.Common
         /// <param name="filePath">文件路径</param>
         public static bool CopyToBak(string filePath)
         {
-            bool _result = true;
+            bool result = true;
 
             try
             {
-                int _fileCount = 0;
-                string _bakName = "";
+                int fileCount = 0;
+                string bakName = "";
 
                 do
                 {
-                    _fileCount++;
-                    _bakName = string.Format("{0}.{1}.bak", filePath, _fileCount);
+                    fileCount++;
+                    bakName = string.Format("{0}.{1}.bak", filePath, fileCount);
                 }
-                while (File.Exists(_bakName));
+                while (File.Exists(bakName));
 
-                File.Copy(filePath, _bakName);
+                File.Copy(filePath, bakName);
                 File.Delete(filePath);
-                _result = true;
+                result = true;
             }
             catch (Exception)
             {
-                _result = false;
+                result = false;
             }
 
-            return _result;
+            return result;
         }
 
         /// <summary>
@@ -303,11 +307,11 @@ namespace MasterChief.DotNet4.Utilities.Common
         /// <param name="targetDir"></param>
         public static void CreateDirectory(string targetDir)
         {
-            DirectoryInfo dir = new DirectoryInfo(targetDir);
+            DirectoryInfo directoryInfo = new DirectoryInfo(targetDir);
 
-            if (!dir.Exists)
+            if (!directoryInfo.Exists)
             {
-                dir.Create();
+                directoryInfo.Create();
             }
         }
 
@@ -326,27 +330,18 @@ namespace MasterChief.DotNet4.Utilities.Common
         /// <para>eg:FileHelper.CreatePath(@"C:\aa\cc\dd\ee.xml");</para>
         /// </summary>
         /// <param name="path">需要创建的路径</param>
-        /// <returns>是否创建成功</returns>
-        public static bool CreatePath(string path)
+        public static void CreatePath(string path)
         {
-            bool _result = true;
-
-            if (!string.IsNullOrEmpty(path) && !File.Exists(path))
+            if (!File.Exists(path))
             {
-                try
-                {
-                    string _directory = GetExceptName(path);
-                    CreateDirectory(_directory);
-                    FileStream _fileStream = File.Create(path);
-                    _fileStream.Close();
-                }
-                catch (Exception)
-                {
-                    _result = false;
-                }
+                return;
             }
 
-            return _result;
+            string directory = GetExceptName(path);
+            CreateDirectory(directory);
+            using (FileStream fileStream = File.Create(path))
+            {
+            }
         }
 
         /// <summary>
@@ -356,13 +351,12 @@ namespace MasterChief.DotNet4.Utilities.Common
         /// <returns></returns>
         /// 时间：2015-12-17 14:13
         /// 备注：
-        /// <exception cref="System.ArgumentException"></exception>
         public static string CreateTempFilePath(this string filePath)
         {
-            FileInfo _sourceFile = new FileInfo(filePath);
-            string _sourceFileTemp = Path.Combine(_sourceFile.DirectoryName, Guid.NewGuid().ToString() + _sourceFile.Extension);
-            _sourceFile.CopyTo(_sourceFileTemp);
-            return _sourceFileTemp;
+            FileInfo fileInfo = new FileInfo(filePath);
+            string sourceFileTemp = Path.Combine(fileInfo.DirectoryName, Guid.NewGuid().ToString() + fileInfo.Extension);
+            fileInfo.CopyTo(sourceFileTemp);
+            return sourceFileTemp;
         }
 
         /// <summary>
@@ -427,17 +421,6 @@ namespace MasterChief.DotNet4.Utilities.Common
         }
 
         /// <summary>
-        /// 将byte[]导出到文件
-        /// <para>eg: FileHelper.SaveFile(_bytes, _outputFilePath); </para>
-        /// </summary>
-        /// <param name="bytes"></param>
-        /// <param name="filePath"></param>
-        public static void SaveFile(byte[] bytes, string filePath)
-        {
-            File.WriteAllBytes(filePath, bytes);
-        }
-
-        /// <summary>
         /// 文件是否被占用
         /// </summary>
         /// <param name="fileName">文件名称</param>
@@ -449,14 +432,14 @@ namespace MasterChief.DotNet4.Utilities.Common
                 return false;  //文件不存在
             }
 
-            IntPtr _vHandle = _lopen(fileName, OF_READWRITE | OF_SHARE_DENY_NONE);
+            IntPtr intPtr = _lopen(fileName, OF_READWRITE | OF_SHARE_DENY_NONE);
 
-            if (_vHandle == HFILE_ERROR)
+            if (intPtr == HFILE_ERROR)
             {
                 return true;//文件被占用！
             }
 
-            CloseHandle(_vHandle);
+            CloseHandle(intPtr);
             return false;
         }
 
@@ -468,14 +451,14 @@ namespace MasterChief.DotNet4.Utilities.Common
         /// <returns>除后缀外的路径</returns>
         public static string GetExceptEx(string path)
         {
-            string _fileName = string.Empty;
+            string fileName = string.Empty;
 
-            if (RegexHelper.IsMatch(path, RegexPattern.FileCheck, out Match _result))
+            if (RegexHelper.IsMatch(path, RegexPattern.FileCheck, out Match result))
             {
-                _fileName = _result.Result("${fpath}") + _result.Result("${fname}") + _result.Result("${namext}");
+                fileName = result.Result("${fpath}") + result.Result("${fname}") + result.Result("${namext}");
             }
 
-            return _fileName;
+            return fileName;
         }
 
         /// <summary>
@@ -486,14 +469,14 @@ namespace MasterChief.DotNet4.Utilities.Common
         /// <returns>除文件外的路径</returns>
         public static string GetExceptName(string path)
         {
-            string _fileName = string.Empty;
+            string fileName = string.Empty;
 
-            if (RegexHelper.IsMatch(path, RegexPattern.FileCheck, out Match _result))
+            if (RegexHelper.IsMatch(path, RegexPattern.FileCheck, out Match result))
             {
-                _fileName = _result.Result("${fpath}");
+                fileName = result.Result("${fpath}");
             }
 
-            return _fileName;
+            return fileName;
         }
 
         /// <summary>
@@ -504,14 +487,14 @@ namespace MasterChief.DotNet4.Utilities.Common
         /// <returns>文件后缀</returns>
         public static string GetFileEx(string path)
         {
-            string _fileName = string.Empty;
+            string fileName = string.Empty;
 
-            if (RegexHelper.IsMatch(path, RegexPattern.FileCheck, out Match _result))
+            if (RegexHelper.IsMatch(path, RegexPattern.FileCheck, out Match result))
             {
-                _fileName = _result.Result("${suffix}");
+                fileName = result.Result("${suffix}");
             }
 
-            return _fileName;
+            return fileName;
         }
 
         /// <summary>
@@ -520,22 +503,20 @@ namespace MasterChief.DotNet4.Utilities.Common
         /// <param name="filepath">文件路径</param>
         /// <param name="regexString">需要匹配的正则表达式</param>
         /// <returns>文件信息</returns>
-        public static FileProperties GetFileInfo(string filepath, string regexString)
+        public static FileDetail GetFileInfo(string filepath, string regexString)
         {
-            ValidateOperator.Begin().NotNullOrEmpty(filepath, "文件路径").IsFilePath(filepath).NotNullOrEmpty(regexString, "正则表达式");
-            Match _uploadfolder = Regex.Match(filepath, regexString, RegexOptions.IgnoreCase);
+            Match result = Regex.Match(filepath, regexString, RegexOptions.IgnoreCase);
 
-            if (_uploadfolder.Success)
+            if (result.Success)
             {
-                FileProperties _fileInfo = new FileProperties
+                return new FileDetail
                 {
-                    Root = _uploadfolder.Groups[1].Value,
-                    Folder = _uploadfolder.Groups[2].Value,
-                    SubFolder = _uploadfolder.Groups[3].Value,
-                    FileName = _uploadfolder.Groups[4].Value,
-                    FileNameExt = _uploadfolder.Groups[5].Value
+                    Root = result.Groups[1].Value,
+                    Folder = result.Groups[2].Value,
+                    SubFolder = result.Groups[3].Value,
+                    FileName = result.Groups[4].Value,
+                    FileNameExt = result.Groups[5].Value
                 };
-                return _fileInfo;
             }
 
             return null;
@@ -549,14 +530,14 @@ namespace MasterChief.DotNet4.Utilities.Common
         /// <returns>文件名称（包括后缀）</returns>
         public static string GetFileName(string path)
         {
-            string _fileName = string.Empty;
+            string fileName = string.Empty;
 
             if (RegexHelper.IsMatch(path, RegexPattern.FileCheck, out Match _result))
             {
-                _fileName = _result.Result("${fname}") + _result.Result("${namext}") + _result.Result("${suffix}");
+                fileName = _result.Result("${fname}") + _result.Result("${namext}") + _result.Result("${suffix}");
             }
 
-            return _fileName;
+            return fileName;
         }
 
         /// <summary>
@@ -567,14 +548,14 @@ namespace MasterChief.DotNet4.Utilities.Common
         /// <returns>文件名称（不包括后缀）</returns>
         public static string GetFileNameOnly(string path)
         {
-            string _fileName = string.Empty;
+            string fileName = string.Empty;
 
             if (RegexHelper.IsMatch(path, RegexPattern.FileCheck, out Match _result))
             {
-                _fileName = _result.Result("${fname}") + _result.Result("${namext}");
+                fileName = _result.Result("${fname}") + _result.Result("${namext}");
             }
 
-            return _fileName;
+            return fileName;
         }
 
         /// <summary>
@@ -585,15 +566,15 @@ namespace MasterChief.DotNet4.Utilities.Common
         /// <returns>文件大小_kb</returns>
         public static double GetKBSize(string filePath)
         {
-            double _kb = 0;
-            long _size = GetSize(filePath);
+            double kb = 0;
+            long size = GetSize(filePath);
 
-            if (_size != 0)
+            if (size != 0)
             {
-                _kb = _size / 1024d;
+                kb = size / 1024d;
             }
 
-            return _kb;
+            return kb;
         }
 
         /// <summary>
@@ -604,15 +585,15 @@ namespace MasterChief.DotNet4.Utilities.Common
         /// <returns>文件大小_mb</returns>
         public static double GetMBSize(string filePath)
         {
-            double _mb = 0;
-            long _size = GetSize(filePath);
+            double mb = 0;
+            long size = GetSize(filePath);
 
-            if (_size != 0)
+            if (size != 0)
             {
-                _mb = _size / 1048576d;//1024*1024==1048576;
+                mb = size / 1048576d;//1024*1024==1048576;
             }
 
-            return _mb;
+            return mb;
         }
 
         /// <summary>
@@ -623,8 +604,8 @@ namespace MasterChief.DotNet4.Utilities.Common
         /// <returns>文件大小</returns>
         public static long GetSize(string filePath)
         {
-            byte[] _buffer = ReadFile(filePath);
-            return _buffer == null ? 0 : _buffer.Length;
+            byte[] buffer = ReadFile(filePath);
+            return buffer == null ? 0 : buffer.Length;
         }
 
         /// <summary>
@@ -658,22 +639,22 @@ namespace MasterChief.DotNet4.Utilities.Common
         public static void MoveFiles(string sourceDir, string targetDir, bool overWrite, bool moveSubDir)
         {
             //移动当前目录文件
-            foreach (string sourceFileName in Directory.GetFiles(sourceDir))
+            foreach (string sourceFile in Directory.GetFiles(sourceDir))
             {
-                string targetFileName = Path.Combine(targetDir, sourceFileName.Substring(sourceFileName.LastIndexOf(PATH_SPLIT_CHAR) + 1));
+                string targetFileName = Path.Combine(targetDir, sourceFile.Substring(sourceFile.LastIndexOf(PATH_SPLIT_CHAR) + 1));
 
                 if (File.Exists(targetFileName))
                 {
-                    if (overWrite == true)
+                    if (overWrite)
                     {
                         File.SetAttributes(targetFileName, FileAttributes.Normal);
                         File.Delete(targetFileName);
-                        File.Move(sourceFileName, targetFileName);
+                        File.Move(sourceFile, targetFileName);
                     }
                 }
                 else
                 {
-                    File.Move(sourceFileName, targetFileName);
+                    File.Move(sourceFile, targetFileName);
                 }
             }
 
@@ -713,9 +694,9 @@ namespace MasterChief.DotNet4.Utilities.Common
         {
             using (FileStream stream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
             {
-                byte[] _buffur = new byte[stream.Length];
-                stream.Read(_buffur, 0, (int)stream.Length);
-                return _buffur;
+                byte[] buffur = new byte[stream.Length];
+                stream.Read(buffur, 0, (int)stream.Length);
+                return buffur;
             }
         }
 
@@ -726,29 +707,40 @@ namespace MasterChief.DotNet4.Utilities.Common
         /// <param name="fileHanlder">遍历规则『委托』</param>
         public static void RecursiveFolder(string pathName, Action<FileInfo> fileHanlder)
         {
-            Queue<string> _pathQueue = new Queue<string>();
-            _pathQueue.Enqueue(pathName);
+            Queue<string> fileQueue = new Queue<string>();
+            fileQueue.Enqueue(pathName);
 
-            while (_pathQueue.Count > 0)
+            while (fileQueue.Count > 0)
             {
-                string _path = _pathQueue.Dequeue();
-                DirectorySecurity _pathSecurity = new DirectorySecurity(_path, AccessControlSections.Access);
+                string path = fileQueue.Dequeue();
+                DirectorySecurity pathSecurity = new DirectorySecurity(path, AccessControlSections.Access);
 
-                if (!_pathSecurity.AreAccessRulesProtected)                                    //文件夹权限是否可访问
+                if (!pathSecurity.AreAccessRulesProtected)                                    //文件夹权限是否可访问
                 {
-                    DirectoryInfo _directoryInfo = new DirectoryInfo(_path);
+                    DirectoryInfo directoryInfo = new DirectoryInfo(path);
 
-                    foreach (DirectoryInfo diChild in _directoryInfo.GetDirectories())
+                    foreach (DirectoryInfo diChild in directoryInfo.GetDirectories())
                     {
-                        _pathQueue.Enqueue(diChild.FullName);
+                        fileQueue.Enqueue(diChild.FullName);
                     }
 
-                    foreach (FileInfo file in _directoryInfo.GetFiles())
+                    foreach (FileInfo file in directoryInfo.GetFiles())
                     {
                         fileHanlder(file);
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// 将byte[]导出到文件
+        /// <para>eg: FileHelper.SaveFile(_bytes, _outputFilePath); </para>
+        /// </summary>
+        /// <param name="data">文件流</param>
+        /// <param name="filePath">存储路径</param>
+        public static void SaveFile(byte[] data, string filePath)
+        {
+            File.WriteAllBytes(filePath, data);
         }
 
         /// <summary>
@@ -772,28 +764,31 @@ namespace MasterChief.DotNet4.Utilities.Common
              * 2. http://zouqinghua11111.blog.163.com/blog/static/67997654201242334620628/
              * 3. http://stackoverflow.com/questions/5089601/run-the-application-at-windows-startup
              */
-            using (RegistryKey _reg = Registry.LocalMachine)
+            using (RegistryKey registry = Registry.LocalMachine)
             {
-                RegistryKey _run = _reg.CreateSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run");
+                RegistryKey key = registry.CreateSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run");
 
                 if (set)
                 {
-                    _run.SetValue(keyName, path);
+                    key.SetValue(keyName, path);
                 }
                 else
                 {
-                    object _value = _run.GetValue(keyName);
+                    object _value = key.GetValue(keyName);
 
                     if (_value != null)
                     {
-                        _run.DeleteValue(keyName);
+                        key.DeleteValue(keyName);
                     }
                 }
             }
         }
 
         [DllImport("kernel32.dll")]
-        public static extern IntPtr _lopen(string lpPathName, int iReadWrite);
+        private static extern bool CloseHandle(IntPtr hObject);
+
+        [DllImport("kernel32.dll")]
+        private static extern IntPtr _lopen(string lpPathName, int iReadWrite);
 
         #endregion Methods
     }
