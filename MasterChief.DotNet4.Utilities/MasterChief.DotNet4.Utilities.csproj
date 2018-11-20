@@ -81,6 +81,7 @@
     <Compile Include="Common\ImageHelper.cs" />
     <Compile Include="Common\IntHelper.cs" />
     <Compile Include="Common\JsonHelper.cs" />
+    <Compile Include="Common\MapOffsetDataHelper.cs" />
     <Compile Include="Common\MathHelper.cs" />
     <Compile Include="Common\NameValueHelper.cs" />
     <Compile Include="Common\NetWorkHelper.cs" />
@@ -96,13 +97,14 @@
     <Compile Include="Common\TimeSpanHelper.cs" />
     <Compile Include="Common\UnixEpochHelper.cs" />
     <Compile Include="Common\XMLHelper.cs" />
-    <Compile Include="Enum\CutType.cs" />
+    <Compile Include="Enum\ImgCutType.cs" />
     <Compile Include="Enum\DateTimePart.cs" />
     <Compile Include="Enum\ImgWaterPosition.cs" />
     <Compile Include="Model\CsvRow.cs" />
     <Compile Include="Model\FileDetail.cs" />
     <Compile Include="Model\GeoPoint.cs" />
     <Compile Include="Model\LatLngPoint.cs" />
+    <Compile Include="Model\MapCoord.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegexPattern.cs" />
   </ItemGroup>

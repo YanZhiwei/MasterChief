@@ -3,7 +3,7 @@
     /// <summary>
     /// 图片裁剪方式
     /// </summary>
-    public enum CutType
+    public enum ImgCutType
     {
         /// <summary>
         /// 根据高宽剪切

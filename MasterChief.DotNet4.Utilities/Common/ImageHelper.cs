@@ -342,7 +342,7 @@
         /// <param name="height">缩略图高度</param>
         /// <param name="destfile">缩略图保存位置</param>
         /// <param name="cutType">裁剪模式</param>
-        public static void CreateSmallPhoto(string sourceImageFile, int width, int height, string destfile, CutType cutType)
+        public static void CreateSmallPhoto(string sourceImageFile, int width, int height, string destfile, ImgCutType cutType)
         {
             using (Image sourceImg = Image.FromFile(sourceImageFile))
             {
@@ -361,18 +361,18 @@
 
                 switch (cutType)
                 {
-                    case CutType.CutWH://指定高宽缩放（可能变形）
+                    case ImgCutType.CutWH://指定高宽缩放（可能变形）
                         break;
 
-                    case CutType.CutW://指定宽，高按比例
+                    case ImgCutType.CutW://指定宽，高按比例
                         toheight = sourceImg.Height * width / sourceImg.Width;
                         break;
 
-                    case CutType.CutH://指定高，宽按比例
+                    case ImgCutType.CutH://指定高，宽按比例
                         towidth = sourceImg.Width * height / sourceImg.Height;
                         break;
 
-                    case CutType.CutNo: //缩放不剪裁
+                    case ImgCutType.CutNo: //缩放不剪裁
                         int maxSize = (width >= height ? width : height);
 
                         if (sourceImg.Width >= sourceImg.Height)
@@ -397,7 +397,7 @@
                 ImageFormat imgRawFmt = sourceImg.RawFormat;
                 Size imgSize = new Size(width, height);
 
-                if (cutType != CutType.CutNo)
+                if (cutType != ImgCutType.CutNo)
                 {
                     imgSize = CutRegion(width, height, sourceImg);
                 }
