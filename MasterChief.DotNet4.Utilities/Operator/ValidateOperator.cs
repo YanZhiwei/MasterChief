@@ -70,7 +70,7 @@
         /// <exception cref="ArgumentNullException">ArgumentNullException</exception>
         /// <exception cref="DirectoryNotFoundException">DirectoryNotFoundException</exception>
         /// <returns>Validation</returns>
-        public static Validation CheckDirectoryExists(this Validation validation, string data)
+        public static Validation CheckDirectoryExist(this Validation validation, string data)
         {
             return Check<DirectoryNotFoundException>(validation, () => Directory.Exists(data), string.Format(ValidateResource.ParameterCheck_DirectoryNotExists, data));
         }
