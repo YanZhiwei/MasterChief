@@ -83,11 +83,13 @@
     <Compile Include="Common\JsonHelper.cs" />
     <Compile Include="Common\MapOffsetDataHelper.cs" />
     <Compile Include="Common\MathHelper.cs" />
+    <Compile Include="Common\ModelHelper.cs" />
     <Compile Include="Common\NameValueHelper.cs" />
     <Compile Include="Common\NetWorkHelper.cs" />
     <Compile Include="Common\ObjectHelper.cs" />
     <Compile Include="Common\PinyingHelper.cs" />
     <Compile Include="Common\ProcessHelper.cs" />
+    <Compile Include="Common\RandomHelper.cs" />
     <Compile Include="Common\ReflectHelper.cs" />
     <Compile Include="Common\RegexHelper.cs" />
     <Compile Include="Common\ResourceHelper.cs" />

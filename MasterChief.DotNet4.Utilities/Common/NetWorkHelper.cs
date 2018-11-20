@@ -52,16 +52,16 @@
         /// <returns>获取到的mac地址</returns>
         public static string GetMacAddress(NetworkInterfaceType networkType, Func<string, string> getMacAddrFactory)
         {
-            string _mac = string.Empty;
-            NetworkInterface[] _networkInterfaces = NetworkInterface.GetAllNetworkInterfaces();
+            string macAddr = string.Empty;
+            NetworkInterface[] allnetworks = NetworkInterface.GetAllNetworkInterfaces();
 
-            foreach (NetworkInterface adapter in _networkInterfaces)
+            foreach (NetworkInterface adapter in allnetworks)
             {
                 if (adapter.NetworkInterfaceType == networkType)
                 {
-                    _mac = adapter.GetPhysicalAddress().ToString();
+                    macAddr = adapter.GetPhysicalAddress().ToString();
 
-                    if (!string.IsNullOrEmpty(_mac))
+                    if (!string.IsNullOrEmpty(macAddr))
                     {
                         break;
                     }
@@ -70,10 +70,10 @@
 
             if (getMacAddrFactory != null)
             {
-                _mac = getMacAddrFactory(_mac);
+                macAddr = getMacAddrFactory(macAddr);
             }
 
-            return _mac;
+            return macAddr;
         }
 
         /// <summary>
@@ -92,10 +92,10 @@
         /// <returns>获取到的mac地址</returns>
         public static string GetMacAddress(NetworkInterfaceType networkType, OperationalStatus status, Func<string, string> getMacAddrFactory)
         {
-            string _mac = string.Empty;
-            NetworkInterface[] _networkInterfaces = NetworkInterface.GetAllNetworkInterfaces();
+            string macAddr = string.Empty;
+            NetworkInterface[] allnetworks = NetworkInterface.GetAllNetworkInterfaces();
 
-            foreach (NetworkInterface adapter in _networkInterfaces)
+            foreach (NetworkInterface adapter in allnetworks)
             {
                 if (adapter.NetworkInterfaceType == networkType)
                 {
@@ -104,9 +104,9 @@
                         continue;
                     }
 
-                    _mac = adapter.GetPhysicalAddress().ToString();
+                    macAddr = adapter.GetPhysicalAddress().ToString();
 
-                    if (!string.IsNullOrEmpty(_mac))
+                    if (!string.IsNullOrEmpty(macAddr))
                     {
                         break;
                     }
@@ -115,10 +115,10 @@
 
             if (getMacAddrFactory != null)
             {
-                _mac = getMacAddrFactory(_mac);
+                macAddr = getMacAddrFactory(macAddr);
             }
 
-            return _mac;
+            return macAddr;
         }
 
         /// <summary>
@@ -128,14 +128,14 @@
         /// <returns>mac地址</returns>
         public static string GetMacAddress(Func<string, string> getMacAddrFactory)
         {
-            string _mac = string.Empty;
-            NetworkInterface[] _networkInterfaces = NetworkInterface.GetAllNetworkInterfaces();
+            string macAddr = string.Empty;
+            NetworkInterface[] allnetworks = NetworkInterface.GetAllNetworkInterfaces();
 
-            foreach (NetworkInterface adapter in _networkInterfaces)
+            foreach (NetworkInterface adapter in allnetworks)
             {
-                _mac = adapter.GetPhysicalAddress().ToString();
+                macAddr = adapter.GetPhysicalAddress().ToString();
 
-                if (!string.IsNullOrEmpty(_mac))
+                if (!string.IsNullOrEmpty(macAddr))
                 {
                     break;
                 }
@@ -143,10 +143,10 @@
 
             if (getMacAddrFactory != null)
             {
-                _mac = getMacAddrFactory(_mac);
+                macAddr = getMacAddrFactory(macAddr);
             }
 
-            return _mac;
+            return macAddr;
         }
 
         /// <summary>
@@ -158,36 +158,36 @@
         /// 备注：
         public static string GetMacAddressByARP(string ip)
         {
-            StringBuilder _builder = new StringBuilder();
+            StringBuilder builder = new StringBuilder();
 
             try
             {
-                int _ipAddress = inet_addr(ip);
-                long _macInfo = new long();
-                long _length = 6;
-                SendARP(_ipAddress, 0, ref _macInfo, ref _length);
-                string _temp = Convert.ToString(_macInfo, 16).PadLeft(12, '0').ToUpper();
-                int _x = 12;
+                int ipAddress = inet_addr(ip);
+                long macInfo = new long();
+                long length = 6;
+                SendARP(ipAddress, 0, ref macInfo, ref length);
+                string temp = Convert.ToString(macInfo, 16).PadLeft(12, '0').ToUpper();
+                int x = 12;
 
                 for (int i = 0; i < 6; i++)
                 {
                     if (i == 5)
                     {
-                        _builder.Append(_temp.Substring(_x - 2, 2));
+                        builder.Append(temp.Substring(x - 2, 2));
                     }
                     else
                     {
-                        _builder.Append(_temp.Substring(_x - 2, 2) + "-");
+                        builder.Append(temp.Substring(x - 2, 2) + "-");
                     }
 
-                    _x -= 2;
+                    x -= 2;
                 }
 
-                return _builder.ToString();
+                return builder.ToString();
             }
             catch
             {
-                return _builder.ToString();
+                return builder.ToString();
             }
         }
 
@@ -215,20 +215,20 @@
         /// 备注：
         public static bool PortInUse(int port)
         {
-            bool _inUse = false;
-            IPGlobalProperties _ipProperties = IPGlobalProperties.GetIPGlobalProperties();
-            IPEndPoint[] _ipEndPoints = _ipProperties.GetActiveTcpListeners();
+            bool inUse = false;
+            IPGlobalProperties iPGlobal = IPGlobalProperties.GetIPGlobalProperties();
+            IPEndPoint[] iPEndPoints = iPGlobal.GetActiveTcpListeners();
 
-            foreach (IPEndPoint endPoint in _ipEndPoints)
+            foreach (IPEndPoint endPoint in iPEndPoints)
             {
                 if (endPoint.Port == port)
                 {
-                    _inUse = true;
+                    inUse = true;
                     break;
                 }
             }
 
-            return _inUse;
+            return inUse;
         }
 
         [DllImport("Ws2_32.dll")]
