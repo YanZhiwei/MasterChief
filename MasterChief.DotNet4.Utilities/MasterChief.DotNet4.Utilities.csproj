@@ -117,6 +117,7 @@
     <Compile Include="Enum\DateTimePart.cs" />
     <Compile Include="Enum\ImgWaterPosition.cs" />
     <Compile Include="Enum\OrderType.cs" />
+    <Compile Include="FileExt.cs" />
     <Compile Include="Interfaces\IDataOperator.cs" />
     <Compile Include="Model\CsvRow.cs" />
     <Compile Include="Model\FileDetail.cs" />

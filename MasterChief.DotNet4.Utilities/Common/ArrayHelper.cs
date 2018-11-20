@@ -27,6 +27,28 @@
         }
 
         /// <summary>
+        /// 字符串数值忽略大小写包含判断
+        /// </summary>
+        /// <param name="sourceArray">需要操作的数组</param>
+        /// <param name="compareStringItem">包含判断的字符串</param>
+        /// <returns>是否包含在内</returns>
+        public static bool ContainIgnoreCase(this string[] sourceArray, string compareStringItem)
+        {
+            bool result = false;
+
+            foreach (string item in sourceArray)
+            {
+                if (item.CompareIgnoreCase(compareStringItem))
+                {
+                    result = true;
+                    break;
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
         /// 复制数组
         /// <para>
         /// eg: CollectionAssert.AreEqual(new int[3] { 1, 2, 3 }, ArrayHelper.Copy(new int[5] { 1,

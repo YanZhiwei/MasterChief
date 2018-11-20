@@ -76,6 +76,19 @@
         }
 
         /// <summary>
+        ///检查文件类型
+        /// </summary>
+        /// <param name="validation">Validation</param>
+        /// <param name="actualFileExt">实际文件类型；eg: .xls</param>
+        /// <param name="expectFileExt">期待文件类型</param>
+        /// <returns></returns>
+        public static Validation CheckedFileExt(this Validation validation, string actualFileExt, string[] expectFileExt)
+        {
+            string _allowFileExts = expectFileExt.ToString(",");
+            return Check<FileNotFoundException>(validation, () => expectFileExt.ContainIgnoreCase(actualFileExt), string.Format(ValidateResource.ParameterCheck_FileExtCompare, _allowFileExts));
+        }
+
+        /// <summary>
         /// 检查文件类型
         /// </summary>
         /// <param name="validation">Validation</param>
