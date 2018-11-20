@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MasterChief.DotNet.Ftp.Util
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MasterChief.DotNet.NPOI2.Utilities", "MasterChief.DotNet.NPOI2.Utilities\MasterChief.DotNet.NPOI2.Utilities.csproj", "{9716A2B3-FD41-4703-9E04-5F2D212CADD3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MasterChief.DotNet.ProtoBuf.Utilities", "MasterChief.DotNet.ProtoBuf.Utilities\MasterChief.DotNet.ProtoBuf.Utilities.csproj", "{642FB062-F89F-45B5-99AF-7EB8D9CCE010}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{9716A2B3-FD41-4703-9E04-5F2D212CADD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9716A2B3-FD41-4703-9E04-5F2D212CADD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9716A2B3-FD41-4703-9E04-5F2D212CADD3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{642FB062-F89F-45B5-99AF-7EB8D9CCE010}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{642FB062-F89F-45B5-99AF-7EB8D9CCE010}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{642FB062-F89F-45B5-99AF-7EB8D9CCE010}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{642FB062-F89F-45B5-99AF-7EB8D9CCE010}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -60,6 +66,7 @@ Global
 		{D953B930-A86F-4DC8-9C04-E339C53B275B} = {4BB935DF-CEDC-4B39-A0DE-A7336CDE5D67}
 		{06E24884-3599-4150-B447-83234848C0A6} = {64730F27-EEDE-47EC-9784-70AC3C9C5172}
 		{9716A2B3-FD41-4703-9E04-5F2D212CADD3} = {64730F27-EEDE-47EC-9784-70AC3C9C5172}
+		{642FB062-F89F-45B5-99AF-7EB8D9CCE010} = {64730F27-EEDE-47EC-9784-70AC3C9C5172}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {90963A27-01A3-467E-9098-A6E345A4F839}
