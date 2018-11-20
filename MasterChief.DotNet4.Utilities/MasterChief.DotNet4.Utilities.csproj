@@ -33,9 +33,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.DirectoryServices" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -43,6 +45,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Builder\ByteArrayBuilder.cs" />
+    <Compile Include="Builder\CRCBuilder.cs" />
+    <Compile Include="Builder\SqlScriptBuilder.cs" />
+    <Compile Include="Builder\SqlServerScriptBuilder.cs" />
     <Compile Include="Collection\SerializableDictionary.cs" />
     <Compile Include="Common\ADDomainHelper.cs" />
     <Compile Include="Common\BCDHelper.cs" />
@@ -99,17 +105,35 @@
     <Compile Include="Common\TimeSpanHelper.cs" />
     <Compile Include="Common\UnixEpochHelper.cs" />
     <Compile Include="Common\XMLHelper.cs" />
+    <Compile Include="Core\Counter.cs" />
+    <Compile Include="DataOperator\AccessDataOperator.cs" />
+    <Compile Include="DataOperator\ExcelDataOperator.cs" />
+    <Compile Include="Encryptor\DESEncryptor.cs" />
+    <Compile Include="Encryptor\MD5Encryptor.cs" />
+    <Compile Include="Encryptor\SHA256Encryptor.cs" />
     <Compile Include="Enum\ImgCutType.cs" />
     <Compile Include="Enum\DateTimePart.cs" />
     <Compile Include="Enum\ImgWaterPosition.cs" />
+    <Compile Include="Enum\OrderType.cs" />
+    <Compile Include="Interfaces\IDataOperator.cs" />
     <Compile Include="Model\CsvRow.cs" />
     <Compile Include="Model\FileDetail.cs" />
     <Compile Include="Model\GeoPoint.cs" />
     <Compile Include="Model\LatLngPoint.cs" />
     <Compile Include="Model\MapCoord.cs" />
+    <Compile Include="Model\SmtpServer.cs" />
+    <Compile Include="Model\Validation.cs" />
+    <Compile Include="Operator\AssemblyOperator.cs" />
+    <Compile Include="Operator\INIOperator.cs" />
+    <Compile Include="Operator\SmtpClientOperator.cs" />
+    <Compile Include="Operator\ValidateOperator.cs" />
+    <Compile Include="Operator\XMLFileOperator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegexPattern.cs" />
+    <Compile Include="Resource.Designer.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Resource.resx" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
