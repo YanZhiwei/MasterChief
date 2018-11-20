@@ -32,7 +32,7 @@
         /// <returns>Validation</returns>
         public static Validation Check(this Validation validation, Func<bool> checkFactory, string pattern, string argumentName)
         {
-            return Check<ArgumentException>(validation, checkFactory, string.Format(Resource.ParameterCheck_Match2, argumentName));
+            return Check<ArgumentException>(validation, checkFactory, string.Format(ValidateResource.ParameterCheck_Match2, argumentName));
         }
 
         /// <summary>
@@ -72,7 +72,7 @@
         /// <returns>Validation</returns>
         public static Validation CheckDirectoryExists(this Validation validation, string data)
         {
-            return Check<DirectoryNotFoundException>(validation, () => Directory.Exists(data), string.Format(Resource.ParameterCheck_DirectoryNotExists, data));
+            return Check<DirectoryNotFoundException>(validation, () => Directory.Exists(data), string.Format(ValidateResource.ParameterCheck_DirectoryNotExists, data));
         }
 
         /// <summary>
@@ -84,7 +84,7 @@
         /// <returns></returns>
         public static Validation CheckedFileExt(this Validation validation, string actualFileExt, string expectFileExt)
         {
-            return Check<FileNotFoundException>(validation, () => StringHelper.CompareIgnoreCase(actualFileExt, expectFileExt), string.Format(Resource.ParameterCheck_FileExtCompare, expectFileExt));
+            return Check<FileNotFoundException>(validation, () => StringHelper.CompareIgnoreCase(actualFileExt, expectFileExt), string.Format(ValidateResource.ParameterCheck_FileExtCompare, expectFileExt));
         }
 
         /// <summary>
@@ -97,7 +97,7 @@
         /// <returns>Validation</returns>
         public static Validation CheckFileExists(this Validation validation, string data)
         {
-            return Check<FileNotFoundException>(validation, () => File.Exists(data), string.Format(Resource.ParameterCheck_FileNotExists, data));
+            return Check<FileNotFoundException>(validation, () => File.Exists(data), string.Format(ValidateResource.ParameterCheck_FileNotExists, data));
         }
 
         /// <summary>
@@ -115,7 +115,7 @@
         where T : IComparable<T>
         {
             // bool flag = canEqual ? value.CompareTo(target) >= 0 : value.CompareTo(target) > 0;
-            string _format = canEqual ? Resource.ParameterCheck_NotGreaterThanOrEqual : Resource.ParameterCheck_NotGreaterThan;
+            string _format = canEqual ? ValidateResource.ParameterCheck_NotGreaterThanOrEqual : ValidateResource.ParameterCheck_NotGreaterThan;
             return Check<ArgumentOutOfRangeException>(validation, () => canEqual ? value.CompareTo(target) >= 0 : value.CompareTo(target) > 0, string.Format(_format, paramName, target));
         }
 
@@ -133,7 +133,7 @@
         public static Validation CheckLessThan<T>(this Validation validation, T value, string paramName, T target, bool canEqual)
         where T : IComparable<T>
         {
-            string _format = canEqual ? Resource.ParameterCheck_NotLessThanOrEqual : Resource.ParameterCheck_NotLessThan;
+            string _format = canEqual ? ValidateResource.ParameterCheck_NotLessThanOrEqual : ValidateResource.ParameterCheck_NotLessThan;
             return Check<ArgumentOutOfRangeException>(validation, () => canEqual ? value.CompareTo(target) <= 0 : value.CompareTo(target) < 0, string.Format(_format, paramName, target));
         }
 
@@ -148,7 +148,7 @@
         /// <returns>Validation</returns>
         public static Validation InRange(this Validation validation, int data, int min, int max, string argumentName)
         {
-            return Check<ArgumentOutOfRangeException>(validation, () => data >= min && data <= max, string.Format(Resource.ParameterCheck_Between, argumentName, min, max));
+            return Check<ArgumentOutOfRangeException>(validation, () => data >= min && data <= max, string.Format(ValidateResource.ParameterCheck_Between, argumentName, min, max));
         }
 
         /// <summary>
@@ -183,7 +183,7 @@
         /// <returns>Validation</returns>
         public static Validation IsFilePath(this Validation validation, string data)
         {
-            return Check<ArgumentException>(validation, () => CheckHelper.IsFilePath(data), string.Format(Resource.ParameterCheck_IsFilePath, data));
+            return Check<ArgumentException>(validation, () => CheckHelper.IsFilePath(data), string.Format(ValidateResource.ParameterCheck_IsFilePath, data));
         }
 
         /// <summary>
@@ -255,7 +255,7 @@
         /// <returns>Validation</returns>
         public static Validation IsPort(this Validation validation, string data, string paramName)
         {
-            return Check<ArgumentException>(validation, () => CheckHelper.IsValidPort(data), string.Format(Resource.ParameterCheck_Port, paramName));
+            return Check<ArgumentException>(validation, () => CheckHelper.IsValidPort(data), string.Format(ValidateResource.ParameterCheck_Port, paramName));
         }
 
         /// <summary>
@@ -283,7 +283,7 @@
             return Check<ArgumentException>(
                        validation,
                        () => input.Length == requireLength,
-                       string.Format(Resource.ParameterCheck_StringLength, argumentName, requireLength));
+                       string.Format(ValidateResource.ParameterCheck_StringLength, argumentName, requireLength));
         }
 
         /// <summary>
@@ -321,7 +321,7 @@
         /// <returns>Validation</returns>
         public static Validation NotEqual(this Validation validation, object data, object equalObj, string argumentName)
         {
-            return Check<ArgumentException>(validation, () => data != equalObj, string.Format(Resource.ParameterCheck_NotEqual, argumentName, data));
+            return Check<ArgumentException>(validation, () => data != equalObj, string.Format(ValidateResource.ParameterCheck_NotEqual, argumentName, data));
         }
 
         /// <summary>
@@ -333,7 +333,7 @@
         /// <returns>Validation</returns>
         public static Validation NotNull(this Validation validation, object data, string argumentName)
         {
-            return Check<ArgumentNullException>(validation, () => CheckHelper.NotNull(data), string.Format(Resource.ParameterCheck_NotNull, argumentName));
+            return Check<ArgumentNullException>(validation, () => CheckHelper.NotNull(data), string.Format(ValidateResource.ParameterCheck_NotNull, argumentName));
         }
 
         /// <summary>
@@ -345,7 +345,7 @@
         /// <returns>Validation</returns>
         public static Validation NotNullOrEmpty(this Validation validation, string input, string argumentName)
         {
-            return Check<ArgumentNullException>(validation, () => !string.IsNullOrEmpty(input), string.Format(Resource.ParameterCheck_NotNullOrEmpty_String, argumentName));
+            return Check<ArgumentNullException>(validation, () => !string.IsNullOrEmpty(input), string.Format(ValidateResource.ParameterCheck_NotNullOrEmpty_String, argumentName));
         }
 
         /// <summary>
@@ -358,7 +358,7 @@
         /// <returns>Validation</returns>
         public static Validation RegexMatch(this Validation validation, string input, string pattern, string argumentName)
         {
-            return Check<ArgumentException>(validation, () => Regex.IsMatch(input, pattern), string.Format(Resource.ParameterCheck_Match, input, argumentName));
+            return Check<ArgumentException>(validation, () => Regex.IsMatch(input, pattern), string.Format(ValidateResource.ParameterCheck_Match, input, argumentName));
         }
 
         #endregion Methods

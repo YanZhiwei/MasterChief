@@ -130,10 +130,17 @@
     <Compile Include="Operator\XMLFileOperator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegexPattern.cs" />
-    <Compile Include="Resource.Designer.cs" />
+    <Compile Include="ValidateResource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ValidateResource.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resource.resx" />
+    <EmbeddedResource Include="ValidateResource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ValidateResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
