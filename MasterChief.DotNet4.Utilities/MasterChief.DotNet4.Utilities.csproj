@@ -109,6 +109,8 @@
     <Compile Include="Core\Counter.cs" />
     <Compile Include="DataOperator\AccessDataOperator.cs" />
     <Compile Include="DataOperator\ExcelDataOperator.cs" />
+    <Compile Include="DesignPattern\BusinessFactory.cs" />
+    <Compile Include="DesignPattern\Singleton.cs" />
     <Compile Include="Encryptor\AESEncryptor.cs" />
     <Compile Include="Encryptor\DESEncryptor.cs" />
     <Compile Include="Encryptor\MD5Encryptor.cs" />
