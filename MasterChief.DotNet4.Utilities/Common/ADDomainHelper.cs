@@ -55,7 +55,6 @@ namespace MasterChief.DotNet4.Utilities.Common
         public List<string> GetGroups()
         {
             List<string> groups = new List<string>();
-
             try
             {
                 DirectoryEntry dEntity = new DirectoryEntry(string.Format("LDAP://{0}", ADDomian), UserName, UserPassword);
