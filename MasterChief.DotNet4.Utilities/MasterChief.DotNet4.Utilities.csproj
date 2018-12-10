@@ -148,6 +148,7 @@
     <Compile Include="WebForm\DropDownListHelper.cs" />
     <Compile Include="WebForm\HtmlInputFileHelper.cs" />
     <Compile Include="WebForm\StaticFileHelper.cs" />
+    <Compile Include="Web\SimulateWebRequest.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ValidateResource.resx">
