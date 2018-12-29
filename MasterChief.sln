@@ -37,6 +37,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Helper", "Helper", "{34F4DB
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ProjectTemplate", "ProjectTemplate", "{689C0693-D286-4E9C-B39E-090AF0EC27C8}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Doc", "Doc", "{9766F217-8844-48FE-B2CB-6A632CB84154}"
+	ProjectSection(SolutionItems) = preProject
+		C:\Users\YanZh\Desktop\MasterChief.xmind = C:\Users\YanZh\Desktop\MasterChief.xmind
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
