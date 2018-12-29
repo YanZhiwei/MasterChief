@@ -1,4 +1,4 @@
-﻿namespace MasterChief.DotNet4.Utilities.DataOperator
+﻿namespace MasterChief.DotNet4.Utilities.DbManager
 {
     using System;
     using System.Collections.Generic;
@@ -10,7 +10,7 @@
     /// <summary>
     /// EXCEL 操作帮助类
     /// </summary>
-    public class ExcelDataOperator
+    public class ExcelIDbManager
     {
         #region Fields
 
@@ -33,7 +33,7 @@
         /// </summary>
         /// <param name="excelPath">EXCEL路径</param>
         /// <param name="x64Version">是否是64位操作系统</param>
-        public ExcelDataOperator(string excelPath, bool x64Version)
+        public ExcelIDbManager(string excelPath, bool x64Version)
         {
             string excelExtension = Path.GetExtension(excelPath);
             _excelExt = excelExtension.ToLower();

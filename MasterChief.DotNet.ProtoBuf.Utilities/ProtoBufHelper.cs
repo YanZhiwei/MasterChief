@@ -1,13 +1,13 @@
 ﻿namespace MasterChief.DotNet.ProtoBuf.Utilities
 {
     using global::ProtoBuf;
-    using MasterChief.DotNet4.Utilities.Operator;
+    using MasterChief.DotNet4.Utilities.Manager;
     using System.IO;
 
     /// <summary>
     /// 利用ProtoBuf序列化与反序列化对象
     /// </summary>
-    public class ProtoBufHelper
+    public static class ProtoBufHelper
     {
         #region Methods
 
@@ -18,7 +18,7 @@
         /// <returns>对象</returns>
         public static T Deserialize<T>(byte[] data)
         {
-            ValidateOperator.Begin().NotNull(data, "需要反序列化二进制流");
+            ValidateManager.Begin().NotNull(data, "需要反序列化二进制流");
 
             using (MemoryStream stream = new MemoryStream(data))
             {
@@ -33,7 +33,7 @@
         /// <returns>对象</returns>
         public static T Deserialize<T>(string path)
         {
-            ValidateOperator.Begin().IsFilePath(path).CheckFileExists(path);
+            ValidateManager.Begin().IsFilePath(path).CheckFileExists(path);
 
             using (FileStream file = File.OpenRead(path))
             {
@@ -48,7 +48,7 @@
         /// <returns>二进制流</returns>
         public static byte[] Serialize(object value)
         {
-            ValidateOperator.Begin().NotNull(value, "需要序列化对象");
+            ValidateManager.Begin().NotNull(value, "需要序列化对象");
             byte[] buffer = null;
 
             using (MemoryStream stream = new MemoryStream())
@@ -67,7 +67,7 @@
         /// <param name="path">bin文件存储路径</param>
         public static void Serialize<T>(T value, string path)
         {
-            ValidateOperator.Begin().NotNull(value, "需要序列化对象").IsFilePath(path);
+            ValidateManager.Begin().NotNull(value, "需要序列化对象").IsFilePath(path);
 
             using (FileStream file = File.Create(path))
             {

@@ -1,7 +1,7 @@
 ﻿namespace MasterChief.DotNet4.Utilities.Builder
 {
     using Common;
-    using Operator;
+    using Manager;
     using System.Collections;
     using System.Text;
 
@@ -47,7 +47,7 @@
         /// 备注：
         public SqlServerScriptBuilder(string tableName, string primaryKey)
         {
-            ValidateOperator.Begin().NotNullOrEmpty(tableName, "表名").NotNullOrEmpty(primaryKey, "主键");
+            ValidateManager.Begin().NotNullOrEmpty(tableName, "表名").NotNullOrEmpty(primaryKey, "主键");
             TableName = tableName;
             PrimaryKey = primaryKey;
         }

@@ -1,14 +1,14 @@
 ﻿using System.Data;
 using System.Data.Common;
 
-namespace MasterChief.DotNet4.Utilities.Interfaces
+namespace MasterChief.DotNet4.Utilities.DbManager
 {
     /// <summary>
     /// SQL操作接口
     /// </summary>
     /// 时间：2015-12-31 10:09
     /// 备注：
-    public interface IDataOperator
+    public interface IDbManager
     {
         /// <summary>
         /// ExecuteNonQuery

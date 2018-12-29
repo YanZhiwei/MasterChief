@@ -1,7 +1,6 @@
-﻿namespace MasterChief.DotNet4.Utilities.DataOperator
+﻿namespace MasterChief.DotNet4.Utilities.DbManager
 {
-    using MasterChief.DotNet4.Utilities.Interfaces;
-    using MasterChief.DotNet4.Utilities.Operator;
+    using MasterChief.DotNet4.Utilities.Manager;
     using System;
     using System.Data;
     using System.Data.Common;
@@ -10,7 +9,7 @@
     /// <summary>
     /// Access 数据访问操作类
     /// </summary>
-    public sealed class AccessDataOperator : IDataOperator
+    public sealed class AccessDataOperator : IDbManager
     {
         #region Fields
 
@@ -41,7 +40,7 @@
         public AccessDataOperator(string path, string password)
         {
             CheckedAccessDBPath(path);
-            ValidateOperator.Begin().NotNullOrEmpty(password, "Access数据库密码");
+            ValidateManager.Begin().NotNullOrEmpty(password, "Access数据库密码");
             _connectString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + path + ";Jet OLEDB:Database Password= " + password;
         }
 
@@ -162,12 +161,12 @@
 
         private void CheckedAccessDBPath(string path)
         {
-            ValidateOperator.Begin().NotNullOrEmpty(path, "Access数据库路径").CheckFileExists(path);
+            ValidateManager.Begin().NotNullOrEmpty(path, "Access数据库路径").CheckFileExists(path);
         }
 
         private void CheckedSql(string sql)
         {
-            ValidateOperator.Begin().NotNullOrEmpty(sql, "SQL语句");
+            ValidateManager.Begin().NotNullOrEmpty(sql, "SQL语句");
         }
 
         #endregion Methods

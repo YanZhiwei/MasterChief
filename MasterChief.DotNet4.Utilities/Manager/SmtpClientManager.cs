@@ -1,4 +1,4 @@
-﻿namespace MasterChief.DotNet4.Utilities.Operator
+﻿namespace MasterChief.DotNet4.Utilities.Manager
 {
     using Model;
     using System.Net.Mail;
@@ -7,7 +7,7 @@
     /// <summary>
     /// SmtpClient 帮助类
     /// </summary>
-    public class SmtpClientOperator
+    public class SmtpClientManager
     {
         #region Fields
 
@@ -72,7 +72,7 @@
         /// <param name="attachmentsPathlist">附件</param>
         /// <param name="isbodyhtml">正文是否是html格式</param>
         /// <param name="mailPriority">优先级别</param>
-        public SmtpClientOperator(SmtpServer stmpserver, string nickname, string mailsubject, string mailbody, string[] mailTolist, string[] mailCclist, string[] attachmentsPathlist, bool isbodyhtml, MailPriority mailPriority)
+        public SmtpClientManager(SmtpServer stmpserver, string nickname, string mailsubject, string mailbody, string[] mailTolist, string[] mailCclist, string[] attachmentsPathlist, bool isbodyhtml, MailPriority mailPriority)
         {
             this.stmpServer = stmpserver;
             this.nickName = nickname;
@@ -93,7 +93,7 @@
         /// <param name="mailsubject">标题</param>
         /// <param name="mailbody">正文</param>
         /// <param name="mailTolist">收件人</param>
-        public SmtpClientOperator(SmtpServer stmpserver, string nickname, string mailsubject, string mailbody, string[] mailTolist)
+        public SmtpClientManager(SmtpServer stmpserver, string nickname, string mailsubject, string mailbody, string[] mailTolist)
         : this(stmpserver, nickname, mailsubject, mailbody, mailTolist, null, null, true, MailPriority.Normal)
         {
         }
@@ -107,7 +107,7 @@
         /// <param name="mailbody">正文</param>
         /// <param name="mailTolist">收件人</param>
         /// <param name="mailPriority">优先级别</param>
-        public SmtpClientOperator(SmtpServer stmpserver, string nickname, string mailsubject, string mailbody, string[] mailTolist, MailPriority mailPriority)
+        public SmtpClientManager(SmtpServer stmpserver, string nickname, string mailsubject, string mailbody, string[] mailTolist, MailPriority mailPriority)
         : this(stmpserver, nickname, mailsubject, mailbody, mailTolist, null, null, true, mailPriority)
         {
         }
@@ -121,7 +121,7 @@
         /// <param name="mailbody">正文</param>
         /// <param name="mailTolist">收件人</param>
         /// <param name="attachmentsPathlist">附件</param>
-        public SmtpClientOperator(SmtpServer stmpserver, string nickname, string mailsubject, string mailbody, string[] mailTolist, string[] attachmentsPathlist)
+        public SmtpClientManager(SmtpServer stmpserver, string nickname, string mailsubject, string mailbody, string[] mailTolist, string[] attachmentsPathlist)
         : this(stmpserver, nickname, mailsubject, mailbody, mailTolist, null, attachmentsPathlist, true, MailPriority.Normal)
         {
         }

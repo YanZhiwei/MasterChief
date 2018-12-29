@@ -1,4 +1,4 @@
-﻿namespace MasterChief.DotNet4.Utilities.Operator
+﻿namespace MasterChief.DotNet4.Utilities.Manager
 {
     using System;
     using System.IO;
@@ -7,7 +7,7 @@
     /// <summary>
     /// Assembly 帮助类
     /// </summary>
-    public class AssemblyOperator
+    public class AssemblyManager
     {
         #region Fields
 
@@ -28,18 +28,18 @@
         /// <summary>
         /// 默认构造函数
         /// </summary>
-        public AssemblyOperator()
+        public AssemblyManager()
         {
             _assembly = Assembly.GetExecutingAssembly();
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AssemblyOperator"/> class.
+        /// Initializes a new instance of the <see cref="AssemblyManager"/> class.
         /// </summary>
         /// <param name="path">The path.</param>
-        public AssemblyOperator(string path)
+        public AssemblyManager(string path)
         {
-            ValidateOperator.Begin().NotNullOrEmpty(path, "Exe或DLL文件")
+            ValidateManager.Begin().NotNullOrEmpty(path, "Exe或DLL文件")
             .IsFilePath(path)
             .CheckFileExists(path);
             _filePath = path;

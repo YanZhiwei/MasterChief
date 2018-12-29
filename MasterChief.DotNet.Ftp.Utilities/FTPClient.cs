@@ -1,6 +1,6 @@
 ﻿namespace MasterChief.DotNet.Ftp.Utilities
 {
-    using MasterChief.DotNet4.Utilities.Operator;
+    using MasterChief.DotNet4.Utilities.Manager;
     using System;
     using System.Collections.Generic;
     using System.IO;
@@ -45,7 +45,7 @@
         /// 备注：
         public FTPClient(string serverHost, string userName, string userPassword)
         {
-            ValidateOperator.Begin().NotNullOrEmpty(serverHost, "服务器IP").NotNullOrEmpty(UserName, "用户名").NotNullOrEmpty(userPassword, "用户密码");
+            ValidateManager.Begin().NotNullOrEmpty(serverHost, "服务器IP").NotNullOrEmpty(UserName, "用户名").NotNullOrEmpty(userPassword, "用户密码");
             UserName = userName;
             UserPassword = userPassword;
             ServerHost = serverHost;
@@ -62,7 +62,7 @@
         /// <param name="localDire">本地保存文件夹</param>
         public bool DownloadFile(string serverDire, string localDire)
         {
-            ValidateOperator.Begin()
+            ValidateManager.Begin()
                 .NotNullOrEmpty(serverDire, "服务器路径，eg：'/Serverpath/'")
                 .NotNullOrEmpty(localDire, "本地保存路径")
                 .CheckDirectoryExist(localDire);

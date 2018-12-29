@@ -1,4 +1,4 @@
-﻿namespace MasterChief.DotNet4.Utilities.Operator
+﻿namespace MasterChief.DotNet4.Utilities.Manager
 {
     using Common;
     using System.Runtime.InteropServices;
@@ -9,7 +9,7 @@
     /// </summary>
     /// 时间：2016/8/25 14:59
     /// 备注：
-    public class INIOperator
+    public class INIManager
     {
         private readonly string _filePath = null;
 
@@ -19,7 +19,7 @@
         /// <param name="path">INI文件路径</param>
         /// 时间：2016/8/25 15:00
         /// 备注：
-        public INIOperator(string path)
+        public INIManager(string path)
         {
             FileHelper.CreatePath(path);
             _filePath = path;
@@ -93,7 +93,7 @@
 
         private void CheckedINIParamter(string section, string key)
         {
-            ValidateOperator.Begin().NotNullOrEmpty(section, "INI段落").NotNullOrEmpty(key, "INI段落对应KEY");
+            ValidateManager.Begin().NotNullOrEmpty(section, "INI段落").NotNullOrEmpty(key, "INI段落对应KEY");
         }
     }
 }

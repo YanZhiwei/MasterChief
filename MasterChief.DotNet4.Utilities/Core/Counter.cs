@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
+﻿using System.Threading;
 
 namespace MasterChief.DotNet4.Utilities.Core
 {
@@ -34,7 +30,7 @@ namespace MasterChief.DotNet4.Utilities.Core
         /// <returns>当前数值</returns>
         public long NextValue()
         {
-            return Interlocked.Increment(ref this._current);
+            return Interlocked.Increment(ref _current);
         }
 
         /// <summary>

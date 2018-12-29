@@ -107,8 +107,8 @@
     <Compile Include="Common\UnixEpochHelper.cs" />
     <Compile Include="Common\XMLHelper.cs" />
     <Compile Include="Core\Counter.cs" />
-    <Compile Include="DataOperator\AccessDataOperator.cs" />
-    <Compile Include="DataOperator\ExcelDataOperator.cs" />
+    <Compile Include="DbManager\AccessDbManager.cs" />
+    <Compile Include="DbManager\ExcelIDbManager.cs" />
     <Compile Include="DesignPattern\BusinessFactory.cs" />
     <Compile Include="DesignPattern\Singleton.cs" />
     <Compile Include="Encryptor\AESEncryptor.cs" />
@@ -120,7 +120,7 @@
     <Compile Include="Enum\ImgWaterPosition.cs" />
     <Compile Include="Enum\OrderType.cs" />
     <Compile Include="FileExt.cs" />
-    <Compile Include="Interfaces\IDataOperator.cs" />
+    <Compile Include="DbManager\IDbManager.cs" />
     <Compile Include="Model\CsvRow.cs" />
     <Compile Include="Model\FileDetail.cs" />
     <Compile Include="Model\GeoPoint.cs" />
@@ -128,11 +128,11 @@
     <Compile Include="Model\MapCoord.cs" />
     <Compile Include="Model\SmtpServer.cs" />
     <Compile Include="Model\Validation.cs" />
-    <Compile Include="Operator\AssemblyOperator.cs" />
-    <Compile Include="Operator\INIOperator.cs" />
-    <Compile Include="Operator\SmtpClientOperator.cs" />
-    <Compile Include="Operator\ValidateOperator.cs" />
-    <Compile Include="Operator\XMLFileOperator.cs" />
+    <Compile Include="Manager\AssemblyManager.cs" />
+    <Compile Include="Manager\INIManager.cs" />
+    <Compile Include="Manager\SmtpClientManager.cs" />
+    <Compile Include="Manager\ValidateManager.cs" />
+    <Compile Include="Manager\XMLManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegexPattern.cs" />
     <Compile Include="ValidateResource.Designer.cs">

@@ -1,6 +1,6 @@
 ﻿namespace MasterChief.DotNet.NPOI2.Utilities
 {
-    using MasterChief.DotNet4.Utilities.Operator;
+    using MasterChief.DotNet4.Utilities.Manager;
     using NPOI.HSSF.UserModel;
     using NPOI.SS.UserModel;
     using NPOI.SS.Util;
@@ -13,7 +13,7 @@
     /// </summary>
     /// 时间：2016/9/9 11:49
     /// 备注：
-    public class NPOIExcel
+    public static class NPOIExcel
     {
         #region Methods
 
@@ -63,7 +63,7 @@
         /// 备注:
         public static void ToExcel(DataTable table, string sheetName, string title, string filePath)
         {
-            ValidateOperator.Begin().NotNull(table, "需要导出到EXCEL数据源")
+            ValidateManager.Begin().NotNull(table, "需要导出到EXCEL数据源")
             .NotNullOrEmpty(title, "EXCEL标题")
             .NotNullOrEmpty(filePath, "EXCEL导出路径")
             .IsFilePath(filePath);

@@ -66,9 +66,7 @@ namespace MasterChief.DotNet4.Utilities.Common
 
                 if (seachResult != null)
                 {
-                    ResultPropertyValueCollection valueCollect = seachResult.Properties["memberof"];
-
-                    foreach (object group in valueCollect)
+                    foreach (object group in seachResult.Properties["memberof"])
                     {
                         Match match = Regex.Match(group.ToString().Trim(), @"CN=\s*(?<g>\w*)\s*.");
                         groups.Add(match.Groups["g"].Value);
