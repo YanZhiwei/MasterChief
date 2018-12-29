@@ -1,5 +1,15 @@
 C# 基础类库，和士官长一样身经百战且越战越勇的战争机器，能力无人能出其右
 
-**MasterChief.DotNet4.Utilities**  ：基于.NET Framework 4 用于兼容Windows XP的C#类库，后续不断补充；
+**MasterChief.DotNet4.Utilities **  ：基于.NET Framework 4 用于兼容Windows XP的C#类库；
 
-![](https://gss2.bdstatic.com/-fo3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=f8956f91ad773912d02b8d339970ed7d/622762d0f703918fae7a14e6553d269759eec476.jpg)
+**MasterChief.DotNet4.5.Utilities**：基于.NET Framework 4 .5的类库；
+
+**Plugins**： 第三方类库使用
+
+> MasterChief.DotNet.Dapper.Utilities：基于Dapper分装；
+
+> MasterChief.DotNet.Ftp.Utilities：是一个FTP Client使用封装； 
+
+> MasterChief.DotNet.Json.Utilities：基于Newtonsoft.Json处理Json序列化以及反序列化封装；
+
+> MasterChief.DotNet.NPOI2.Utilities：基于NPOI处理EXCEL导入导出封装；
