@@ -42,6 +42,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Doc", "Doc", "{9766F217-884
 		C:\Users\YanZh\Desktop\MasterChief.xmind = C:\Users\YanZh\Desktop\MasterChief.xmind
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MasterChief.DotNet.Core.Log", "MasterChief.DotNet.Core.Log\MasterChief.DotNet.Core.Log.csproj", "{5504B9A5-3D14-4ABD-8BE8-D3DE5A04FC50}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -84,6 +86,10 @@ Global
 		{B7DC1B0C-F8D6-44EA-9037-BCDF83E77E30}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B7DC1B0C-F8D6-44EA-9037-BCDF83E77E30}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B7DC1B0C-F8D6-44EA-9037-BCDF83E77E30}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5504B9A5-3D14-4ABD-8BE8-D3DE5A04FC50}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5504B9A5-3D14-4ABD-8BE8-D3DE5A04FC50}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5504B9A5-3D14-4ABD-8BE8-D3DE5A04FC50}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5504B9A5-3D14-4ABD-8BE8-D3DE5A04FC50}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -98,6 +104,7 @@ Global
 		{642FB062-F89F-45B5-99AF-7EB8D9CCE010} = {64730F27-EEDE-47EC-9784-70AC3C9C5172}
 		{F7918827-A10B-4628-A956-32DB7CD61394} = {64730F27-EEDE-47EC-9784-70AC3C9C5172}
 		{B7DC1B0C-F8D6-44EA-9037-BCDF83E77E30} = {64730F27-EEDE-47EC-9784-70AC3C9C5172}
+		{5504B9A5-3D14-4ABD-8BE8-D3DE5A04FC50} = {7E10B6E4-2FEF-4DD1-ADF7-38DAF8DD822D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {90963A27-01A3-467E-9098-A6E345A4F839}
