@@ -1,4 +1,4 @@
-﻿namespace MasterChief.DotNet4.Utilities.Manager
+﻿namespace MasterChief.DotNet4.Utilities.Operator
 {
     using Common;
     using Model;
@@ -9,7 +9,7 @@
     /// <summary>
     /// 参数验证帮助类
     /// </summary>
-    public static class ValidateManager
+    public static class ValidateOperator
     {
         #region Methods
 

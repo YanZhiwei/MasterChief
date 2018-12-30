@@ -2,6 +2,7 @@
 {
     using Common;
     using Manager;
+    using MasterChief.DotNet4.Utilities.Operator;
     using System.Collections;
     using System.Text;
 
@@ -47,7 +48,7 @@
         /// 备注：
         public SqlServerScriptBuilder(string tableName, string primaryKey)
         {
-            ValidateManager.Begin().NotNullOrEmpty(tableName, "表名").NotNullOrEmpty(primaryKey, "主键");
+            ValidateOperator.Begin().NotNullOrEmpty(tableName, "表名").NotNullOrEmpty(primaryKey, "主键");
             TableName = tableName;
             PrimaryKey = primaryKey;
         }

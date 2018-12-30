@@ -1,6 +1,7 @@
 ﻿namespace MasterChief.DotNet4.Utilities.Encryptor
 {
     using MasterChief.DotNet4.Utilities.Manager;
+    using MasterChief.DotNet4.Utilities.Operator;
     using System.Security.Cryptography;
     using System.Text;
 
@@ -23,7 +24,7 @@
         /// 备注：
         public static string Encrypt(string secretKey, string encryptString)
         {
-            ValidateManager.Begin().NotNullOrEmpty(secretKey, "加密密钥").NotNullOrEmpty(encryptString, "需要加密处理的字符串");
+            ValidateOperator.Begin().NotNullOrEmpty(secretKey, "加密密钥").NotNullOrEmpty(encryptString, "需要加密处理的字符串");
             byte[] keyData = Encoding.UTF8.GetBytes(secretKey);
             byte[] plainData = Encoding.UTF8.GetBytes(encryptString);
             using (HMACSHA256 sha256 = new HMACSHA256(keyData))

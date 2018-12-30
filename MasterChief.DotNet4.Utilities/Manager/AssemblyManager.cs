@@ -1,5 +1,6 @@
 ﻿namespace MasterChief.DotNet4.Utilities.Manager
 {
+    using MasterChief.DotNet4.Utilities.Operator;
     using System;
     using System.IO;
     using System.Reflection;
@@ -39,7 +40,7 @@
         /// <param name="path">The path.</param>
         public AssemblyManager(string path)
         {
-            ValidateManager.Begin().NotNullOrEmpty(path, "Exe或DLL文件")
+            ValidateOperator.Begin().NotNullOrEmpty(path, "Exe或DLL文件")
             .IsFilePath(path)
             .CheckFileExists(path);
             _filePath = path;

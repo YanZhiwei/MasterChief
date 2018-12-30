@@ -1,6 +1,7 @@
 ﻿namespace MasterChief.DotNet4.Utilities.Manager
 {
     using Common;
+    using MasterChief.DotNet4.Utilities.Operator;
     using System.Runtime.InteropServices;
     using System.Text;
 
@@ -93,7 +94,7 @@
 
         private void CheckedINIParamter(string section, string key)
         {
-            ValidateManager.Begin().NotNullOrEmpty(section, "INI段落").NotNullOrEmpty(key, "INI段落对应KEY");
+            ValidateOperator.Begin().NotNullOrEmpty(section, "INI段落").NotNullOrEmpty(key, "INI段落对应KEY");
         }
     }
 }

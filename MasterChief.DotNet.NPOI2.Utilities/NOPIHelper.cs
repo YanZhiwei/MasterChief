@@ -1,5 +1,5 @@
 ﻿using MasterChief.DotNet4.Utilities;
-using MasterChief.DotNet4.Utilities.Manager;
+using MasterChief.DotNet4.Utilities.Operator;
 using NPOI.SS.UserModel;
 using System.IO;
 
@@ -21,7 +21,7 @@ namespace MasterChief.DotNet.NPOI2.Utilities
         /// <returns>IWorkbook</returns>
         public static IWorkbook GetExcelWorkbook(string filePath)
         {
-            ValidateManager.Begin()
+            ValidateOperator.Begin()
                 .NotNull(filePath, "需要导入到EXCEL文件路径")
                 .IsFilePath(filePath)
                 .CheckFileExists(filePath)

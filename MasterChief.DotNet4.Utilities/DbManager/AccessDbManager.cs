@@ -1,6 +1,7 @@
 ﻿namespace MasterChief.DotNet4.Utilities.DbManager
 {
     using MasterChief.DotNet4.Utilities.Manager;
+    using MasterChief.DotNet4.Utilities.Operator;
     using System;
     using System.Data;
     using System.Data.Common;
@@ -40,7 +41,7 @@
         public AccessDataOperator(string path, string password)
         {
             CheckedAccessDBPath(path);
-            ValidateManager.Begin().NotNullOrEmpty(password, "Access数据库密码");
+            ValidateOperator.Begin().NotNullOrEmpty(password, "Access数据库密码");
             _connectString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + path + ";Jet OLEDB:Database Password= " + password;
         }
 
@@ -161,12 +162,12 @@
 
         private void CheckedAccessDBPath(string path)
         {
-            ValidateManager.Begin().NotNullOrEmpty(path, "Access数据库路径").CheckFileExists(path);
+            ValidateOperator.Begin().NotNullOrEmpty(path, "Access数据库路径").CheckFileExists(path);
         }
 
         private void CheckedSql(string sql)
         {
-            ValidateManager.Begin().NotNullOrEmpty(sql, "SQL语句");
+            ValidateOperator.Begin().NotNullOrEmpty(sql, "SQL语句");
         }
 
         #endregion Methods
