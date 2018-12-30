@@ -15,7 +15,7 @@
     /// <summary>
     /// EF 仓储实现
     /// </summary>
-    public class DbRepository<T> : IRepository<T>
+    public class EfRepository<T> : IRepository<T>
         where T : ModelBase
     {
         #region Fields
@@ -31,9 +31,12 @@
 
         #region Constructors
 
-        public DbRepository(DbContext dbContext)
+        public EfRepository(IDbContext dbContext)
         {
-            _dbContext = dbContext;
+            if (dbContext is EfDbContextBase)
+            {
+                _dbContext = (DbContext)dbContext;
+            }
         }
 
         #endregion Constructors
