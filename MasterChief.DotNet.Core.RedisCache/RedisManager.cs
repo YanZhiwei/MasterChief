@@ -1,8 +1,8 @@
-﻿using ServiceStack.Caching;
-using ServiceStack.Redis;
-
-namespace MasterChief.DotNet.Core.RedisCache
+﻿namespace MasterChief.DotNet.Core.RedisCache
 {
+    using ServiceStack.Caching;
+    using ServiceStack.Redis;
+
     /// <summary>
     /// RedisManager
     /// </summary>
@@ -10,7 +10,11 @@ namespace MasterChief.DotNet.Core.RedisCache
     {
         #region Fields
 
-        private static PooledRedisClientManager _prcm;
+        /// <summary>
+        /// Redis配置文件信息
+        /// </summary>
+        private readonly RedisConfig _redisConfig = null;
+        private PooledRedisClientManager _prcm;
 
         #endregion Fields
 
@@ -19,28 +23,20 @@ namespace MasterChief.DotNet.Core.RedisCache
         /// <summary>
         /// 静态构造函数
         /// </summary>
-        static RedisManager()
+        public RedisManager(RedisConfig config)
         {
+            _redisConfig = config;
             CreateManager();
         }
 
         #endregion Constructors
-
-        #region Properties
-
-        /// <summary>
-        /// Redis配置文件信息
-        /// </summary>
-        private static RedisConfig redisConfigInfo => CachedConfigContext.Instance.RedisConfig;
-
-        #endregion Properties
 
         #region Methods
 
         /// <summary>
         /// 获取缓存Client
         /// </summary>
-        public static ICacheClient GetCacheClient()
+        public ICacheClient GetCacheClient()
         {
             if (_prcm == null)
             {
@@ -53,7 +49,7 @@ namespace MasterChief.DotNet.Core.RedisCache
         /// <summary>
         /// 获取可写入的Client
         /// </summary>
-        public static IRedisClient GetClient()
+        public IRedisClient GetClient()
         {
             if (_prcm == null)
             {
@@ -66,7 +62,7 @@ namespace MasterChief.DotNet.Core.RedisCache
         /// <summary>
         /// 获取只读的Client
         /// </summary>
-        public static IRedisClient GetReadOnlyClient()
+        public IRedisClient GetReadOnlyClient()
         {
             if (_prcm == null)
             {
@@ -79,15 +75,15 @@ namespace MasterChief.DotNet.Core.RedisCache
         /// <summary>
         /// 创建PooledRedisClientManager
         /// </summary>
-        private static void CreateManager()
+        private void CreateManager()
         {
-            string[] writeServerList = redisConfigInfo.WriteServerList.Split(',');
-            string[] readServerList = redisConfigInfo.ReadServerList.Split(',');
+            string[] writeServerList = _redisConfig.WriteServerList.Split(',');
+            string[] readServerList = _redisConfig.ReadServerList.Split(',');
             _prcm = new PooledRedisClientManager(readServerList, writeServerList, new RedisClientManagerConfig
             {
-                MaxWritePoolSize = redisConfigInfo.MaxWritePoolSize,
-                MaxReadPoolSize = redisConfigInfo.MaxReadPoolSize,
-                AutoStart = redisConfigInfo.AutoStart,
+                MaxWritePoolSize = _redisConfig.MaxWritePoolSize,
+                MaxReadPoolSize = _redisConfig.MaxReadPoolSize,
+                AutoStart = _redisConfig.AutoStart,
             });
         }
 
