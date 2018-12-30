@@ -52,6 +52,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Cache", "Cache", "{3D6899EB
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MasterChief.DotNet.Core.Cache", "MasterChief.DotNet.Core.Cache\MasterChief.DotNet.Core.Cache.csproj", "{6C248D57-DBFA-4A3C-98F0-9AF6AF6E70D0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MasterChief.DotNet.Core.PerRequestCache", "MasterChief.DotNet.Core.PerRequestCache\MasterChief.DotNet.Core.PerRequestCache.csproj", "{1B255CAB-F0CB-4665-9164-D621C659B543}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -106,6 +108,10 @@ Global
 		{6C248D57-DBFA-4A3C-98F0-9AF6AF6E70D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6C248D57-DBFA-4A3C-98F0-9AF6AF6E70D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6C248D57-DBFA-4A3C-98F0-9AF6AF6E70D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B255CAB-F0CB-4665-9164-D621C659B543}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B255CAB-F0CB-4665-9164-D621C659B543}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B255CAB-F0CB-4665-9164-D621C659B543}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B255CAB-F0CB-4665-9164-D621C659B543}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -125,6 +131,7 @@ Global
 		{CB920C26-66AE-4AC8-AE04-0375F8F92B5C} = {F1F9C95D-0980-43EA-AC69-BAD5E333A5E1}
 		{3D6899EB-56A0-4EE0-8ED9-BAC1BDA71272} = {7E10B6E4-2FEF-4DD1-ADF7-38DAF8DD822D}
 		{6C248D57-DBFA-4A3C-98F0-9AF6AF6E70D0} = {3D6899EB-56A0-4EE0-8ED9-BAC1BDA71272}
+		{1B255CAB-F0CB-4665-9164-D621C659B543} = {3D6899EB-56A0-4EE0-8ED9-BAC1BDA71272}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {90963A27-01A3-467E-9098-A6E345A4F839}
