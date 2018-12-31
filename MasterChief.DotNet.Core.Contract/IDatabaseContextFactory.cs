@@ -1,9 +1,9 @@
 ﻿namespace MasterChief.DotNet.Core.Contract
 {
     /// <summary>
-    /// Db context factory.
+    /// Database context factory.
     /// </summary>
-    public interface IDbContextFactory
+    public interface IDatabaseContextFactory
     {
         /// <summary>
         /// Create this instance.
