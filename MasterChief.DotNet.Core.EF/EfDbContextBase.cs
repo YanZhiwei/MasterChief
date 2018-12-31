@@ -61,8 +61,7 @@ namespace MasterChief.DotNet.Core.EF
             {
                 for (int i = 0; i <= parameters.Length - 1; i++)
                 {
-                    DbParameter paramter = parameters[i] as DbParameter;
-                    if (paramter == null)
+                    if (!(parameters[i] is DbParameter paramter))
                     {
                         throw new ArgumentException("不支持的参数类型。");
                     }
