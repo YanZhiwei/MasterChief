@@ -15,7 +15,7 @@ namespace MasterChief.DotNet.Infrastructure.Serializer
         /// <param name="writer">JsonWriter</param>
         /// <param name="dataRow">dataRow</param>
         /// <param name="ser">JsonSerializer</param>
-        public override void WriteJson(JsonWriter writer, object dataRow, JsonSerializer ser)
+        public override void WriteJson(JsonWriter writer, object dataRow, Newtonsoft.Json.JsonSerializer ser)
         {
             DataRow row = dataRow as DataRow;
             writer.WriteStartObject();
@@ -45,7 +45,7 @@ namespace MasterChief.DotNet.Infrastructure.Serializer
         /// <param name="existingValue"></param>
         /// <param name="ser"></param>
         /// <returns></returns>
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer ser)
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, Newtonsoft.Json.JsonSerializer ser)
         {
             throw new NotImplementedException();
         }

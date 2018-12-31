@@ -4,7 +4,7 @@ namespace MasterChief.DotNet.Infrastructure.Serializer
     /// <summary>
     /// 序列化与反序列化接口
     /// </summary>
-    public interface ISerializerProvider
+    public interface ISerializer
     {
         #region Methods
 

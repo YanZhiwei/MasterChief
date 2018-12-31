@@ -29,7 +29,7 @@ namespace MasterChief.DotNet.Infrastructure.Serializer
         /// </returns>
         /// 时间：2016/7/8 11:40
         /// 备注：
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, Newtonsoft.Json.JsonSerializer serializer)
         {
             return dtConverter.ReadJson(reader, objectType, existingValue, serializer);
         }
@@ -42,7 +42,7 @@ namespace MasterChief.DotNet.Infrastructure.Serializer
         /// <param name="serializer">The calling serializer.</param>
         /// 时间：2016/7/8 11:40
         /// 备注：
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        public override void WriteJson(JsonWriter writer, object value, Newtonsoft.Json.JsonSerializer serializer)
         {
             dtConverter.WriteJson(writer, value, serializer);
         }

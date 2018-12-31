@@ -8,7 +8,7 @@ namespace MasterChief.DotNet.Infrastructure.Serializer
     /// <summary>
     /// Json 序列化与反序列化  
     /// </summary>
-    public class JsonSerializerProvider : ISerializerProvider
+    public class JsonSerializer : ISerializer
     {
 
         public T Deserialize<T>(string data)
@@ -16,7 +16,7 @@ namespace MasterChief.DotNet.Infrastructure.Serializer
             T deserializedType = default(T);
             if (!string.IsNullOrEmpty(data))
             {
-                JsonSerializer serializer = new JsonSerializer();
+                Newtonsoft.Json.JsonSerializer serializer = new Newtonsoft.Json.JsonSerializer();
                 Initialize(serializer);
 
                 using (StringReader reader = new StringReader(data))
@@ -38,7 +38,7 @@ namespace MasterChief.DotNet.Infrastructure.Serializer
             }
 
             Type type = serializeObject.GetType();
-            JsonSerializer serializer = new JsonSerializer();
+            Newtonsoft.Json.JsonSerializer serializer = new Newtonsoft.Json.JsonSerializer();
             Initialize(serializer);
 
             if (type == typeof(DataRow))
@@ -66,7 +66,7 @@ namespace MasterChief.DotNet.Infrastructure.Serializer
             }
         }
 
-        private static void Initialize(JsonSerializer jsonSerializer)
+        private static void Initialize(Newtonsoft.Json.JsonSerializer jsonSerializer)
         {
             if (jsonSerializer != null)
             {

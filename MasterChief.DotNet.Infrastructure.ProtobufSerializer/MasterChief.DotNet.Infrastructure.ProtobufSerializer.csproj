@@ -3,10 +3,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{6204473D-CF32-4C33-B325-131123120B48}</ProjectGuid>
+    <ProjectGuid>{8D1187A0-CCA6-407A-B5DC-1CC47F1AEA42}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>MasterChief.DotNet.Infrastructure.Serializer</RootNamespace>
-    <AssemblyName>MasterChief.DotNet.Infrastructure.Serialize</AssemblyName>
+    <RootNamespace>MasterChief.DotNet.Infrastructure.ProtobufSerializer</RootNamespace>
+    <AssemblyName>MasterChief.DotNet.Infrastructure.ProtobufSerializer</AssemblyName>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -27,24 +28,16 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Data" />
+    <Reference Include="protobuf-net">
+      <HintPath>..\packages\protobuf-net.2.4.0\lib\net40\protobuf-net.dll</HintPath>
+    </Reference>
     <Reference Include="System.Configuration" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="JsonSerializer.cs" />
+    <Compile Include="MyClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ISerializer.cs" />
-    <Compile Include="ChinaDateTimeConverter.cs" />
-    <Compile Include="CustomDateFormat.cs" />
-    <Compile Include="DataRowConverter.cs" />
-    <Compile Include="DataSetConverter.cs" />
-    <Compile Include="DataTableConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
