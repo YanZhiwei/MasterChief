@@ -1,32 +1,25 @@
-﻿namespace MasterChief.DotNet.Json.Utilities
+using System;
+using System.Data;
+using System.IO;
+using Newtonsoft.Json;
+
+namespace MasterChief.DotNet.Infrastructure.Serializer
 {
-    using global::Newtonsoft.Json;
-    using System;
-    using System.Data;
-    using System.IO;
-
     /// <summary>
-    /// 使用Newtonsoft处理Json序列化反序列化
+    /// Json 序列化与反序列化  
     /// </summary>
-    public sealed class NewtonsoftJsonProvider : IJsonProvider
+    public class JsonSerializerProvider : ISerializerProvider
     {
-        #region Methods
 
-        /// <summary>
-        /// 反序列化Json数据格式
-        /// </summary>
-        /// <typeparam name="T">泛型</typeparam>
-        /// <param name="jsonText">Json文本</param>
-        /// <returns>反序列化</returns>
-        public T Deserialize<T>(string jsonText)
+        public T Deserialize<T>(string data)
         {
             T deserializedType = default(T);
-            if (!string.IsNullOrEmpty(jsonText))
+            if (!string.IsNullOrEmpty(data))
             {
                 JsonSerializer serializer = new JsonSerializer();
                 Initialize(serializer);
 
-                using (StringReader reader = new StringReader(jsonText))
+                using (StringReader reader = new StringReader(data))
                 {
                     using (JsonTextReader jsonReader = new JsonTextReader(reader))
                     {
@@ -37,13 +30,6 @@
             return deserializedType;
         }
 
-        /// <summary>
-        /// 序列化数据为Json数据格式.支持DataRow,DataTable,DataSet
-        /// <para>说明 [JsonProperty("姓名")]重命名属性名称</para>
-        /// <para>说明 [JsonIgnore]忽略属性</para>
-        /// </summary>
-        /// <param name="serializeObject">需要序列化对象</param>
-        /// <returns>Jsonz字符串</returns>
         public string Serialize(object serializeObject)
         {
             if (serializeObject == null)
@@ -90,7 +76,5 @@
                 jsonSerializer.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             }
         }
-
-        #endregion Methods
     }
 }
