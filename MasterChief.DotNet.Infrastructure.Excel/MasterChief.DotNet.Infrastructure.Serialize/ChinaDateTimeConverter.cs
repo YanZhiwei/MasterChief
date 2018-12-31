@@ -2,7 +2,7 @@
 using Newtonsoft.Json.Converters;
 using System;
 
-namespace MasterChief.DotNet.Json.Utilities
+namespace MasterChief.DotNet.Infrastructure.Serializer
 {
     /// <summary>
     /// 中国时间转换器

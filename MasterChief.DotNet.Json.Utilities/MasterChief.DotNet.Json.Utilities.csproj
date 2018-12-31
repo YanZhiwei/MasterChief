@@ -43,14 +43,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ChinaDateTimeConverter.cs" />
-    <Compile Include="CustomDateFormat.cs" />
-    <Compile Include="DataRowConverter.cs" />
-    <Compile Include="DataSetConverter.cs" />
-    <Compile Include="DataTableConverter.cs" />
     <Compile Include="IJsonProvider.cs" />
     <Compile Include="JsonHelper.cs" />
-    <Compile Include="NewtonsoftJsonProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

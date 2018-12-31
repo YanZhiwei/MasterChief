@@ -2,7 +2,7 @@
 using System;
 using System.Data;
 
-namespace MasterChief.DotNet.Json.Utilities
+namespace MasterChief.DotNet.Infrastructure.Serializer
 {
     /// <summary>
     /// DataTableConverter转换器
