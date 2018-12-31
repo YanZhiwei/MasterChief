@@ -7,7 +7,7 @@ namespace MasterChief.DotNet.Dapper.Utilities
     /// <summary>
     /// 基于Dapper的SQLite数据库操作类
     /// </summary>
-    public sealed class DapperSQLiteOperator : DapperDataOperator
+    public sealed class DapperSQLiteManager : DapperDataManager
     {
         /// <summary>
         /// SQLite 文件位置
@@ -18,7 +18,7 @@ namespace MasterChief.DotNet.Dapper.Utilities
         /// 构造函数
         /// </summary>
         /// <param name="sqlLiteDbFile">SQLite 文件位置</param>
-        public DapperSQLiteOperator(string sqlLiteDbFile) : base(string.Format(@"Data Source={0};Pooling=true;FailIfMissing=false;Version=3", sqlLiteDbFile))
+        public DapperSQLiteManager(string sqlLiteDbFile) : base(string.Format(@"Data Source={0};Pooling=true;FailIfMissing=false;Version=3", sqlLiteDbFile))
         {
             DbFile = sqlLiteDbFile;
             if (!File.Exists(DbFile))

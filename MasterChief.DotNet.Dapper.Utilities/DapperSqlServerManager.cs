@@ -8,7 +8,7 @@ namespace MasterChief.DotNet.Dapper.Utilities
     /// </summary>
     /// 时间：2016-01-19 16:33
     /// 备注：
-    public sealed class DapperSqlServerOperator : DapperDataOperator
+    public sealed class DapperSqlServerManager : DapperDataManager
     {
         /// <summary>
         /// 构造函数
@@ -16,7 +16,7 @@ namespace MasterChief.DotNet.Dapper.Utilities
         /// <param name="sqlConnectString">连接字符串</param>
         /// 时间：2016-01-19 16:33
         /// 备注：
-        public DapperSqlServerOperator(string sqlConnectString) : base(sqlConnectString)
+        public DapperSqlServerManager(string sqlConnectString) : base(sqlConnectString)
         {
         }
 

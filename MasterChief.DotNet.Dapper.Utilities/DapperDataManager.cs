@@ -11,7 +11,7 @@
     /// </summary>
     /// 时间：2016-01-19 16:21
     /// 备注：
-    public abstract class DapperDataOperator
+    public abstract class DapperDataManager
     {
         #region Fields
 

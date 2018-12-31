@@ -6,7 +6,7 @@ namespace MasterChief.DotNet.Dapper.Utilities
     /// <summary>
     /// 基于Dapper的Oracle数据库操作类
     /// </summary>
-    public sealed class DapperOracleOperator : DapperDataOperator
+    public sealed class DapperOracleManager : DapperDataManager
     {
         /// <summary>
         /// 构造函数
@@ -14,7 +14,7 @@ namespace MasterChief.DotNet.Dapper.Utilities
         /// <param name="connectString">连接字符串</param>
         /// 时间：2016-01-19 16:21
         /// 备注：
-        public DapperOracleOperator(string connectString) : base(connectString)
+        public DapperOracleManager(string connectString) : base(connectString)
         {
         }
 

@@ -51,10 +51,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DapperDataOperator.cs" />
-    <Compile Include="DapperOracleOperator.cs" />
-    <Compile Include="DapperSQLiteOperator.cs" />
-    <Compile Include="DapperSqlServerOperator.cs" />
+    <Compile Include="DapperDataManager.cs" />
+    <Compile Include="DapperOracleManager.cs" />
+    <Compile Include="DapperSQLiteManager.cs" />
+    <Compile Include="DapperSqlServerManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
