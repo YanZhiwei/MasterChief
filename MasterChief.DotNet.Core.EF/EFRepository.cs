@@ -1,7 +1,5 @@
 ﻿namespace MasterChief.DotNet.Core.EF
 {
-    using MasterChief.DotNet.Core.Contract;
-    using MasterChief.DotNet.Core.EF.Helper;
     using System;
     using System.Collections.Generic;
     using System.Data.Entity;
@@ -11,6 +9,8 @@
     using System.Data.Entity.Validation;
     using System.Linq;
     using System.Linq.Expressions;
+    using MasterChief.DotNet.Core.Contract;
+    using MasterChief.DotNet.Core.EF.Helper;
 
     /// <summary>
     /// EF 仓储实现
@@ -20,12 +20,9 @@
     {
         #region Fields
 
-        public virtual IQueryable<T> Table => Entities;
-        public virtual IQueryable<T> TableNoTracking => Entities.AsNoTracking();
-
         protected virtual IDbSet<T> Entities => _dbContext.Set<T>();
 
-        private readonly DbContext _dbContext;
+        protected readonly DbContext _dbContext;
 
         #endregion Fields
 
@@ -43,6 +40,11 @@
 
         #region Methods
 
+        /// <summary>
+        /// 删除记录
+        /// </summary>
+        /// <returns>操作是否成功</returns>
+        /// <param name="entity">需要操作的实体类.</param>
         public bool Delete(T entity)
         {
             bool result = false;
@@ -58,6 +60,11 @@
             return result;
         }
 
+        /// <summary>
+        /// 条件删除记录
+        /// </summary>
+        /// <returns>操作是否成功</returns>
+        /// <param name="entities">需要操作的集合.</param>
         public bool Delete(IEnumerable<T> entities)
         {
             bool result = false;
@@ -77,12 +84,24 @@
             return result;
         }
 
-        public bool Exist(Expression<Func<T, bool>> keySelector = null)
+        /// <summary>
+        /// 条件判断是否存在
+        /// </summary>
+        /// <returns>是否存在</returns>
+        /// <param name="predicate">判断条件委托</param>
+        public bool Exist(Expression<Func<T, bool>> predicate = null)
         {
-            return keySelector == null ? _dbContext.Set<T>().Any() : _dbContext.Set<T>().Any(keySelector);
+            return predicate == null ? _dbContext.Set<T>().Any() : _dbContext.Set<T>().Any(predicate);
         }
 
-        public List<T> Get(Expression<Func<T, bool>> keySelector = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
+        /// <summary>
+        /// 条件获取记录集合
+        /// </summary>
+        /// <returns>集合</returns>
+        /// <param name="predicate">筛选条件.</param>
+        /// <param name="orderBy">排序条件</param>
+        /// <param name="includes">关联扩展条件.</param>
+        public List<T> Get(Expression<Func<T, bool>> predicate = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
             params Expression<Func<T, object>>[] includes)
         {
             IQueryable<T> query = _dbContext.Set<T>();
@@ -90,9 +109,9 @@
             {
                 query = query.Include(include);
             }
-            if (keySelector != null)
+            if (predicate != null)
             {
-                query = query.Where(keySelector);
+                query = query.Where(predicate);
             }
             if (orderBy != null)
             {
@@ -101,6 +120,11 @@
             return query.ToList();
         }
 
+        /// <summary>
+        /// 根据id获取记录
+        /// </summary>
+        /// <returns>记录</returns>
+        /// <param name="id">id.</param>
         public T Get(object id)
         {
             T finded = _dbContext.Set<T>().Find(id);
@@ -111,7 +135,13 @@
             return finded;
         }
 
-        public T GetFirstOrDefault(Expression<Func<T, bool>> keySelector = null, params Expression<Func<T, object>>[] includes)
+        /// <summary>
+        /// 条件获取记录第一条或者默认
+        /// </summary>
+        /// <returns>记录</returns>
+        /// <param name="predicate">筛选条件.</param>
+        /// <param name="includes">关联扩展条件.</param>
+        public T GetFirstOrDefault(Expression<Func<T, bool>> predicate = null, params Expression<Func<T, object>>[] includes)
         {
             IQueryable<T> query = _dbContext.Set<T>();
 
@@ -120,10 +150,15 @@
                 query = query.Include(include);
             }
 
-            return query.FirstOrDefault(keySelector);
+            return query.FirstOrDefault(predicate);
         }
 
-        public bool Insert(T entity)
+        /// <summary>
+        /// 创建一条记录
+        /// </summary>
+        /// <returns>操作是否成功.</returns>
+        /// <param name="entity">实体类记录.</param>
+        public bool Create(T entity)
         {
             bool result = false;
             try
@@ -139,7 +174,12 @@
             return result;
         }
 
-        public bool Insert(IEnumerable<T> entities)
+        /// <summary>
+        /// 创建记录集合
+        /// </summary>
+        /// <returns>操作是否成功.</returns>
+        /// <param name="entities">实体类集合.</param>
+        public bool Create(IEnumerable<T> entities)
         {
             bool result = false;
             try
@@ -158,13 +198,19 @@
             return result;
         }
 
-        public IQueryable<T> Query(Expression<Func<T, bool>> keySelector = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null)
+        /// <summary>
+        /// 条件查询
+        /// </summary>
+        /// <returns>IQueryable</returns>
+        /// <param name="predicate">筛选条件.</param>
+        /// <param name="orderBy">排序条件</param>
+        public IQueryable<T> Query(Expression<Func<T, bool>> predicate = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null)
         {
             IQueryable<T> query = _dbContext.Set<T>();
 
-            if (keySelector != null)
+            if (predicate != null)
             {
-                query = query.Where(keySelector);
+                query = query.Where(predicate);
             }
 
             if (orderBy != null)
@@ -175,6 +221,11 @@
             return query;
         }
 
+        /// <summary>
+        /// 根据记录
+        /// </summary>
+        /// <returns>操作是否成功.</returns>
+        /// <param name="entity">实体类记录.</param>
         public bool Update(T entity)
         {
             bool result = false;
