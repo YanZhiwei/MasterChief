@@ -30,7 +30,7 @@
         /// <param name="connectString">连接字符串</param>
         /// 时间：2016-01-19 16:21
         /// 备注：
-        public DapperDataOperator(string connectString)
+        protected DapperDataManager(string connectString)
         {
             ConnectString = connectString;
         }
