@@ -1,24 +1,33 @@
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Linq.Expressions;
 using MasterChief.DotNet.Core.Contract;
+using MasterChief.DotNet4.Utilities.Common;
 
 namespace MasterChief.DotNet.Core.Dapper
 {
     public class DapperRepository<T> : IRepository<T>
         where T : ModelBase
     {
-        private readonly DapperDbContextBase _dapperDbContext = null;
-        private readonly string _tableName = null;
+        protected readonly DapperDbContextBase _dapperDbContext = null;
+        protected readonly string _tableName = null;
         public DapperRepository(IDbContext dbContext)
         {
             _dapperDbContext = (DapperDbContextBase)dbContext;
+            DapperTableNameAttribute tableCfgInfo = AttributeHelper.Get<T, DapperTableNameAttribute>();
+            _tableName = tableCfgInfo != null ? tableCfgInfo.TableName.Trim() : typeof(T).Name;
+
         }
 
         public bool Create(T entity)
         {
-            throw new NotImplementedException();
+            using (IDbConnection connection = _dapperDbContext.CreateConnection())
+            {
+
+            }
+            return true;
         }
 
         public bool Create(IEnumerable<T> entities)

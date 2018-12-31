@@ -8,11 +8,9 @@ namespace MasterChief.DotNet.Core.Dapper
     public class DapperTableNameAttribute : Attribute
     {
         private readonly string _tableName = null;
-        private readonly string _primarykey = null;
-        public DapperTableNameAttribute(string tableName, string primarykey)
+        public DapperTableNameAttribute(string tableName)
         {
             _tableName = tableName;
-            _primarykey = primarykey;
         }
 
         /// <summary>
@@ -21,10 +19,6 @@ namespace MasterChief.DotNet.Core.Dapper
         /// <value>表名称</value>
         public string TableName => _tableName;
 
-        /// <summary>
-        /// 获取表主键
-        /// </summary>
-        /// <value>主键</value>
-        public string PrimaryKey => _primarykey;
+
     }
 }

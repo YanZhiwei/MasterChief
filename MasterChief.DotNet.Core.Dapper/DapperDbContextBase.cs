@@ -5,15 +5,15 @@ using MasterChief.DotNet.Core.Contract;
 
 namespace MasterChief.DotNet.Core.Dapper
 {
-    public class DapperDbContextBase : IDbContext
+    public abstract class DapperDbContextBase : IDbContext
     {
 
-        protected readonly IDbConnection _dbConnection;
-        protected DapperDbContextBase(IDbConnection dbConnection)
+        protected readonly string _connectString = null;
+        protected DapperDbContextBase(string connectString)
         {
-            _dbConnection = dbConnection;
+            _connectString = connectString;
         }
-
+        public abstract IDbConnection CreateConnection();
         public int ExecuteSqlCommand(string sql, bool doNotEnsureTransaction = false, int? timeout = null, params object[] parameters)
         {
             throw new NotImplementedException();

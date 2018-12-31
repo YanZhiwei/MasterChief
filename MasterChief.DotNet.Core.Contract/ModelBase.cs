@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace MasterChief.DotNet.Core.Contract
 {
@@ -7,6 +8,7 @@ namespace MasterChief.DotNet.Core.Contract
     /// </summary>
     public class ModelBase
     {
+        [Key]
         public virtual Guid ID
         {
             get;    // int, not null
