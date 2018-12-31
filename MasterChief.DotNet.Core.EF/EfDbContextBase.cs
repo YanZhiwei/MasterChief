@@ -21,7 +21,7 @@ namespace MasterChief.DotNet.Core.EF
         /// 构造函数
         /// </summary>
         /// <param name="dbConnection">dbConnection</param>
-        public EfDbContextBase(DbConnection dbConnection)
+        protected EfDbContextBase(DbConnection dbConnection)
             : base(dbConnection, true)
         {
             Configuration.LazyLoadingEnabled = false;
