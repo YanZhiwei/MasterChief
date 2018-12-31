@@ -66,6 +66,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MasterChief.DotNet.Infrastr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MasterChief.DotNet.Infrastructure.Serializer", "MasterChief.DotNet.Infrastructure.Serializer\MasterChief.DotNet.Infrastructure.Serializer.csproj", "{6204473D-CF32-4C33-B325-131123120B48}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MasterChief.DotNet.Infrastructure.ProtobufSerializer", "MasterChief.DotNet.Infrastructure.ProtobufSerializer\MasterChief.DotNet.Infrastructure.ProtobufSerializer.csproj", "{8D1187A0-CCA6-407A-B5DC-1CC47F1AEA42}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -140,6 +142,10 @@ Global
 		{6204473D-CF32-4C33-B325-131123120B48}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6204473D-CF32-4C33-B325-131123120B48}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6204473D-CF32-4C33-B325-131123120B48}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D1187A0-CCA6-407A-B5DC-1CC47F1AEA42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D1187A0-CCA6-407A-B5DC-1CC47F1AEA42}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D1187A0-CCA6-407A-B5DC-1CC47F1AEA42}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D1187A0-CCA6-407A-B5DC-1CC47F1AEA42}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -166,6 +172,7 @@ Global
 		{483B0077-53F1-4F79-A802-596998F19B2B} = {69D2A647-2AD9-472A-A3C5-BBAEC06B93EB}
 		{046056E7-4C73-41A0-B513-DFDC6C5048E7} = {51CE4B8E-8E09-4CC9-A86A-FD79F752CF3A}
 		{6204473D-CF32-4C33-B325-131123120B48} = {51CE4B8E-8E09-4CC9-A86A-FD79F752CF3A}
+		{8D1187A0-CCA6-407A-B5DC-1CC47F1AEA42} = {51CE4B8E-8E09-4CC9-A86A-FD79F752CF3A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {90963A27-01A3-467E-9098-A6E345A4F839}
