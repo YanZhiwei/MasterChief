@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Linq.Expressions;
+using Dapper.Contrib.Extensions;
 using MasterChief.DotNet.Core.Contract;
 using MasterChief.DotNet4.Utilities.Common;
 
@@ -25,29 +26,78 @@ namespace MasterChief.DotNet.Core.Dapper
         {
             using (IDbConnection connection = _dapperDbContext.CreateConnection())
             {
-
+                return connection.Insert(entity) > 0;
             }
-            return true;
+
         }
 
         public bool Create(IEnumerable<T> entities)
         {
-            throw new NotImplementedException();
+            bool result = false;
+            using (IDbConnection connection = _dapperDbContext.CreateConnection())
+            {
+                using (var transaction = connection.BeginTransaction())
+                {
+                    try
+                    {
+                        foreach (var item in entities)
+                        {
+                            connection.Insert(item, transaction);
+                        }
+                        transaction.Commit();
+                    }
+                    catch (Exception)
+                    {
+                        transaction.Rollback();
+                    }
+                }
+            }
+            return result;
         }
 
         public bool Delete(T entity)
         {
-            throw new NotImplementedException();
+            using (IDbConnection connection = _dapperDbContext.CreateConnection())
+            {
+
+                return connection.Delete(entity);
+            }
         }
 
         public bool Delete(IEnumerable<T> entities)
         {
-            throw new NotImplementedException();
+            bool result = false;
+            using (IDbConnection connection = _dapperDbContext.CreateConnection())
+            {
+
+                using (var transaction = connection.BeginTransaction())
+                {
+                    try
+                    {
+                        foreach (var item in entities)
+                        {
+                            connection.Delete(item, transaction);
+                        }
+                        transaction.Commit();
+                        result = true;
+                    }
+                    catch (Exception)
+                    {
+                        result = false;
+                        transaction.Rollback();
+                    }
+
+                }
+
+            }
+            return result;
+
         }
 
         public bool Exist(Expression<Func<T, bool>> predicate = null)
         {
             throw new NotImplementedException();
+
         }
 
         public T Get(object id)
