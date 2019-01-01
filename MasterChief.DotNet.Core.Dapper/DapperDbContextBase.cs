@@ -1,7 +1,7 @@
+using MasterChief.DotNet.Core.Contract;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using MasterChief.DotNet.Core.Contract;
 
 namespace MasterChief.DotNet.Core.Dapper
 {
