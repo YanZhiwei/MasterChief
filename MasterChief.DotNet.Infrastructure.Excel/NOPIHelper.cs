@@ -1,7 +1,7 @@
-using System.IO;
 using MasterChief.DotNet4.Utilities;
 using MasterChief.DotNet4.Utilities.Operator;
 using NPOI.SS.UserModel;
+using System.IO;
 
 namespace MasterChief.DotNet.Infrastructure.Excel
 {
@@ -84,7 +84,10 @@ namespace MasterChief.DotNet.Infrastructure.Excel
         /// <param name="value"></param>
         public static void SetCellValueOnlyThanZero(this ICell cell, int value)
         {
-            if (cell == null) return;
+            if (cell == null)
+            {
+                return;
+            }
 
             if (value > 0)
             {
@@ -99,7 +102,10 @@ namespace MasterChief.DotNet.Infrastructure.Excel
         /// <param name="value"></param>
         public static void SetCellValueOnlyThanZero(this ICell cell, double value)
         {
-            if (cell == null) return;
+            if (cell == null)
+            {
+                return;
+            }
 
             if (value > 0)
             {
@@ -135,7 +141,9 @@ namespace MasterChief.DotNet.Infrastructure.Excel
                     ICell cell = row.GetCell(u);
 
                     if (cell != null)
+                    {
                         cell.CellStyle = cellStyle;
+                    }
                 }
             }
         }

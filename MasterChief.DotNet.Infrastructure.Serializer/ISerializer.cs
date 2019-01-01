@@ -1,4 +1,3 @@
-using System;
 namespace MasterChief.DotNet.Infrastructure.Serializer
 {
     /// <summary>

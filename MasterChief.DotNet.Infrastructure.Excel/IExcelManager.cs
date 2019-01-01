@@ -1,4 +1,3 @@
-using System;
 using System.Data;
 
 namespace MasterChief.DotNet.Infrastructure.Excel

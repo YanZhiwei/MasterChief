@@ -12,7 +12,6 @@
     public interface IRepository<T>
         where T : ModelBase
     {
-
         #region Methods
 
         /// <summary>

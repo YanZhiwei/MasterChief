@@ -14,6 +14,7 @@
         /// Redis配置文件信息
         /// </summary>
         private readonly RedisConfig _redisConfig = null;
+
         private PooledRedisClientManager _prcm;
 
         #endregion Fields

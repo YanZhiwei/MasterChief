@@ -150,7 +150,6 @@ namespace MasterChief.DotNet.Core.KafkaLog
             {
                 if (string.IsNullOrEmpty(Brokers))
                 {
-
                     Brokers = "http://localhost:9200";
                 }
 
