@@ -1,14 +1,14 @@
+using MasterChief.DotNet.Infrastructure.Serializer;
 using System;
 using System.IO;
-using MasterChief.DotNet.Infrastructure.Serializer;
+
 namespace MasterChief.DotNet.Infrastructure.ProtobufSerializer
 {
     public class ProtobufSerializer : ISerializer
     {
-
         public T Deserialize<T>(string data)
         {
-            var buffer = Convert.FromBase64String(data);
+            byte[] buffer = Convert.FromBase64String(data);
             using (MemoryStream stream = new MemoryStream(buffer))
             {
                 return ProtoBuf.Serializer.Deserialize<T>(stream);

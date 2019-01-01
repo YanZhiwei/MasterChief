@@ -1,18 +1,20 @@
-using System.Data;
-using System.IO;
-using MasterChief.DotNet4.Utilities.Operator;
-using NPOI.HSSF.UserModel;
-using NPOI.SS.UserModel;
-using NPOI.SS.Util;
-using NPOI.XSSF.UserModel;
-
-namespace MasterChief.DotNet.Infrastructure.Excel
+﻿namespace MasterChief.DotNet.Infrastructure.Excel
 {
+    using MasterChief.DotNet4.Utilities.Operator;
+    using NPOI.HSSF.UserModel;
+    using NPOI.SS.UserModel;
+    using NPOI.SS.Util;
+    using NPOI.XSSF.UserModel;
+    using System.Data;
+    using System.IO;
+
     /// <summary>
     /// NPOIM anager.
     /// </summary>
     public class NPOIManager : IExcelManger
     {
+        #region Methods
+
         /// <summary>
         /// Tos the data table.
         /// </summary>
@@ -34,13 +36,19 @@ namespace MasterChief.DotNet.Infrastructure.Excel
                 IRow row = sheet.GetRow(i);
                 bool emptyRow = true;
 
-                if (row == null) continue;
+                if (row == null)
+                {
+                    continue;
+                }
 
                 object[] itemArray = new object[row.LastCellNum];
 
                 for (int j = row.FirstCellNum; j < row.LastCellNum; j++)
                 {
-                    if (row.GetCell(j) == null) continue;
+                    if (row.GetCell(j) == null)
+                    {
+                        continue;
+                    }
 
                     switch (row.GetCell(j).CellType)
                     {
@@ -177,5 +185,7 @@ namespace MasterChief.DotNet.Infrastructure.Excel
                 }
             }
         }
+
+        #endregion Methods
     }
 }

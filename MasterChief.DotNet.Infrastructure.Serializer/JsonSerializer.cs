@@ -1,16 +1,15 @@
+using Newtonsoft.Json;
 using System;
 using System.Data;
 using System.IO;
-using Newtonsoft.Json;
 
 namespace MasterChief.DotNet.Infrastructure.Serializer
 {
     /// <summary>
-    /// Json 序列化与反序列化  
+    /// Json 序列化与反序列化
     /// </summary>
     public class JsonSerializer : ISerializer
     {
-
         public T Deserialize<T>(string data)
         {
             T deserializedType = default(T);
