@@ -48,18 +48,14 @@
         /// </summary>
         /// <returns>集合</returns>
         /// <param name="predicate">筛选条件.</param>
-        /// <param name="orderBy">排序条件</param>
-        /// <param name="includes">关联扩展条件.</param>
-        List<T> Get(Expression<Func<T, bool>> predicate = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
-            params Expression<Func<T, object>>[] includes);
+        List<T> Get(Expression<Func<T, bool>> predicate = null);
 
         /// <summary>
         /// 条件获取记录第一条或者默认
         /// </summary>
         /// <returns>记录</returns>
         /// <param name="predicate">筛选条件.</param>
-        /// <param name="includes">关联扩展条件.</param>
-        T GetFirstOrDefault(Expression<Func<T, bool>> predicate = null, params Expression<Func<T, object>>[] includes);
+        T GetFirstOrDefault(Expression<Func<T, bool>> predicate = null);
 
         /// <summary>
         /// 创建一条记录
@@ -80,8 +76,7 @@
         /// </summary>
         /// <returns>IQueryable</returns>
         /// <param name="predicate">筛选条件.</param>
-        /// <param name="orderBy">排序条件</param>
-        IQueryable<T> Query(Expression<Func<T, bool>> predicate = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null);
+        IQueryable<T> Query(Expression<Func<T, bool>> predicate = null);
 
         /// <summary>
         /// 根据记录

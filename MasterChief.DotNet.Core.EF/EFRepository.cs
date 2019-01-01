@@ -100,23 +100,21 @@
         /// <returns>集合</returns>
         /// <param name="predicate">筛选条件.</param>
         /// <param name="orderBy">排序条件</param>
-        /// <param name="includes">关联扩展条件.</param>
-        public List<T> Get(Expression<Func<T, bool>> predicate = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
-            params Expression<Func<T, object>>[] includes)
+        public List<T> Get(Expression<Func<T, bool>> predicate = null)
         {
             IQueryable<T> query = _dbContext.Set<T>();
-            foreach (Expression<Func<T, object>> include in includes)
-            {
-                query = query.Include(include);
-            }
+            //foreach (Expression<Func<T, object>> include in includes)
+            //{
+            //    query = query.Include(include);
+            //}
             if (predicate != null)
             {
                 query = query.Where(predicate);
             }
-            if (orderBy != null)
-            {
-                query = orderBy(query);
-            }
+            //if (orderBy != null)
+            //{
+            //    query = orderBy(query);
+            //}
             return query.ToList();
         }
 
@@ -140,15 +138,14 @@
         /// </summary>
         /// <returns>记录</returns>
         /// <param name="predicate">筛选条件.</param>
-        /// <param name="includes">关联扩展条件.</param>
-        public T GetFirstOrDefault(Expression<Func<T, bool>> predicate = null, params Expression<Func<T, object>>[] includes)
+        public T GetFirstOrDefault(Expression<Func<T, bool>> predicate = null)
         {
             IQueryable<T> query = _dbContext.Set<T>();
 
-            foreach (Expression<Func<T, object>> include in includes)
-            {
-                query = query.Include(include);
-            }
+            //foreach (Expression<Func<T, object>> include in includes)
+            //{
+            //    query = query.Include(include);
+            //}
 
             return query.FirstOrDefault(predicate);
         }
@@ -203,8 +200,7 @@
         /// </summary>
         /// <returns>IQueryable</returns>
         /// <param name="predicate">筛选条件.</param>
-        /// <param name="orderBy">排序条件</param>
-        public IQueryable<T> Query(Expression<Func<T, bool>> predicate = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null)
+        public IQueryable<T> Query(Expression<Func<T, bool>> predicate = null)
         {
             IQueryable<T> query = _dbContext.Set<T>();
 
@@ -213,10 +209,10 @@
                 query = query.Where(predicate);
             }
 
-            if (orderBy != null)
-            {
-                query = orderBy(query);
-            }
+            //if (orderBy != null)
+            //{
+            //    query = orderBy(query);
+            //}
 
             return query;
         }

@@ -7,7 +7,6 @@ namespace MasterChief.DotNet.Core.Dapper
 {
     public abstract class DapperDbContextBase : IDbContext
     {
-
         protected readonly string _connectString = null;
         protected DapperDbContextBase(string connectString)
         {

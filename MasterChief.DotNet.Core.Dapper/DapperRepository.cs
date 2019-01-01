@@ -5,8 +5,9 @@ using System.Linq;
 using System.Linq.Expressions;
 using Dapper.Contrib.Extensions;
 using MasterChief.DotNet.Core.Contract;
+using MasterChief.DotNet.Core.Dapper.Helper;
 using MasterChief.DotNet4.Utilities.Common;
-
+using global::Dapper;
 namespace MasterChief.DotNet.Core.Dapper
 {
     public class DapperRepository<T> : IRepository<T>
@@ -17,8 +18,8 @@ namespace MasterChief.DotNet.Core.Dapper
         public DapperRepository(IDbContext dbContext)
         {
             _dapperDbContext = (DapperDbContextBase)dbContext;
-            DapperTableNameAttribute tableCfgInfo = AttributeHelper.Get<T, DapperTableNameAttribute>();
-            _tableName = tableCfgInfo != null ? tableCfgInfo.TableName.Trim() : typeof(T).Name;
+            TableAttribute tableCfgInfo = AttributeHelper.Get<T, TableAttribute>();
+            _tableName = tableCfgInfo != null ? tableCfgInfo.Name.Trim() : typeof(T).Name;
 
         }
 
@@ -69,7 +70,6 @@ namespace MasterChief.DotNet.Core.Dapper
             bool result = false;
             using (IDbConnection connection = _dapperDbContext.CreateConnection())
             {
-
                 using (var transaction = connection.BeginTransaction())
                 {
                     try
@@ -96,33 +96,52 @@ namespace MasterChief.DotNet.Core.Dapper
 
         public bool Exist(Expression<Func<T, bool>> predicate = null)
         {
-            throw new NotImplementedException();
-
+            QueryResult queryResult = DynamicQuery.GetDynamicQuery(_tableName, predicate);
+            using (IDbConnection connection = _dapperDbContext.CreateConnection())
+            {
+                var result = connection.ExecuteScalar(queryResult.Sql, (object)queryResult.Param);
+                return result.ToInt32OrDefault(0) > 0;
+            }
         }
 
         public T Get(object id)
         {
-            throw new NotImplementedException();
+            using (IDbConnection connection = _dapperDbContext.CreateConnection())
+            {
+                return connection.Get<T>(id);
+            }
         }
 
-        public List<T> Get(Expression<Func<T, bool>> predicate = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, params Expression<Func<T, object>>[] includes)
+        public List<T> Get(Expression<Func<T, bool>> predicate = null)
         {
-            throw new NotImplementedException();
+
+            QueryResult queryResult = DynamicQuery.GetDynamicQuery(_tableName, predicate);
+            using (IDbConnection connection = _dapperDbContext.CreateConnection())
+            {
+                return connection.Query<T>(queryResult.Sql, (T)queryResult.Param).ToList();
+            }
         }
 
-        public T GetFirstOrDefault(Expression<Func<T, bool>> predicate = null, params Expression<Func<T, object>>[] includes)
+        public T GetFirstOrDefault(Expression<Func<T, bool>> predicate = null)
         {
-            throw new NotImplementedException();
+            QueryResult queryResult = DynamicQuery.GetDynamicQuery(_tableName, predicate);
+            using (IDbConnection connection = _dapperDbContext.CreateConnection())
+            {
+                return connection.QuerySingle<T>(queryResult.Sql, (T)queryResult.Param);
+            }
         }
 
-        public IQueryable<T> Query(Expression<Func<T, bool>> predicate = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null)
+        public IQueryable<T> Query(Expression<Func<T, bool>> predicate = null)
         {
             throw new NotImplementedException();
         }
 
         public bool Update(T entity)
         {
-            throw new NotImplementedException();
+            using (IDbConnection connection = _dapperDbContext.CreateConnection())
+            {
+                return connection.Update(entity);
+            }
         }
     }
 }
