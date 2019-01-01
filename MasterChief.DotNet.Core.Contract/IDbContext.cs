@@ -9,8 +9,6 @@ namespace MasterChief.DotNet.Core.Contract
     {
         #region Methods
 
-        int ExecuteSqlCommand(string sql, bool doNotEnsureTransaction = false, int? timeout = null, params object[] parameters);
-
         IList<T> ExecuteStoredProcedureList<T>(string commandText, params object[] parameters)
             where T : ModelBase;
 

@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 using System.Linq;
 
 namespace MasterChief.DotNet.Core.EF
@@ -32,27 +31,6 @@ namespace MasterChief.DotNet.Core.EF
         #endregion Constructors
 
         #region Methods
-
-        public int ExecuteSqlCommand(string sql, bool doNotEnsureTransaction = false, int? timeout = null, params object[] parameters)
-        {
-            int? previousTimeout = null;
-            if (timeout.HasValue)
-            {
-                previousTimeout = ((IObjectContextAdapter)this).ObjectContext.CommandTimeout;
-                ((IObjectContextAdapter)this).ObjectContext.CommandTimeout = timeout;
-            }
-
-            TransactionalBehavior transactionalBehavior = doNotEnsureTransaction
-                ? TransactionalBehavior.DoNotEnsureTransaction
-                : TransactionalBehavior.EnsureTransaction;
-            int result = parameters != null ? Database.ExecuteSqlCommand(transactionalBehavior, sql, parameters) : Database.ExecuteSqlCommand(transactionalBehavior, sql);
-            if (timeout.HasValue)
-            {
-                ((IObjectContextAdapter)this).ObjectContext.CommandTimeout = previousTimeout;
-            }
-
-            return result;
-        }
 
         public IList<T> ExecuteStoredProcedureList<T>(string commandText, params object[] parameters)
             where T : ModelBase

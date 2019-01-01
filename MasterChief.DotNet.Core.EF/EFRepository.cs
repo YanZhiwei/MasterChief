@@ -1,5 +1,7 @@
 ﻿namespace MasterChief.DotNet.Core.EF
 {
+    using MasterChief.DotNet.Core.Contract;
+    using MasterChief.DotNet.Core.EF.Helper;
     using System;
     using System.Collections.Generic;
     using System.Data.Entity;
@@ -9,8 +11,6 @@
     using System.Data.Entity.Validation;
     using System.Linq;
     using System.Linq.Expressions;
-    using MasterChief.DotNet.Core.Contract;
-    using MasterChief.DotNet.Core.EF.Helper;
 
     /// <summary>
     /// EF 仓储实现
@@ -99,7 +99,6 @@
         /// </summary>
         /// <returns>集合</returns>
         /// <param name="predicate">筛选条件.</param>
-        /// <param name="orderBy">排序条件</param>
         public List<T> Get(Expression<Func<T, bool>> predicate = null)
         {
             IQueryable<T> query = _dbContext.Set<T>();
