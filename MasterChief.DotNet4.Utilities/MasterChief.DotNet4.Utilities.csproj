@@ -124,6 +124,7 @@
     <Compile Include="Enum\OrderType.cs" />
     <Compile Include="FileExt.cs" />
     <Compile Include="DbManager\IDbManager.cs" />
+    <Compile Include="MimeTypes.cs" />
     <Compile Include="Model\CsvRow.cs" />
     <Compile Include="Model\FileDetail.cs" />
     <Compile Include="Model\GeoPoint.cs" />
@@ -138,6 +139,10 @@
     <Compile Include="Manager\XMLManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegexPattern.cs" />
+    <Compile Include="Result\BasicResult.cs" />
+    <Compile Include="Result\CheckResult.cs" />
+    <Compile Include="Result\FileDownloadResult.cs" />
+    <Compile Include="Result\OperatedResult.cs" />
     <Compile Include="ValidateResource.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -148,6 +153,7 @@
     <Compile Include="WebForm\Core\CookieManger.cs" />
     <Compile Include="WebForm\Core\PagerHtmlScript.cs" />
     <Compile Include="WebForm\Core\SessionManager.cs" />
+    <Compile Include="WebForm\Core\WebDownloadFile.cs" />
     <Compile Include="WebForm\DropDownListHelper.cs" />
     <Compile Include="WebForm\HtmlInputFileHelper.cs" />
     <Compile Include="WebForm\StaticFileHelper.cs" />

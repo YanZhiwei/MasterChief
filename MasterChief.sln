@@ -68,6 +68,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MasterChief.DotNet.Infrastr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MasterChief.DotNet.Core.Dapper", "MasterChief.DotNet.Core.Dapper\MasterChief.DotNet.Core.Dapper.csproj", "{D6901CA8-C4F1-4DFC-AC9F-3083276B8267}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MasterChief.DotNet.Framework.Download", "MasterChief.DotNet.Framework.Download\MasterChief.DotNet.Framework.Download.csproj", "{9FC48B5D-6277-478A-8BC7-EB87CA2F68D2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -146,6 +148,10 @@ Global
 		{D6901CA8-C4F1-4DFC-AC9F-3083276B8267}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D6901CA8-C4F1-4DFC-AC9F-3083276B8267}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D6901CA8-C4F1-4DFC-AC9F-3083276B8267}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9FC48B5D-6277-478A-8BC7-EB87CA2F68D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9FC48B5D-6277-478A-8BC7-EB87CA2F68D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9FC48B5D-6277-478A-8BC7-EB87CA2F68D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9FC48B5D-6277-478A-8BC7-EB87CA2F68D2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -173,6 +179,7 @@ Global
 		{6204473D-CF32-4C33-B325-131123120B48} = {51CE4B8E-8E09-4CC9-A86A-FD79F752CF3A}
 		{8D1187A0-CCA6-407A-B5DC-1CC47F1AEA42} = {51CE4B8E-8E09-4CC9-A86A-FD79F752CF3A}
 		{D6901CA8-C4F1-4DFC-AC9F-3083276B8267} = {69D2A647-2AD9-472A-A3C5-BBAEC06B93EB}
+		{9FC48B5D-6277-478A-8BC7-EB87CA2F68D2} = {D94A22C7-4FB7-41AE-AE07-26A223B412EB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {90963A27-01A3-467E-9098-A6E345A4F839}
