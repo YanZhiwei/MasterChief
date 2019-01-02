@@ -44,7 +44,7 @@
     <Compile Include="CachedConfigContext.cs" />
     <Compile Include="DownloadConfig.cs" />
     <Compile Include="DownloadConfigContext.cs" />
-    <Compile Include="DownloadFileHelper.cs" />
+    <Compile Include="DownloadFileContext.cs" />
     <Compile Include="DownloadHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

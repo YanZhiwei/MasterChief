@@ -48,7 +48,7 @@ namespace MasterChief.DotNet.Framework.Download
         public void ProcessRequest(HttpContext context)
         {
             string downloadEncryptFileName = context.Request["fileName"];
-            string downloadFileName = DownloadFileHelper.Instance.DecryptFileName(downloadEncryptFileName);
+            string downloadFileName = DownloadFileContext.Instance.DecryptFileName(downloadEncryptFileName);
             string filePath = DownloadConfigContext.DownLoadMainDirectory + downloadFileName;//HttpContext.Current.Server.MapPath("~/") + "files/" + _downloadFileName;
             FileDownloadResult result = WebDownloadFile.FileDownload(downloadFileName, filePath, DownloadConfigContext.LimitDownloadSpeedKb * 1024);
 

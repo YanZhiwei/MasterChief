@@ -1,8 +1,8 @@
 ﻿namespace MasterChief.DotNet.Framework.Download
 {
     using MasterChief.DotNet.Core.Config;
-    using MasterChief.DotNet4.Utilities.DesignPattern;
     using MasterChief.DotNet4.Utilities.WebForm.Core;
+    using System;
     using System.Web.Caching;
 
     /// <summary>
@@ -12,10 +12,10 @@
     {
         #region Fields
 
-        /// <summary>
-        /// 单例对象
-        /// </summary>
-        public static CachedConfigContext Instance => Singleton<CachedConfigContext>.CreateInstance();
+        private static readonly Lazy<CachedConfigContext> _instance
+          = new Lazy<CachedConfigContext>(() => new CachedConfigContext());
+
+        public static CachedConfigContext Instance => _instance.Value;
 
         /// <summary>
         /// 文件下载配置项

@@ -30,7 +30,7 @@
         {
             CheckResult checkedDownFile = CheckedFileDownload(fileName, filePhysicsPath);
 
-            if (checkedDownFile.State)
+            if (!checkedDownFile.State)
             {
                 return FileDownloadResult.Fail(fileName, filePhysicsPath, checkedDownFile.Message);
             }
@@ -46,7 +46,8 @@
                         long fileLength = fileStream.Length,
                              startIndex = 0;
                         int pack = 10240; //10K bytes
-                        int sleep = (int)Math.Floor((double)((ulong)(1000 * pack) / limitSpeed)) + 1; // int sleep = 200;   //每秒5次   即5*10K bytes每秒
+                        // int sleep = 200;   //每秒5次   即5*10K bytes每秒
+                        int sleep = (int)Math.Floor((double)((ulong)(1000 * pack) / limitSpeed)) + 1;
 
                         if (HttpContext.Current.Request.Headers["Range"] != null)
                         {

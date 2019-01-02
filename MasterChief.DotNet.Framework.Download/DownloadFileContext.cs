@@ -1,27 +1,36 @@
-﻿using MasterChief.DotNet4.Utilities.DesignPattern;
-using MasterChief.DotNet4.Utilities.Encryptor;
-using System.Security.Cryptography;
-using System.Web;
-
-namespace MasterChief.DotNet.Framework.Download
+﻿namespace MasterChief.DotNet.Framework.Download
 {
+    using MasterChief.DotNet4.Utilities.Encryptor;
+    using System;
+    using System.Security.Cryptography;
+    using System.Web;
+
     /// <summary>
     /// 下载文件加密解密辅助类
     /// </summary>
-    public class DownloadFileHelper
+    public class DownloadFileContext
     {
+        #region Fields
+
+        public static DownloadFileContext Instance => _instance.Value;
+
+        private static readonly Lazy<DownloadFileContext> _instance = new Lazy<DownloadFileContext>(() => new DownloadFileContext());
+
         private static AESEncryptor _fileEncryptor = null;
 
-        /// <summary>
-        /// 获取对象实例
-        /// </summary>
-        public static DownloadFileHelper Instance => Singleton<DownloadFileHelper>.Instance;
+        #endregion Fields
 
-        static DownloadFileHelper()
+        #region Constructors
+
+        public DownloadFileContext()
         {
             Aes aes = AESEncryptor.CreateAES(DownloadConfigContext.FileNameEncryptorKey);
             _fileEncryptor = new AESEncryptor(aes.Key, DownloadConfigContext.FileNameEncryptorIv);
         }
+
+        #endregion Constructors
+
+        #region Methods
 
         /// <summary>
         /// 加密下载文件
@@ -42,5 +51,7 @@ namespace MasterChief.DotNet.Framework.Download
         {
             return _fileEncryptor.Decrypt(encryptFileName);
         }
+
+        #endregion Methods
     }
 }
