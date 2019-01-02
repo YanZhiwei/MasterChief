@@ -9,6 +9,10 @@ namespace MasterChief.DotNet.Framework.Download
     /// </summary>
     public abstract class DownloadHandler : IHttpHandler
     {
+        public DownloadHandler()
+        {
+        }
+
         #region Properties
 
         /// <summary>

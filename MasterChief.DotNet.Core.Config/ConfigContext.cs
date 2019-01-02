@@ -31,5 +31,10 @@ namespace MasterChief.DotNet.Core.Config
 
             return string.IsNullOrEmpty(context) ? null : SerializeHelper.XmlDeserialize<T>(context.Trim());
         }
+
+        public virtual string GetClusteredIndex<T>(string index = null) where T : class, new()
+        {
+            return ConfigService.GetClusteredIndex<T>(index);
+        }
     }
 }

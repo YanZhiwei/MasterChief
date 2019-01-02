@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CachedConfigContext.cs" />
     <Compile Include="DownloadConfig.cs" />
     <Compile Include="DownloadConfigContext.cs" />
     <Compile Include="DownloadFileHelper.cs" />
@@ -48,6 +49,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\MasterChief.DotNet.Core.Config\MasterChief.DotNet.Core.Config.csproj">
+      <Project>{E4770169-FB7F-49C1-BA70-58F24DA83D44}</Project>
+      <Name>MasterChief.DotNet.Core.Config</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MasterChief.DotNet4.Utilities\MasterChief.DotNet4.Utilities.csproj">
       <Project>{D1DC63AA-DB3A-4C47-9E20-F7474420BA48}</Project>
       <Name>MasterChief.DotNet4.Utilities</Name>
