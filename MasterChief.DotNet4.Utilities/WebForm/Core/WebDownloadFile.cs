@@ -1,6 +1,5 @@
 ﻿namespace MasterChief.DotNet4.Utilities.WebForm.Core
 {
-    using MasterChief.DotNet4.Utilities.Common;
     using MasterChief.DotNet4.Utilities.Operator;
     using MasterChief.DotNet4.Utilities.Result;
     using System;
@@ -139,7 +138,7 @@
                 return CheckResult.Fail("下载文件名称不能为空。");
             }
 
-            if (!CheckHelper.IsFilePath(filePhysicsPath) || !File.Exists(filePhysicsPath))
+            if (!File.Exists(filePhysicsPath))
             {
                 return CheckResult.Fail("下载文件路径不合法或者文件不实际存在。");
             }

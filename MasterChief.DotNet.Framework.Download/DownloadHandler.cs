@@ -9,10 +9,6 @@ namespace MasterChief.DotNet.Framework.Download
     /// </summary>
     public abstract class DownloadHandler : IHttpHandler
     {
-        public DownloadHandler()
-        {
-        }
-
         #region Properties
 
         /// <summary>
@@ -48,17 +44,20 @@ namespace MasterChief.DotNet.Framework.Download
         public void ProcessRequest(HttpContext context)
         {
             string downloadEncryptFileName = context.Request["fileName"];
-            string downloadFileName = DownloadFileContext.Instance.DecryptFileName(downloadEncryptFileName);
-            string filePath = DownloadConfigContext.DownLoadMainDirectory + downloadFileName;//HttpContext.Current.Server.MapPath("~/") + "files/" + _downloadFileName;
-            FileDownloadResult result = WebDownloadFile.FileDownload(downloadFileName, filePath, DownloadConfigContext.LimitDownloadSpeedKb * 1024);
-
-            if (result.State)
+            if (!string.IsNullOrEmpty(downloadEncryptFileName))
             {
-                OnDownloaded(context, downloadFileName, filePath);
-            }
+                string downloadFileName = DownloadFileContext.Instance.DecryptFileName(downloadEncryptFileName);
+                string filePath = DownloadConfigContext.DownLoadMainDirectory + downloadFileName;//HttpContext.Current.Server.MapPath("~/") + "files/" + _downloadFileName;
+                FileDownloadResult result = WebDownloadFile.FileDownload(downloadFileName, filePath, DownloadConfigContext.LimitDownloadSpeedKb * 1024);
 
-            context.Response.Write(GetResult(downloadFileName, filePath, result.Message));
-            context.Response.End();
+                if (result.State)
+                {
+                    OnDownloaded(context, downloadFileName, filePath);
+                }
+
+                context.Response.Write(GetResult(downloadFileName, filePath, result.Message));
+                context.Response.End();
+            }
         }
 
         #endregion Methods

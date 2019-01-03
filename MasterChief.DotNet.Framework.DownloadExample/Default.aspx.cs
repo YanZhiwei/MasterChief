@@ -7,7 +7,7 @@ namespace MasterChief.DotNet.Framework.DownloadExample
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            string url = DownloadFileContext.Instance.EncryptFileName("VIDEO0015.mp4");
+            string url = DownloadFileContext.Instance.EncryptFileName("typora-setup-x64.exe");
             link.NavigateUrl = "~/download.aspx?fileName=" + url;
         }
     }

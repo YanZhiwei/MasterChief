@@ -39,7 +39,7 @@
         /// <returns>加密后的文件</returns>
         public string EncryptFileName(string fileName)
         {
-            return _fileEncryptor.Encrypt(HttpUtility.UrlEncode(fileName));
+            return HttpUtility.UrlEncode(_fileEncryptor.Encrypt(fileName));
         }
 
         /// <summary>
