@@ -1,6 +1,5 @@
 ﻿namespace MasterChief.DotNet.Ftp.Utilities
 {
-    using MasterChief.DotNet4.Utilities.Manager;
     using MasterChief.DotNet4.Utilities.Operator;
     using System;
     using System.Collections.Generic;
