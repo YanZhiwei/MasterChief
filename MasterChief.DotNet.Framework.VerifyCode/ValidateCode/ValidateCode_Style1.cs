@@ -1,5 +1,6 @@
 ﻿namespace MasterChief.DotNet.Framework.VerifyCode
 {
+    using MasterChief.DotNet4.Utilities.Common;
     using System;
     using System.Drawing;
     using System.Drawing.Imaging;
@@ -119,80 +120,71 @@
         /// <returns>数组</returns>
         public override byte[] CreateImage(out string validataCode)
         {
-            string formatString = "a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z";
-            GetRandom(formatString, ValidataCodeLength, out validataCode);
+            string formatString = "abcdefghijklmnopqrstuvwxyz";
+            validataCode = RandomHelper.NextString(formatString, ValidataCodeLength, false);
             using (MemoryStream stream = new MemoryStream())
             {
-                ImageBmp(out Bitmap bitmap, validataCode);
-                bitmap.Save(stream, ImageFormat.Png);
-                bitmap.Dispose();
-                bitmap = null;
-                return stream.GetBuffer();
-            }
-        }
-
-        private static void GetRandom(string formatString, int len, out string codeString)
-        {
-            codeString = string.Empty;
-            string[] strArray = formatString.Split(new char[] { ',' });
-            Random random = new Random();
-            for (int i = 0; i < len; i++)
-            {
-                int index = random.Next(0x186a0) % strArray.Length;
-                codeString = codeString + strArray[index].ToString();
-            }
-        }
-
-        private void CreateImageBmp(ref Bitmap bitMap, string validateCode)
-        {
-            Graphics graphics = Graphics.FromImage(bitMap);
-            if (_fontTextRenderingHint)
-            {
-                graphics.TextRenderingHint = TextRenderingHint.SingleBitPerPixel;
-            }
-            else
-            {
-                graphics.TextRenderingHint = TextRenderingHint.AntiAlias;
-            }
-            Font font = new Font(_validateCodeFont, _validataCodeSize, FontStyle.Regular);
-            Brush brush = new SolidBrush(_drawColor);
-            int maxValue = Math.Max((ImageHeight - _validataCodeSize) - 5, 0);
-            Random random = new Random();
-            for (int i = 0; i < _validataCodeLength; i++)
-            {
-                int[] numArray = { ((i * _validataCodeSize) + random.Next(1)) + 3, random.Next(maxValue) - 4 };
-                Point point = new Point(numArray[0], numArray[1]);
-                graphics.DrawString(validateCode[i].ToString(), font, brush, point);
-            }
-            graphics.Dispose();
-        }
-
-        private void DisposeImageBmp(ref Bitmap bitmap)
-        {
-            Graphics graphics = Graphics.FromImage(bitmap);
-            graphics.Clear(Color.White);
-            Pen pen = new Pen(DrawColor, 1f);
-            Point[] pointArray = new Point[2];
-            Random random = new Random();
-            if (Chaos)
-            {
-                pen = new Pen(ChaosColor, 1f);
-                for (int i = 0; i < (_validataCodeLength * 2); i++)
+                using (Bitmap bitmap = CreateValidataImage(validataCode))
                 {
-                    pointArray[0] = new Point(random.Next(bitmap.Width), random.Next(bitmap.Height));
-                    pointArray[1] = new Point(random.Next(bitmap.Width), random.Next(bitmap.Height));
-                    graphics.DrawLine(pen, pointArray[0], pointArray[1]);
+                    bitmap.Save(stream, ImageFormat.Png);
+                    return stream.GetBuffer();
                 }
             }
-            graphics.Dispose();
         }
 
-        private void ImageBmp(out Bitmap bitMap, string validataCode)
+        private Bitmap CreateValidataImage(string validataCode)
         {
             int width = (int)(((_validataCodeLength * _validataCodeSize) * 1.3) + 4.0);
-            bitMap = new Bitmap(width, ImageHeight);
-            DisposeImageBmp(ref bitMap);
-            CreateImageBmp(ref bitMap, validataCode);
+            Bitmap bitMap = new Bitmap(width, ImageHeight);
+            DrawChaosLine(ref bitMap);
+            DrawValidataCode(ref bitMap, validataCode);
+            return bitMap;
+        }
+
+        private void DrawChaosLine(ref Bitmap bitmap)
+        {
+            using (Graphics graphics = Graphics.FromImage(bitmap))
+            {
+                graphics.Clear(Color.White);
+                Pen pen = new Pen(DrawColor, 1f);
+                Point[] pointArray = new Point[2];
+                Random random = new Random();
+                if (Chaos)
+                {
+                    pen = new Pen(ChaosColor, 1f);
+                    for (int i = 0; i < (_validataCodeLength * 2); i++)
+                    {
+                        pointArray[0] = new Point(random.Next(bitmap.Width), random.Next(bitmap.Height));
+                        pointArray[1] = new Point(random.Next(bitmap.Width), random.Next(bitmap.Height));
+                        graphics.DrawLine(pen, pointArray[0], pointArray[1]);
+                    }
+                }
+            }
+        }
+
+        private void DrawValidataCode(ref Bitmap bitMap, string validateCode)
+        {
+            using (Graphics graphics = Graphics.FromImage(bitMap))
+            {
+                if (_fontTextRenderingHint)
+                {
+                    graphics.TextRenderingHint = TextRenderingHint.SingleBitPerPixel;
+                }
+                else
+                {
+                    graphics.TextRenderingHint = TextRenderingHint.AntiAlias;
+                }
+                Font font = new Font(_validateCodeFont, _validataCodeSize, FontStyle.Regular);
+                Brush brush = new SolidBrush(_drawColor);
+                int maxValue = Math.Max((ImageHeight - _validataCodeSize) - 5, 0);
+                Random random = new Random();
+                for (int i = 0; i < _validataCodeLength; i++)
+                {
+                    int[] numArray = { ((i * _validataCodeSize) + random.Next(1)) + 3, random.Next(maxValue) - 4 };
+                    Point point = new Point(numArray[0], numArray[1]);
+                    graphics.DrawString(validateCode[i].ToString(), font, brush, point);
+                }
+            }
         }
 
         #endregion Methods

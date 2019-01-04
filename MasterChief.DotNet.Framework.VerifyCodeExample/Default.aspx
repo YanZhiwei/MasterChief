@@ -12,7 +12,7 @@
         <div>
             <img alt="看不清，换一张" src="CreateVerifyCode.aspx?style=type1" onclick="this.src='CreateVerifyCode.aspx?style=type1&ver='+Math.random()" /><br />
 
-            <img alt="看不清，换一张" src="CreateVerifyCode.aspx" onclick="this.src='CreateVerifyCode.aspx?ver='+Math.random()" /><br />
+            <img alt="看不清，换一张" src="CreateVerifyCode.aspx?style=type10" onclick="this.src='CreateVerifyCode.aspx?style=type10?ver='+Math.random()" /><br />
             <%--托管管道模式设置经典--%>
         </div>
     </form>

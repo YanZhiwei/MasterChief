@@ -30,21 +30,30 @@ namespace MasterChief.DotNet.Framework.VerifyCode
         /// <param name="context">HttpContext</param>
         public void ProcessRequest(HttpContext context)
         {
-            string validateCode = string.Empty;
             string validateType = context.Request.Params["style"];
-            ValidateCodeType createCode = null;
+            if (!string.IsNullOrEmpty(validateType))
+            {
+                validateType = validateType.Trim();
+                string validateCode = string.Empty;
+                ValidateCodeType createCode = null;
+                switch (validateType)
+                {
+                    case "type1":
+                        createCode = new ValidateCode_Style1();
+                        break;
 
-            //if (string.IsNullOrEmpty(validateType))
-            //{
-            createCode = new ValidateCode_Style1();
-            //}
+                    default:
+                        createCode = new ValidateCode_Style1();
+                        break;
+                }
 
-            byte[] buffer = createCode.CreateImage(out validateCode);
-            OnValidateCodeCreated(context, validateCode);
-            //  context.Session["validateCode"] = _validateCode;
-            context.Response.ClearContent();
-            context.Response.ContentType = MimeTypes.ImageGif;
-            context.Response.BinaryWrite(buffer);
+                byte[] buffer = createCode.CreateImage(out validateCode);
+                OnValidateCodeCreated(context, validateCode);
+                //  context.Session["validateCode"] = _validateCode;
+                context.Response.ClearContent();
+                context.Response.ContentType = MimeTypes.ImageGif;
+                context.Response.BinaryWrite(buffer);
+            }
         }
 
         #endregion Methods
