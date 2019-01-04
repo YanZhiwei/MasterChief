@@ -2,7 +2,7 @@
 using System.Web;
 using System.Web.SessionState;
 
-namespace MasterChief.DotNet.Framework.VerifyCode
+namespace MasterChief.DotNet.Infrastructure.VerifyCode
 {
     public abstract class VerifyCodeHandler : IHttpHandler, IRequiresSessionState
     {

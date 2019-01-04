@@ -7,8 +7,8 @@
     <ProjectGuid>{E9EF30E9-5384-4AC6-B7E8-0F092ACF6F92}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MasterChief.DotNet.Framework.VerifyCode</RootNamespace>
-    <AssemblyName>MasterChief.DotNet.Framework.VerifyCode</AssemblyName>
+    <RootNamespace>MasterChief.DotNet.Infrastructure.VerifyCode</RootNamespace>
+    <AssemblyName>MasterChief.DotNet.Infrastructure.VerifyCode</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>

@@ -7,7 +7,7 @@
 // </自动生成>
 //------------------------------------------------------------------------------
 
-namespace MasterChief.DotNet.Framework.VerifyCodeExample {
+namespace MasterChief.DotNet.Infrastructure.VerifyCodeExample {
     
     
     public partial class Default {

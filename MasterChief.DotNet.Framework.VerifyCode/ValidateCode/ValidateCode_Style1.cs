@@ -1,4 +1,4 @@
-﻿namespace MasterChief.DotNet.Framework.VerifyCode
+﻿namespace MasterChief.DotNet.Infrastructure.VerifyCode
 {
     using MasterChief.DotNet4.Utilities.Common;
     using System;

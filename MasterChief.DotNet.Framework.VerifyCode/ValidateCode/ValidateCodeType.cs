@@ -1,4 +1,4 @@
-﻿namespace MasterChief.DotNet.Framework.VerifyCode
+﻿namespace MasterChief.DotNet.Infrastructure.VerifyCode
 {
     /// <summary>
     /// 图片验证码抽象类
@@ -29,24 +29,12 @@
         /// <summary>
         /// 验证码Tooltip
         /// </summary>
-        public virtual string Tip
-        {
-            get
-            {
-                return "请输入图片中的字符";
-            }
-        }
+        public virtual string Tip => "请输入图片中的字符";
 
         /// <summary>
         /// 类型名称
         /// </summary>
-        public string Type
-        {
-            get
-            {
-                return base.GetType().Name;
-            }
-        }
+        public string Type => base.GetType().Name;
 
         #endregion Properties
 

@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="MasterChief.DotNet.Framework.VerifyCodeExample.Default" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="MasterChief.DotNet.Infrastructure.VerifyCodeExample.Default" %>
 
 <!DOCTYPE html>
 

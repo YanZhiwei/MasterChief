@@ -1,15 +1,14 @@
 ﻿using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // 有关程序集的常规信息通过下列特性集
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
-[assembly: AssemblyTitle("MasterChief.DotNet.Framework.VerifyCodeExample")]
+[assembly: AssemblyTitle("MasterChief.DotNet.Infrastructure.VerifyCodeExample")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("MasterChief.DotNet.Framework.VerifyCodeExample")]
+[assembly: AssemblyProduct("MasterChief.DotNet.Infrastructure.VerifyCodeExample")]
 [assembly: AssemblyCopyright("Copyright ©  2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

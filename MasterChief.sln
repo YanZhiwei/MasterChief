@@ -80,9 +80,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Helper", "Helper", "{EC1286
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MasterChief.DotNet.Framework.Upload", "MasterChief.DotNet.Framework.Upload\MasterChief.DotNet.Framework.Upload.csproj", "{CA3BEF41-E9A4-4358-A259-E113C82C9884}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MasterChief.DotNet.Framework.VerifyCode", "MasterChief.DotNet.Framework.VerifyCode\MasterChief.DotNet.Framework.VerifyCode.csproj", "{E9EF30E9-5384-4AC6-B7E8-0F092ACF6F92}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MasterChief.DotNet.Infrastructure.VerifyCode", "MasterChief.DotNet.Framework.VerifyCode\MasterChief.DotNet.Infrastructure.VerifyCode.csproj", "{E9EF30E9-5384-4AC6-B7E8-0F092ACF6F92}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MasterChief.DotNet.Framework.VerifyCodeExample", "MasterChief.DotNet.Framework.VerifyCodeExample\MasterChief.DotNet.Framework.VerifyCodeExample.csproj", "{4D92E10B-B546-46A9-A92C-05075E9006C6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MasterChief.DotNet.Infrastructure.VerifyCodeExample", "MasterChief.DotNet.Framework.VerifyCodeExample\MasterChief.DotNet.Infrastructure.VerifyCodeExample.csproj", "{4D92E10B-B546-46A9-A92C-05075E9006C6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{FB4DA2F2-63EF-467E-97B4-FF2845C68D07}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -215,8 +217,9 @@ Global
 		{64B02B68-D400-4843-B502-F95F8FF49CC8} = {81B5940A-FD6B-4B10-95CC-27E7EA225656}
 		{EC1286AC-36C3-4E6D-9034-C1AA373EB9A8} = {12446941-BCC3-4AA9-BAAA-B936EF55F589}
 		{CA3BEF41-E9A4-4358-A259-E113C82C9884} = {D94A22C7-4FB7-41AE-AE07-26A223B412EB}
-		{E9EF30E9-5384-4AC6-B7E8-0F092ACF6F92} = {D94A22C7-4FB7-41AE-AE07-26A223B412EB}
-		{4D92E10B-B546-46A9-A92C-05075E9006C6} = {81B5940A-FD6B-4B10-95CC-27E7EA225656}
+		{E9EF30E9-5384-4AC6-B7E8-0F092ACF6F92} = {51CE4B8E-8E09-4CC9-A86A-FD79F752CF3A}
+		{4D92E10B-B546-46A9-A92C-05075E9006C6} = {FB4DA2F2-63EF-467E-97B4-FF2845C68D07}
+		{FB4DA2F2-63EF-467E-97B4-FF2845C68D07} = {4BB935DF-CEDC-4B39-A0DE-A7336CDE5D67}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {90963A27-01A3-467E-9098-A6E345A4F839}

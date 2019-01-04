@@ -85,9 +85,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MasterChief.DotNet.Framework.VerifyCode\MasterChief.DotNet.Framework.VerifyCode.csproj">
+    <ProjectReference Include="..\MasterChief.DotNet.Framework.VerifyCode\MasterChief.DotNet.Infrastructure.VerifyCode.csproj">
       <Project>{E9EF30E9-5384-4AC6-B7E8-0F092ACF6F92}</Project>
-      <Name>MasterChief.DotNet.Framework.VerifyCode</Name>
+      <Name>MasterChief.DotNet.Infrastructure.VerifyCode</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
