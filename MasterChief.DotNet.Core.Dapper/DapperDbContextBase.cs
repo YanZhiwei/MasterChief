@@ -16,6 +16,11 @@ namespace MasterChief.DotNet.Core.Dapper
 
         public abstract IDbConnection CreateConnection();
 
+        public void Dispose()
+        {
+            //throw new NotImplementedException();
+        }
+
         public IList<T> ExecuteStoredProcedureList<T>(string commandText, params object[] parameters) where T : ModelBase
         {
             throw new NotImplementedException();

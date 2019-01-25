@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace MasterChief.DotNet.Core.Contract
 {
     /// <summary>
     /// 数据访问上下文接口
     /// </summary>
-    public interface IDbContext
+    public interface IDbContext : IDisposable
     {
         #region Methods
 
