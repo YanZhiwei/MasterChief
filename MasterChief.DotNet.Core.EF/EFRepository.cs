@@ -28,9 +28,9 @@
 
         #region Constructors
 
-        public EfRepository(DbContext dbContext)
+        public EfRepository(IDbContext dbContext)
         {
-            _dbContext = dbContext;
+            _dbContext = (DbContext)dbContext;
         }
 
         #endregion Constructors
