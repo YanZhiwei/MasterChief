@@ -1,5 +1,4 @@
 ﻿using MasterChief.DotNet.Core.Contract;
-using MasterChief.DotNet.Core.EF;
 using MasterChief.DotNet.Core.EFTests.Service;
 using Ninject.Modules;
 
@@ -10,10 +9,18 @@ namespace MasterChief.DotNet.Core.EFTests
         public override void Load()
         {
             Bind<IDatabaseContextFactory>().To<SampleDbContextFactory>();
-       
-            Bind(typeof(IRepository<>)).To(typeof(EfRepository<>));
+
+            //Bind(typeof(IRepository<>)).To(typeof(EfRepository<>));
 
             Bind<ISampleService>().To<SampleService>();
+
+            #region 方式二
+
+            //Bind<IDbContext>().To<SampleDbContext>();
+            //Bind(typeof(IRepository<>)).To(typeof(EfRepository<>));
+            //Bind<ISampleService>().To<Sample2Service>();
+
+            #endregion 方式二
         }
     }
 }

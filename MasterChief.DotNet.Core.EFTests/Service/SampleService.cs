@@ -1,5 +1,5 @@
 ﻿using MasterChief.DotNet.Core.Contract;
-using MasterChief.DotNet.Core.EF;
+using System.Data.Entity;
 
 namespace MasterChief.DotNet.Core.EFTests.Service
 {
@@ -9,7 +9,7 @@ namespace MasterChief.DotNet.Core.EFTests.Service
     /// <seealso cref="MasterChief.DotNet.Core.EFTests.Service.ISampleService" />
     public sealed class SampleService : ISampleService
     {
-        private readonly IDatabaseContextFactory _contextFactory;
+        private readonly IDatabaseContextFactory _contextFactory = null;
 
         public SampleService(IDatabaseContextFactory contextFactory)
         {
@@ -25,8 +25,10 @@ namespace MasterChief.DotNet.Core.EFTests.Service
         {
             using (IDbContext dbcontext = _contextFactory.Create())
             {
-                IRepository<EFSample> sampleRepo = new EfRepository<EFSample>(dbcontext);
-                return sampleRepo.Create(sample);
+                using (DbContextTransaction trans = ((DbContext)dbcontext).Database.BeginTransaction())
+                {
+                    return dbcontext.Create<EFSample>(sample);
+                }
             }
         }
     }

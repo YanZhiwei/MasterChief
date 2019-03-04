@@ -47,7 +47,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EfRepository.cs" />
     <Compile Include="EfDbContextBase.cs" />
     <Compile Include="Helper\DbContextHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

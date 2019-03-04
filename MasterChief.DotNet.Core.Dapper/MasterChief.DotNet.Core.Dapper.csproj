@@ -43,7 +43,6 @@
   <ItemGroup>
     <Compile Include="DapperDbContextBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="DapperRepository.cs" />
     <Compile Include="Helper\DynamicQuery.cs" />
     <Compile Include="Helper\QueryParameter.cs" />
     <Compile Include="Helper\QueryResult.cs" />

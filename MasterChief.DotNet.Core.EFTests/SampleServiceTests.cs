@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ninject;
 using System;
+using System.Threading.Tasks;
 
 namespace MasterChief.DotNet.Core.EFTests
 {
@@ -25,6 +26,24 @@ namespace MasterChief.DotNet.Core.EFTests
         {
             bool actual = _sampleService.Create(new EFSample() { UserName = DateTime.Now.ToString() });
             Assert.IsTrue(actual);
+        }
+
+        [TestMethod()]
+        public void CreateTestThreadTest()
+        {
+            Task[] tasks = {
+                                Task.Factory.StartNew(() => CreateTest()),
+                                Task.Factory.StartNew(() => CreateTest()),
+                                Task.Factory.StartNew(() => CreateTest()),
+                                Task.Factory.StartNew(() => CreateTest()),
+                                Task.Factory.StartNew(() => CreateTest()),
+                                Task.Factory.StartNew(() => CreateTest()),
+                                Task.Factory.StartNew(() => CreateTest()),
+                                Task.Factory.StartNew(() => CreateTest()),
+                                Task.Factory.StartNew(() => CreateTest()),
+                                Task.Factory.StartNew(() => CreateTest()),
+                            };
+            Task.WaitAll(tasks);
         }
     }
 }

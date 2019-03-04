@@ -15,8 +15,7 @@
     /// <summary>
     /// EF 仓储实现
     /// </summary>
-    public class EfRepository<T> : IRepository<T>
-        where T : ModelBase
+    public class EfRepository : IRepository
     {
         #region Fields
 
