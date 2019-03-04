@@ -1,5 +1,4 @@
 ﻿using MasterChief.DotNet.Core.Contract;
-using System.Data.Entity;
 
 namespace MasterChief.DotNet.Core.EFTests.Service
 {
@@ -25,10 +24,7 @@ namespace MasterChief.DotNet.Core.EFTests.Service
         {
             using (IDbContext dbcontext = _contextFactory.Create())
             {
-                using (DbContextTransaction trans = ((DbContext)dbcontext).Database.BeginTransaction())
-                {
-                    return dbcontext.Create<EFSample>(sample);
-                }
+                return dbcontext.Create<EFSample>(sample);
             }
         }
     }
