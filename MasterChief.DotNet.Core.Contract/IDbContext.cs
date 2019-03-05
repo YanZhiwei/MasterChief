@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 
 namespace MasterChief.DotNet.Core.Contract
 {
@@ -8,6 +9,6 @@ namespace MasterChief.DotNet.Core.Contract
     /// </summary>
     public interface IDbContext : IDisposable, IRepository
     {
-        IEnumerable<T> SqlQuery<T>(string sql, params object[] parameters);
+        IEnumerable<T> SqlQuery<T>(string sql, IDbDataParameter[] parameters);
     }
 }

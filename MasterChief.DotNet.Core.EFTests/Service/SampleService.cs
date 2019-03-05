@@ -80,8 +80,8 @@
             CreateTime DESC";
 
                 DbParameter[] parameter = {
-                    new SqlParameter(){ ParameterName="UserName", Value="%ef%" },
-                    new SqlParameter(){ ParameterName="Available", Value=true }
+                    new SqlParameter(){ ParameterName="@UserName", Value="%ef%" },
+                    new SqlParameter(){ ParameterName="@Available", Value=true }
                 };
                 return dbcontext.SqlQuery<EFSample>(sql, parameter).ToList();
             }

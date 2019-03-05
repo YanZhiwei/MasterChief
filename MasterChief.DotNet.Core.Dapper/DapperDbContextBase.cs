@@ -222,12 +222,26 @@
             throw new NotImplementedException();
         }
 
-        public IEnumerable<T> SqlQuery<T>(string sql, params object[] parameters)
+        public IEnumerable<T> SqlQuery<T>(string sql, IDbDataParameter[] parameters)
         {
             using (IDbConnection connection = CreateConnection())
             {
-                return connection.Query<T>(sql, parameters);
+                DapperParameter dataParameters = CreateParameter(parameters);
+                return connection.Query<T>(sql, dataParameters);
             }
+        }
+
+        private DapperParameter CreateParameter(IDbDataParameter[] parameters)
+        {
+            if (parameters == null || parameters.Length == 0)
+                return null;
+
+            DapperParameter dataParameters = new DapperParameter();
+            foreach (IDbDataParameter paramter in parameters)
+            {
+                dataParameters.Add(paramter);
+            }
+            return dataParameters;
         }
 
         /// <summary>
