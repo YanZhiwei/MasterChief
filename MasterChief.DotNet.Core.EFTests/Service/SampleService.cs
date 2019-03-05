@@ -1,22 +1,35 @@
-﻿using MasterChief.DotNet.Core.Contract;
-using MasterChief.DotNet.Core.Contract.Helper;
-using System;
-using System.Linq;
-
-namespace MasterChief.DotNet.Core.EFTests.Service
+﻿namespace MasterChief.DotNet.Core.EFTests.Service
 {
+    using MasterChief.DotNet.Core.Contract;
+    using MasterChief.DotNet.Core.Contract.Helper;
+    using System;
+    using System.Collections.Generic;
+    using System.Data.Common;
+    using System.Data.SqlClient;
+    using System.Linq;
+
     /// <summary>
     /// 测试数据接口
     /// </summary>
     /// <seealso cref="MasterChief.DotNet.Core.EFTests.Service.ISampleService" />
     public sealed class SampleService : ISampleService
     {
+        #region Fields
+
         private readonly IDatabaseContextFactory _contextFactory = null;
+
+        #endregion Fields
+
+        #region Constructors
 
         public SampleService(IDatabaseContextFactory contextFactory)
         {
             _contextFactory = contextFactory;
         }
+
+        #endregion Constructors
+
+        #region Methods
 
         /// <summary>
         /// Creates the specified samle.
@@ -51,5 +64,29 @@ namespace MasterChief.DotNet.Core.EFTests.Service
                 return dbcontext.Query<EFSample>().OrderByDescending(ent => ent.CreateTime).ToPagedList(pageIndex, PageSize);
             }
         }
+
+        public List<EFSample> SqlQuery()
+        {
+            using (IDbContext dbcontext = _contextFactory.Create())
+            {
+                string sql = @"SELECT
+            *
+            from
+            EFSample
+            WHERE
+            UserName like @UserName
+            and Available = @Available
+            order by
+            CreateTime DESC";
+
+                DbParameter[] parameter = {
+                    new SqlParameter(){ ParameterName="UserName", Value="%ef%" },
+                    new SqlParameter(){ ParameterName="Available", Value=true }
+                };
+                return dbcontext.SqlQuery<EFSample>(sql, parameter).ToList();
+            }
+        }
+
+        #endregion Methods
     }
 }

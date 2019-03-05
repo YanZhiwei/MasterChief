@@ -1,5 +1,6 @@
 ﻿using MasterChief.DotNet.Core.DapperTests.Model;
 using System;
+using System.Collections.Generic;
 
 namespace MasterChief.DotNet.Core.DapperTests.Service
 {
@@ -16,5 +17,7 @@ namespace MasterChief.DotNet.Core.DapperTests.Service
         bool Create(EFSample samle);
 
         EFSample Get(Guid id);
+
+        List<EFSample> SqlQuery();
     }
 }

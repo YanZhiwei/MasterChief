@@ -11,7 +11,7 @@
     using System.Linq.Expressions;
 
     /// <summary>
-    /// 实现Repository通用泛型数据访问模式
+    /// 基于EF的DbContext
     /// </summary>
     /// <seealso cref="System.Data.Entity.DbContext" />
     public abstract class EfDbContextBase : DbContext, IDbContext
@@ -35,7 +35,7 @@
         #region Methods
 
         /// <summary>
-        /// 删除记录
+        /// 创建记录
         /// </summary>
         /// <returns>操作是否成功</returns>
         /// <param name="entity">需要操作的实体类.</param>
@@ -195,6 +195,11 @@
             }
 
             return query;
+        }
+
+        public IEnumerable<T> SqlQuery<T>(string sql, params object[] parameters)
+        {
+            return Database.SqlQuery<T>(sql, parameters);
         }
 
         /// <summary>

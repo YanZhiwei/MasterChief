@@ -1,6 +1,10 @@
 ﻿using MasterChief.DotNet.Core.Contract;
 using MasterChief.DotNet.Core.DapperTests.Model;
 using System;
+using System.Collections.Generic;
+using System.Data.Common;
+using System.Data.SqlClient;
+using System.Linq;
 
 namespace MasterChief.DotNet.Core.DapperTests.Service
 {
@@ -26,6 +30,28 @@ namespace MasterChief.DotNet.Core.DapperTests.Service
             using (IDbContext dbcontext = _contextFactory.Create())
             {
                 return dbcontext.Get<EFSample>(id);
+            }
+        }
+
+        public List<EFSample> SqlQuery()
+        {
+            using (IDbContext dbcontext = _contextFactory.Create())
+            {
+                string sql = @"SELECT
+            *
+            from
+            EFSample
+            WHERE
+            UserName like @UserName
+            and Available = @Available
+            order by
+            CreateTime DESC";
+
+                DbParameter[] parameter = {
+                    new SqlParameter(){ ParameterName="UserName", Value="%ef%" },
+                    new SqlParameter(){ ParameterName="Available", Value=true }
+                };
+                return dbcontext.SqlQuery<EFSample>(sql, parameter).ToList();
             }
         }
     }

@@ -1,5 +1,6 @@
 ﻿using MasterChief.DotNet.Core.Contract;
 using System;
+using System.Collections.Generic;
 
 namespace MasterChief.DotNet.Core.EFTests.Service
 {
@@ -18,5 +19,7 @@ namespace MasterChief.DotNet.Core.EFTests.Service
         EFSample Get(Guid id);
 
         PagedList<EFSample> GetByPage(int pageIndex, int PageSize);
+
+        List<EFSample> SqlQuery();
     }
 }

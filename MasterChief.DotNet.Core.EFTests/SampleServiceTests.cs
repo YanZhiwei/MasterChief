@@ -3,6 +3,7 @@ using MasterChief.DotNet.Core.EFTests.Service;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ninject;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace MasterChief.DotNet.Core.EFTests
@@ -41,6 +42,14 @@ namespace MasterChief.DotNet.Core.EFTests
         {
             PagedList<EFSample> actual = _sampleService.GetByPage(3, 10);
             Assert.IsNotNull(actual);
+        }
+
+        [TestMethod()]
+        public void SqlQueryTest()
+        {
+            List<EFSample> actual = _sampleService.SqlQuery();
+            Assert.IsNotNull(actual);
+            Assert.IsTrue(actual.Count > 0);
         }
 
         [TestMethod()]

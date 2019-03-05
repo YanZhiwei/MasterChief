@@ -4,6 +4,7 @@ using MasterChief.DotNet.Core.DapperTests.Service;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ninject;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace MasterChief.DotNet.Core.Dapper.Tests
@@ -21,6 +22,15 @@ namespace MasterChief.DotNet.Core.Dapper.Tests
             Assert.IsNotNull(_kernel);
 
             _sampleService = _kernel.Get<ISampleService>();
+        }
+
+
+        [TestMethod()]
+        public void SqlQueryTest()
+        {
+            List<EFSample> actual = _sampleService.SqlQuery();
+            Assert.IsNotNull(actual);
+            Assert.IsTrue(actual.Count > 0);
         }
 
         [TestMethod()]
