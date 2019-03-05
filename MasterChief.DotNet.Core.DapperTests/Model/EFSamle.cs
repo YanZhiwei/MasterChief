@@ -7,8 +7,8 @@ namespace MasterChief.DotNet.Core.DapperTests.Model
     [Table("EFSample")]
     public sealed class EFSample : ModelBase
     {
-        [Key]
-        public override Guid ID { get => base.ID; set => base.ID = value; }
+        [ExplicitKey]//不是自动增长主键时使用ExplicitKey
+        public override Guid ID { get; set; }
         public EFSample()
         {
             ID = Guid.NewGuid();

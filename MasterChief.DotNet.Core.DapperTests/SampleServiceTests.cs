@@ -36,7 +36,7 @@ namespace MasterChief.DotNet.Core.Dapper.Tests
         [TestMethod()]
         public void GetTest()
         {
-            EFSample actual = _sampleService.Get(new Guid("D164AEE5-CE41-46A7-ACCE-7C07A73BA1A2"));
+            EFSample actual = _sampleService.Get(new Guid("BE492852-16C0-406D-B74B-17EE3D5F4C06"));
             Assert.IsNotNull(actual);
         }
 
