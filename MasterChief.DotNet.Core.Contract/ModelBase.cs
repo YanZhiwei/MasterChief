@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 
 namespace MasterChief.DotNet.Core.Contract
 {
@@ -8,25 +7,36 @@ namespace MasterChief.DotNet.Core.Contract
     /// </summary>
     public class ModelBase
     {
-        [Key]
+        /// <summary>
+        /// 主键ID
+        /// </summary>
         public virtual Guid ID
         {
             get;    // int, not null
             set;
         }
 
+        /// <summary>
+        /// 记录创建时间
+        /// </summary>
         public virtual DateTime CreateTime
         {
             get;    // datetime, not null
             set;
         }
 
+        /// <summary>
+        /// 记录修改时间
+        /// </summary>
         public virtual DateTime ModifyTime
         {
             get;    // datetime, not null
             set;
         }
 
+        /// <summary>
+        /// 记录是否可用
+        /// </summary>
         public virtual bool Available
         {
             get;

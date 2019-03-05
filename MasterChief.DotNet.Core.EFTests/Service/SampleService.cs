@@ -1,4 +1,7 @@
 ﻿using MasterChief.DotNet.Core.Contract;
+using MasterChief.DotNet.Core.Contract.Helper;
+using System;
+using System.Linq;
 
 namespace MasterChief.DotNet.Core.EFTests.Service
 {
@@ -25,6 +28,27 @@ namespace MasterChief.DotNet.Core.EFTests.Service
             using (IDbContext dbcontext = _contextFactory.Create())
             {
                 return dbcontext.Create<EFSample>(sample);
+            }
+        }
+
+        /// <summary>
+        /// Gets the specified identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
+        public EFSample Get(Guid id)
+        {
+            using (IDbContext dbcontext = _contextFactory.Create())
+            {
+                return dbcontext.Get<EFSample>(id);
+            }
+        }
+
+        public PagedList<EFSample> GetByPage(int pageIndex, int PageSize)
+        {
+            using (IDbContext dbcontext = _contextFactory.Create())
+            {
+                return dbcontext.Query<EFSample>().OrderByDescending(ent => ent.CreateTime).ToPagedList(pageIndex, PageSize);
             }
         }
     }

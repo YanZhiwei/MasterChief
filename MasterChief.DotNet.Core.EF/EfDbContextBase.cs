@@ -45,7 +45,7 @@
             bool result = false;
             try
             {
-                Entry<T>(entity).State = EntityState.Deleted;
+                Entry<T>(entity).State = EntityState.Added;
                 result = SaveChanges() > 0;
             }
             catch (DbEntityValidationException dbEx)

@@ -24,7 +24,7 @@ namespace MasterChief.DotNet.Core.Dapper
         {
             using (IDbConnection connection = CreateConnection())
             {
-                var data = new List<T>() { entity };
+                List<T> data = new List<T>() { entity };
                 // insert single data always return 0 but the data is inserted in database successfully
                 //https://github.com/StackExchange/Dapper/issues/587
                 return connection.Insert(data) > 0;

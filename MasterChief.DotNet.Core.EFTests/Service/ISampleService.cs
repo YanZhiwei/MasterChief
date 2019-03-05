@@ -1,4 +1,7 @@
-﻿namespace MasterChief.DotNet.Core.EFTests.Service
+﻿using MasterChief.DotNet.Core.Contract;
+using System;
+
+namespace MasterChief.DotNet.Core.EFTests.Service
 {
     /// <summary>
     /// 测试数据接口
@@ -11,5 +14,9 @@
         /// <param name="samle">The samle.</param>
         /// <returns></returns>
         bool Create(EFSample samle);
+
+        EFSample Get(Guid id);
+
+        PagedList<EFSample> GetByPage(int pageIndex, int PageSize);
     }
 }

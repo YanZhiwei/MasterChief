@@ -26,14 +26,14 @@ namespace MasterChief.DotNet.Core.Dapper.Tests
         [TestMethod()]
         public void GetTest()
         {
-            EFSample actual = _sampleService.Get(new Guid("A2E4CA6D-1A11-4D3A-9DB3-006997B05E64"));
+            EFSample actual = _sampleService.Get(new Guid("D164AEE5-CE41-46A7-ACCE-7C07A73BA1A2"));
             Assert.IsNotNull(actual);
         }
 
         [TestMethod()]
         public void CreateTest()
         {
-            bool actual = _sampleService.Create(new EFSample() { UserName = DateTime.Now.ToString() });
+            bool actual = _sampleService.Create(new EFSample() { UserName = "Dapper" + DateTime.Now.ToString("MMddHHmmss") });
             Assert.IsTrue(actual);
         }
 

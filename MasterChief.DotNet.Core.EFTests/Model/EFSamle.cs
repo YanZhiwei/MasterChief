@@ -10,6 +10,9 @@ namespace MasterChief.DotNet.Core.EFTests
     [Description("EF 测试表")]
     public sealed class EFSample : ModelBase
     {
+        [Key]
+        public override Guid ID { get => base.ID; set => base.ID = value; }
+
         public EFSample()
         {
             ID = Guid.NewGuid();

@@ -1,4 +1,5 @@
-﻿using MasterChief.DotNet.Core.EFTests.Service;
+﻿using MasterChief.DotNet.Core.Contract;
+using MasterChief.DotNet.Core.EFTests.Service;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ninject;
 using System;
@@ -24,8 +25,22 @@ namespace MasterChief.DotNet.Core.EFTests
         [TestMethod()]
         public void CreateTest()
         {
-            bool actual = _sampleService.Create(new EFSample() { UserName = DateTime.Now.ToString() });
+            bool actual = _sampleService.Create(new EFSample() { UserName = "EF" + DateTime.Now.ToString("MMddHHmmss") });
             Assert.IsTrue(actual);
+        }
+
+        [TestMethod()]
+        public void GetTest()
+        {
+            EFSample actual = _sampleService.Get(new Guid("2485CFA1-F251-4C7F-BBC7-76A8525963B5"));
+            Assert.IsNotNull(actual);
+        }
+
+        [TestMethod()]
+        public void GetByPageTest()
+        {
+            PagedList<EFSample> actual = _sampleService.GetByPage(3, 10);
+            Assert.IsNotNull(actual);
         }
 
         [TestMethod()]
