@@ -164,7 +164,7 @@
             QueryResult queryResult = DynamicQuery.GetDynamicQuery(tableName, predicate);
 
             object result = CurrentConnection.ExecuteScalar(queryResult.Sql, (object)queryResult.Param, CurrentTransaction);
-            return result.ToInt32OrDefault(0) > 0;
+            return result != null;
         }
 
         /// <summary>

@@ -1,6 +1,8 @@
-﻿using MasterChief.DotNet.Core.DapperTests.Model;
+﻿using MasterChief.DotNet.Core.Contract;
+using MasterChief.DotNet.Core.DapperTests.Model;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace MasterChief.DotNet.Core.DapperTests.Service
 {
@@ -19,5 +21,10 @@ namespace MasterChief.DotNet.Core.DapperTests.Service
         EFSample Get(Guid id);
 
         List<EFSample> SqlQuery();
+
+        bool Delete(EFSample sample);
+
+
+        bool Exist<T>(Expression<Func<T, bool>> predicate) where T : ModelBase;
     }
 }

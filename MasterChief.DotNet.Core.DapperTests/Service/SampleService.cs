@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Data.Common;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace MasterChief.DotNet.Core.DapperTests.Service
 {
@@ -21,11 +22,24 @@ namespace MasterChief.DotNet.Core.DapperTests.Service
         {
             using (IDbContext dbcontext = _contextFactory.Create())
             {
-                dbcontext.BeginTransaction();
+                return dbcontext.Create<EFSample>(samle);
+            }
+        }
 
-                bool result = dbcontext.Create<EFSample>(samle);
-                dbcontext.Rollback();
-                return result;
+        public bool Delete(EFSample sample)
+        {
+            using (IDbContext dbcontext = _contextFactory.Create())
+            {
+                return dbcontext.Delete<EFSample>(sample);
+            }
+        }
+
+        public bool Exist<T>(Expression<Func<T, bool>> predicate = null)
+            where T : ModelBase
+        {
+            using (IDbContext dbcontext = _contextFactory.Create())
+            {
+                return dbcontext.Exist<T>(predicate);
             }
         }
 

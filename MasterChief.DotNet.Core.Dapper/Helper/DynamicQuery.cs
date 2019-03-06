@@ -10,7 +10,9 @@ namespace MasterChief.DotNet.Core.Dapper.Helper
 {
     /// <summary>
     /// Dynamic query.
-    /// Code reference:http://www.bradoncode.com/blog/2012/12/creating-data-repository-using-dapper.html
+    /// Code reference:
+    /// 1. http://www.bradoncode.com/blog/2012/12/creating-data-repository-using-dapper.html
+    /// 2. https://stackoverflow.com/questions/33484295/dynamic-queries-in-dapper
     /// </summary>
     internal static class DynamicQuery
     {
@@ -72,22 +74,33 @@ namespace MasterChief.DotNet.Core.Dapper.Helper
         }
 
         private static void WalkTree(BinaryExpression body, ExpressionType linkingType,
-                                    ref List<QueryParameter> queryProperties)
+                             ref List<QueryParameter> queryProperties)
         {
             if (body.NodeType != ExpressionType.AndAlso && body.NodeType != ExpressionType.OrElse)
             {
                 string propertyName = GetPropertyName(body);
-                dynamic propertyValue = body.Right;
+                var propertyValue = GetPropertyValue(body.Right);
                 string opr = GetOperator(body.NodeType);
                 string link = GetOperator(linkingType);
 
-                queryProperties.Add(new QueryParameter(link, propertyName, propertyValue.Value, opr));
+                queryProperties.Add(new QueryParameter(link, propertyName, propertyValue, opr));
             }
             else
             {
                 WalkTree((BinaryExpression)body.Left, body.NodeType, ref queryProperties);
                 WalkTree((BinaryExpression)body.Right, body.NodeType, ref queryProperties);
             }
+        }
+
+        private static object GetPropertyValue(Expression source)
+        {
+            var constantExpression = source as ConstantExpression;
+            if (constantExpression != null)
+                return constantExpression.Value;
+            var evalExpr = Expression.Lambda<Func<object>>(Expression.Convert(source, typeof(object)));
+            var evalFunc = evalExpr.Compile();
+            var value = evalFunc();
+            return value;
         }
 
         private static string GetPropertyName(BinaryExpression body)

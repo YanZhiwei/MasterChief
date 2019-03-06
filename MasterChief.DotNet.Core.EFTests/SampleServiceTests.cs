@@ -52,6 +52,26 @@ namespace MasterChief.DotNet.Core.EFTests
             Assert.IsTrue(actual.Count > 0);
         }
 
+        /// <summary>
+        /// 删除测试
+        /// </summary>
+        [TestMethod()]
+        public void ExistTest()
+        {
+            //bool actual = _sampleService.Exist<EFSample>(ent => ent.ID == new Guid("AFF0E545-8731-465F-8B0E-BFCAB44D6386"));
+            //Assert.IsTrue(actual);
+
+            //actual = _sampleService.Exist<EFSample>(ent => ent.ID == Guid.Empty);
+            //Assert.IsFalse(actual);
+
+            //var actual = _sampleService.Exist<EFSample>(ent => ent.CreateTime == "2019-03-06 22:44:33.373".ToDateOrDefault(DateTime.Now));
+            //Assert.IsTrue(actual);
+
+            var actual = _sampleService.Exist<EFSample>(ent => ent.UserName.Contains("dapper"));
+            Assert.IsTrue(actual);
+
+        }
+
         [TestMethod()]
         public void CreateTestThreadTest()
         {

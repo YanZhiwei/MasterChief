@@ -83,6 +83,14 @@
       <Project>{D6901CA8-C4F1-4DFC-AC9F-3083276B8267}</Project>
       <Name>MasterChief.DotNet.Core.Dapper</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MasterChief.DotNet4.5.Utilities\MasterChief.DotNet4.5.Utilities.csproj">
+      <Project>{50490a4f-41a7-4968-8a92-8b49c6267066}</Project>
+      <Name>MasterChief.DotNet4.5.Utilities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MasterChief.DotNet4.Utilities\MasterChief.DotNet4.Utilities.csproj">
+      <Project>{d1dc63aa-db3a-4c47-9e20-f7474420ba48}</Project>
+      <Name>MasterChief.DotNet4.Utilities</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

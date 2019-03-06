@@ -7,6 +7,7 @@
     using System.Data.Common;
     using System.Data.SqlClient;
     using System.Linq;
+    using System.Linq.Expressions;
 
     /// <summary>
     /// 测试数据接口
@@ -84,6 +85,15 @@
                     new SqlParameter(){ ParameterName="@Available", Value=true }
                 };
                 return dbcontext.SqlQuery<EFSample>(sql, parameter).ToList();
+            }
+        }
+
+        public bool Exist<T>(Expression<Func<T, bool>> predicate = null)
+           where T : ModelBase
+        {
+            using (IDbContext dbcontext = _contextFactory.Create())
+            {
+                return dbcontext.Exist<T>(predicate);
             }
         }
 

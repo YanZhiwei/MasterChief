@@ -1,6 +1,7 @@
 ﻿using MasterChief.DotNet.Core.Contract;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace MasterChief.DotNet.Core.EFTests.Service
 {
@@ -21,5 +22,7 @@ namespace MasterChief.DotNet.Core.EFTests.Service
         PagedList<EFSample> GetByPage(int pageIndex, int PageSize);
 
         List<EFSample> SqlQuery();
+
+        bool Exist<T>(Expression<Func<T, bool>> predicate) where T : ModelBase;
     }
 }
