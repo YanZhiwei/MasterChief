@@ -2,12 +2,15 @@
 {
     using MasterChief.DotNet.Core.Contract;
     using MasterChief.DotNet.Core.EF.Helper;
+    using MasterChief.DotNet4.Utilities.Common;
     using System;
     using System.Collections.Generic;
     using System.Data;
     using System.Data.Common;
     using System.Data.Entity;
+    using System.Data.Entity.Infrastructure;
     using System.Data.Entity.Validation;
+    using System.Data.SqlClient;
     using System.Linq;
     using System.Linq.Expressions;
 
@@ -17,6 +20,15 @@
     /// <seealso cref="System.Data.Entity.DbContext" />
     public abstract class EfDbContextBase : DbContext, IDbContext
     {
+        #region Fields
+
+        /// <summary>
+        /// 获取 是否开启事务提交
+        /// </summary>
+        public virtual bool TransactionEnabled => Database.CurrentTransaction != null;
+
+        #endregion Fields
+
         #region Constructors
 
         /// <summary>
@@ -34,6 +46,44 @@
         #endregion Constructors
 
         #region Methods
+
+        /// <summary>
+        /// 显式开启数据上下文事务
+        /// </summary>
+        /// <param name="isolationLevel">指定连接的事务锁定行为</param>
+        public void BeginTransaction(IsolationLevel isolationLevel = IsolationLevel.Unspecified)
+        {
+            if (!TransactionEnabled)
+            {
+                Database.BeginTransaction(isolationLevel);
+            }
+
+        }
+
+        /// <summary>
+        /// 提交当前上下文的事务更改
+        /// </summary>
+        /// <exception cref="DataAccessException">提交数据更新时发生异常：" + msg</exception>
+        public void Commit()
+        {
+            if (TransactionEnabled)
+            {
+                try
+                {
+                    Database.CurrentTransaction.Commit();
+                }
+                catch (DbUpdateException ex)
+                {
+                    if (ex.InnerException != null && ex.InnerException.InnerException is SqlException)
+                    {
+                        SqlException sqlEx = ex.InnerException.InnerException as SqlException;
+                        string msg = DataBaseHelper.GetSqlExceptionMessage(sqlEx.Number);
+                        throw new DataAccessException("提交数据更新时发生异常：" + msg, sqlEx);
+                    }
+                    throw;
+                }
+            }
+        }
 
         /// <summary>
         /// 创建记录
@@ -93,31 +143,6 @@
             try
             {
                 Entry<T>(entity).State = EntityState.Deleted;
-                result = SaveChanges() > 0;
-            }
-            catch (DbEntityValidationException dbEx)
-            {
-                throw new Exception(dbEx.GetFullErrorText(), dbEx);
-            }
-            return result;
-        }
-
-        /// <summary>
-        /// 条件删除记录
-        /// </summary>
-        /// <returns>操作是否成功</returns>
-        /// <param name="entities">需要操作的集合.</param>
-        public bool Delete<T>(IEnumerable<T> entities)
-            where T : ModelBase
-        {
-            bool result = false;
-            try
-            {
-                foreach (T entity in entities)
-                {
-                    Entry<T>(entity).State = EntityState.Deleted;
-                }
-
                 result = SaveChanges() > 0;
             }
             catch (DbEntityValidationException dbEx)
@@ -196,6 +221,17 @@
             }
 
             return query;
+        }
+
+        /// <summary>
+        /// 显式回滚事务，仅在显式开启事务后有用
+        /// </summary>
+        public void Rollback()
+        {
+            if (TransactionEnabled)
+            {
+                Database.CurrentTransaction.Rollback();
+            }
         }
 
         public IEnumerable<T> SqlQuery<T>(string sql, IDbDataParameter[] parameters)

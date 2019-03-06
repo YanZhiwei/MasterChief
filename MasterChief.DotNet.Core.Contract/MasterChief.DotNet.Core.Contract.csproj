@@ -41,11 +41,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataAccessException.cs" />
     <Compile Include="Helper\PageHelper.cs" />
     <Compile Include="IDbContext.cs" />
     <Compile Include="IDatabaseContextFactory.cs" />
     <Compile Include="IPagedList.cs" />
     <Compile Include="IRepository.cs" />
+    <Compile Include="IUnitOfWork.cs" />
     <Compile Include="ModelBase.cs" />
     <Compile Include="PagedList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

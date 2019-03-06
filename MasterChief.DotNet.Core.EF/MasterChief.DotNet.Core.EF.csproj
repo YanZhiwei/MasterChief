@@ -60,6 +60,10 @@
       <Project>{9D974AA5-BD71-4A2C-8E1E-F7055AEA5BA2}</Project>
       <Name>MasterChief.DotNet.Core.Contract</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MasterChief.DotNet4.Utilities\MasterChief.DotNet4.Utilities.csproj">
+      <Project>{D1DC63AA-DB3A-4C47-9E20-F7474420BA48}</Project>
+      <Name>MasterChief.DotNet4.Utilities</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

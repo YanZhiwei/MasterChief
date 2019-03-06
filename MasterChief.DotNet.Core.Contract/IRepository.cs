@@ -20,13 +20,6 @@
         bool Delete<T>(T entity) where T : ModelBase;
 
         /// <summary>
-        /// 条件删除记录
-        /// </summary>
-        /// <returns>操作是否成功</returns>
-        /// <param name="entities">需要操作的集合.</param>
-        bool Delete<T>(IEnumerable<T> entities) where T : ModelBase;
-
-        /// <summary>
         /// 条件判断是否存在
         /// </summary>
         /// <returns>是否存在</returns>
@@ -60,13 +53,6 @@
         /// <returns>操作是否成功.</returns>
         /// <param name="entity">实体类记录.</param>
         bool Create<T>(T entity) where T : ModelBase;
-
-        /// <summary>
-        /// 创建记录集合
-        /// </summary>
-        /// <returns>操作是否成功.</returns>
-        /// <param name="entities">实体类集合.</param>
-        bool Create<T>(IEnumerable<T> entities) where T : ModelBase;
 
         /// <summary>
         /// 条件查询

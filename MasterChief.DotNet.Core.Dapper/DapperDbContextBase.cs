@@ -8,6 +8,7 @@
     using System;
     using System.Collections.Generic;
     using System.Data;
+    using System.Data.SqlClient;
     using System.Linq;
     using System.Linq.Expressions;
 
@@ -18,6 +19,16 @@
     public abstract class DapperDbContextBase : IDbContext
     {
         #region Fields
+
+        /// <summary>
+        /// 当前数据库连接
+        /// </summary>
+        public IDbConnection CurrentConnection => TransactionEnabled ? CurrentTransaction.Connection : CreateConnection();
+
+        /// <summary>
+        /// 获取 是否开启事务提交
+        /// </summary>
+        public bool TransactionEnabled => CurrentTransaction != null;
 
         /// <summary>
         /// 连接字符串
@@ -39,7 +50,56 @@
 
         #endregion Constructors
 
+        #region Properties
+
+        /// <summary>
+        ///获取 是否开启事务提交
+        /// </summary>
+        public IDbTransaction CurrentTransaction
+        {
+            get; private set;
+        }
+
+        #endregion Properties
+
         #region Methods
+
+        /// <summary>
+        /// 显式开启数据上下文事务
+        /// </summary>
+        /// <param name="isolationLevel">指定连接的事务锁定行为</param>
+        public void BeginTransaction(IsolationLevel isolationLevel = IsolationLevel.Unspecified)
+        {
+            if (!TransactionEnabled)
+            {
+                CurrentTransaction = CreateConnection().BeginTransaction(isolationLevel);
+            }
+        }
+
+        /// <summary>
+        /// 提交当前上下文的事务更改
+        /// </summary>
+        /// <exception cref="DataAccessException">提交数据更新时发生异常：" + msg</exception>
+        public void Commit()
+        {
+            if (TransactionEnabled)
+            {
+                try
+                {
+                    CurrentTransaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    if (ex.InnerException != null && ex.InnerException.InnerException is SqlException)
+                    {
+                        SqlException sqlEx = ex.InnerException.InnerException as SqlException;
+                        string msg = DataBaseHelper.GetSqlExceptionMessage(sqlEx.Number);
+                        throw new DataAccessException("提交数据更新时发生异常：" + msg, sqlEx);
+                    }
+                    throw ex;
+                }
+            }
+        }
 
         /// <summary>
         /// 创建记录
@@ -49,43 +109,10 @@
         public bool Create<T>(T entity)
             where T : ModelBase
         {
-            using (IDbConnection connection = CreateConnection())
-            {
-                List<T> data = new List<T>() { entity };
-                // insert single data always return 0 but the data is inserted in database successfully
-                //https://github.com/StackExchange/Dapper/issues/587
-                return connection.Insert(data) > 0;
-            }
-        }
-
-        /// <summary>
-        /// 创建记录集合
-        /// </summary>
-        /// <returns>操作是否成功.</returns>
-        /// <param name="entities">实体类集合.</param>
-        public bool Create<T>(IEnumerable<T> entities)
-            where T : ModelBase
-        {
-            bool result = false;
-            using (IDbConnection connection = CreateConnection())
-            {
-                using (IDbTransaction transaction = connection.BeginTransaction())
-                {
-                    try
-                    {
-                        foreach (T item in entities)
-                        {
-                            connection.Insert(item, transaction);
-                        }
-                        transaction.Commit();
-                    }
-                    catch (Exception)
-                    {
-                        transaction.Rollback();
-                    }
-                }
-            }
-            return result;
+            // insert single data always return 0 but the data is inserted in database successfully
+            //https://github.com/StackExchange/Dapper/issues/587
+            List<T> data = new List<T>() { entity };
+            return CurrentConnection.Insert(data, CurrentTransaction) > 0;
         }
 
         /// <summary>
@@ -109,43 +136,20 @@
         }
 
         /// <summary>
-        /// 条件删除记录
-        /// </summary>
-        /// <returns>操作是否成功</returns>
-        /// <param name="entities">需要操作的集合.</param>
-        public bool Delete<T>(IEnumerable<T> entities)
-            where T : ModelBase
-        {
-            bool result = false;
-            using (IDbConnection connection = CreateConnection())
-            {
-                using (IDbTransaction transaction = connection.BeginTransaction())
-                {
-                    try
-                    {
-                        foreach (T item in entities)
-                        {
-                            connection.Delete(item, transaction);
-                        }
-                        transaction.Commit();
-                        result = true;
-                    }
-                    catch (Exception)
-                    {
-                        result = false;
-                        transaction.Rollback();
-                    }
-                }
-            }
-            return result;
-        }
-
-        /// <summary>
-        /// Releases unmanaged and - optionally - managed resources.
+        /// 执行与释放或重置非托管资源关联的应用程序定义的任务。
         /// </summary>
         public void Dispose()
         {
-            //throw new NotImplementedException();
+            if (CurrentTransaction != null)
+            {
+                CurrentTransaction.Dispose();
+                CurrentTransaction = null;
+            }
+
+            if (CurrentConnection != null)
+            {
+                CurrentConnection.Dispose();
+            }
         }
 
         /// <summary>
@@ -158,11 +162,9 @@
         {
             string tableName = GetTableName<T>();
             QueryResult queryResult = DynamicQuery.GetDynamicQuery(tableName, predicate);
-            using (IDbConnection connection = CreateConnection())
-            {
-                object result = connection.ExecuteScalar(queryResult.Sql, (object)queryResult.Param);
-                return result.ToInt32OrDefault(0) > 0;
-            }
+
+            object result = CurrentConnection.ExecuteScalar(queryResult.Sql, (object)queryResult.Param, CurrentTransaction);
+            return result.ToInt32OrDefault(0) > 0;
         }
 
         /// <summary>
@@ -173,10 +175,7 @@
         public T Get<T>(object id)
             where T : ModelBase
         {
-            using (IDbConnection connection = CreateConnection())
-            {
-                return connection.Get<T>(id);
-            }
+            return CurrentConnection.Get<T>(id, CurrentTransaction);
         }
 
         /// <summary>
@@ -189,10 +188,8 @@
         {
             string tableName = GetTableName<T>();
             QueryResult queryResult = DynamicQuery.GetDynamicQuery(tableName, predicate);
-            using (IDbConnection connection = CreateConnection())
-            {
-                return connection.Query<T>(queryResult.Sql, (T)queryResult.Param).ToList();
-            }
+
+            return CurrentConnection.Query<T>(queryResult.Sql, (T)queryResult.Param, CurrentTransaction).ToList();
         }
 
         /// <summary>
@@ -205,10 +202,8 @@
         {
             string tableName = GetTableName<T>();
             QueryResult queryResult = DynamicQuery.GetDynamicQuery(tableName, predicate);
-            using (IDbConnection connection = CreateConnection())
-            {
-                return connection.QuerySingle<T>(queryResult.Sql, (T)queryResult.Param);
-            }
+
+            return CurrentConnection.QuerySingle<T>(queryResult.Sql, (T)queryResult.Param, CurrentTransaction);
         }
 
         /// <summary>
@@ -222,26 +217,21 @@
             throw new NotImplementedException();
         }
 
-        public IEnumerable<T> SqlQuery<T>(string sql, IDbDataParameter[] parameters)
+        /// <summary>
+        /// 显式回滚事务，仅在显式开启事务后有用
+        /// </summary>
+        public void Rollback()
         {
-            using (IDbConnection connection = CreateConnection())
+            if (TransactionEnabled)
             {
-                DapperParameter dataParameters = CreateParameter(parameters);
-                return connection.Query<T>(sql, dataParameters);
+                CurrentTransaction.Rollback();
             }
         }
 
-        private DapperParameter CreateParameter(IDbDataParameter[] parameters)
+        public IEnumerable<T> SqlQuery<T>(string sql, IDbDataParameter[] parameters)
         {
-            if (parameters == null || parameters.Length == 0)
-                return null;
-
-            DapperParameter dataParameters = new DapperParameter();
-            foreach (IDbDataParameter paramter in parameters)
-            {
-                dataParameters.Add(paramter);
-            }
-            return dataParameters;
+            DapperParameter dataParameters = CreateParameter(parameters);
+            return CurrentConnection.Query<T>(sql, dataParameters, CurrentTransaction);
         }
 
         /// <summary>
@@ -252,10 +242,22 @@
         public bool Update<T>(T entity)
             where T : ModelBase
         {
-            using (IDbConnection connection = CreateConnection())
+            return CurrentConnection.Update(entity, CurrentTransaction);
+        }
+
+        private DapperParameter CreateParameter(IDbDataParameter[] parameters)
+        {
+            if (parameters == null || parameters.Length == 0)
             {
-                return connection.Update(entity);
+                return null;
             }
+
+            DapperParameter dataParameters = new DapperParameter();
+            foreach (IDbDataParameter paramter in parameters)
+            {
+                dataParameters.Add(paramter);
+            }
+            return dataParameters;
         }
 
         private string GetTableName<T>()

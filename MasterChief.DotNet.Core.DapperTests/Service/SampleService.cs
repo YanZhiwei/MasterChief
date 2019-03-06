@@ -21,7 +21,11 @@ namespace MasterChief.DotNet.Core.DapperTests.Service
         {
             using (IDbContext dbcontext = _contextFactory.Create())
             {
-                return dbcontext.Create<EFSample>(samle);
+                dbcontext.BeginTransaction();
+
+                bool result = dbcontext.Create<EFSample>(samle);
+                dbcontext.Rollback();
+                return result;
             }
         }
 
