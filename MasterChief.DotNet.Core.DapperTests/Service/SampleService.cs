@@ -51,6 +51,14 @@ namespace MasterChief.DotNet.Core.DapperTests.Service
             }
         }
 
+        public EFSample Get(string name)
+        {
+            using (IDbContext dbcontext = _contextFactory.Create())
+            {
+                return dbcontext.GetFirstOrDefault<EFSample>(ent => ent.UserName == name);
+            }
+        }
+
         public List<EFSample> SqlQuery()
         {
             using (IDbContext dbcontext = _contextFactory.Create())
@@ -70,6 +78,14 @@ namespace MasterChief.DotNet.Core.DapperTests.Service
                     new SqlParameter(){ ParameterName="@Available", Value=true }
                 };
                 return dbcontext.SqlQuery<EFSample>(sql, parameter).ToList();
+            }
+        }
+
+        public bool Update(EFSample sample)
+        {
+            using (IDbContext dbcontext = _contextFactory.Create())
+            {
+                return dbcontext.Update(sample);
             }
         }
     }

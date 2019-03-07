@@ -24,7 +24,10 @@ namespace MasterChief.DotNet.Core.DapperTests.Service
 
         bool Delete(EFSample sample);
 
-
         bool Exist<T>(Expression<Func<T, bool>> predicate) where T : ModelBase;
+
+        bool Update(EFSample sample);
+
+        EFSample Get(string name);
     }
 }

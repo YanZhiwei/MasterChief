@@ -1,12 +1,13 @@
 ﻿using MasterChief.DotNet.Core.DapperTests;
 using MasterChief.DotNet.Core.DapperTests.Model;
 using MasterChief.DotNet.Core.DapperTests.Service;
+using MasterChief.DotNet4.Utilities.Common;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ninject;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using MasterChief.DotNet4.Utilities.Common;
+
 namespace MasterChief.DotNet.Core.Dapper.Tests
 {
     [TestClass()]
@@ -41,7 +42,14 @@ namespace MasterChief.DotNet.Core.Dapper.Tests
         [TestMethod()]
         public void GetTest()
         {
-            EFSample actual = _sampleService.Get(new Guid("BE492852-16C0-406D-B74B-17EE3D5F4C06"));
+            EFSample actual = _sampleService.Get(new Guid("438168E6-F5E0-4D69-9482-B12B58CFD7B4"));
+            Assert.IsNotNull(actual);
+        }
+
+        [TestMethod()]
+        public void GetByTest()
+        {
+            EFSample actual = _sampleService.Get("Dapper0307200005");
             Assert.IsNotNull(actual);
         }
 
@@ -66,23 +74,38 @@ namespace MasterChief.DotNet.Core.Dapper.Tests
         }
 
         /// <summary>
+        /// 更新测试
+        /// </summary>
+        [TestMethod()]
+        public void UpdateTest()
+        {
+            EFSample sample = new EFSample
+            {
+                ID = "AF6F423E-F820-422E-8EBD-915DD476558F".ToGuidOrDefault(Guid.Empty),
+                ModifyTime = DateTime.Now,
+                UserName = "UpdateTest"
+            };
+            bool actual = _sampleService.Update(sample);
+            Assert.IsTrue(actual);
+        }
+
+        /// <summary>
         /// 删除测试
         /// </summary>
         [TestMethod()]
         public void ExistTest()
         {
-            //bool actual = _sampleService.Exist<EFSample>(ent => ent.ID == new Guid("AFF0E545-8731-465F-8B0E-BFCAB44D6386"));
-            //Assert.IsTrue(actual);
-
-            //actual = _sampleService.Exist<EFSample>(ent => ent.ID == Guid.Empty);
-            //Assert.IsFalse(actual);
-
-            //var actual = _sampleService.Exist<EFSample>(ent => ent.CreateTime == "2019-03-06 22:44:33.373".ToDateOrDefault(DateTime.Now));
-            //Assert.IsTrue(actual);
-
-            var actual = _sampleService.Exist<EFSample>(ent => ent.UserName.Contains("dapper"));
+            bool actual = _sampleService.Exist<EFSample>(ent => ent.ID == new Guid("AFF0E545-8731-465F-8B0E-BFCAB44D6386"));
             Assert.IsTrue(actual);
 
+            actual = _sampleService.Exist<EFSample>(ent => ent.ID == Guid.Empty);
+            Assert.IsFalse(actual);
+
+            actual = _sampleService.Exist<EFSample>(ent => ent.CreateTime == "2019-03-06 22:44:33.373".ToDateOrDefault(DateTime.Now));
+            Assert.IsTrue(actual);
+
+            actual = _sampleService.Exist<EFSample>(ent => ent.CreateTime >= "2019-03-06 22:44:33.373".ToDateOrDefault(DateTime.Now));
+            Assert.IsTrue(actual);
         }
 
         /// <summary>

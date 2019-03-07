@@ -79,7 +79,7 @@ namespace MasterChief.DotNet.Core.Dapper.Helper
             if (body.NodeType != ExpressionType.AndAlso && body.NodeType != ExpressionType.OrElse)
             {
                 string propertyName = GetPropertyName(body);
-                var propertyValue = GetPropertyValue(body.Right);
+                object propertyValue = GetPropertyValue(body.Right);
                 string opr = GetOperator(body.NodeType);
                 string link = GetOperator(linkingType);
 
@@ -94,12 +94,15 @@ namespace MasterChief.DotNet.Core.Dapper.Helper
 
         private static object GetPropertyValue(Expression source)
         {
-            var constantExpression = source as ConstantExpression;
+            ConstantExpression constantExpression = source as ConstantExpression;
             if (constantExpression != null)
+            {
                 return constantExpression.Value;
-            var evalExpr = Expression.Lambda<Func<object>>(Expression.Convert(source, typeof(object)));
-            var evalFunc = evalExpr.Compile();
-            var value = evalFunc();
+            }
+
+            Expression<Func<object>> evalExpr = Expression.Lambda<Func<object>>(Expression.Convert(source, typeof(object)));
+            Func<object> evalFunc = evalExpr.Compile();
+            object value = evalFunc();
             return value;
         }
 
@@ -142,6 +145,13 @@ namespace MasterChief.DotNet.Core.Dapper.Helper
 
                 case ExpressionType.Default:
                     return string.Empty;
+
+                case ExpressionType.GreaterThanOrEqual:
+                    return ">=";
+
+                case ExpressionType.LessThanOrEqual:
+
+                    return "<=";
 
                 default:
                     throw new NotImplementedException();
