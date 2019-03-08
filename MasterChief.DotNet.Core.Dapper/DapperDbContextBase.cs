@@ -228,6 +228,12 @@
             }
         }
 
+        /// <summary>
+        /// 执行Sql 脚本查询
+        /// </summary>
+        /// <param name="sql">Sql语句</param>
+        /// <param name="parameters">参数</param>
+        /// <returns>集合</returns>
         public IEnumerable<T> SqlQuery<T>(string sql, IDbDataParameter[] parameters)
         {
             DapperParameter dataParameters = CreateParameter(parameters);
