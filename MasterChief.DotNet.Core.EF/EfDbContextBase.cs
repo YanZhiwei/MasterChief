@@ -167,7 +167,7 @@
         /// </summary>
         /// <returns>记录</returns>
         /// <param name="id">id.</param>
-        public T Get<T>(object id)
+        public T GetByKeyID<T>(object id)
             where T : ModelBase
         {
             return Set<T>().Find(id);
@@ -178,7 +178,7 @@
         /// </summary>
         /// <returns>集合</returns>
         /// <param name="predicate">筛选条件.</param>
-        public List<T> Get<T>(Expression<Func<T, bool>> predicate = null)
+        public List<T> GetList<T>(Expression<Func<T, bool>> predicate = null)
             where T : ModelBase
         {
             IQueryable<T> query = Set<T>();

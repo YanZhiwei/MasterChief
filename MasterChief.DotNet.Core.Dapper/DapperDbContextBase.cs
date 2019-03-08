@@ -96,7 +96,7 @@
                         string msg = DataBaseHelper.GetSqlExceptionMessage(sqlEx.Number);
                         throw new DataAccessException("提交数据更新时发生异常：" + msg, sqlEx);
                     }
-                    throw ex;
+                    throw;
                 }
             }
         }
@@ -111,8 +111,8 @@
         {
             // insert single data always return 0 but the data is inserted in database successfully
             //https://github.com/StackExchange/Dapper/issues/587
-            List<T> data = new List<T>() { entity };
-            return CurrentConnection.Insert(data, CurrentTransaction) > 0;
+            //List<T> data = new List<T>() { entity };
+            return CurrentConnection.Insert(new List<T> { entity }, CurrentTransaction) > 0;
         }
 
         /// <summary>
@@ -129,10 +129,7 @@
         public bool Delete<T>(T entity)
             where T : ModelBase
         {
-            using (IDbConnection connection = CreateConnection())
-            {
-                return connection.Delete(entity);
-            }
+            return CurrentConnection.Delete<T>(entity);
         }
 
         /// <summary>
@@ -172,7 +169,7 @@
         /// </summary>
         /// <returns>记录</returns>
         /// <param name="id">id.</param>
-        public T Get<T>(object id)
+        public T GetByKeyID<T>(object id)
             where T : ModelBase
         {
             return CurrentConnection.Get<T>(id, CurrentTransaction);
@@ -183,7 +180,7 @@
         /// </summary>
         /// <returns>集合</returns>
         /// <param name="predicate">筛选条件.</param>
-        public List<T> Get<T>(Expression<Func<T, bool>> predicate = null)
+        public List<T> GetList<T>(Expression<Func<T, bool>> predicate = null)
             where T : ModelBase
         {
             string tableName = GetTableName<T>();

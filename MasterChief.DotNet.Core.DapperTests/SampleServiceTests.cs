@@ -6,6 +6,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ninject;
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
+using System.Data.SqlClient;
 using System.Threading.Tasks;
 
 namespace MasterChief.DotNet.Core.Dapper.Tests
@@ -26,34 +28,6 @@ namespace MasterChief.DotNet.Core.Dapper.Tests
         }
 
         /// <summary>
-        /// 脚本查询测试
-        /// </summary>
-        [TestMethod()]
-        public void SqlQueryTest()
-        {
-            List<EFSample> actual = _sampleService.SqlQuery();
-            Assert.IsNotNull(actual);
-            Assert.IsTrue(actual.Count > 0);
-        }
-
-        /// <summary>
-        /// 查询测试
-        /// </summary>
-        [TestMethod()]
-        public void GetTest()
-        {
-            EFSample actual = _sampleService.Get(new Guid("438168E6-F5E0-4D69-9482-B12B58CFD7B4"));
-            Assert.IsNotNull(actual);
-        }
-
-        [TestMethod()]
-        public void GetByTest()
-        {
-            EFSample actual = _sampleService.Get("UpdateTest");
-            Assert.IsNotNull(actual);
-        }
-
-        /// <summary>
         /// 创建测试
         /// </summary>
         [TestMethod()]
@@ -63,55 +37,77 @@ namespace MasterChief.DotNet.Core.Dapper.Tests
             Assert.IsTrue(actual);
         }
 
-        /// <summary>
-        /// 删除测试
-        /// </summary>
         [TestMethod()]
-        public void DeleteTest()
+        public void GetFirstOrDefaultTest()
         {
-            bool actual = _sampleService.Delete(new EFSample() { ID = new Guid("97EF5448-EB83-4730-B1A3-47B66634EF27") });
-            Assert.IsTrue(actual);
+            EFSample actual = _sampleService.GetFirstOrDefault(ent => ent.ID == "2F6D3C43-C2C7-4398-AD2B-ED5E82D7514E".ToGuidOrDefault(Guid.Empty));
+            Assert.IsNotNull(actual);
         }
 
-        /// <summary>
-        /// 更新测试
-        /// </summary>
+        [TestMethod()]
+        public void GetByKeyIdTest()
+        {
+            EFSample actual = _sampleService.GetByKeyID("2F6D3C43-C2C7-4398-AD2B-ED5E82D7514E".ToGuidOrDefault(Guid.Empty));
+            Assert.IsNotNull(actual);
+        }
+
+        [TestMethod()]
+        public void GetListTest()
+        {
+            List<EFSample> actual = _sampleService.GetList(ent => ent.Available == true);
+            Assert.IsNotNull(actual);
+            CollectionAssert.AllItemsAreNotNull(actual);
+        }
+
         [TestMethod()]
         public void UpdateTest()
         {
             EFSample sample = new EFSample
             {
-                ID = "AF6F423E-F820-422E-8EBD-915DD476558F".ToGuidOrDefault(Guid.Empty),
+                ID = "2F6D3C43-C2C7-4398-AD2B-ED5E82D7514E".ToGuidOrDefault(Guid.Empty),
                 ModifyTime = DateTime.Now,
-                UserName = "UpdateTest"
+                UserName = "modify"
             };
             bool actual = _sampleService.Update(sample);
-            Assert.IsTrue(actual);
+            Assert.IsNotNull(actual);
         }
 
-        /// <summary>
-        /// 删除测试
-        /// </summary>
         [TestMethod()]
         public void ExistTest()
         {
-            bool actual = _sampleService.Exist<EFSample>(ent => ent.ID == new Guid("486A03E5-A58D-465C-9423-1BFAD7E40247"));
+            bool actual = _sampleService.Exist(ent => ent.ID == "2F6D3C43-C2C7-4398-AD2B-ED5E82D7514E".ToGuidOrDefault(Guid.Empty));
             Assert.IsTrue(actual);
 
-            actual = _sampleService.Exist<EFSample>(ent => ent.ID == Guid.Empty);
+            actual = _sampleService.Exist(ent => ent.UserName == "Dapper0309002757");
+            Assert.IsTrue(actual);
+
+            actual = _sampleService.Exist(ent => ent.CreateTime >= DateTime.Now.AddDays(-1));
+            Assert.IsTrue(actual);
+
+            actual = _sampleService.Exist(ent => ent.CreateTime <= DateTime.Now);
+            Assert.IsTrue(actual);
+
+            actual = _sampleService.Exist(ent => ent.Available == true);
+            Assert.IsTrue(actual);
+
+            actual = _sampleService.Exist(ent => ent.Available != true);
             Assert.IsFalse(actual);
+        }
 
-            actual = _sampleService.Exist<EFSample>(ent => ent.CreateTime == "2019-03-06 22:44:33.373".ToDateOrDefault(DateTime.Now));
-            Assert.IsTrue(actual);
-
-            actual = _sampleService.Exist<EFSample>(ent => ent.CreateTime >= "2019-03-06 22:44:33.373".ToDateOrDefault(DateTime.Now));
-            Assert.IsTrue(actual);
-
-            actual = _sampleService.Exist<EFSample>(ent => ent.UserName == "UpdateTest");
-            Assert.IsTrue(actual);
-
-            actual = _sampleService.Exist("UpdateTest");
-            Assert.IsTrue(actual);
+        [TestMethod()]
+        public void SqlQueryTest()
+        {
+            string sql = @"select * from [dbo].[EFSample]
+where CreateTime>=@CreateTime
+and Available=@Available
+order by CreateTime desc";
+            DbParameter[] parameter = {
+                    new SqlParameter(){ ParameterName="@CreateTime", Value=DateTime.Now.AddDays(-1) },
+                    new SqlParameter(){ ParameterName="@Available", Value=true }
+                };
+            List<EFSample> actual = _sampleService.SqlQuery(sql, parameter);
+            Assert.IsNotNull(actual);
+            CollectionAssert.AllItemsAreNotNull(actual);
         }
 
         /// <summary>

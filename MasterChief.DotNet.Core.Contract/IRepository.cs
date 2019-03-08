@@ -31,14 +31,14 @@
         /// </summary>
         /// <returns>记录</returns>
         /// <param name="id">id.</param>
-        T Get<T>(object id) where T : ModelBase;
+        T GetByKeyID<T>(object id) where T : ModelBase;
 
         /// <summary>
         /// 条件获取记录集合
         /// </summary>
         /// <returns>集合</returns>
         /// <param name="predicate">筛选条件.</param>
-        List<T> Get<T>(Expression<Func<T, bool>> predicate = null) where T : ModelBase;
+        List<T> GetList<T>(Expression<Func<T, bool>> predicate = null) where T : ModelBase;
 
         /// <summary>
         /// 条件获取记录第一条或者默认
