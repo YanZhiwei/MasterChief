@@ -26,6 +26,8 @@ namespace MasterChief.DotNet.Core.DapperTests.Service
 
         bool Exist<T>(Expression<Func<T, bool>> predicate) where T : ModelBase;
 
+        bool Exist(string name);
+
         bool Update(EFSample sample);
 
         EFSample Get(string name);

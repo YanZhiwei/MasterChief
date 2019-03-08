@@ -43,6 +43,14 @@ namespace MasterChief.DotNet.Core.DapperTests.Service
             }
         }
 
+        public bool Exist(string name)
+        {
+            using (IDbContext dbcontext = _contextFactory.Create())
+            {
+                return dbcontext.Exist<EFSample>(ent => ent.UserName == name);
+            }
+        }
+
         public EFSample Get(Guid id)
         {
             using (IDbContext dbcontext = _contextFactory.Create())

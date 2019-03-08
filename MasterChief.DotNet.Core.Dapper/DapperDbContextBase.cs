@@ -189,7 +189,7 @@
             string tableName = GetTableName<T>();
             QueryResult queryResult = DynamicQuery.GetDynamicQuery(tableName, predicate);
 
-            return CurrentConnection.Query<T>(queryResult.Sql, (T)queryResult.Param, CurrentTransaction).ToList();
+            return CurrentConnection.Query<T>(queryResult.Sql, (object)queryResult.Param, CurrentTransaction).ToList();
         }
 
         /// <summary>
@@ -203,7 +203,7 @@
             string tableName = GetTableName<T>();
             QueryResult queryResult = DynamicQuery.GetDynamicQuery(tableName, predicate);
 
-            return CurrentConnection.QuerySingle<T>(queryResult.Sql, (T)queryResult.Param, CurrentTransaction);
+            return CurrentConnection.QueryFirst<T>(queryResult.Sql, (object)queryResult.Param, CurrentTransaction);
         }
 
         /// <summary>

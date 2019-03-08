@@ -49,7 +49,7 @@ namespace MasterChief.DotNet.Core.Dapper.Tests
         [TestMethod()]
         public void GetByTest()
         {
-            EFSample actual = _sampleService.Get("Dapper0307200005");
+            EFSample actual = _sampleService.Get("UpdateTest");
             Assert.IsNotNull(actual);
         }
 
@@ -95,7 +95,7 @@ namespace MasterChief.DotNet.Core.Dapper.Tests
         [TestMethod()]
         public void ExistTest()
         {
-            bool actual = _sampleService.Exist<EFSample>(ent => ent.ID == new Guid("AFF0E545-8731-465F-8B0E-BFCAB44D6386"));
+            bool actual = _sampleService.Exist<EFSample>(ent => ent.ID == new Guid("486A03E5-A58D-465C-9423-1BFAD7E40247"));
             Assert.IsTrue(actual);
 
             actual = _sampleService.Exist<EFSample>(ent => ent.ID == Guid.Empty);
@@ -105,6 +105,12 @@ namespace MasterChief.DotNet.Core.Dapper.Tests
             Assert.IsTrue(actual);
 
             actual = _sampleService.Exist<EFSample>(ent => ent.CreateTime >= "2019-03-06 22:44:33.373".ToDateOrDefault(DateTime.Now));
+            Assert.IsTrue(actual);
+
+            actual = _sampleService.Exist<EFSample>(ent => ent.UserName == "UpdateTest");
+            Assert.IsTrue(actual);
+
+            actual = _sampleService.Exist("UpdateTest");
             Assert.IsTrue(actual);
         }
 
