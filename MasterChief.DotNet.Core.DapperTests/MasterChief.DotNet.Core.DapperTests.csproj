@@ -8,7 +8,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MasterChief.DotNet.Core.DapperTests</RootNamespace>
     <AssemblyName>MasterChief.DotNet.Core.DapperTests</AssemblyName>
-    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -36,15 +36,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Dapper, Version=1.60.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Dapper.1.60.1\lib\net451\Dapper.dll</HintPath>
+    <Reference Include="Dapper, Version=1.50.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.1.50.0\lib\net40\Dapper.dll</HintPath>
     </Reference>
-    <Reference Include="Dapper.Contrib, Version=1.60.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Dapper.Contrib.1.60.1\lib\net451\Dapper.Contrib.dll</HintPath>
+    <Reference Include="Dapper.Contrib, Version=1.50.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.Contrib.1.50.0\lib\net40\Dapper.Contrib.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Ninject, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
-      <HintPath>..\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
+      <HintPath>..\packages\Ninject.3.2.0.0\lib\net40\Ninject.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -83,20 +83,16 @@
       <Project>{D6901CA8-C4F1-4DFC-AC9F-3083276B8267}</Project>
       <Name>MasterChief.DotNet.Core.Dapper</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MasterChief.DotNet4.5.Utilities\MasterChief.DotNet4.5.Utilities.csproj">
-      <Project>{50490a4f-41a7-4968-8a92-8b49c6267066}</Project>
-      <Name>MasterChief.DotNet4.5.Utilities</Name>
-    </ProjectReference>
     <ProjectReference Include="..\MasterChief.DotNet4.Utilities\MasterChief.DotNet4.Utilities.csproj">
       <Project>{d1dc63aa-db3a-4c47-9e20-f7474420ba48}</Project>
       <Name>MasterChief.DotNet4.Utilities</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <Content Include="script.sql" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="script.sql" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
