@@ -80,10 +80,17 @@
       <Project>{483B0077-53F1-4F79-A802-596998F19B2B}</Project>
       <Name>MasterChief.DotNet.Core.EF</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MasterChief.DotNet4.Utilities\MasterChief.DotNet4.Utilities.csproj">
+      <Project>{D1DC63AA-DB3A-4C47-9E20-F7474420BA48}</Project>
+      <Name>MasterChief.DotNet4.Utilities</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="script.sql" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

@@ -61,5 +61,13 @@ namespace MasterChief.DotNet.Core.DapperTests.Service
         /// <param name="sample">The sample.</param>
         /// <returns></returns>
         bool Update(EFSample sample);
+
+        /// <summary>
+        /// 事务成功
+        /// </summary>
+        /// <param name="sample">The sample.</param>
+        /// <param name="sample2">The sample2.</param>
+        /// <returns></returns>
+        bool CreateWithTransaction(EFSample sample, EFSample sample2);
     }
 }

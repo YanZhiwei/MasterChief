@@ -115,5 +115,33 @@ namespace MasterChief.DotNet.Core.DapperTests.Service
                 return dbcontext.Update(sample);
             }
         }
+
+        /// <summary>
+        /// 事务
+        /// </summary>
+        /// <param name="sample">The sample.</param>
+        /// <param name="sample2">The sample2.</param>
+        /// <returns></returns>
+        public bool CreateWithTransaction(EFSample sample, EFSample sample2)
+        {
+            bool result = true;
+            using (IDbContext dbcontext = _contextFactory.Create())
+            {
+                try
+                {
+                    dbcontext.BeginTransaction();//开启事务
+                    dbcontext.Create(sample);
+                    dbcontext.Create(sample2);
+                    dbcontext.Commit();
+                }
+                catch (Exception)
+                {
+                    dbcontext.Rollback();
+                    result = false;
+                }
+            }
+
+            return result;
+        }
     }
 }

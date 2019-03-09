@@ -17,6 +17,8 @@ namespace MasterChief.DotNet.Core.Dapper.Tests
     {
         private IKernel _kernel = null;
         private ISampleService _sampleService = null;
+        private readonly Guid _testID = "2F6D3C43-C2C7-4398-AD2B-ED5E82D78888".ToGuidOrDefault(Guid.Empty);
+        private readonly string _testName = "DapperSample";
 
         [TestInitialize]
         public void SetUp()
@@ -25,6 +27,10 @@ namespace MasterChief.DotNet.Core.Dapper.Tests
             Assert.IsNotNull(_kernel);
 
             _sampleService = _kernel.Get<ISampleService>();
+            if (!_sampleService.Exist(ent => ent.ID == _testID))
+            {
+                _sampleService.Create(new EFSample() { UserName = _testName, ID = _testID });
+            }
         }
 
         /// <summary>
@@ -40,14 +46,14 @@ namespace MasterChief.DotNet.Core.Dapper.Tests
         [TestMethod()]
         public void GetFirstOrDefaultTest()
         {
-            EFSample actual = _sampleService.GetFirstOrDefault(ent => ent.ID == "2F6D3C43-C2C7-4398-AD2B-ED5E82D7514E".ToGuidOrDefault(Guid.Empty));
+            EFSample actual = _sampleService.GetFirstOrDefault(ent => ent.ID == _testID);
             Assert.IsNotNull(actual);
         }
 
         [TestMethod()]
         public void GetByKeyIdTest()
         {
-            EFSample actual = _sampleService.GetByKeyID("2F6D3C43-C2C7-4398-AD2B-ED5E82D7514E".ToGuidOrDefault(Guid.Empty));
+            EFSample actual = _sampleService.GetByKeyID(_testID);
             Assert.IsNotNull(actual);
         }
 
@@ -64,7 +70,7 @@ namespace MasterChief.DotNet.Core.Dapper.Tests
         {
             EFSample sample = new EFSample
             {
-                ID = "2F6D3C43-C2C7-4398-AD2B-ED5E82D7514E".ToGuidOrDefault(Guid.Empty),
+                ID = _testID,
                 ModifyTime = DateTime.Now,
                 UserName = "modify"
             };
@@ -73,12 +79,44 @@ namespace MasterChief.DotNet.Core.Dapper.Tests
         }
 
         [TestMethod()]
+        public void TransactionSuccessTest()
+        {
+            EFSample sample = new EFSample
+            {
+                UserName = "TransactionSuccess1"
+            };
+
+            EFSample sample2 = new EFSample
+            {
+                UserName = "TransactionSuccess2"
+            };
+            bool actual = _sampleService.CreateWithTransaction(sample, sample2);
+            Assert.IsTrue(actual);
+        }
+
+        [TestMethod()]
+        public void TransactionFailTest()
+        {
+            EFSample sample3 = new EFSample
+            {
+                UserName = "TransactionSuccess3"
+            };
+
+            EFSample sample4 = new EFSample
+            {
+                UserName = null
+            };
+            bool actual = _sampleService.CreateWithTransaction(sample3, sample4);
+            Assert.IsFalse(actual);
+        }
+
+        [TestMethod()]
         public void ExistTest()
         {
-            bool actual = _sampleService.Exist(ent => ent.ID == "2F6D3C43-C2C7-4398-AD2B-ED5E82D7514E".ToGuidOrDefault(Guid.Empty));
+            bool actual = _sampleService.Exist(ent => ent.ID == _testID);
             Assert.IsTrue(actual);
 
-            actual = _sampleService.Exist(ent => ent.UserName == "Dapper0309002757");
+            actual = _sampleService.Exist(ent => ent.UserName == _testName);
             Assert.IsTrue(actual);
 
             actual = _sampleService.Exist(ent => ent.CreateTime >= DateTime.Now.AddDays(-1));

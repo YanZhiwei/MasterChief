@@ -250,7 +250,7 @@
 
         private DapperParameter CreateParameter(IDbDataParameter[] parameters)
         {
-            if (parameters == null || parameters.Length == 0)
+            if (!(parameters?.Any() ?? false))
             {
                 return null;
             }

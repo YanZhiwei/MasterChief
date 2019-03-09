@@ -1,11 +1,9 @@
 ﻿namespace MasterChief.DotNet.Core.EFTests.Service
 {
     using MasterChief.DotNet.Core.Contract;
-    using MasterChief.DotNet.Core.Contract.Helper;
     using System;
     using System.Collections.Generic;
     using System.Data.Common;
-    using System.Data.SqlClient;
     using System.Linq;
     using System.Linq.Expressions;
 
@@ -13,44 +11,50 @@
     /// 测试数据接口
     /// </summary>
     /// <seealso cref="MasterChief.DotNet.Core.EFTests.Service.ISampleService" />
-    public sealed class SampleService : ISampleService
+    public class SampleService : ISampleService
     {
-        #region Fields
-
         private readonly IDatabaseContextFactory _contextFactory = null;
-
-        #endregion Fields
-
-        #region Constructors
 
         public SampleService(IDatabaseContextFactory contextFactory)
         {
             _contextFactory = contextFactory;
         }
 
-        #endregion Constructors
-
-        #region Methods
-
         /// <summary>
-        /// Creates the specified samle.
+        /// 创建
         /// </summary>
-        /// <param name="sample">The samle.</param>
+        /// <param name="samle">EFSample</param>
         /// <returns></returns>
-        public bool Create(EFSample sample)
+        public bool Create(EFSample samle)
         {
             using (IDbContext dbcontext = _contextFactory.Create())
             {
-                return dbcontext.Create<EFSample>(sample);
+                return dbcontext.Create<EFSample>(samle);
             }
         }
 
         /// <summary>
-        /// Gets the specified identifier.
+        /// 条件查询
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="predicate">The predicate.</param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public EFSample GetFirstOrDefault(Expression<Func<EFSample, bool>> predicate = null)
+        {
+            using (IDbContext dbcontext = _contextFactory.Create())
+            {
+                return dbcontext.GetFirstOrDefault<EFSample>(predicate);
+            }
+        }
+
+        /// <summary>
+        /// 根据主键查询
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
-        public EFSample Get(Guid id)
+        /// <exception cref="NotImplementedException"></exception>
+        public EFSample GetByKeyID(Guid id)
         {
             using (IDbContext dbcontext = _contextFactory.Create())
             {
@@ -58,45 +62,85 @@
             }
         }
 
-        public PagedList<EFSample> GetByPage(int pageIndex, int PageSize)
+        /// <summary>
+        /// 条件查询集合
+        /// </summary>
+        /// <param name="predicate">The predicate.</param>
+        /// <returns></returns>
+        public List<EFSample> GetList(Expression<Func<EFSample, bool>> predicate = null)
         {
             using (IDbContext dbcontext = _contextFactory.Create())
             {
-                return dbcontext.Query<EFSample>().OrderByDescending(ent => ent.CreateTime).ToPagedList(pageIndex, PageSize);
+                return dbcontext.GetList<EFSample>(predicate);
             }
         }
 
-        public List<EFSample> SqlQuery()
+        /// <summary>
+        /// 添加判断是否存在
+        /// </summary>
+        /// <typeparam name="EFSample">The type of the f sample.</typeparam>
+        /// <param name="predicate">The predicate.</param>
+        /// <returns></returns>
+        public bool Exist(Expression<Func<EFSample, bool>> predicate = null)
         {
             using (IDbContext dbcontext = _contextFactory.Create())
             {
-                string sql = @"SELECT
-            *
-            from
-            EFSample
-            WHERE
-            UserName like @UserName
-            and Available = @Available
-            order by
-            CreateTime DESC";
-
-                DbParameter[] parameter = {
-                    new SqlParameter(){ ParameterName="@UserName", Value="%ef%" },
-                    new SqlParameter(){ ParameterName="@Available", Value=true }
-                };
-                return dbcontext.SqlQuery<EFSample>(sql, parameter).ToList();
+                return dbcontext.Exist<EFSample>(predicate);
             }
         }
 
-        public bool Exist<T>(Expression<Func<T, bool>> predicate = null)
-           where T : ModelBase
+        /// <summary>
+        /// 脚本查询
+        /// </summary>
+        /// <param name="sql">The SQL.</param>
+        /// <returns></returns>
+        public List<EFSample> SqlQuery(string sql, DbParameter[] parameter)
         {
             using (IDbContext dbcontext = _contextFactory.Create())
             {
-                return dbcontext.Exist<T>(predicate);
+                return dbcontext.SqlQuery<EFSample>(sql, parameter)?.ToList();
             }
         }
 
-        #endregion Methods
+        /// <summary>
+        /// 更新
+        /// </summary>
+        /// <param name="sample">The sample.</param>
+        /// <returns></returns>
+        public bool Update(EFSample sample)
+        {
+            using (IDbContext dbcontext = _contextFactory.Create())
+            {
+                return dbcontext.Update(sample);
+            }
+        }
+
+        /// <summary>
+        /// 事务
+        /// </summary>
+        /// <param name="sample">The sample.</param>
+        /// <param name="sample2">The sample2.</param>
+        /// <returns></returns>
+        public bool CreateWithTransaction(EFSample sample, EFSample sample2)
+        {
+            bool result = true;
+            using (IDbContext dbcontext = _contextFactory.Create())
+            {
+                try
+                {
+                    dbcontext.BeginTransaction();//开启事务
+                    dbcontext.Create(sample);
+                    dbcontext.Create(sample2);
+                    dbcontext.Commit();
+                }
+                catch (Exception)
+                {
+                    dbcontext.Rollback();
+                    result = false;
+                }
+            }
+
+            return result;
+        }
     }
 }
