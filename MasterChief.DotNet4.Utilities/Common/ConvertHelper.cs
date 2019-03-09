@@ -18,7 +18,7 @@
         /// <param name="data">需要转换的object</param>
         /// <param name="defalut">默认数值</param>
         /// <returns>转换返回</returns>
-        public static bool ToBooleanOrDefault(this object data, bool defalut)
+        public static bool ToBooleanOrDefault(this object data, bool defalut = false)
         {
             return data != null && bool.TryParse(data.ToString(), out bool result) ? result : defalut;
         }
@@ -29,7 +29,7 @@
         /// <param name="data">需要转换的object</param>
         /// <param name="defalut">默认数值</param>
         /// <returns>转换返回</returns>
-        public static byte ToByteOrDefault(this object data, byte defalut)
+        public static byte ToByteOrDefault(this object data, byte defalut = 0x00)
         {
             return data != null && byte.TryParse(data.ToString(), out byte result) ? result : defalut;
         }
@@ -108,6 +108,15 @@
         {
             return DateTime.TryParse(data.ToString(), out DateTime _result) ? _result : defalut;
         }
+        /// <summary>
+        /// 日期转化
+        /// </summary>
+        /// <returns>目标日期</returns>
+        /// <param name="data">数据.</param>
+        public static DateTime ToDateOrDefault(this object data)
+        {
+            return ToDateOrDefault(data, DateTime.MinValue);
+        }
 
         /// <summary>
         ///  转换成decimal类型
@@ -115,7 +124,7 @@
         /// <param name="data">需要转换的object</param>
         /// <param name="defalut">默认数值</param>
         /// <returns>转换返回</returns>
-        public static decimal ToDecimalOrDefault(this object data, decimal defalut)
+        public static decimal ToDecimalOrDefault(this object data, decimal defalut = 0m)
         {
             if (data != null)
             {
@@ -131,7 +140,7 @@
         /// <param name="data">需要转换的object</param>
         /// <param name="defalut">默认数值</param>
         /// <returns>转换返回</returns>
-        public static double ToDoubleOrDefault(this object data, double defalut)
+        public static double ToDoubleOrDefault(this object data, double defalut = 0d)
         {
             if (data != null)
             {
@@ -148,7 +157,7 @@
         /// <param name="data">需要转换的object</param>
         /// <param name="defalut">默认数值</param>
         /// <returns>转换返回</returns>
-        public static int ToInt32OrDefault(this object data, int defalut)
+        public static int ToInt32OrDefault(this object data, int defalut = 0)
         {
             if (data != null)
             {
@@ -165,7 +174,7 @@
         /// <param name="data">需要转换的object</param>
         /// <param name="defalut">默认数值</param>
         /// <returns>转换返回</returns>
-        public static long ToInt64OrDefault(this object data, long defalut)
+        public static long ToInt64OrDefault(this object data, long defalut = 0)
         {
             if (data != null)
             {
@@ -182,7 +191,7 @@
         /// <param name="data">需要转换的object</param>
         /// <param name="defalut">默认数值</param>
         /// <returns>转换返回</returns>
-        public static int ToIntOrDefault(this object data, int defalut)
+        public static int ToIntOrDefault(this object data, int defalut = 0)
         {
             if (data != null)
             {
@@ -220,7 +229,7 @@
         /// <param name="columnIndex">列索引</param>
         /// <param name="defalut">默认数值</param>
         /// <returns>若列不等于NULL则返回实际值</returns>
-        public static int ToIntOrDefault(this DataRow row, int columnIndex, int defalut)
+        public static int ToIntOrDefault(this DataRow row, int columnIndex, int defalut = 0)
         {
             if (row != null)
             {
@@ -359,6 +368,17 @@
             }
 
             return defalut;
+        }
+
+        /// <summary>
+        /// 将字符串转换为Guid
+        /// </summary>
+        /// <returns>期待guid</returns>
+        /// <param name="data">数值.</param>
+        public static Guid ToGuidOrDefault(this string data)
+        {
+
+            return ToGuidOrDefault(data, Guid.Empty);
         }
 
         /// <summary>
