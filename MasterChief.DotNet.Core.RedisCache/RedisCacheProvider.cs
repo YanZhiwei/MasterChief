@@ -4,6 +4,10 @@
     using ServiceStack.Redis;
     using System;
 
+    /// <summary>
+    /// Redis缓存实现
+    /// </summary>
+    /// <seealso cref="MasterChief.DotNet.Core.Cache.ICacheProvider" />
     public sealed class RedisCacheProvider : ICacheProvider
     {
         #region Fields
@@ -65,11 +69,21 @@
             _redisWriteClient.Remove(key);
         }
 
+        /// <summary>
+        /// 根据正则表达式移除缓存
+        /// </summary>
+        /// <param name="pattern">移除缓存</param>
         public void RemoveByPattern(string pattern)
         {
             this.RemoveByPattern(pattern, _redisReadClient.GetAllKeys());
         }
 
+        /// <summary>
+        /// 设置缓存
+        /// </summary>
+        /// <param name="key">键</param>
+        /// <param name="data">值</param>
+        /// <param name="cacheTime">过期时间，单位分钟</param>
         public void Set(string key, object data, int cacheTime)
         {
             lock (syncRoot)
@@ -84,6 +98,13 @@
             }
         }
 
+        /// <summary>
+        /// 设置缓存
+        /// </summary>
+        /// <param name="key">键</param>
+        /// <param name="data">值</param>
+        /// <param name="dependFile">文件依赖</param>
+        /// <exception cref="System.NotImplementedException"></exception>
         public void Set(string key, object data, string dependFile)
         {
             throw new System.NotImplementedException();
