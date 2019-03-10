@@ -350,3 +350,325 @@ public bool CreateWithTransaction(EFSample sample, EFSample sample2)
    GO
    ```
 
+2. 日志模块说明
+
+   a. 目前实现基于Log4Net的本地文件日志以及Kafka ELK的日志；
+
+   b. 基于接口ILogService可以很容易扩展其他日志显示； 
+
+代码使用说明
+
+1. 配置依赖注入，日志实现方式，这里采用文件日志形式
+
+   ```c#
+   using MasterChief.DotNet.Core.Log;
+   using Ninject.Modules;
+    
+   namespace MasterChief.DotNet.Core.LogTests
+   {
+       public sealed class LogModule : NinjectModule
+       {
+           public override void Load()
+           {
+               Bind<ILogService>().To<FileLogService>().InSingletonScope();
+           }
+       }
+   }
+   ```
+
+2. 拷贝日志config文件到项目内，并设置属性“始终复制”到输出目录，您可以根据项目需求调整config内容
+
+   ```xml
+   <?xml version="1.0" encoding="utf-8" ?>
+   <configuration>
+     <configSections>
+       <section name="log4net" type="log4net.Config.Log4NetConfigurationSectionHandler" />
+     </configSections>
+     <log4net>
+       <!-- FileLogger -->
+       <logger name="FATAL_FileLogger">
+         <level value="ALL" />
+         <appender-ref ref="FATAL_FileAppender" />
+       </logger>
+       <logger name="ERROR_FileLogger">
+         <level value="ALL" />
+         <appender-ref ref="ERROR_FileAppender" />
+       </logger>
+       <logger name="WARN_FileLogger">
+         <level value="ALL" />
+         <appender-ref ref="WARN_FileAppender" />
+       </logger>
+       <logger name="INFO_FileLogger">
+         <level value="ALL" />
+         <appender-ref ref="INFO_FileAppender" />
+       </logger>
+       <logger name="DEBUG_FileLogger">
+         <level value="ALL" />
+         <appender-ref ref="DEBUG_FileAppender" />
+       </logger>
+       <!-- AdoNetLogger -->
+       <!--<logger name="AdoNetLogger">
+         <level value="ALL" />
+         <appender-ref ref="AdoNetAppender" />
+       </logger>-->
+       <!-- ConsoleLogger -->
+       <logger name="ConsoleLogger">
+         <level value="ALL" />
+         <appender-ref ref="ColoredConsoleAppender" />
+       </logger>
+    
+       <!--使用Rolling方式记录日志按照日来记录日志-->
+       <appender name="FATAL_FileAppender" type="log4net.Appender.RollingFileAppender">
+         <!--文件名,可以相对路径,也可以绝对路径,这里只给定了文件夹-->
+         <file value=".\log\\FATAL\\" />
+         <!--是否增加文件-->
+         <appendToFile value="true" />
+         <maxSizeRollBackups value="5" />
+         <!--日志追加类型,Date为按日期增加文件,Size为按大小-->
+         <rollingStyle value="Date" />
+         <!--最小锁定模型以允许多个进程可以写入同一个文件,解决文件独占问题-->
+         <lockingModel type="log4net.Appender.FileAppender+MinimalLock" />
+         <!--最大文件大小-->
+         <maximumFileSize value="10MB" />
+         <!--文件命名格式,非日期参数化要进行转义,如自定义文件后缀-->
+         <datePattern value="yyyyMM\\yyyy-MM-dd&quot;.log&quot;" />
+         <!--是否固定文件名-->
+         <staticLogFileName value="false" />
+         <layout type="log4net.Layout.PatternLayout">
+           <conversionPattern value="---------------------------------------------------%newline发生时间：%date %newline事件级别：%-5level %newline事件来源：%logger%newline日志内容：%message%newline" />
+         </layout>
+       </appender>
+       <appender name="ERROR_FileAppender" type="log4net.Appender.RollingFileAppender">
+         <!--文件名,可以相对路径,也可以绝对路径,这里只给定了文件夹-->
+         <file value=".\log\\ERROR\\" />
+         <!--是否增加文件-->
+         <appendToFile value="true" />
+         <maxSizeRollBackups value="5" />
+         <!--日志追加类型,Date为按日期增加文件,Size为按大小-->
+         <rollingStyle value="Date" />
+         <!--最小锁定模型以允许多个进程可以写入同一个文件,解决文件独占问题-->
+         <lockingModel type="log4net.Appender.FileAppender+MinimalLock" />
+         <!--最大文件大小-->
+         <maximumFileSize value="10MB" />
+         <!--文件命名格式,非日期参数化要进行转义,如自定义文件后缀-->
+         <datePattern value="yyyyMM\\yyyy-MM-dd&quot;.log&quot;" />
+         <!--是否固定文件名-->
+         <staticLogFileName value="false" />
+         <layout type="log4net.Layout.PatternLayout">
+           <conversionPattern value="---------------------------------------------------%newline发生时间：%date %newline事件级别：%-5level %newline事件来源：%logger%newline日志内容：%message%newline" />
+         </layout>
+       </appender>
+       <appender name="WARN_FileAppender" type="log4net.Appender.RollingFileAppender">
+         <!--文件名,可以相对路径,也可以绝对路径,这里只给定了文件夹-->
+         <file value=".\log\\WARN\\" />
+         <!--是否增加文件-->
+         <appendToFile value="true" />
+         <maxSizeRollBackups value="5" />
+         <!--日志追加类型,Date为按日期增加文件,Size为按大小-->
+         <rollingStyle value="Date" />
+         <!--最小锁定模型以允许多个进程可以写入同一个文件,解决文件独占问题-->
+         <lockingModel type="log4net.Appender.FileAppender+MinimalLock" />
+         <!--最大文件大小-->
+         <maximumFileSize value="10MB" />
+         <!--文件命名格式,非日期参数化要进行转义,如自定义文件后缀-->
+         <datePattern value="yyyyMM\\yyyy-MM-dd&quot;.log&quot;" />
+         <!--是否固定文件名-->
+         <staticLogFileName value="false" />
+         <layout type="log4net.Layout.PatternLayout">
+           <conversionPattern value="---------------------------------------------------%newline发生时间：%date %newline事件级别：%-5level %newline事件来源：%logger%newline日志内容：%message%newline" />
+         </layout>
+       </appender>
+       <appender name="INFO_FileAppender" type="log4net.Appender.RollingFileAppender">
+         <!--文件名,可以相对路径,也可以绝对路径,这里只给定了文件夹-->
+         <file value=".\log\\INFO\\" />
+         <!--是否增加文件-->
+         <appendToFile value="true" />
+         <maxSizeRollBackups value="5" />
+         <!--日志追加类型,Date为按日期增加文件,Size为按大小-->
+         <rollingStyle value="Date" />
+         <!--最小锁定模型以允许多个进程可以写入同一个文件,解决文件独占问题-->
+         <lockingModel type="log4net.Appender.FileAppender+MinimalLock" />
+         <!--最大文件大小-->
+         <maximumFileSize value="10MB" />
+         <!--文件命名格式,非日期参数化要进行转义,如自定义文件后缀-->
+         <datePattern value="yyyyMM\\yyyy-MM-dd&quot;.log&quot;" />
+         <!--是否固定文件名-->
+         <staticLogFileName value="false" />
+         <layout type="log4net.Layout.PatternLayout">
+           <conversionPattern value="---------------------------------------------------%newline发生时间：%date %newline事件级别：%-5level %newline事件来源：%logger%newline日志内容：%message%newline" />
+         </layout>
+       </appender>
+       <appender name="DEBUG_FileAppender" type="log4net.Appender.RollingFileAppender">
+         <!--文件名,可以相对路径,也可以绝对路径,这里只给定了文件夹-->
+         <file value=".\log\\DEBUG\\" />
+         <!--是否增加文件-->
+         <appendToFile value="true" />
+         <maxSizeRollBackups value="5" />
+         <!--日志追加类型,Date为按日期增加文件,Size为按大小-->
+         <rollingStyle value="Date" />
+         <!--最小锁定模型以允许多个进程可以写入同一个文件,解决文件独占问题-->
+         <lockingModel type="log4net.Appender.FileAppender+MinimalLock" />
+         <!--最大文件大小-->
+         <maximumFileSize value="10MB" />
+         <!--文件命名格式,非日期参数化要进行转义,如自定义文件后缀-->
+         <datePattern value="yyyyMM\\yyyy-MM-dd&quot;.log&quot;" />
+         <!--是否固定文件名-->
+         <staticLogFileName value="false" />
+         <layout type="log4net.Layout.PatternLayout">
+           <conversionPattern value="---------------------------------------------------%newline发生时间：%date %newline事件级别：%-5level %newline事件来源：%logger%newline日志内容：%message%newline" />
+         </layout>
+       </appender>
+       <!--使用AdoNetAppender方式记录日志按照日来记录日志-->
+       <!--<appender name="AdoNetAppender" type="log4net.Appender.AdoNetAppender">
+         <bufferSize value="1" />
+         <connectionType value="System.Data.SqlClient.SqlConnection, System.Data, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+         <connectionString value="DATABASE=Sample;SERVER=.\SQLEXPRESS;UID=sa;PWD=sasa;Connect Timeout=15;" />
+         <commandText value="INSERT INTO [Log4Net] ([Date],[Host],[Thread],[Level],[Logger],[Message],[Exception]) VALUES (@log_date, @host, @thread, @log_level, @logger, @message, @exception)" />
+         <parameter>
+           <parameterName value="@log_date" />
+           <dbType value="DateTime" />
+           <layout type="log4net.Layout.RawTimeStampLayout" />
+         </parameter>
+         <parameter>
+           <parameterName value="@thread" />
+           <dbType value="String" />
+           <size value="255" />
+           <layout type="log4net.Layout.PatternLayout">
+             <conversionPattern value="%thread" />
+           </layout>
+         </parameter>
+    
+         <parameter>
+           <parameterName value="@host" />
+           <dbType value="String" />
+           <size value="50" />
+           <layout type="log4net.Layout.PatternLayout">
+             <conversionPattern value="%property{log4net:HostName}" />
+           </layout>
+         </parameter>
+         <parameter>
+           <parameterName value="@log_level" />
+           <dbType value="String" />
+           <size value="50" />
+           <layout type="log4net.Layout.PatternLayout">
+             <conversionPattern value="%level" />
+           </layout>
+         </parameter>
+         <parameter>
+           <parameterName value="@logger" />
+           <dbType value="String" />
+           <size value="255" />
+           <layout type="log4net.Layout.PatternLayout">
+             <conversionPattern value="%logger" />
+           </layout>
+         </parameter>
+         <parameter>
+           <parameterName value="@message" />
+           <dbType value="String" />
+           <size value="4000" />
+           <layout type="log4net.Layout.PatternLayout">
+             <conversionPattern value="%message" />
+           </layout>
+         </parameter>
+         <parameter>
+           <parameterName value="@exception" />
+           <dbType value="String" />
+           <size value="4000" />
+           <layout type="log4net.Layout.ExceptionLayout" />
+         </parameter>
+       </appender>-->
+       <!--使用ConsoleAppender方式记录日志按照日来记录日志-->
+       <appender name="ColoredConsoleAppender" type="log4net.Appender.ColoredConsoleAppender">
+         <mapping>
+           <level value="INFO" />
+           <foreColor value="White, HighIntensity" />
+           <backColor value="Green" />
+         </mapping>
+         <mapping>
+           <level value="DEBUG" />
+           <foreColor value="White, HighIntensity" />
+           <backColor value="Blue" />
+         </mapping>
+         <mapping>
+           <level value="WARN" />
+           <foreColor value="Yellow, HighIntensity" />
+           <backColor value="Purple" />
+         </mapping>
+         <mapping>
+           <level value="ERROR" />
+           <foreColor value="Yellow, HighIntensity" />
+           <backColor value="Red" />
+         </mapping>
+         <layout type="log4net.Layout.PatternLayout">
+           <conversionPattern value="---------------------------------------------------%newline发生时间：%date %newline事件级别：%-5level%newline事件来源：%logger%newline事件行号：%line%newline日志内容：%message%newline" />
+         </layout>
+       </appender>
+       <appender name="UdpAppender" type="log4net.Appender.UdpAppender">
+         <remoteAddress value="127.0.0.1" />
+         <remotePort value="7071" />
+         <layout type="log4net.Layout.XmlLayoutSchemaLog4j" />
+       </appender>
+       <root>
+         <appender-ref ref="UdpAppender" />
+       </root>
+     </log4net>
+   </configuration>
+   ```
+
+3. 单元测试
+
+   ```c#
+   using MasterChief.DotNet.Core.LogTests;
+   using Microsoft.VisualStudio.TestTools.UnitTesting;
+   using Ninject;
+    
+   namespace MasterChief.DotNet.Core.Log.Tests
+   {
+       [TestClass()]
+       public class FileLogServiceTests
+       {
+           private IKernel _kernel = null;
+           private ILogService _logService = null;
+    
+           [TestInitialize]
+           public void SetUp()
+           {
+               _kernel = new StandardKernel(new LogModule());
+               Assert.IsNotNull(_kernel);
+    
+               _logService = _kernel.Get<ILogService>();
+           }
+    
+           [TestMethod()]
+           public void DebugTest()
+           {
+               _logService.Debug("DebugTest");
+           }
+    
+           [TestMethod()]
+           public void ErrorTest()
+           {
+               _logService.Error("ErrorTest");
+           }
+    
+           [TestMethod()]
+           public void FatalTest()
+           {
+               _logService.Fatal("FatalTest");
+           }
+    
+           [TestMethod()]
+           public void InfoTest()
+           {
+               _logService.Info("InfoTest");
+           }
+    
+           [TestMethod()]
+           public void WarnTest()
+           {
+               _logService.Warn("WarnTest");
+           }
+       }
+   }
+   ```
+
