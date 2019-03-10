@@ -322,7 +322,7 @@ public bool CreateWithTransaction(EFSample sample, EFSample sample2)
    }
    ```
 
-   ```mssql
+   ```sql
    USE [Sample]
    GO
     
