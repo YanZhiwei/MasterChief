@@ -776,3 +776,146 @@ b. 基于ICacheProvider接口，可以很容易扩展其他缓存实现；
        }
    }
    ```
+
+#### 配置模块
+
+a. 目前支持配置文件本地持久化，并且支持配置文件缓存依赖减少读取文件次数；
+
+b. 基于IConfigProvider接口，可以很容易扩展其他配置实现；
+
+代码使用说明：
+
+1. 配置依赖注入，配置实现方式，这里采用FileConfigProvider缓存实现；
+
+   ```c#
+   using MasterChief.DotNet.Core.Config;
+   using Ninject.Modules;
+    
+   namespace MasterChief.DotNet.Core.ConfigTests
+   {
+       public sealed class ConfigModule : NinjectModule
+       {
+           public override void Load()
+           {
+               Bind<IConfigProvider>().To<FileConfigService>().InSingletonScope();
+               // Bind<ConfigContext>().ToSelf().InSingletonScope();
+               Bind<ConfigContext>().To<CacheConfigContext>().InSingletonScope();
+           }
+       }
+   }
+   ```
+
+2. 扩展配置上下文基于文件依赖
+
+   ```c#
+   using MasterChief.DotNet.Core.Config;
+   using MasterChief.DotNet4.Utilities.WebForm.Core;
+   using System;
+   using System.Web.Caching;
+    
+   namespace MasterChief.DotNet.Core.ConfigTests
+   {
+       public sealed class CacheConfigContext : ConfigContext
+       {
+           public override T Get<T>(string index = null)
+           {
+               if (!(base.ConfigService is FileConfigService))
+               {
+                   throw new NotSupportedException("CacheConfigContext");
+               }
+               string filePath = GetClusteredIndex<T>(index);
+               string key = filePath;
+               object cacheContent = CacheManger.Get(key);
+               if (cacheContent != null)
+               {
+                   return (T)cacheContent;
+               }
+               T value = base.Get<T>(index);
+               CacheManger.Set(key, value, new CacheDependency(filePath));
+               return value;
+           }
+       }
+   }
+   ```
+
+3. 单元测试
+
+   ```c#
+   using MasterChief.DotNet.Core.ConfigTests;
+   using Microsoft.VisualStudio.TestTools.UnitTesting;
+   using Ninject;
+   using System.Collections.Generic;
+    
+   namespace MasterChief.DotNet.Core.Config.Tests
+   {
+       [TestClass()]
+       public class FileConfigServiceTests
+       {
+           private IKernel _kernel = null;
+           private IConfigProvider _configProvider = null;
+           public ConfigContext _configContext = null;
+    
+           [TestInitialize]
+           public void SetUp()
+           {
+               _kernel = new StandardKernel(new ConfigModule());
+               Assert.IsNotNull(_kernel);
+    
+               _configProvider = _kernel.Get<IConfigProvider>();
+               _configContext = _kernel.Get<ConfigContext>();
+           }
+    
+           [TestMethod()]
+           public void SaveConfigTest()
+           {
+               RedisConfig redisConfig = new RedisConfig
+               {
+                   AutoStart = true,
+                   LocalCacheTime = 10,
+                   MaxReadPoolSize = 1024,
+                   MaxWritePoolSize = 1024,
+                   ReadServerList = "10",
+                   RecordeLog = true,
+                   WriteServerList = "10"
+               };
+               redisConfig.RedisItems = new List<RedisItemConfig>
+               {
+                   new RedisItemConfig() { Text = "MasterChief" },
+                   new RedisItemConfig() { Text = "Config." }
+               };
+    
+               _configContext.Save(redisConfig, "prod");
+               _configContext.Save(redisConfig, "alpha");
+    
+               RedisConfig prodRedisConfig = _configContext.Get<RedisConfig>("prod");
+               Assert.IsNotNull(prodRedisConfig);
+   
+               prodRedisConfig = _configContext.Get<RedisConfig>("prod");//文件缓存测试
+               Assert.IsNotNull(prodRedisConfig);
+   
+               RedisConfig alphaRedisConfig = _configContext.Get<RedisConfig>("alpha");
+               Assert.IsNotNull(alphaRedisConfig);
+    
+               DaoConfig daoConfig = new DaoConfig
+               {
+                   Log = "server=localhost;database=Sample;uid=sa;pwd=sasa"
+               };
+               _configContext.Save(daoConfig, "prod");
+               _configContext.Save(daoConfig, "alpha");
+               DaoConfig prodDaoConfig = _configContext.Get<DaoConfig>("prod");
+               Assert.IsNotNull(prodDaoConfig);
+    
+               DaoConfig alphaDaoConfig = _configContext.Get<DaoConfig>("alpha");
+               Assert.IsNotNull(alphaDaoConfig);
+           }
+       }
+   }
+   ```
+
+4. 本地配置会在程序根目录Config下，如图：
+
+   ![1552231625890](C:\Users\YanZh\AppData\Roaming\Typora\typora-user-images\1552231625890.png)
+
+5. 配置文件基于XML持久化存储，如图：
+
+   ![1552231725395](C:\Users\YanZh\AppData\Roaming\Typora\typora-user-images\1552231725395.png)
