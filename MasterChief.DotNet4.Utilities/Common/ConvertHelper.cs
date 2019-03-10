@@ -108,6 +108,7 @@
         {
             return DateTime.TryParse(data.ToString(), out DateTime _result) ? _result : defalut;
         }
+
         /// <summary>
         /// 日期转化
         /// </summary>
@@ -377,7 +378,6 @@
         /// <param name="data">数值.</param>
         public static Guid ToGuidOrDefault(this string data)
         {
-
             return ToGuidOrDefault(data, Guid.Empty);
         }
 
@@ -399,6 +399,7 @@
                 return defalut;
             }
         }
+
         #endregion Methods
     }
 }
