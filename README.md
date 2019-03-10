@@ -360,7 +360,7 @@ public bool CreateWithTransaction(EFSample sample, EFSample sample2)
 
    代码使用说明
 
-1. 配置依赖注入，日志实现方式，这里采用文件日志形式
+   1. 配置依赖注入，日志实现方式，这里采用文件日志形式
 
    ```c#
    using MasterChief.DotNet.Core.Log;
@@ -378,7 +378,7 @@ public bool CreateWithTransaction(EFSample sample, EFSample sample2)
    }
    ```
 
-2. 拷贝日志config文件到项目内，并设置属性“始终复制”到输出目录，您可以根据项目需求调整config内容
+   2. 拷贝日志config文件到项目内，并设置属性“始终复制”到输出目录，您可以根据项目需求调整config内容
 
    ```xml
    <?xml version="1.0" encoding="utf-8" ?>
@@ -617,7 +617,7 @@ public bool CreateWithTransaction(EFSample sample, EFSample sample2)
    </configuration>
    ```
 
-3. 单元测试
+   3. 单元测试
 
    ```c#
    using MasterChief.DotNet.Core.LogTests;
@@ -673,4 +673,5 @@ public bool CreateWithTransaction(EFSample sample, EFSample sample2)
        }
    }
    ```
+
 
