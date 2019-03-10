@@ -7,7 +7,7 @@ namespace MasterChief.DotNet.Core.CacheTests
     {
         public override void Load()
         {
-            Bind<ICacheProvider>().To<LocalCacheProvider>();
+            Bind<ICacheProvider>().To<LocalCacheProvider>().InSingletonScope();
         }
     }
 }
