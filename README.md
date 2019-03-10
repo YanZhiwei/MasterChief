@@ -914,8 +914,8 @@ b. 基于IConfigProvider接口，可以很容易扩展其他配置实现；
 
 4. 本地配置会在程序根目录Config下，如图：
 
-   ![1552231625890](C:\Users\YanZh\AppData\Roaming\Typora\typora-user-images\1552231625890.png)
+   ![1552231625890](https://8y6yzw.dm.files.1drv.com/y4mibGGlIfda5MwK941vhcR5zHNBGgF1UEQAjozRAJHrcAF4wr6PpkKwY4uQyLVTYIjUTcEeje88BJzOhIdPACqtDMsfWQw22v6sxy8jU4tLLF3FOpe_oZlVol4ieeiRPa_wWUIfY_5TwRzQ1eOze0EpocLrxks30kcg73LZD8P-XJR5hH0fujGPqBP0cyw5KmG-s5maLn9a-ODDEZf-LxmmQ?width=607&height=147&cropmode=none)
 
 5. 配置文件基于XML持久化存储，如图：
 
-   ![1552231725395](C:\Users\YanZh\AppData\Roaming\Typora\typora-user-images\1552231725395.png)
+   ![1552231725395](https://8y5n3a.dm.files.1drv.com/y4mqjcZUrUGGJzfE_S09gBfz-ZrWnH7vfrzxBbIb922zzqP7PU5ae5f7HgZk49_SfqZE8U3YY3H0Fn9WddI1oXRSAU9vBMcrlxX4FrXUzHBaJq9s5E8TEvaSsv-4ATHsLkHZfdttbF7h02Fo5451D2uwtxASSh8TPxrCAuJ9byRmD6qOeKYM1Kh9ZoV1HMaIVwdFF5MeS5KZ-LultAHCOvWFw?width=1155&height=235&cropmode=none)
