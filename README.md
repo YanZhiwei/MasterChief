@@ -4,15 +4,15 @@ C# 开发辅助类库，和士官长一样身经百战且越战越勇的战争�
 
 ![设计](https://9o7amq.dm.files.1drv.com/y4mvdeFkWkSFrsbowcTYmKLg5_xMkv2M9_7S3HwyQp1lmvOWURZQnzQN18sMDcB-sGNRf4ZS-WqImDuOKY_1huI90ubUT8uf1oaFk0ojztU9xjId0pvhTnu0B6DcMD9JdDYVOHEgBoUq3U23QntnItai4eIqrTvtHr5bkwdrQjDqHZKp2FBs0Fuv25LT-z_iSONM8mdzBCeEXzGVl6xsiLLFQ?width=1140&height=510&cropmode=none)
 
-1. Data Access 模块说明
+##### Data Access 模块说明
 
-   a. 支持Dapper和Entity Framework 两种ORM框架;
+a. 支持Dapper和Entity Framework 两种ORM框架;
 
-   b. 通过IOC可以很少代码在Dapper和Entity Framework切换；
+b. 通过IOC可以很少代码在Dapper和Entity Framework切换；
 
-   c. 实现Repository和UnitOfWork；
+c. 实现Repository和UnitOfWork；
 
-   d. CURD以及事务实现简单，很大程度关注业务实现即可；
+d. CURD以及事务实现简单，很大程度关注业务实现即可；
 
 代码使用说明：
 
@@ -350,13 +350,15 @@ public bool CreateWithTransaction(EFSample sample, EFSample sample2)
    GO
    ```
 
-2. 日志模块说明
+   
+
+   ##### 日志模块说明
 
    a. 目前实现基于Log4Net的本地文件日志以及Kafka ELK的日志；
 
    b. 基于接口ILogService可以很容易扩展其他日志显示； 
 
-代码使用说明
+   代码使用说明
 
 1. 配置依赖注入，日志实现方式，这里采用文件日志形式
 
