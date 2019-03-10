@@ -143,5 +143,18 @@ namespace MasterChief.DotNet.Core.DapperTests.Service
 
             return result;
         }
+
+        /// <summary>
+        /// 删除
+        /// </summary>
+        /// <param name="sample"></param>
+        /// <returns></returns>
+        public bool Delete(EFSample sample)
+        {
+            using (IDbContext dbcontext = _contextFactory.Create())
+            {
+                return dbcontext.Delete(sample);
+            }
+        }
     }
 }

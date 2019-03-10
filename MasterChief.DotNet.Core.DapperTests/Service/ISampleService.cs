@@ -69,5 +69,12 @@ namespace MasterChief.DotNet.Core.DapperTests.Service
         /// <param name="sample2">The sample2.</param>
         /// <returns></returns>
         bool CreateWithTransaction(EFSample sample, EFSample sample2);
+
+        /// <summary>
+        /// 删除
+        /// </summary>
+        /// <param name="sample"></param>
+        /// <returns></returns>
+        bool Delete(EFSample sample);
     }
 }

@@ -58,6 +58,13 @@ namespace MasterChief.DotNet.Core.Dapper.Tests
         }
 
         [TestMethod()]
+        public void DeleteTest()
+        {
+            bool actual = _sampleService.Delete(new EFSample() { ID = _testID });
+            Assert.IsTrue(actual);
+        }
+
+        [TestMethod()]
         public void GetListTest()
         {
             List<EFSample> actual = _sampleService.GetList(ent => ent.Available == true);
