@@ -8,7 +8,7 @@ namespace MasterChief.DotNet.Core.DapperTests
     {
         public override void Load()
         {
-            Bind<IDatabaseContextFactory>().To<SampleDbContextFactory>();
+            Bind<IDatabaseContextFactory>().To<SampleDbContextFactory>().InSingletonScope();
 
             Bind<ISampleService>().To<SampleService>();
         }

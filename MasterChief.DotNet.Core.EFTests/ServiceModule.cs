@@ -8,7 +8,7 @@ namespace MasterChief.DotNet.Core.EFTests
     {
         public override void Load()
         {
-            Bind<IDatabaseContextFactory>().To<SampleDbContextFactory>();
+            Bind<IDatabaseContextFactory>().To<SampleDbContextFactory>().InSingletonScope();
 
             //Bind(typeof(IRepository<>)).To(typeof(EfRepository<>));
 
