@@ -31,18 +31,22 @@
         /// </summary>
         public override T Get<T>(string index = null)
         {
-            string _fileName = GetClusteredIndex<T>(index),
-                   _key = "ConfigFile_" + _fileName;
-            object _content = CacheManger.Get(_key);
-
-            if (_content != null)
+            if (!(base.ConfigService is FileConfigService))
             {
-                return (T)_content;
+                throw new NotSupportedException("CacheConfigContext");
+            }
+            string fileName = GetClusteredIndex<T>(index),
+                   key = fileName;
+            object content = CacheManger.Get(key);
+
+            if (content != null)
+            {
+                return (T)content;
             }
             else
             {
                 T _value = base.Get<T>(index);
-                CacheManger.Set(_key, _value, new CacheDependency(_fileName));
+                CacheManger.Set(key, _value, new CacheDependency(fileName));
                 return _value;
             }
         }

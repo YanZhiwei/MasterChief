@@ -5,7 +5,7 @@
     /// <summary>
     /// 文件下载的配置
     /// </summary>
-    internal class DownloadConfigContext
+    internal static class DownloadConfigContext
     {
         #region Fields
 
