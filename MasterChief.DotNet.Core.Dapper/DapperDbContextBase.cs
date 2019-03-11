@@ -112,7 +112,27 @@
             // insert single data always return 0 but the data is inserted in database successfully
             //https://github.com/StackExchange/Dapper/issues/587
             //List<T> data = new List<T>() { entity };
-            return CurrentConnection.Insert(new List<T> { entity }, CurrentTransaction) > 0;
+
+            return CurrentConnection.Insert<T>(entity, CurrentTransaction) > 0;
+
+            #region 测试代码
+
+            //       string sql = @"INSERT INTO [dbo].[EFSample]
+            //      ([ID]
+            //      ,[CreateTime]
+            //      ,[ModifyTime]
+            //      ,[Available]
+            //      ,[UserName])
+            //VALUES
+            //      (@ID
+            //      ,@CreateTime
+            //      ,@ModifyTime
+            //      ,@Available
+            //      ,@UserName)";
+
+            //       return CurrentConnection.Execute(sql, entity) > 0;
+
+            #endregion 测试代码
         }
 
         /// <summary>

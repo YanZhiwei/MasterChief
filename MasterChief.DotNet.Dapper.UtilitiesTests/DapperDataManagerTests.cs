@@ -1,14 +1,19 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using MasterChief.DotNet.Dapper.UtilitiesTests.Model;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 
 namespace MasterChief.DotNet.Dapper.Utilities.Tests
 {
     [TestClass()]
     public class DapperDataManagerTests
     {
-        [TestMethod()]
-        public void CreateConnectionTest()
+        private DapperDataManager dataManager = null;
+
+        [TestInitialize]
+        public void SetUp()
         {
-            Assert.Fail();
+            string connectString = "server=localhost;database=Sample;uid=sa;pwd=sasa";
+            dataManager = new DapperSqlServerManager(connectString);
         }
 
         [TestMethod()]
@@ -20,7 +25,28 @@ namespace MasterChief.DotNet.Dapper.Utilities.Tests
         [TestMethod()]
         public void ExecuteNonQueryTest()
         {
-            Assert.Fail();
+            string sql = @"INSERT INTO [dbo].[EFSample]
+           ([ID]
+           ,[CreateTime]
+           ,[ModifyTime]
+           ,[Available]
+           ,[UserName])
+     VALUES
+           (@ID
+           ,@CreateTime
+           ,@ModifyTime
+           ,@Available
+           ,@UserName)";
+            EFSample sample = new EFSample
+            {
+                Available = true,
+                CreateTime = DateTime.Now,
+                ID = Guid.NewGuid(),
+                ModifyTime = DateTime.Now,
+                UserName = "DapperTests"
+            };
+            int actual = dataManager.ExecuteNonQuery<EFSample>(sql, sample);
+            Assert.IsTrue(actual > 0);
         }
 
         [TestMethod()]

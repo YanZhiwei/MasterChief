@@ -27,10 +27,10 @@ namespace MasterChief.DotNet.Core.Dapper.Tests
             Assert.IsNotNull(_kernel);
 
             _sampleService = _kernel.Get<ISampleService>();
-            if (!_sampleService.Exist(ent => ent.ID == _testID))
-            {
-                _sampleService.Create(new EFSample() { UserName = _testName, ID = _testID });
-            }
+            //if (!_sampleService.Exist(ent => ent.ID == _testID))
+            //{
+            //    _sampleService.Create(new EFSample() { UserName = _testName, ID = _testID });
+            //}
         }
 
         /// <summary>

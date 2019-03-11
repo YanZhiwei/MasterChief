@@ -52,6 +52,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="DapperDataManagerTests.cs" />
+    <Compile Include="Model\EFSample.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
