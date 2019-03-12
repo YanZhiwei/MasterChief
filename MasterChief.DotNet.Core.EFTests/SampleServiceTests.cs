@@ -25,10 +25,10 @@ namespace MasterChief.DotNet.Core.EFTests
             Assert.IsNotNull(_kernel);
 
             _sampleService = _kernel.Get<ISampleService>();
-            if (!_sampleService.Exist(ent => ent.ID == _testID))
-            {
-                _sampleService.Create(new EFSample() { UserName = _testName, ID = _testID });
-            }
+            //if (!_sampleService.Exist(ent => ent.ID == _testID))
+            //{
+            //    _sampleService.Create(new EFSample() { UserName = _testName, ID = _testID });
+            //}
         }
 
         /// <summary>
@@ -38,6 +38,18 @@ namespace MasterChief.DotNet.Core.EFTests
         public void CreateTest()
         {
             bool actual = _sampleService.Create(new EFSample() { UserName = "ef" + DateTime.Now.ToString("MMddHHmmss") });
+            Assert.IsTrue(actual);
+
+            actual = _sampleService.Create(new EFSample() { UserName = "ef" + DateTime.Now.ToString("MMddHHmmss") });
+            Assert.IsTrue(actual);
+
+            actual = _sampleService.Create(new EFSample() { UserName = "ef" + DateTime.Now.ToString("MMddHHmmss") });
+            Assert.IsTrue(actual);
+
+            actual = _sampleService.Create(new EFSample() { UserName = "ef" + DateTime.Now.ToString("MMddHHmmss") });
+            Assert.IsTrue(actual);
+
+            actual = _sampleService.Create(new EFSample() { UserName = "ef" + DateTime.Now.ToString("MMddHHmmss") });
             Assert.IsTrue(actual);
         }
 
