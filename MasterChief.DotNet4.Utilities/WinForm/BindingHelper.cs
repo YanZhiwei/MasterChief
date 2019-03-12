@@ -20,7 +20,7 @@ namespace MasterChief.DotNet4.Utilities.WinForm
         /// <param name="formattingEnabled">是否格式化显示的数据</param>
         /// <param name="updateMode">DataSourceUpdateMode</param>
         /// <returns>Binding</returns>
-        public static Binding CreateBind<C, T, P>(this C control, Expression<Func<C, P>> propertyPredicate, T dataSource, Expression<Func<T, P>> dataMemberPredicate, bool formattingEnabled = false, DataSourceUpdateMode updateMode = DataSourceUpdateMode.OnPropertyChanged)
+        public static Binding CreateBind<C, T, P, D>(this C control, Expression<Func<C, P>> propertyPredicate, T dataSource, Expression<Func<T, D>> dataMemberPredicate, bool formattingEnabled = false, DataSourceUpdateMode updateMode = DataSourceUpdateMode.OnPropertyChanged)
             where C : Control
 
         {
