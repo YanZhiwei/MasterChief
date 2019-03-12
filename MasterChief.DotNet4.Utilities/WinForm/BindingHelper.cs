@@ -29,3 +29,4 @@ namespace MasterChief.DotNet4.Utilities.WinForm
             return control.DataBindings.Add(propertyPredicate.Body.GetMemberName(), dataSource, dataMemberPredicate.Body.GetMemberName(), formattingEnabled, updateMode);
         }
     }
+}
