@@ -40,6 +40,7 @@
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -77,6 +78,7 @@
     <Compile Include="Common\EnumHelper.cs" />
     <Compile Include="Common\EventHandlerHelper.cs" />
     <Compile Include="Common\ExceptionHelper.cs" />
+    <Compile Include="Common\ExpressionHelper.cs" />
     <Compile Include="Common\FetchHelper.cs" />
     <Compile Include="Common\FileHelper.cs" />
     <Compile Include="Common\FontHelper.cs" />
@@ -109,6 +111,8 @@
     <Compile Include="Common\TimeSpanHelper.cs" />
     <Compile Include="Common\UnixEpochHelper.cs" />
     <Compile Include="Common\XMLHelper.cs" />
+    <Compile Include="ComponentModel\NotificationHelper.cs" />
+    <Compile Include="ComponentModel\NotificationObject.cs" />
     <Compile Include="Core\Counter.cs" />
     <Compile Include="DbManager\AccessDbManager.cs" />
     <Compile Include="DbManager\ExcelIDbManager.cs" />
@@ -158,6 +162,7 @@
     <Compile Include="WebForm\HtmlInputFileHelper.cs" />
     <Compile Include="WebForm\StaticFileHelper.cs" />
     <Compile Include="Web\SimulateWebRequest.cs" />
+    <Compile Include="WinForm\BindingHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ValidateResource.resx">
