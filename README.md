@@ -4,7 +4,9 @@ C# 开发辅助类库，和士官长一样身经百战且越战越勇的战争�
 
 ![设计](https://9o7amq.dm.files.1drv.com/y4mvdeFkWkSFrsbowcTYmKLg5_xMkv2M9_7S3HwyQp1lmvOWURZQnzQN18sMDcB-sGNRf4ZS-WqImDuOKY_1huI90ubUT8uf1oaFk0ojztU9xjId0pvhTnu0B6DcMD9JdDYVOHEgBoUq3U23QntnItai4eIqrTvtHr5bkwdrQjDqHZKp2FBs0Fuv25LT-z_iSONM8mdzBCeEXzGVl6xsiLLFQ?width=1140&height=510&cropmode=none)
 
-#### Data Access 模块
+[TOC]
+
+#### 1. 数据访问
 
 a. 支持Dapper和Entity Framework 两种ORM框架;
 
@@ -352,7 +354,7 @@ GO
 
 
 
-#### 日志模块
+#### 2. 日志
 
 a. 目前实现基于Log4Net的本地文件日志以及Kafka ELK的日志；
 
@@ -676,7 +678,7 @@ namespace MasterChief.DotNet.Core.Log.Tests
 
 
 
-#### 缓存模块
+#### 3. 缓存
 
 a. 支持本地内存缓存，HttpRequest请求缓存，Redis缓存；
 
@@ -777,7 +779,7 @@ b. 基于ICacheProvider接口，可以很容易扩展其他缓存实现；
    }
    ```
 
-#### 配置模块
+#### 4. 配置
 
 a. 目前支持配置文件本地持久化，并且支持配置文件缓存依赖减少读取文件次数；
 
