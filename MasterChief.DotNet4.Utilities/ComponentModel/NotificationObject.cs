@@ -24,8 +24,7 @@ namespace MasterChief.DotNet4.Utilities.ComponentModel
         /// <param name="propertyName">属性名称</param>
         public void NotifyChanges(string propertyName)
         {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         #endregion Methods

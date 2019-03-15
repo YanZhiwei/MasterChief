@@ -5,7 +5,7 @@ namespace MasterChief.DotNet4.Utilities.Common
     /// <summary>
     /// ASCII 辅助类
     /// </summary>
-    public static class ASCIIHelper
+    public static class AsciiHelper
     {
         #region Methods
 

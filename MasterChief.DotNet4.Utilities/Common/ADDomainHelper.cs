@@ -8,14 +8,14 @@ namespace MasterChief.DotNet4.Utilities.Common
     /// <summary>
     /// AD域帮助类
     /// </summary>
-    public class ADDomainHelper
+    public class AdDomainHelper
     {
         #region Fields
 
         /// <summary>
         /// 域名称
         /// </summary>
-        public readonly string ADDomian;
+        public readonly string AdDomian;
 
         /// <summary>
         /// 用户名称
@@ -37,11 +37,11 @@ namespace MasterChief.DotNet4.Utilities.Common
         /// <param name="domain">域名称</param>
         /// <param name="userName">用户名称</param>
         /// <param name="userPassword">用户密码</param>
-        public ADDomainHelper(string domain, string userName, string userPassword)
+        public AdDomainHelper(string domain, string userName, string userPassword)
         {
             UserName = userName;
             UserPassword = userPassword;
-            ADDomian = domain;
+            AdDomian = domain;
         }
 
         #endregion Constructors
@@ -57,16 +57,16 @@ namespace MasterChief.DotNet4.Utilities.Common
             List<string> groups = new List<string>();
             try
             {
-                DirectoryEntry dEntity = new DirectoryEntry(string.Format("LDAP://{0}", ADDomian), UserName, UserPassword);
+                DirectoryEntry dEntity = new DirectoryEntry($"LDAP://{AdDomian}", UserName, UserPassword);
                 dEntity.RefreshCache();
                 DirectorySearcher dSearcher = new DirectorySearcher(dEntity);
                 dSearcher.PropertiesToLoad.Add("memberof");
-                dSearcher.Filter = string.Format("sAMAccountName={0}", UserName);
-                SearchResult seachResult = dSearcher.FindOne();
+                dSearcher.Filter = $"sAMAccountName={UserName}";
+                SearchResult searchResult = dSearcher.FindOne();
 
-                if (seachResult != null)
+                if (searchResult != null)
                 {
-                    foreach (object group in seachResult.Properties["memberof"])
+                    foreach (object group in searchResult.Properties["memberof"])
                     {
                         Match match = Regex.Match(group.ToString().Trim(), @"CN=\s*(?<g>\w*)\s*.");
                         groups.Add(match.Groups["g"].Value);
@@ -91,7 +91,7 @@ namespace MasterChief.DotNet4.Utilities.Common
 
             try
             {
-                DirectoryEntry dEntity = new DirectoryEntry(string.Format("LDAP://{0}", ADDomian), UserName, UserPassword);
+                DirectoryEntry dEntity = new DirectoryEntry(string.Format("LDAP://{0}", AdDomian), UserName, UserPassword);
                 dEntity.RefreshCache();
                 result = true;
             }

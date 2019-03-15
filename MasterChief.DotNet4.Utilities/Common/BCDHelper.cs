@@ -5,7 +5,7 @@ namespace MasterChief.DotNet4.Utilities.Common
     /// <summary>
     /// BCD码帮助类
     /// </summary>
-    public static class BCDHelper
+    public static class BcdHelper
     {
         #region Methods
 
@@ -49,7 +49,7 @@ namespace MasterChief.DotNet4.Utilities.Common
         /// </summary>
         /// <param name="bcdNumber">数字</param>
         /// <returns>Byte描述</returns>
-        public static byte Parse8421BCDNumber(this int bcdNumber)
+        public static byte Parse8421BcdNumber(this int bcdNumber)
         {
             byte bcd = (byte)(bcdNumber % 10);
             bcdNumber /= 10;
@@ -64,13 +64,13 @@ namespace MasterChief.DotNet4.Utilities.Common
         /// <param name="bcdNumber">数字</param>
         /// <param name="isLittleEndian">是否低位在前</param>
         /// <returns>Byte数组</returns>
-        public static byte[] Parse8421BCDNumber(this int bcdNumber, bool isLittleEndian)
+        public static byte[] Parse8421BcdNumber(this int bcdNumber, bool isLittleEndian)
         {
             string bcdString = bcdNumber.ToString();
 
             bcdString = bcdString.PadLeft(bcdString.Length + 1, '0');
 
-            return Parse8421BCDString(bcdString, isLittleEndian);
+            return Parse8421BcdString(bcdString, isLittleEndian);
         }
 
         /// <summary>
@@ -81,7 +81,7 @@ namespace MasterChief.DotNet4.Utilities.Common
         /// <param name="bcdString">bcd字符串</param>
         /// <param name="isLittleEndian">是否低位在前高位在后</param>
         /// <returns>Byte数组</returns>
-        public static byte[] Parse8421BCDString(this string bcdString, bool isLittleEndian)
+        public static byte[] Parse8421BcdString(this string bcdString, bool isLittleEndian)
         {
             byte[] data = null;
 
@@ -119,7 +119,7 @@ namespace MasterChief.DotNet4.Utilities.Common
         /// <param name="data">Byte数组</param>
         /// <param name="isLittleEndian">是否低位在前高位在后</param>
         /// <returns>BCD描述</returns>
-        public static string To8421BCDString(this byte[] data, bool isLittleEndian)
+        public static string To8421BcdString(this byte[] data, bool isLittleEndian)
         {
             StringBuilder builder = new StringBuilder(data.Length * 2);
 
@@ -130,7 +130,7 @@ namespace MasterChief.DotNet4.Utilities.Common
                     byte bcdByte = data[i];
                     int idHigh = bcdByte >> 4;
                     int idLow = bcdByte & 0x0F;
-                    builder.Append(string.Format("{0}{1}", idHigh, idLow));
+                    builder.Append($"{idHigh}{idLow}");
                 }
             }
             else
@@ -140,7 +140,7 @@ namespace MasterChief.DotNet4.Utilities.Common
                     byte bcdByte = data[i];
                     int idHigh = bcdByte >> 4;
                     int idLow = bcdByte & 0x0F;
-                    builder.Append(string.Format("{0}{1}", idHigh, idLow));
+                    builder.Append($"{idHigh}{idLow}");
                 }
             }
 

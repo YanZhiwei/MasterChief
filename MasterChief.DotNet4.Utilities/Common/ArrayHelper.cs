@@ -34,7 +34,7 @@
         /// <returns>是否包含在内</returns>
         public static bool ContainIgnoreCase(this string[] sourceArray, string compareStringItem)
         {
-            bool result = false;
+            var result = false;
 
             foreach (string item in sourceArray)
             {

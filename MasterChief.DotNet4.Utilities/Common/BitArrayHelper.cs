@@ -39,7 +39,7 @@
         /// <returns>十六进制字符串</returns>
         public static string ToBinaryString(this BitArray array, char trueValue, char falseValue)
         {
-            StringBuilder builder = new StringBuilder();
+            var builder = new StringBuilder();
 
             for (int i = 0; i < array.Length; i++)
             {

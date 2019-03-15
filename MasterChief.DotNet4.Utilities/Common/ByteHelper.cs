@@ -158,7 +158,7 @@ namespace MasterChief.DotNet4.Utilities.Common
         {
             double actualPer = ((double)percent) / 100;
             double number = Math.Round(actualPer * byte.MaxValue, 0);
-            string hexPercent = string.Format("{0:x}", (ushort)number).PadLeft(2, '0');
+            string hexPercent = $"{(ushort) number:x}".PadLeft(2, '0');
             return Convert.ToByte(hexPercent, 16);
         }
 

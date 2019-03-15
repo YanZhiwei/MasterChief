@@ -7,7 +7,7 @@
     /// </summary>
     /// 时间：2016/11/23 15:43
     /// 备注：
-    public static class CRCBuilder
+    public static class CrcBuilder
     {
         #region Methods
 
@@ -19,7 +19,7 @@
         /// <returns>CRC数值</returns>
         /// 时间：2016/11/23 15:43
         /// 备注：
-        public static ushort Calu16MODBUS(byte[] data)
+        public static ushort Calu16Modbus(byte[] data)
         {
             ushort ax = 0xFFFF;
             ushort lsb = 0;

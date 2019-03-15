@@ -24,9 +24,9 @@
         {
             Type modelType = typeof(T);
 
-            object[] modelAttris = modelType.GetCustomAttributes(typeof(A), true);
+            object[] modelAttrs = modelType.GetCustomAttributes(typeof(A), true);
 
-            return modelAttris?.Any() ?? false ? modelAttris.FirstOrDefault() as A : null;
+            return modelAttrs?.Any() ?? false ? modelAttrs.FirstOrDefault() as A : null;
         }
 
         #endregion Methods

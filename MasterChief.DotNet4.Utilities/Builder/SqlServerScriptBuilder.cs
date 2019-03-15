@@ -65,7 +65,7 @@
         /// 备注：
         public string Delete()
         {
-            string sql = string.Format("DELETE FROM {0} WHERE {1}=@{1}", TableName, PrimaryKey.ToLower());
+            string sql = $"DELETE FROM {TableName} WHERE {PrimaryKey.ToLower()}=@{PrimaryKey.ToLower()}";
             return sql.Trim();
         }
 
@@ -78,7 +78,7 @@
         /// 备注：
         public string Delete(Hashtable sqlWhere)
         {
-            string sql = string.Format("DELETE FROM {0} WHERE {1}", TableName, CreateWhereSql(sqlWhere));
+            string sql = $"DELETE FROM {TableName} WHERE {CreateWhereSql(sqlWhere)}";
             return sql.Trim();
         }
 
@@ -91,7 +91,8 @@
         /// 备注：
         public string Insert(Hashtable insertFields)
         {
-            string sql = string.Format("INSERT INTO {0} ({1}) VALUES ({2})", TableName, CreateInsertNameSql(insertFields), CreateInsertValueSql(insertFields));
+            string sql =
+                $"INSERT INTO {TableName} ({CreateInsertNameSql(insertFields)}) VALUES ({CreateInsertValueSql(insertFields)})";
             return sql.Trim();
         }
 
@@ -104,7 +105,7 @@
         /// 备注：
         public string Select(string columns)
         {
-            string sql = string.Format("select {0} from {1}", columns, TableName);
+            string sql = $"select {columns} from {TableName}";
             return sql.Trim();
         }
 
