@@ -27,7 +27,8 @@ namespace MasterChief.DotNet.Core.DapperTests.Model
         }
 
         [Write(true)]
-        public override DateTime CreateTime { get => base.CreateTime; set => base.CreateTime = value; }
+        public override DateTime CreateTime { get => base.CreateTime;
+            protected set => base.CreateTime = value; }
 
         public string UserName { get; set; } // nvarchar(20), null
     }
