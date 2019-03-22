@@ -12,7 +12,7 @@
     /// 本地内存缓存
     /// </summary>
     /// <seealso cref="MasterChief.DotNet.Core.Cache.ICacheProvider" />
-    public class LocalCacheProvider : ICacheProvider
+    public  class LocalCacheProvider : ICacheProvider
     {
         #region Fields
 
@@ -119,7 +119,7 @@
             {
                 return false;
             }
-            if (data.IsCollection() && IEnumerableHelper.IsNullOrEmpty((IEnumerable)data))
+            if (data.IsCollection() && ((IEnumerable)data).IsNullOrEmpty())
             {
                 return false;
             }
