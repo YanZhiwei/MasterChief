@@ -1,19 +1,26 @@
-﻿using Dapper;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using Dapper;
 
 namespace MasterChief.DotNet.Core.Dapper
 {
-    sealed class DapperParameter : SqlMapper.IDynamicParameters,
-                            IEnumerable<IDbDataParameter>
+    internal sealed class DapperParameter : SqlMapper.IDynamicParameters,
+        IEnumerable<IDbDataParameter>
     {
-        private readonly List<IDbDataParameter> parameters =
+        private readonly List<IDbDataParameter> _parameters =
             new List<IDbDataParameter>();
+
+        void SqlMapper.IDynamicParameters.AddParameters(IDbCommand command,
+            SqlMapper.Identity identity)
+        {
+            foreach (var parameter in _parameters)
+                command.Parameters.Add(parameter);
+        }
 
         public IEnumerator<IDbDataParameter> GetEnumerator()
         {
-            return parameters.GetEnumerator();
+            return _parameters.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -23,14 +30,7 @@ namespace MasterChief.DotNet.Core.Dapper
 
         public void Add(IDbDataParameter value)
         {
-            parameters.Add(value);
-        }
-
-        void SqlMapper.IDynamicParameters.AddParameters(IDbCommand command,
-            SqlMapper.Identity identity)
-        {
-            foreach (IDbDataParameter parameter in parameters)
-                command.Parameters.Add(parameter);
+            _parameters.Add(value);
         }
     }
 }

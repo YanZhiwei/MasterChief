@@ -59,7 +59,7 @@ namespace MasterChief.DotNet.Core.DapperTests.Service
         {
             using (IDbContext dbcontext = _contextFactory.Create())
             {
-                return dbcontext.GetByKeyID<EFSample>(id);
+                return dbcontext.GetByKeyId<EFSample>(id);
             }
         }
 

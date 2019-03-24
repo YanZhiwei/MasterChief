@@ -58,7 +58,7 @@
         {
             using (IDbContext dbcontext = _contextFactory.Create())
             {
-                return dbcontext.GetByKeyID<EFSample>(id);
+                return dbcontext.GetByKeyId<EFSample>(id);
             }
         }
 

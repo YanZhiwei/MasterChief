@@ -13,9 +13,9 @@
         /// <summary>
         /// Redis配置文件信息
         /// </summary>
-        private readonly RedisConfig _redisConfig = null;
+        private readonly RedisConfig _redisConfig;
 
-        private PooledRedisClientManager _prcm;
+        private PooledRedisClientManager _redisClientManager;
 
         #endregion Fields
 
@@ -39,12 +39,12 @@
         /// </summary>
         public ICacheClient GetCacheClient()
         {
-            if (_prcm == null)
+            if (_redisClientManager == null)
             {
                 CreateManager();
             }
 
-            return _prcm.GetCacheClient();
+            return _redisClientManager.GetCacheClient();
         }
 
         /// <summary>
@@ -52,12 +52,12 @@
         /// </summary>
         public IRedisClient GetClient()
         {
-            if (_prcm == null)
+            if (_redisClientManager == null)
             {
                 CreateManager();
             }
 
-            return _prcm.GetClient();
+            return _redisClientManager.GetClient();
         }
 
         /// <summary>
@@ -65,12 +65,12 @@
         /// </summary>
         public IRedisClient GetReadOnlyClient()
         {
-            if (_prcm == null)
+            if (_redisClientManager == null)
             {
                 CreateManager();
             }
 
-            return _prcm.GetReadOnlyClient();
+            return _redisClientManager.GetReadOnlyClient();
         }
 
         /// <summary>
@@ -80,7 +80,7 @@
         {
             string[] writeServerList = _redisConfig.WriteServerList.Split(',');
             string[] readServerList = _redisConfig.ReadServerList.Split(',');
-            _prcm = new PooledRedisClientManager(readServerList, writeServerList, new RedisClientManagerConfig
+            _redisClientManager = new PooledRedisClientManager(readServerList, writeServerList, new RedisClientManagerConfig
             {
                 MaxWritePoolSize = _redisConfig.MaxWritePoolSize,
                 MaxReadPoolSize = _redisConfig.MaxReadPoolSize,

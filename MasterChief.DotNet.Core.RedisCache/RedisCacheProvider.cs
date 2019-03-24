@@ -1,6 +1,6 @@
 ﻿namespace MasterChief.DotNet.Core.RedisCache
 {
-    using MasterChief.DotNet.Core.Cache;
+    using Cache;
     using ServiceStack.Redis;
     using System;
 
@@ -12,10 +12,9 @@
     {
         #region Fields
 
-        private readonly object syncRoot = new object();
-        private readonly RedisManager _redisManager = null;
-        private readonly IRedisClient _redisReadClient = null;
-        private readonly IRedisClient _redisWriteClient = null;
+        private readonly object _syncRoot = new object();
+        private readonly IRedisClient _redisReadClient;
+        private readonly IRedisClient _redisWriteClient;
 
         #endregion Fields
 
@@ -23,9 +22,9 @@
 
         private RedisCacheProvider(RedisConfig config)
         {
-            _redisManager = new RedisManager(config);
-            _redisReadClient = _redisManager.GetReadOnlyClient();
-            _redisWriteClient = _redisManager.GetClient();
+            var redisManager = new RedisManager(config);
+            _redisReadClient = redisManager.GetReadOnlyClient();
+            _redisWriteClient = redisManager.GetClient();
         }
 
         #endregion Constructors
@@ -66,7 +65,10 @@
         /// <param name="key">键</param>
         public void Remove(string key)
         {
-            _redisWriteClient.Remove(key);
+            lock (_syncRoot)
+            {
+                _redisWriteClient.Remove(key);
+            }
         }
 
         /// <summary>
@@ -86,7 +88,7 @@
         /// <param name="cacheTime">过期时间，单位分钟</param>
         public void Set(string key, object data, int cacheTime)
         {
-            lock (syncRoot)
+            lock (_syncRoot)
             {
                 if (data != null)
                 {
@@ -107,7 +109,7 @@
         /// <exception cref="System.NotImplementedException"></exception>
         public void Set(string key, object data, string dependFile)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         #endregion Methods

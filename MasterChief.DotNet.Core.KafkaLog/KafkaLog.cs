@@ -4,13 +4,13 @@ using log4net.Util;
 namespace MasterChief.DotNet.Core.KafkaLog
 {
     /// <summary>
-    /// KafkaLog
+    ///     KafkaLog
     /// </summary>
     /// <seealso cref="KafkaNet.IKafkaLog" />
     public class KafkaLog : IKafkaLog
     {
         /// <summary>
-        /// Debugs the format.
+        ///     Debugs the format.
         /// </summary>
         /// <param name="format">The format.</param>
         /// <param name="args">The arguments.</param>
@@ -20,7 +20,7 @@ namespace MasterChief.DotNet.Core.KafkaLog
         }
 
         /// <summary>
-        /// Errors the format.
+        ///     Errors the format.
         /// </summary>
         /// <param name="format">The format.</param>
         /// <param name="args">The arguments.</param>
@@ -30,7 +30,7 @@ namespace MasterChief.DotNet.Core.KafkaLog
         }
 
         /// <summary>
-        /// Fatals the format.
+        ///     Fatals the format.
         /// </summary>
         /// <param name="format">The format.</param>
         /// <param name="args">The arguments.</param>
@@ -40,7 +40,7 @@ namespace MasterChief.DotNet.Core.KafkaLog
         }
 
         /// <summary>
-        /// Informations the format.
+        ///     Informations the format.
         /// </summary>
         /// <param name="format">The format.</param>
         /// <param name="args">The arguments.</param>
@@ -50,7 +50,7 @@ namespace MasterChief.DotNet.Core.KafkaLog
         }
 
         /// <summary>
-        /// Warns the format.
+        ///     Warns the format.
         /// </summary>
         /// <param name="format">The format.</param>
         /// <param name="args">The arguments.</param>

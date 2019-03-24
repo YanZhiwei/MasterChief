@@ -5,9 +5,9 @@ namespace MasterChief.DotNet.Core.Config
     public class ConfigContext
     {
         /// <summary>
-        /// 配置服务
+        ///     配置服务
         /// </summary>
-        public readonly IConfigProvider ConfigService = null;
+        public readonly IConfigProvider ConfigService;
 
         public ConfigContext(IConfigProvider configService)
         {
@@ -20,14 +20,14 @@ namespace MasterChief.DotNet.Core.Config
 
         public virtual void Save<T>(T configGroup, string index = null) where T : class, new()
         {
-            string clusteredIndex = ConfigProviderHelper.CreateClusteredIndex<T>(index);
-            ConfigService.SaveConfig(clusteredIndex, SerializeHelper.XmlSerialize<T>(configGroup));
+            var clusteredIndex = ConfigProviderHelper.CreateClusteredIndex<T>(index);
+            ConfigService.SaveConfig(clusteredIndex, SerializeHelper.XmlSerialize(configGroup));
         }
 
         public virtual T Get<T>(string index = null) where T : class, new()
         {
-            string clusteredIndex = ConfigProviderHelper.CreateClusteredIndex<T>(index);
-            string context = ConfigService.GetConfig(clusteredIndex);
+            var clusteredIndex = ConfigProviderHelper.CreateClusteredIndex<T>(index);
+            var context = ConfigService.GetConfig(clusteredIndex);
 
             return string.IsNullOrEmpty(context) ? null : SerializeHelper.XmlDeserialize<T>(context.Trim());
         }

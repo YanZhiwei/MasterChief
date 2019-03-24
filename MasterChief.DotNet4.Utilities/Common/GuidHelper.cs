@@ -14,7 +14,7 @@
         /// combined guid/timestamp，意思是：组合GUID/时间截
         /// </summary>
         /// <returns>COMB类型 Guid 数据</returns>
-        public static Guid CreateCOMB()
+        public static Guid CreateComb()
         {
             byte[] guidArray = Guid.NewGuid().ToByteArray();
             DateTime initDate = new DateTime(1900, 1, 1);
@@ -45,7 +45,7 @@
         /// 备注：
         public static string FormatGuid(this Guid guid, int guidMode)
         {
-            string formatString = string.Empty;
+            string formatString;
 
             switch (guidMode)
             {
@@ -80,7 +80,7 @@
         /// <returns>DateTime</returns>
         /// 时间：2015-09-15 13:28
         /// 备注：
-        public static DateTime ParseCOMBGuid(Guid combGuid)
+        public static DateTime ParseCombGuid(Guid combGuid)
         {
             DateTime guidTime = new DateTime(1900, 1, 1);
             byte[] daysArray = new byte[4];
@@ -115,7 +115,7 @@
         /// </summary>
         /// <param name="guid">Guid</param>
         /// <returns>符合SQL Server的GUID</returns>
-        public static Guid ToCOMBGuid(this Guid guid)
+        public static Guid ToCombGuid(this Guid guid)
         {
             byte[] guidArray = guid.ToByteArray();
             Array.Reverse(guidArray, 0, 4);

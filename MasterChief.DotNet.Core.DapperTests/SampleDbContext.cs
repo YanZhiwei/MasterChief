@@ -12,7 +12,7 @@ namespace MasterChief.DotNet.Core.DapperTests
 
         public override IDbConnection CreateConnection()
         {
-            IDbConnection sqlConnection = new SqlConnection(base._connectString);
+            IDbConnection sqlConnection = new SqlConnection(base.ConnectString);
 
             if (sqlConnection.State != ConnectionState.Open)
             {

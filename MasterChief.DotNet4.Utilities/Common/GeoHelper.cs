@@ -1,6 +1,6 @@
 ﻿namespace MasterChief.DotNet4.Utilities.Common
 {
-    using MasterChief.DotNet4.Utilities.Model;
+    using Model;
     using System;
 
     /// <summary>
@@ -10,8 +10,8 @@
     {
         #region Fields
 
-        private const double e = 2.71828182845904523536028747135266250;
-        private const double pi = 3.14159265358979323846264338327950288;
+        private const double E = 2.71828182845904523536028747135266250;
+        private const double Pi = 3.14159265358979323846264338327950288;
 
         #endregion Fields
 
@@ -78,9 +78,9 @@
         /// <returns>坐标</returns>
         public static double LatToPixel(double lat, int zoom)
         {
-            double siny = Math.Sin(lat * pi / 180);
+            double siny = Math.Sin(lat * Pi / 180);
             double y = Math.Log((1 + siny) / (1 - siny));
-            return (128 << zoom) * (1 - y / (2 * pi));
+            return (128 << zoom) * (1 - y / (2 * Pi));
         }
 
         /// <summary>
@@ -122,10 +122,10 @@
         /// <returns>纬度</returns>
         public static double PixelToLat(double pixelY, int zoom)
         {
-            double y = 2 * pi * (1 - pixelY / (128 << zoom));
-            double z = Math.Pow(e, y);
+            double y = 2 * Pi * (1 - pixelY / (128 << zoom));
+            double z = Math.Pow(E, y);
             double siny = (z - 1) / (z + 1);
-            return Math.Asin(siny) * 180 / pi;
+            return Math.Asin(siny) * 180 / Pi;
         }
 
         /// <summary>

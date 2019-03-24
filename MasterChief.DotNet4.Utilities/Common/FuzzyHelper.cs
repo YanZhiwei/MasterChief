@@ -39,7 +39,7 @@
         /// <returns>模糊替换后的用户名称</returns>
         public static string FuzzyUserName(this string input)
         {
-            return Regex.Replace(input, @"(?<=\S{1}\S*?).+?(?=\S*?\S{1})", "*").Replace("*", string.Empty).Insert(1, "***"); ;
+            return Regex.Replace(input, @"(?<=\S{1}\S*?).+?(?=\S*?\S{1})", "*").Replace("*", string.Empty).Insert(1, "***");
         }
 
         #endregion Methods

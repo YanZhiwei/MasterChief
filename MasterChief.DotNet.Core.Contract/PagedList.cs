@@ -4,12 +4,12 @@ using System.Collections.Generic;
 namespace MasterChief.DotNet.Core.Contract
 {
     /// <summary>
-    /// 分页集合
+    ///     分页集合
     /// </summary>
     public class PagedList<T> : List<T>, IPagedList
     {
         /// <summary>
-        /// 构造函数
+        ///     构造函数
         /// </summary>
         /// <param name="allItems">集合</param>
         /// <param name="pageIndex">分页索引</param>
@@ -27,7 +27,7 @@ namespace MasterChief.DotNet.Core.Contract
         }
 
         /// <summary>
-        /// 构造函数
+        ///     构造函数
         /// </summary>
         /// <param name="allItems">分页集合</param>
         /// <param name="pageIndex">分页索引</param>
@@ -42,44 +42,33 @@ namespace MasterChief.DotNet.Core.Contract
         }
 
         /// <summary>
-        /// 当前页
+        ///     总分页记录数
         /// </summary>
-        public int PageIndex
-        {
-            get;
-            set;
-        }
-        /// <summary>
-        /// 每页大小
-        /// </summary>
-        public int PageSize
-        {
-            get;
-            set;
-        }
+        public int TotalPageCount => (int) Math.Ceiling(TotalRecordCount / (double) PageSize);
 
         /// <summary>
-        /// 总共记录条数
-        /// </summary>
-        public int TotalRecordCount
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
-        /// 总分页记录数
-        /// </summary>
-        public int TotalPageCount => (int)Math.Ceiling(TotalRecordCount / (double)PageSize);
-
-        /// <summary>
-        /// 分页数据起始索引
+        ///     分页数据起始索引
         /// </summary>
         public int StartRecordIndex => (PageIndex - 1) * PageSize + 1;
 
         /// <summary>
-        /// 分页数据结束索引
+        ///     分页数据结束索引
         /// </summary>
         public int EndRecordIndex => TotalRecordCount > PageIndex * PageSize ? PageIndex * PageSize : TotalRecordCount;
+
+        /// <summary>
+        ///     当前页
+        /// </summary>
+        public int PageIndex { get; set; }
+
+        /// <summary>
+        ///     每页大小
+        /// </summary>
+        public int PageSize { get; set; }
+
+        /// <summary>
+        ///     总共记录条数
+        /// </summary>
+        public int TotalRecordCount { get; set; }
     }
 }

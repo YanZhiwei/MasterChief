@@ -11,11 +11,11 @@ namespace MasterChief.DotNet.Core.EFTests
     public sealed class EFSample : ModelBase
     {
         [Key]
-        public override Guid ID { get => base.ID; set => base.ID = value; }
+        public override Guid Id { get => base.Id; set => base.Id = value; }
 
         public EFSample()
         {
-            ID = Guid.NewGuid();
+            Id = Guid.NewGuid();
             CreateTime = DateTime.Now;
             ModifyTime = DateTime.Now;
             Available = true;

@@ -46,7 +46,7 @@ namespace MasterChief.DotNet.Core.Dapper.Tests
         [TestMethod()]
         public void GetFirstOrDefaultTest()
         {
-            EFSample actual = _sampleService.GetFirstOrDefault(ent => ent.ID == _testID);
+            EFSample actual = _sampleService.GetFirstOrDefault(ent => ent.Id == _testID);
             Assert.IsNotNull(actual);
         }
 
@@ -60,7 +60,7 @@ namespace MasterChief.DotNet.Core.Dapper.Tests
         [TestMethod()]
         public void DeleteTest()
         {
-            bool actual = _sampleService.Delete(new EFSample() { ID = _testID });
+            bool actual = _sampleService.Delete(new EFSample() { Id = _testID });
             Assert.IsTrue(actual);
         }
 
@@ -77,7 +77,7 @@ namespace MasterChief.DotNet.Core.Dapper.Tests
         {
             EFSample sample = new EFSample
             {
-                ID = _testID,
+                Id = _testID,
                 ModifyTime = DateTime.Now,
                 UserName = "modify"
             };
@@ -120,7 +120,7 @@ namespace MasterChief.DotNet.Core.Dapper.Tests
         [TestMethod()]
         public void ExistTest()
         {
-            bool actual = _sampleService.Exist(ent => ent.ID == _testID);
+            bool actual = _sampleService.Exist(ent => ent.Id == _testID);
             Assert.IsTrue(actual);
 
             actual = _sampleService.Exist(ent => ent.UserName == _testName);

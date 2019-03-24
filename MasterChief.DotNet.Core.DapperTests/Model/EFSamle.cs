@@ -16,11 +16,11 @@ namespace MasterChief.DotNet.Core.DapperTests.Model
          */
 
         [ExplicitKey]//不是自动增长主键时使用ExplicitKey
-        public override Guid ID { get; set; }
+        public override Guid Id { get; set; }
 
         public EFSample()
         {
-            ID = Guid.NewGuid();
+            Id = Guid.NewGuid();
             CreateTime = DateTime.Now;
             ModifyTime = DateTime.Now;
             Available = true;

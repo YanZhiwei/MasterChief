@@ -7,10 +7,13 @@ namespace MasterChief.DotNet.Core.Contract
     /// </summary>
     public class ModelBase
     {
+        /// <summary>
+        /// 默认构造函数
+        /// </summary>
         public ModelBase()
         {
 #pragma warning disable RECS0021 // Warns about calls to virtual member functions occuring in the constructor
-            ID = Guid.NewGuid();
+            Id = Guid.NewGuid();
             CreateTime = DateTime.Now;
             ModifyTime = DateTime.Now;
             Available = true;
@@ -20,7 +23,7 @@ namespace MasterChief.DotNet.Core.Contract
         /// <summary>
         ///     主键ID
         /// </summary>
-        public virtual Guid ID
+        public virtual Guid Id
         {
             get; // int, not null
             protected set;

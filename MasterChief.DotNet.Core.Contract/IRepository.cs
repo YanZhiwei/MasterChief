@@ -31,7 +31,7 @@
         /// </summary>
         /// <returns>记录</returns>
         /// <param name="id">id.</param>
-        T GetByKeyID<T>(object id) where T : ModelBase;
+        T GetByKeyId<T>(object id) where T : ModelBase;
 
         /// <summary>
         /// 条件获取记录集合

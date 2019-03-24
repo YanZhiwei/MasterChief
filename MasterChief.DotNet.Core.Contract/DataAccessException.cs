@@ -3,7 +3,7 @@
 namespace MasterChief.DotNet.Core.Contract
 {
     /// <summary>
-    /// 数据访问层异常类
+    ///     数据访问层异常类
     /// </summary>
     /// <seealso cref="System.Exception" />
     [Serializable]
@@ -12,14 +12,14 @@ namespace MasterChief.DotNet.Core.Contract
         #region Constructors
 
         /// <summary>
-        /// 构造函数
+        ///     构造函数
         /// </summary>
         public DataAccessException()
         {
         }
 
         /// <summary>
-        /// 构造函数
+        ///     构造函数
         /// </summary>
         /// <param name="message">描述错误的消息。</param>
         public DataAccessException(string message) : base(CustomizeExceptionMessage(message, null))
@@ -27,25 +27,21 @@ namespace MasterChief.DotNet.Core.Contract
         }
 
         /// <summary>
-        /// 构造函数
+        ///     构造函数
         /// </summary>
         /// <param name="message">异常信息</param>
         /// <param name="inner">内置异常</param>
-        public DataAccessException(string message, Exception inner) : base(CustomizeExceptionMessage(message, inner), inner)
+        public DataAccessException(string message, Exception inner) : base(CustomizeExceptionMessage(message, inner),
+            inner)
         {
         }
 
         private static string CustomizeExceptionMessage(string message, Exception inner)
         {
             if (string.IsNullOrEmpty(message) && inner != null)
-            {
                 message = inner.Message;
-            }
-            else if (string.IsNullOrEmpty(message))
-            {
-                message = "未知数据访问层异常，详情请查看日志信息。";
-            }
-            return string.Format("数据访问层异常：{0}", message);
+            else if (string.IsNullOrEmpty(message)) message = "未知数据访问层异常，详情请查看日志信息。";
+            return $"数据访问层异常：{message}";
         }
 
         #endregion Constructors
