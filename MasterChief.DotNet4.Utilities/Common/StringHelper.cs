@@ -30,7 +30,7 @@ namespace MasterChief.DotNet4.Utilities.Common
             string unHanleString = builder.ToString();
             int dIndex = unHanleString.LastIndexOf(delimiter);
 
-            return dIndex != -1 ? unHanleString = unHanleString.Substring(0, dIndex) : unHanleString;
+            return dIndex != -1 ? unHanleString.Substring(0, dIndex) : unHanleString;
         }
 
         /// <summary>
@@ -203,7 +203,7 @@ namespace MasterChief.DotNet4.Utilities.Common
         {
             int index = data.IndexOf(delimiter);
 
-            return data = index != -1 ? data.Substring(0, index) : data;
+            return index != -1 ? data.Substring(0, index) : data;
         }
 
         /// <summary>
@@ -216,7 +216,7 @@ namespace MasterChief.DotNet4.Utilities.Common
         {
             int index = data.LastIndexOf(delimiter);
 
-            return data = index != -1 ? data.Substring(0, index) : data;
+            return index != -1 ? data.Substring(0, index) : data;
         }
 
         /// <summary>

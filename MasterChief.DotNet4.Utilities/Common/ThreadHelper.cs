@@ -40,10 +40,7 @@
             }
             catch (Exception ex)
             {
-                if (failFactory != null)
-                {
-                    failFactory(ex);
-                }
+                failFactory?.Invoke(ex);
             }
         }
 

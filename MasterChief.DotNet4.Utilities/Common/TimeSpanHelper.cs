@@ -48,17 +48,17 @@
         /// 格式化时间
         /// <para>eg: Assert.AreEqual("14:01", TimeSpanHelper.FormatTime(new TimeSpan(14, 1, 2)));</para>
         /// </summary>
-        /// <param name="timefield">The timefield.</param>
+        /// <param name="date">The timefield.</param>
         /// <returns>格式化后的字符串</returns>
-        public static string FormatTime(this TimeSpan timefield)
+        public static string FormatTime(this TimeSpan date)
         {
-            if (timefield.Hours == 0 && timefield.Minutes == 0)
+            if (date.Hours == 0 && date.Minutes == 0)
             {
                 return "24:00";
             }
             else
             {
-                return timefield.Hours.ToString().PadLeft(2, '0') + ":" + timefield.Minutes.ToString().PadLeft(2, '0');
+                return date.Hours.ToString().PadLeft(2, '0') + ":" + date.Minutes.ToString().PadLeft(2, '0');
             }
         }
 

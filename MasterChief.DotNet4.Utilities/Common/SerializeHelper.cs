@@ -70,7 +70,7 @@ namespace MasterChief.DotNet4.Utilities.Common
         {
             CheckedSerializeData(serializeData);
             ValidateOperator.Begin().IsFilePath(saveFilePath);
-            byte[] buffer = BinarySerialize<T>(serializeData);
+            byte[] buffer = BinarySerialize(serializeData);
             FileHelper.SaveFile(buffer, saveFilePath);
         }
 
@@ -145,7 +145,7 @@ namespace MasterChief.DotNet4.Utilities.Common
         /// <returns>Json字符串</returns>
         public static string JsonSerialize<T>(T serializeData)
         {
-            return JsonSerialize<T>(serializeData, null);
+            return JsonSerialize(serializeData, null);
         }
 
         /// <summary>
@@ -174,10 +174,10 @@ namespace MasterChief.DotNet4.Utilities.Common
                                  @"\\/Date\((\d+)\)\\/",
                                  match =>
                                  {
-                                     DateTime _dateTime = new DateTime(1970, 1, 1);
-                                     _dateTime = _dateTime.AddMilliseconds(long.Parse(match.Groups[1].Value));
-                                     _dateTime = _dateTime.ToLocalTime();
-                                     return _dateTime.ToString(formart);
+                                     DateTime dateTime = new DateTime(1970, 1, 1);
+                                     dateTime = dateTime.AddMilliseconds(long.Parse(match.Groups[1].Value));
+                                     dateTime = dateTime.ToLocalTime();
+                                     return dateTime.ToString(formart);
                                  });
             }
 

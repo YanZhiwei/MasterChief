@@ -194,16 +194,16 @@
         /// <summary>
         /// 将字符串IP转换为IPAddress对象，若转换失败，则返回NULL
         /// </summary>
-        /// <param name="ipAddress">The ip address.</param>
+        /// <param name="data">The ip address.</param>
         /// <returns>若转换失败，则返回NULL</returns>
-        public static IPAddress ParseIpString(this string ipAddress)
+        public static IPAddress ParseIpString(this string data)
         {
-            if (!IPAddress.TryParse(ipAddress, out IPAddress _ipAddress))
+            if (!IPAddress.TryParse(data, out IPAddress ipAddress))
             {
                 return null;
             }
 
-            return _ipAddress;
+            return ipAddress;
         }
 
         /// <summary>

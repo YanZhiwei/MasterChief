@@ -24,7 +24,7 @@
         /// <summary>
         /// Unix 时间戳
         /// </summary>
-        public static readonly DateTime UnixEpochUtcValue;
+        private static readonly DateTime UnixEpochUtcValue;
 
         #endregion Fields
 

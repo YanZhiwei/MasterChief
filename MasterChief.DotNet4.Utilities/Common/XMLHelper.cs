@@ -38,7 +38,7 @@
         /// </summary>
         /// <param name="xmlFilePath">xml路径</param>
         /// <returns>返回DataSet，若发生异常则返回NULL</returns>
-        public static DataSet ParseXMLFile(string xmlFilePath)
+        public static DataSet ParseXmlFile(string xmlFilePath)
         {
             XmlDocument xmlDocument = new XmlDocument();
             xmlDocument.Load(xmlFilePath);

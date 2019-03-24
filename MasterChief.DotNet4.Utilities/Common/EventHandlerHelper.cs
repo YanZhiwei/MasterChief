@@ -19,10 +19,7 @@
         /// 备注：
         public static void Raise(this EventHandler handler, object sender, EventArgs e)
         {
-            if (handler != null)
-            {
-                handler(sender, e);
-            }
+            handler?.Invoke(sender, e);
         }
 
         /// <summary>
@@ -34,10 +31,7 @@
         /// 备注：
         public static void RaiseEvent(this EventHandler eventHanlder, object sender)
         {
-            if (eventHanlder != null)
-            {
-                eventHanlder(sender, null);
-            }
+            eventHanlder?.Invoke(sender, null);
         }
 
         /// <summary>
@@ -50,10 +44,7 @@
         public static void RaiseEvent<TEventArgs>(this EventHandler<TEventArgs> eventHanlder, object sender)
         where TEventArgs : EventArgs
         {
-            if (eventHanlder != null)
-            {
-                eventHanlder(sender, Activator.CreateInstance<TEventArgs>());
-            }
+            eventHanlder?.Invoke(sender, Activator.CreateInstance<TEventArgs>());
         }
 
         /// <summary>
@@ -67,10 +58,7 @@
         public static void RaiseEvent<TEventArgs>(this EventHandler<TEventArgs> eventHanlder, object sender, TEventArgs e)
         where TEventArgs : EventArgs
         {
-            if (eventHanlder != null)
-            {
-                eventHanlder(sender, e);
-            }
+            eventHanlder?.Invoke(sender, e);
         }
 
         #endregion Methods

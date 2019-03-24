@@ -17,42 +17,31 @@
         /// <param name="isHideStackTrace">是否显示堆栈信息</param>
         /// <param name="appString">堆栈信息描述前缀；默认空格</param>
         /// <returns>格式化后异常信息</returns>
-        public static string FormatMessage(this Exception ex, bool isHideStackTrace, string appString)
+        public static string FormatMessage(this Exception ex, bool isHideStackTrace, string appString = "  ")
         {
             StringBuilder builder = new StringBuilder();
 
             while (ex != null)
             {
-                builder.AppendLine(string.Format("{0}异常消息：{1}", appString, ex.Message));
-                builder.AppendLine(string.Format("{0}异常类型：{1}", appString, ex.GetType().FullName));
-                builder.AppendLine(string.Format("{0}异常方法：{1}", appString, ex.TargetSite == null ? null : ex.TargetSite.Name));
-                builder.AppendLine(string.Format("{0}异常来源：{1}", appString, ex.Source));
+                builder.AppendLine($"{appString}异常消息：{ex.Message}");
+                builder.AppendLine($"{appString}异常类型：{ex.GetType().FullName}");
+                builder.AppendLine($"{appString}异常方法：{(ex.TargetSite == null ? null : ex.TargetSite.Name)}");
+                builder.AppendLine($"{appString}异常来源：{ex.Source}");
 
                 if (!isHideStackTrace && ex.StackTrace != null)
                 {
-                    builder.AppendLine(string.Format("{0}异常堆栈：{1}", appString, ex.StackTrace));
+                    builder.AppendLine($"{appString}异常堆栈：{ex.StackTrace}");
                 }
 
                 if (ex.InnerException != null)
                 {
-                    builder.AppendLine(string.Format("{0}内部异常：", appString));
+                    builder.AppendLine($"{appString}内部异常：");
                 }
 
                 ex = ex.InnerException;
             }
 
             return builder.ToString();
-        }
-
-        /// <summary>
-        /// 格式化异常消息
-        /// </summary>
-        /// <param name="ex">Exception</param>
-        /// <param name="isHideStackTrace">是否显示堆栈信息</param>
-        /// <returns>格式化后异常信息</returns>
-        public static string FormatMessage(this Exception ex, bool isHideStackTrace)
-        {
-            return FormatMessage(ex, isHideStackTrace, "  ");
         }
 
         /// <summary>

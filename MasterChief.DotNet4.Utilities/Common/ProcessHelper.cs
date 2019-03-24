@@ -41,7 +41,7 @@
                 {
                     writer.AutoFlush = true;
                     process.BeginOutputReadLine();
-                    keySelector(value => writer.WriteLine(value));
+                    keySelector?.Invoke(value => writer.WriteLine(value));
                 }
                 process.WaitForExit();
             }

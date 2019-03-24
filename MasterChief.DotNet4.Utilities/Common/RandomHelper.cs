@@ -14,12 +14,12 @@ namespace MasterChief.DotNet4.Utilities.Common
         /// <summary>
         /// 随机种子
         /// </summary>
-        public static readonly Random RandomSeed = null;
+        private static readonly Random RandomSeed;
 
         /// <summary>
         /// 0~9 A~Z字符串
         /// </summary>
-        public static readonly string RandomString09AZ = "0123456789ABCDEFGHIJKMLNOPQRSTUVWXYZ";
+        public static readonly string RandomString09Az = "0123456789ABCDEFGHIJKMLNOPQRSTUVWXYZ";
 
         #endregion Fields
 
@@ -47,11 +47,11 @@ namespace MasterChief.DotNet4.Utilities.Common
         public static string NextString(int size, bool lowerCase)
         {
             StringBuilder builder = new StringBuilder(size);
-            int _startChar = lowerCase ? 97 : 65;  //65 = A / 97 = a
+            int startChar = lowerCase ? 97 : 65;  //65 = A / 97 = a
 
             for (int i = 0; i < size; i++)
             {
-                builder.Append((char)(26 * RandomSeed.NextDouble() + _startChar));
+                builder.Append((char)(26 * RandomSeed.NextDouble() + startChar));
             }
 
             return builder.ToString();

@@ -52,7 +52,7 @@
         {
             string path = fullName + "," + assemblyName;//命名空间.类型名,程序集
             Type loadType = Type.GetType(path);//加载类型
-            object instance = Activator.CreateInstance(loadType, true);//根据类型创建实例
+            object instance = Activator.CreateInstance(loadType ?? throw new InvalidOperationException(), true);//根据类型创建实例
             return (T)instance;//类型转换并返回
         }
 

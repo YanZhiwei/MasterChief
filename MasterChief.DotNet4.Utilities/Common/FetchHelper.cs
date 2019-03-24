@@ -16,6 +16,7 @@ namespace MasterChief.DotNet4.Utilities.Common
         /// <summary>
         /// 获取当前页面的Url
         /// </summary>
+        // ReSharper disable once UnusedMember.Global
         public static string CurrentUrl => HttpContext.Current.Request.Url.ToString();
 
         /// <summary>
@@ -26,7 +27,7 @@ namespace MasterChief.DotNet4.Utilities.Common
             get
             {
                 string host = HttpContext.Current.Request.Url.Host.ToLower();
-                string[] hostArray = host.Split(new char[] { '.' });
+                string[] hostArray = host.Split('.');
 
                 if ((hostArray.Length < 3) || CheckHelper.IsIp4Address(host))
                 {
@@ -84,7 +85,7 @@ namespace MasterChief.DotNet4.Utilities.Common
         /// <returns>网站根目录的物理路径</returns>
         public static string GetRootPath()
         {
-            string website = string.Empty;
+            string website;
             HttpContext context = HttpContext.Current;
 
             if (context != null)
@@ -108,24 +109,22 @@ namespace MasterChief.DotNet4.Utilities.Common
         /// 取得网站的根目录的URL
         /// </summary>
         /// <returns>网站的根目录的URL</returns>
-        public static string GetRootURI()
+        public static string GetRootUri()
         {
             string website = string.Empty;
             HttpContext context = HttpContext.Current;
-            HttpRequest request;
 
             if (context != null)
             {
-                request = context.Request;
-                string _urlAuthority = request.Url.GetLeftPart(UriPartial.Authority);
+                var request = context.Request;
 
                 if (request.ApplicationPath == null || request.ApplicationPath == "/")
                 {
-                    website = _urlAuthority;
+                    website = request.Url.GetLeftPart(UriPartial.Authority);
                 }
                 else
                 {
-                    website = _urlAuthority + request.ApplicationPath;
+                    website = request.Url.GetLeftPart(UriPartial.Authority) + request.ApplicationPath;
                 }
             }
 
@@ -137,7 +136,7 @@ namespace MasterChief.DotNet4.Utilities.Common
         /// </summary>
         /// <param name="reguest">HttpRequest</param>
         /// <returns>网站的根目录的URL</returns>
-        public static string GetRootURI(HttpRequest reguest)
+        public static string GetRootUri(HttpRequest reguest)
         {
             string website = string.Empty;
 
