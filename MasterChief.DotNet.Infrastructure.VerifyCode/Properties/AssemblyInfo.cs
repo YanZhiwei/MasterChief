@@ -5,10 +5,10 @@ using System.Runtime.InteropServices;
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
 [assembly: AssemblyTitle("MasterChief.DotNet.Infrastructure.VerifyCode")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("DotNet VerifyCode")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("MeetYan@outlook.com")]
-[assembly: AssemblyProduct("MasterChief.DotNet.Infrastructure.VerifyCode")]
+[assembly: AssemblyProduct("MasterChief")]
 [assembly: AssemblyCopyright("Copyright © YanZhiwei 2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

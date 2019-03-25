@@ -30,6 +30,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\MasterChief.DotNet.Infrastructure.VerifyCode.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -53,6 +54,10 @@
       <Project>{D1DC63AA-DB3A-4C47-9E20-F7474420BA48}</Project>
       <Name>MasterChief.DotNet4.Utilities</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="MasterChief.DotNet.Infrastructure.VerifyCode.1.0.0.nupkg" />
+    <None Include="MasterChief.DotNet.Infrastructure.VerifyCode.nuspec" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
