@@ -84,6 +84,12 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MasterChief.DotNet.Infrastructure.VerifyCode\MasterChief.DotNet.Infrastructure.VerifyCode.csproj">
+      <Project>{E9EF30E9-5384-4AC6-B7E8-0F092ACF6F92}</Project>
+      <Name>MasterChief.DotNet.Infrastructure.VerifyCode</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

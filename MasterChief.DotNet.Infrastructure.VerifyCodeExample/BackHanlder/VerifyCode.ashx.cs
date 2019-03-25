@@ -1,7 +1,7 @@
-﻿using MasterChief.DotNet.Infrastructure.VerifyCode;
-using System.Web;
+﻿using System.Web;
+using MasterChief.DotNet.Infrastructure.VerifyCode;
 
-namespace MasterChief.DotNet.Infrastructure.VerifyCodeExample.BackHanlder
+namespace MasterChief.DotNet.Framework.VerifyCodeExample.BackHanlder
 {
     /// <summary>
     /// VerifyCode 的摘要说明
