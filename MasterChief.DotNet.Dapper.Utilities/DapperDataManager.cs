@@ -1,13 +1,13 @@
-﻿namespace MasterChief.DotNet.Dapper.Utilities
-{
-    using global::Dapper;
-    using System;
-    using System.Collections.Generic;
-    using System.Data;
-    using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using Dapper;
 
+namespace MasterChief.DotNet.Dapper.Utilities
+{
     /// <summary>
-    /// Dapper 数据库操作帮助类，默认是sql Server
+    ///     Dapper 数据库操作帮助类，默认是sql Server
     /// </summary>
     /// 时间：2016-01-19 16:21
     /// 备注：
@@ -16,16 +16,16 @@
         #region Fields
 
         /// <summary>
-        /// 连接字符串
+        ///     连接字符串
         /// </summary>
-        public readonly string ConnectString = string.Empty;
+        public readonly string ConnectString;
 
         #endregion Fields
 
         #region Constructors
 
         /// <summary>
-        /// 构造函数
+        ///     构造函数
         /// </summary>
         /// <param name="connectString">连接字符串</param>
         /// 时间：2016-01-19 16:21
@@ -40,7 +40,7 @@
         #region Methods
 
         /// <summary>
-        /// 创建SqlConnection连接对象，需要打开
+        ///     创建SqlConnection连接对象，需要打开
         /// </summary>
         /// <returns>IDbConnection</returns>
         /// 时间：2016-01-19 16:22
@@ -48,7 +48,7 @@
         public abstract IDbConnection CreateConnection();
 
         /// <summary>
-        /// ExecuteDataTable
+        ///     ExecuteDataTable
         /// </summary>
         /// <typeparam name="T">泛型</typeparam>
         /// <param name="sql">sql 语句</param>
@@ -57,18 +57,18 @@
         /// 时间：2016-01-19 16:22
         /// 备注：
         public virtual DataTable ExecuteDataTable<T>(string sql, T parameters)
-        where T : class
+            where T : class
         {
-            using (IDbConnection connection = CreateConnection())
+            using (var connection = CreateConnection())
             {
-                DataTable table = new DataTable();
+                var table = new DataTable();
                 table.Load(connection.ExecuteReader(sql, parameters));
                 return table;
             }
         }
 
         /// <summary>
-        /// ExecuteDataTable
+        ///     ExecuteDataTable
         /// </summary>
         /// <param name="sql">sql 语句</param>
         /// <returns>DataTable</returns>
@@ -76,16 +76,16 @@
         /// 备注:
         public virtual DataTable ExecuteDataTable(string sql)
         {
-            using (IDbConnection connection = CreateConnection())
+            using (var connection = CreateConnection())
             {
-                DataTable table = new DataTable();
-                table.Load(connection.ExecuteReader(sql, null));
+                var table = new DataTable();
+                table.Load(connection.ExecuteReader(sql));
                 return table;
             }
         }
 
         /// <summary>
-        /// ExecuteNonQuery
+        ///     ExecuteNonQuery
         /// </summary>
         /// <typeparam name="T">泛型</typeparam>
         /// <param name="sql">sql 语句</param>
@@ -94,16 +94,16 @@
         /// 时间：2016-01-19 16:23
         /// 备注：
         public virtual int ExecuteNonQuery<T>(string sql, T parameters)
-        where T : class
+            where T : class
         {
-            using (IDbConnection connection = CreateConnection())
+            using (var connection = CreateConnection())
             {
                 return connection.Execute(sql, parameters);
             }
         }
 
         /// <summary>
-        /// ExecuteNonQuery
+        ///     ExecuteNonQuery
         /// </summary>
         /// <typeparam name="T">泛型</typeparam>
         /// <param name="sql">sql 语句</param>
@@ -111,15 +111,12 @@
         /// <returns>影响行数</returns>
         public virtual int ExecuteNonQuery<T>(string sql, List<T> parameters)
         {
-            int result = 0;
-            using (IDbConnection connection = CreateConnection())
+            var result = 0;
+            using (var connection = CreateConnection())
             {
-                if (connection.State != ConnectionState.Open)
-                {
-                    connection.Open();
-                }
+                if (connection.State != ConnectionState.Open) connection.Open();
 
-                using (IDbTransaction tran = connection.BeginTransaction())
+                using (var tran = connection.BeginTransaction())
                 {
                     try
                     {
@@ -133,24 +130,25 @@
                     }
                 }
             }
+
             return result;
         }
 
         /// <summary>
-        /// ExecuteNonQuery
+        ///     ExecuteNonQuery
         /// </summary>
         /// <param name="sql">sql 语句</param>
         /// <returns>影响行数</returns>
         public virtual int ExecuteNonQuery(string sql)
         {
-            using (IDbConnection connection = CreateConnection())
+            using (var connection = CreateConnection())
             {
-                return connection.Execute(sql, null);
+                return connection.Execute(sql);
             }
         }
 
         /// <summary>
-        /// ExecuteReader
+        ///     ExecuteReader
         /// </summary>
         /// <typeparam name="T">泛型</typeparam>
         /// <param name="sql">sql 语句</param>
@@ -159,26 +157,26 @@
         /// 时间：2016-01-19 16:24
         /// 备注：
         public virtual IDataReader ExecuteReader<T>(string sql, T parameters)
-        where T : class
+            where T : class
         {
-            IDbConnection connection = CreateConnection();
+            var connection = CreateConnection();
 
             return connection.ExecuteReader(sql, parameters);
         }
 
         /// <summary>
-        /// ExecuteReader
+        ///     ExecuteReader
         /// </summary>
         /// <param name="sql">sql 语句</param>
         /// <returns>IDataReader</returns>
         public virtual IDataReader ExecuteReader(string sql)
         {
-            IDbConnection connection = CreateConnection();
-            return connection.ExecuteReader(sql, null);
+            var connection = CreateConnection();
+            return connection.ExecuteReader(sql);
         }
 
         /// <summary>
-        /// ExecuteScalar
+        ///     ExecuteScalar
         /// </summary>
         /// <typeparam name="T">泛型</typeparam>
         /// <param name="sql">sql 语句</param>
@@ -187,29 +185,29 @@
         /// 时间：2016-01-19 16:25
         /// 备注：
         public virtual object ExecuteScalar<T>(string sql, T parameters)
-        where T : class
+            where T : class
         {
-            using (IDbConnection connection = CreateConnection())
+            using (var connection = CreateConnection())
             {
                 return connection.ExecuteScalar(sql, parameters, null, null, null);
             }
         }
 
         /// <summary>
-        /// ExecuteScalar
+        ///     ExecuteScalar
         /// </summary>
         /// <param name="sql">sql 语句</param>
         /// <returns>返回对象</returns>
         public virtual object ExecuteScalar(string sql)
         {
-            using (IDbConnection connection = CreateConnection())
+            using (var connection = CreateConnection())
             {
                 return connection.ExecuteScalar(sql, null, null, null, null);
             }
         }
 
         /// <summary>
-        /// 返回实体类
+        ///     返回实体类
         /// </summary>
         /// <typeparam name="T">泛型</typeparam>
         /// <param name="sql">sql 语句</param>
@@ -218,16 +216,16 @@
         /// 时间：2016-01-19 16:25
         /// 备注：
         public virtual T Query<T>(string sql, T parameters)
-        where T : class
+            where T : class
         {
-            using (IDbConnection connection = CreateConnection())
+            using (var connection = CreateConnection())
             {
                 return connection.Query<T>(sql, parameters).FirstOrDefault();
             }
         }
 
         /// <summary>
-        /// 返回集合
+        ///     返回集合
         /// </summary>
         /// <typeparam name="T">泛型</typeparam>
         /// <param name="sql">sql 语句</param>
@@ -236,9 +234,9 @@
         /// 时间：2016-01-19 16:25
         /// 备注：
         public virtual List<T> QueryList<T>(string sql, T parameters)
-        where T : class
+            where T : class
         {
-            using (IDbConnection connection = CreateConnection())
+            using (var connection = CreateConnection())
             {
                 return connection.Query<T>(sql, parameters).ToList();
             }

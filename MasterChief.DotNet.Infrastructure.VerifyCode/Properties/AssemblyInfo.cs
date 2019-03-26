@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("MasterChief.DotNet.Infrastructure.VerifyCode")]
 [assembly: AssemblyDescription("DotNet VerifyCode")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("MeetYan@outlook.com")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("MasterChief")]
 [assembly: AssemblyCopyright("Copyright © YanZhiwei 2019")]
 [assembly: AssemblyTrademark("")]

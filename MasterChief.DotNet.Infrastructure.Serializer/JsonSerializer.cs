@@ -1,61 +1,62 @@
-using Newtonsoft.Json;
-using System;
 using System.Data;
 using System.IO;
+using Newtonsoft.Json;
 
 namespace MasterChief.DotNet.Infrastructure.Serializer
 {
     /// <summary>
-    /// Json 序列化与反序列化
+    ///     Json 序列化与反序列化
     /// </summary>
     public class JsonSerializer : ISerializer
     {
+        /// <summary>
+        ///     反序列化
+        /// </summary>
+        /// <typeparam name="T">泛型</typeparam>
+        /// <param name="data">需要反序列化字符串</param>
+        /// <returns>反序列化</returns>
         public T Deserialize<T>(string data)
         {
-            T deserializedType = default(T);
+            T deserializedType = default;
             if (!string.IsNullOrEmpty(data))
             {
-                Newtonsoft.Json.JsonSerializer serializer = new Newtonsoft.Json.JsonSerializer();
+                var serializer = new Newtonsoft.Json.JsonSerializer();
                 Initialize(serializer);
 
-                using (StringReader reader = new StringReader(data))
+                using (var reader = new StringReader(data))
                 {
-                    using (JsonTextReader jsonReader = new JsonTextReader(reader))
+                    using (var jsonReader = new JsonTextReader(reader))
                     {
                         deserializedType = serializer.Deserialize<T>(jsonReader);
                     }
                 }
             }
+
             return deserializedType;
         }
 
+        /// <summary>
+        ///     序列化
+        /// </summary>
+        /// <param name="serializeObject">需要序列化对象</param>
+        /// <returns>Json字符串</returns>
         public string Serialize(object serializeObject)
         {
-            if (serializeObject == null)
-            {
-                return null;
-            }
+            if (serializeObject == null) return null;
 
-            Type type = serializeObject.GetType();
-            Newtonsoft.Json.JsonSerializer serializer = new Newtonsoft.Json.JsonSerializer();
+            var type = serializeObject.GetType();
+            var serializer = new Newtonsoft.Json.JsonSerializer();
             Initialize(serializer);
 
             if (type == typeof(DataRow))
-            {
                 serializer.Converters.Add(new DataRowConverter());
-            }
             else if (type == typeof(DataTable))
-            {
                 serializer.Converters.Add(new DataTableConverter());
-            }
-            else if (type == typeof(DataSet))
-            {
-                serializer.Converters.Add(new DataSetConverter());
-            }
+            else if (type == typeof(DataSet)) serializer.Converters.Add(new DataSetConverter());
 
-            using (StringWriter writer = new StringWriter())
+            using (var writer = new StringWriter())
             {
-                using (JsonTextWriter jsonWriter = new JsonTextWriter(writer))
+                using (var jsonWriter = new JsonTextWriter(writer))
                 {
                     jsonWriter.Formatting = Formatting.None;
                     jsonWriter.QuoteChar = '"';

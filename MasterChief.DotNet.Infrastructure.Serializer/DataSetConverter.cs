@@ -1,16 +1,16 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Data;
+using Newtonsoft.Json;
 
 namespace MasterChief.DotNet.Infrastructure.Serializer
 {
     /// <summary>
-    /// DataSetConverter转换器
+    ///     DataSetConverter转换器
     /// </summary>
     internal class DataSetConverter : JsonConverter
     {
         /// <summary>
-        /// override CanConvert
+        ///     override CanConvert
         /// </summary>
         /// <param name="valueType">Type</param>
         /// <returns></returns>
@@ -20,35 +20,35 @@ namespace MasterChief.DotNet.Infrastructure.Serializer
         }
 
         /// <summary>
-        /// override ReadJson
+        ///     override ReadJson
         /// </summary>
         /// <param name="reader"></param>
         /// <param name="objectType"></param>
         /// <param name="existingValue"></param>
         /// <param name="ser"></param>
         /// <returns></returns>
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, Newtonsoft.Json.JsonSerializer ser)
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue,
+            Newtonsoft.Json.JsonSerializer ser)
         {
             throw new NotImplementedException();
         }
 
         /// <summary>
-        /// override WriteJson
+        ///     override WriteJson
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="dataset"></param>
         /// <param name="ser"></param>
         public override void WriteJson(JsonWriter writer, object dataset, Newtonsoft.Json.JsonSerializer ser)
         {
-            DataSet dataSet = dataset as DataSet;
-            DataTableConverter converter = new DataTableConverter();
+            var dataSet = dataset as DataSet;
+            var converter = new DataTableConverter();
             writer.WriteStartObject();
             writer.WritePropertyName("Tables");
             writer.WriteStartArray();
-            foreach (DataTable table in dataSet.Tables)
-            {
-                converter.WriteJson(writer, table, ser);
-            }
+            if (dataSet != null)
+                foreach (DataTable table in dataSet.Tables)
+                    converter.WriteJson(writer, table, ser);
             writer.WriteEndArray();
             writer.WriteEndObject();
         }

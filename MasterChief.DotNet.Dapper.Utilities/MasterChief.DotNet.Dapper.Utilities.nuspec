@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+   <authors>YanZhiwei</authors>
+    <owners>$author$</owners>
+    <license type="expression">MIT</license>
+    <projectUrl>https://github.com/YanZhiwei/MasterChief/tree/master/MasterChief.DotNet.Dapper.Utilities</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$description$</description>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright YanZhiwei 2019</copyright>
+    <tags>DotNet Dapper</tags>
+  </metadata>
+</package>

@@ -5,9 +5,9 @@ using System.Runtime.InteropServices;
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
 [assembly: AssemblyTitle("MasterChief.DotNet.Core.Log")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("DotNet本地日志服务实现")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("MeetYan@outlook.com")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("MasterChief.DotNet.Core.Log")]
 [assembly: AssemblyCopyright("Copyright © YanZhiwei 2018")]
 [assembly: AssemblyTrademark("")]

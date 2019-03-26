@@ -1,22 +1,23 @@
-﻿namespace MasterChief.DotNet.Infrastructure.Excel
-{
-    using MasterChief.DotNet4.Utilities.Operator;
-    using NPOI.HSSF.UserModel;
-    using NPOI.SS.UserModel;
-    using NPOI.SS.Util;
-    using NPOI.XSSF.UserModel;
-    using System.Data;
-    using System.IO;
+﻿using System;
+using System.Data;
+using System.IO;
+using MasterChief.DotNet4.Utilities.Operator;
+using NPOI.HSSF.UserModel;
+using NPOI.SS.UserModel;
+using NPOI.SS.Util;
+using NPOI.XSSF.UserModel;
 
+namespace MasterChief.DotNet.Infrastructure.Excel
+{
     /// <summary>
-    /// NPOIM anager.
+    ///     NPOIM anager.
     /// </summary>
     public class NPOIManager : IExcelManger
     {
         #region Methods
 
         /// <summary>
-        /// Tos the data table.
+        ///     Tos the data table.
         /// </summary>
         /// <returns>The data table.</returns>
         /// <param name="filePath">File path.</param>
@@ -25,42 +26,32 @@
         /// <param name="rowIndex">Row index.</param>
         public DataTable ToDataTable(string filePath, ushort sheetIndex = 0, ushort headIndex = 0, ushort rowIndex = 0)
         {
-            DataTable table = new DataTable();
-            IWorkbook hssfworkbook = NOPIHelper.GetExcelWorkbook(filePath);
-            ISheet sheet = hssfworkbook.GetSheetAt(sheetIndex);
+            var table = new DataTable();
+            var hssfworkbook = NpoiHelper.GetExcelWorkbook(filePath);
+            var sheet = hssfworkbook.GetSheetAt(sheetIndex);
             AddDataColumns(sheet, headIndex, table);
-            bool supportFormula = string.Compare(Path.GetExtension(filePath), ".xlsx", true) == 0;
+            var supportFormula = String.Compare(Path.GetExtension(filePath), ".xlsx", StringComparison.OrdinalIgnoreCase) == 0;
 
-            for (int i = (sheet.FirstRowNum + rowIndex); i <= sheet.LastRowNum; i++)
+            for (var i = sheet.FirstRowNum + rowIndex; i <= sheet.LastRowNum; i++)
             {
-                IRow row = sheet.GetRow(i);
-                bool emptyRow = true;
+                var row = sheet.GetRow(i);
+                var emptyRow = true;
 
-                if (row == null)
-                {
-                    continue;
-                }
+                if (row == null) continue;
 
-                object[] itemArray = new object[row.LastCellNum];
+                var itemArray = new object[row.LastCellNum];
 
                 for (int j = row.FirstCellNum; j < row.LastCellNum; j++)
                 {
-                    if (row.GetCell(j) == null)
-                    {
-                        continue;
-                    }
+                    if (row.GetCell(j) == null) continue;
 
                     switch (row.GetCell(j).CellType)
                     {
                         case CellType.Numeric:
-                            if (DateUtil.IsCellDateFormatted(row.GetCell(j)))                  //日期类型
-                            {
+                            if (DateUtil.IsCellDateFormatted(row.GetCell(j))) //日期类型
                                 itemArray[j] = row.GetCell(j).DateCellValue;
-                            }
-                            else//其他数字类型
-                            {
+                            else //其他数字类型
                                 itemArray[j] = row.GetCell(j).NumericCellValue;
-                            }
 
                             break;
 
@@ -69,25 +60,17 @@
                             break;
 
                         case CellType.Formula:
-                            IFormulaEvaluator eva = null;
+                            IFormulaEvaluator eva;
 
                             if (supportFormula)
-                            {
                                 eva = new XSSFFormulaEvaluator(hssfworkbook);
-                            }
                             else
-                            {
                                 eva = new HSSFFormulaEvaluator(hssfworkbook);
-                            }
 
                             if (eva.Evaluate(row.GetCell(j)).CellType == CellType.Numeric)
-                            {
                                 itemArray[j] = eva.Evaluate(row.GetCell(j)).NumberValue;
-                            }
                             else
-                            {
                                 itemArray[j] = eva.Evaluate(row.GetCell(j)).StringValue;
-                            }
 
                             break;
 
@@ -96,23 +79,17 @@
                             break;
                     }
 
-                    if (itemArray[j] != null && !string.IsNullOrEmpty(itemArray[j].ToString().Trim()))
-                    {
-                        emptyRow = false;
-                    }
+                    if (itemArray[j] != null && !string.IsNullOrEmpty(itemArray[j].ToString().Trim())) emptyRow = false;
                 }
 
-                if (!emptyRow)
-                {
-                    table.Rows.Add(itemArray);
-                }
+                if (!emptyRow) table.Rows.Add(itemArray);
             }
 
             return table;
         }
 
         /// <summary>
-        /// Tos the excel.
+        ///     Tos the excel.
         /// </summary>
         /// <param name="table">Table.</param>
         /// <param name="sheetName">Sheet name.</param>
@@ -121,22 +98,22 @@
         public void ToExcel(DataTable table, string sheetName, string title, string filePath)
         {
             ValidateOperator.Begin().NotNull(table, "需要导出到EXCEL数据源")
-            .NotNullOrEmpty(title, "EXCEL标题")
-            .NotNullOrEmpty(filePath, "EXCEL导出路径")
-            .IsFilePath(filePath);
+                .NotNullOrEmpty(title, "EXCEL标题")
+                .NotNullOrEmpty(filePath, "EXCEL导出路径")
+                .IsFilePath(filePath);
 
-            using (FileStream fileStream = new FileStream(filePath, FileMode.OpenOrCreate, FileAccess.ReadWrite))
+            using (var fileStream = new FileStream(filePath, FileMode.OpenOrCreate, FileAccess.ReadWrite))
             {
                 IWorkbook workBook = new HSSFWorkbook();
-                sheetName = string.IsNullOrEmpty(sheetName) == true ? "sheet1" : sheetName;
-                ISheet sheet = workBook.CreateSheet(sheetName);
+                sheetName = string.IsNullOrEmpty(sheetName) ? "sheet1" : sheetName;
+                var sheet = workBook.CreateSheet(sheetName);
                 //处理表格标题
-                IRow row = sheet.CreateRow(0);
+                var row = sheet.CreateRow(0);
                 row.CreateCell(0).SetCellValue(title);
                 sheet.AddMergedRegion(new CellRangeAddress(0, 0, 0, table.Columns.Count - 1));
                 row.Height = 500;
-                ICellStyle cellStyle = workBook.CreateCellStyle();
-                IFont font = workBook.CreateFont();
+                var cellStyle = workBook.CreateCellStyle();
+                var font = workBook.CreateFont();
                 font.FontName = "微软雅黑";
                 font.FontHeightInPoints = 17;
                 cellStyle.SetFont(font);
@@ -146,7 +123,7 @@
                 //处理表格列头
                 row = sheet.CreateRow(1);
 
-                for (int i = 0; i < table.Columns.Count; i++)
+                for (var i = 0; i < table.Columns.Count; i++)
                 {
                     row.CreateCell(i).SetCellValue(table.Columns[i].ColumnName);
                     row.Height = 350;
@@ -154,12 +131,12 @@
                 }
 
                 //处理数据内容
-                for (int i = 0; i < table.Rows.Count; i++)
+                for (var i = 0; i < table.Rows.Count; i++)
                 {
                     row = sheet.CreateRow(2 + i);
                     row.Height = 250;
 
-                    for (int j = 0; j < table.Columns.Count; j++)
+                    for (var j = 0; j < table.Columns.Count; j++)
                     {
                         row.CreateCell(j).SetCellValue(table.Rows[i][j].ToString());
                         sheet.SetColumnWidth(j, 256 * 15);
@@ -173,16 +150,13 @@
 
         private static void AddDataColumns(ISheet sheet, ushort headIndex, DataTable table)
         {
-            IRow headRow = sheet.GetRow(headIndex);
+            var headRow = sheet.GetRow(headIndex);
 
             if (headRow != null)
             {
                 int colCount = headRow.LastCellNum;
 
-                for (int i = 0; i < colCount; i++)
-                {
-                    table.Columns.Add(headRow.GetCell(i).StringCellValue);
-                }
+                for (var i = 0; i < colCount; i++) table.Columns.Add(headRow.GetCell(i).StringCellValue);
             }
         }
 
