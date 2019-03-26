@@ -7,11 +7,10 @@
     <authors>YanZhiwei</authors>
     <owners>$author$</owners>
     <license type="expression">MIT</license>
-    <projectUrl>https://github.com/YanZhiwei/MasterChief</projectUrl>
-    <iconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</iconUrl>
+    <projectUrl>https://github.com/YanZhiwei/MasterChief/tree/master/MasterChief.DotNet.Infrastructure.VerifyCode</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>支持Asp.Net Mvc 6以及WebForm的生成验证码类库</releaseNotes>
+    <releaseNotes></releaseNotes>
     <copyright>Copyright YanZhiwei 2019</copyright>
     <tags>DotNet VerifyCode</tags>
   </metadata>

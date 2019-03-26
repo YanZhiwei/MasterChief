@@ -171,10 +171,5 @@
       <LastGenOutput>ValidateResource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="MasterChief.DotNet4.Utilities.1.0.0.1.nupkg" />
-    <None Include="MasterChief.DotNet4.Utilities.1.0.0.nupkg" />
-    <None Include="MasterChief.DotNet4.Utilities.nuspec" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

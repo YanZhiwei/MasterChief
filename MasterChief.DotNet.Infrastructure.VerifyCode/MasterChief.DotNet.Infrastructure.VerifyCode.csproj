@@ -53,8 +53,6 @@
     <Compile Include="ValidateCode\ValidateCode_Style1.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="MasterChief.DotNet.Infrastructure.VerifyCode.1.0.0.nupkg" />
-    <None Include="MasterChief.DotNet.Infrastructure.VerifyCode.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
