@@ -7,12 +7,14 @@ C# 开发辅助类库，和士官长一样身经百战且越战越勇的战争�
 目录
 =================
 
-* [1\. 数据访问](#1-%E6%95%B0%E6%8D%AE%E8%AE%BF%E9%97%AE)
+* [1\. 数据库访问](#1-%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BF%E9%97%AE)
 * [2\. 日志](#2-%E6%97%A5%E5%BF%97)
 * [3\. 缓存](#3-%E7%BC%93%E5%AD%98)
 * [4\. 配置](#4-%E9%85%8D%E7%BD%AE)
+* [5\.快速构建适用于Mvc和WebForm 验证码](#5%E5%BF%AB%E9%80%9F%E6%9E%84%E5%BB%BA%E9%80%82%E7%94%A8%E4%BA%8Emvc%E5%92%8Cwebform-%E9%AA%8C%E8%AF%81%E7%A0%81)
 
-#### 1. 数据访问
+#### 1. 数据库访问
+
 
 a. 支持Dapper和Entity Framework 两种ORM框架;
 
@@ -927,3 +929,90 @@ b. 基于IConfigProvider接口，可以很容易扩展其他配置实现；
 5. 配置文件基于XML持久化存储，如图：
 
    ![1552231725395](https://8y5n3a.dm.files.1drv.com/y4mqjcZUrUGGJzfE_S09gBfz-ZrWnH7vfrzxBbIb922zzqP7PU5ae5f7HgZk49_SfqZE8U3YY3H0Fn9WddI1oXRSAU9vBMcrlxX4FrXUzHBaJq9s5E8TEvaSsv-4ATHsLkHZfdttbF7h02Fo5451D2uwtxASSh8TPxrCAuJ9byRmD6qOeKYM1Kh9ZoV1HMaIVwdFF5MeS5KZ-LultAHCOvWFw?width=1155&height=235&cropmode=none)
+
+#### 5.快速构建适用于Mvc和WebForm 验证码
+
+a. 派生实现ValidateCodeType抽象类，来自定义验证码样式；
+
+b. 派生实现VerifyCodeHandler抽象类，快速切换需要显示验证码；
+
+代码使用说明：
+
+1. Mvc 简单使用如下：
+
+   ```c#
+   /// <summary>
+   ///     处理生成Mvc 程序验证码
+   /// </summary>
+   public sealed class MvcVerifyCodeHandler : VerifyCodeHandler
+   {
+       public override void OnValidateCodeCreated(HttpContext context, string validateCode)
+       {
+           context.Session["validateCode"] = validateCode;
+       }
+    
+       public override byte[] CreateValidateCode(string style)
+       {
+           ValidateCodeType createCode;
+           switch (style)
+           {
+               case "type1":
+                   createCode = new ValidateCode_Style1();
+                   break;
+               default:
+                   createCode = new ValidateCode_Style1();
+                   break;
+           }
+    
+           var buffer = createCode.CreateImage(out var validateCode);
+           OnValidateCodeCreated(HttpContext.Current, validateCode);
+           return buffer;
+       }
+   }
+   ```
+
+2. WebForm 简单使用如下：
+
+   ```c#
+   /// <summary>
+   ///     WebFormVerifyCodeHandler 的摘要说明
+   /// </summary>
+   public class WebFormVerifyCodeHandler : VerifyCodeHandler, IHttpHandler, IRequiresSessionState
+   {
+       public void ProcessRequest(HttpContext context)
+       {
+           var validateType = context.Request.Params["style"];
+           var buffer = CreateValidateCode(validateType);
+           context.Response.ClearContent();
+           context.Response.ContentType = MimeTypes.ImageGif;
+           context.Response.BinaryWrite(buffer);
+       }
+    
+       public bool IsReusable => false;
+    
+       public override void OnValidateCodeCreated(HttpContext context, string validateCode)
+       {
+           context.Session["validateCode"] = validateCode;
+       }
+    
+       public override byte[] CreateValidateCode(string style)
+       {
+           style = style?.Trim();
+           ValidateCodeType createCode;
+           switch (style)
+           {
+               case "type1":
+                   createCode = new ValidateCode_Style1();
+                   break;
+    
+               default:
+                   createCode = new ValidateCode_Style1();
+                   break;
+           }
+    
+           var buffer = createCode.CreateImage(out var validateCode);
+           OnValidateCodeCreated(HttpContext.Current, validateCode);
+           return buffer;
+       }
+   }
+   ```
