@@ -33,6 +33,9 @@
     <DocumentationFile>bin\Release\MasterChief.DotNet.Infrastructure.VerifyCode.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MasterChief.DotNet4.Utilities, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MasterChief.DotNet4.Utilities.1.0.0.1\lib\net40\MasterChief.DotNet4.Utilities.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -50,14 +53,9 @@
     <Compile Include="ValidateCode\ValidateCode_Style1.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MasterChief.DotNet4.Utilities\MasterChief.DotNet4.Utilities.csproj">
-      <Project>{D1DC63AA-DB3A-4C47-9E20-F7474420BA48}</Project>
-      <Name>MasterChief.DotNet4.Utilities</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="MasterChief.DotNet.Infrastructure.VerifyCode.1.0.0.nupkg" />
     <None Include="MasterChief.DotNet.Infrastructure.VerifyCode.nuspec" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

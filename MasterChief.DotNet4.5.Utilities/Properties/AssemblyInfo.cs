@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
 [assembly: AssemblyTitle("MasterChief.DotNet4.5.Utilities")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("基于.NET Framework4.5 开发类库")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("MasterChief.DotNet4.5.Utilities")]
-[assembly: AssemblyCopyright("Copyright ©  2018")]
+[assembly: AssemblyProduct("MasterChief")]
+[assembly: AssemblyCopyright("Copyright © YanZhiwei 2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

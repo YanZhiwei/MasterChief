@@ -29,6 +29,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\MasterChief.DotNet4.5.Utilities.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -49,6 +50,10 @@
     <Compile Include="Model\UdpAppReceived.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Web\HttpRequestHelper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="MasterChief.DotNet4.5.Utilities.1.0.0.nupkg" />
+    <None Include="MasterChief.DotNet4.5.Utilities.nuspec" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
