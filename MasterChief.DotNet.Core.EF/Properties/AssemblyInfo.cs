@@ -5,10 +5,10 @@ using System.Runtime.InteropServices;
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
 [assembly: AssemblyTitle("MasterChief.DotNet.Core.EF")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("DotNet 基于Entity Framework的Repository模式实现")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("MeetYan@outlook.com")]
-[assembly: AssemblyProduct("MasterChief.DotNet.Core.Contract")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("MasterChief.DotNet.Core.EF")]
 [assembly: AssemblyCopyright("Copyright © YanZhiwei 2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

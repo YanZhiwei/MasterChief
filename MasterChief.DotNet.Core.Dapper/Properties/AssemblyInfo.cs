@@ -4,9 +4,9 @@
 // Change them to the values specific to your project.
 
 [assembly: AssemblyTitle("MasterChief.DotNet.Core.Dapper")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("DotNet 基于Dapper的Repository模式实现")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("MeetYan@outlook.com")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("MasterChief.DotNet.Core.Contract")]
 [assembly: AssemblyCopyright("Copyright © YanZhiwei 2018")]
 [assembly: AssemblyTrademark("")]
