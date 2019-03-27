@@ -7,7 +7,7 @@ namespace MasterChief.DotNet.Infrastructure.ProtobufSerializer
     /// <summary>
     ///     基于Protobuf持久化实现
     /// </summary>
-    public class ProtobufSerializer : ISerializer
+    public class ProtocolBufferSerializer : ISerializer
     {
         /// <summary>
         ///     反序列化

@@ -10,7 +10,7 @@
     <projectUrl>https://github.com/YanZhiwei/MasterChief/tree/master/MasterChief.DotNet.Infrastructure.ProtobufSerializer</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes></releaseNotes>
+    <releaseNotes>1. 完善类命名，避免与名称空间冲突；</releaseNotes>
     <copyright>Copyright YanZhiwei 2019</copyright>
     <tags>ProtoBuf Serializer</tags>
   </metadata>

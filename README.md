@@ -11,7 +11,11 @@ C# 开发辅助类库，和士官长一样身经百战且越战越勇的战争�
 * [2\. 日志](#2-%E6%97%A5%E5%BF%97)
 * [3\. 缓存](#3-%E7%BC%93%E5%AD%98)
 * [4\. 配置](#4-%E9%85%8D%E7%BD%AE)
-* [5\.快速构建适用于Mvc和WebForm 验证码](#5%E5%BF%AB%E9%80%9F%E6%9E%84%E5%BB%BA%E9%80%82%E7%94%A8%E4%BA%8Emvc%E5%92%8Cwebform-%E9%AA%8C%E8%AF%81%E7%A0%81)
+* [5\.快速构建适用于Mvc和WebForm 验证码](#5%E5%BF%AB%E9%80%9F%E6%9E%84%E5%BB%BA%E9%80%82%E7%94%A8%E4%BA%8Emvc%E5%92%8
+  Cwebform-%E9%AA%8C%E8%AF%81%E7%A0%81)
+* [6\.快速构建序列化与反序列化](#6%E5%BF%AB%E9%80%9F%E6%9E%84%E5%BB%BA%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E
+  5%BA%8F%E5%88%97%E5%8C%96)
+* [7\. 快速构建EXCEL导入导出](#7-%E5%BF%AB%E9%80%9F%E6%9E%84%E5%BB%BAexcel%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA)
 
 #### 1. 数据库访问
 
@@ -1016,3 +1020,119 @@ b. 派生实现VerifyCodeHandler抽象类，快速切换需要显示验证码；
        }
    }
    ```
+
+#### 6.快速构建序列化与反序列化
+
+a. 目前支持Json以及Protobuf两种方式的序列化与反序列化
+
+b. 可以通过实现接口ISerializer扩展实现其他方式；
+
+代码使用说明：
+
+```c#
+private static void Main()
+{
+    SampleSerializer(new JsonSerializer());
+    Console.WriteLine(Environment.NewLine);
+    SampleSerializer(new ProtocolBufferSerializer());
+    Console.ReadLine();
+}
+ 
+private static void SampleSerializer(ISerializer serializer)
+{
+    #region 单个对象序列化与反序列化
+ 
+    var person = new Person();
+    person.Age = 10;
+    person.FirstName = "yan";
+    person.LastName = "zhiwei";
+    person.Remark = "ISerializer Sample";
+    var jsonText = serializer.Serialize(person);
+    Console.WriteLine($"{serializer.GetType().Name}-Serialize" + jsonText);
+ 
+ 
+    var getPerson = serializer.Deserialize<Person>(jsonText);
+    Console.WriteLine($"{serializer.GetType().Name}-Deserialize" + getPerson);
+ 
+    #endregion
+ 
+    #region 集合序列化与反序列化
+ 
+    var persons = new List<Person>();
+    for (var i = 0; i < 10; i++)
+        persons.Add(new Person
+        {
+            FirstName = "Yan",
+            Age = 20 + i,
+            LastName = "Zhiwei",
+            Remark = DateTime.Now.ToString(CultureInfo.InvariantCulture)
+        });
+    jsonText = serializer.Serialize(persons);
+    Console.WriteLine($"{serializer.GetType().Name}-Serialize" + jsonText);
+ 
+    var getPersons = serializer.Deserialize<List<Person>>(jsonText);
+    foreach (var item in getPersons)
+        Console.WriteLine($"{serializer.GetType().Name}-Deserialize" + item);
+ 
+    #endregion
+}
+```
+
+![](https://846dvq.dm.files.1drv.com/y4mWYJTjMj8XnRRQEUW4U1zgKNRGIVbY_CKcJS0hUipY_ydHAEYW8pW-xc8Bkj0BnF6k4SdJDrPeSxDLx3UcNq-xliJk6N5OyJ3fTJ00nBFuf2wcg_esB8CggR2jwHYgBbvcYGappUbqG4aqi3-sd4e8PAKyRv6DkjmnjPo-B0xX7QaHgbV_kg0YLlhj5_BTHG83qwrk2TfVGkGROnDZMk1Zw?width=960&height=639&cropmode=none)
+
+#### 7. 快速构建EXCEL导入导出
+
+a. 基于Npoi实现，可以基于接口IExcelManger扩展实现诸如MyXls等；
+
+b. 目前实现了将Excel导出DataTable和DataTable导出到Excel文件；
+
+c. 后续完善诸如整个Excel文件导入导出等；
+
+代码使用说明：
+
+1. 将DataTable导出到Excel文件
+
+   ```c#
+   private void BtnToExcel_Click(object sender, EventArgs e)
+   {
+       var mockTable = BuilderExcelData();
+       _mockExcelPath = $"D:\\ExcelSample{DateTime.Now.FormatDate(12)}.xls";
+       _excelManger.ToExcel(mockTable, "员工信息汇总", "员工列表", _mockExcelPath);
+       Process.Start(_mockExcelPath);
+   }
+    
+   private DataTable BuilderExcelData()
+   {
+       var mockTable = new DataTable();
+       mockTable.Columns.Add(new DataColumn {ColumnName = "序号"});
+       mockTable.Columns.Add(new DataColumn {ColumnName = "姓名"});
+       mockTable.Columns.Add(new DataColumn {ColumnName = "工作单位"});
+       mockTable.Columns.Add(new DataColumn {ColumnName = "性别"});
+       mockTable.Columns.Add(new DataColumn {ColumnName = "入职时间"});
+    
+       for (var i = 0; i < 100; i++)
+           mockTable.Rows.Add(i.ToString(), $"张{i}", $"李{i}计算机公司", i % 2 == 0 ? "男" : "女",
+               DateTime.Now.AddDays(i));
+       return mockTable;
+   }
+   ```
+
+   ![](https://845n1a.dm.files.1drv.com/y4mfwfj5Ba0Y2KQLZoyW7I8f1mw5Z2m6KuAIyOiNPiVwzFMtqXPrHGQ2sCa3Ugl0OpcV-Tr0Y1Qbcf009TqtkwLQPcmaAg0Y7jM5guS7e9GYC_mbPLnBUgxxob4IbYrVoxxGh_Vfad2nwRX0wmI1clxx1cgFd4Xpoc_clXpOjJ8zZ1zj4Q_099E6Sk2ucuzpXJt3KRzYlo1TgCtotELq1roDg?width=745&height=982&cropmode=none)
+
+2. 将Excel文件导出DataTable
+
+   ```c#
+   private void BtnToDataTable_Click(object sender, EventArgs e)
+   {
+       if (string.IsNullOrEmpty(_mockExcelPath))
+       {
+           MessageBox.Show("请生成模拟测试EXCEL文件");
+           return;
+       }
+    
+       var excleTable = _excelManger.ToDataTable(_mockExcelPath, 0, 1, 2);
+       var jsonText = _jsonSerializer.Serialize(excleTable);
+       MessageBox.Show(jsonText);
+   }
+   ```
+

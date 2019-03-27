@@ -29,8 +29,15 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\MasterChief.DotNet.Framework.Download.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MasterChief.DotNet.Core.Config, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MasterChief.DotNet.Core.Config.1.0.0.1\lib\net40\MasterChief.DotNet.Core.Config.dll</HintPath>
+    </Reference>
+    <Reference Include="MasterChief.DotNet4.Utilities, Version=1.0.0.3, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MasterChief.DotNet4.Utilities.1.0.0.3\lib\net40\MasterChief.DotNet4.Utilities.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
@@ -49,14 +56,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MasterChief.DotNet.Core.Config\MasterChief.DotNet.Core.Config.csproj">
-      <Project>{E4770169-FB7F-49C1-BA70-58F24DA83D44}</Project>
-      <Name>MasterChief.DotNet.Core.Config</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MasterChief.DotNet4.Utilities\MasterChief.DotNet4.Utilities.csproj">
-      <Project>{D1DC63AA-DB3A-4C47-9E20-F7474420BA48}</Project>
-      <Name>MasterChief.DotNet4.Utilities</Name>
-    </ProjectReference>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

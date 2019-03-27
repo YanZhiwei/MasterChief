@@ -1,61 +1,68 @@
-﻿using MasterChief.DotNet4.Utilities.Result;
-using MasterChief.DotNet4.Utilities.WebForm.Core;
+﻿using System;
 using System.Web;
+using MasterChief.DotNet4.Utilities.WebForm.Core;
 
 namespace MasterChief.DotNet.Framework.Download
 {
     /// <summary>
-    /// 处理文件下载
+    ///     处理文件下载
     /// </summary>
-    public abstract class DownloadHandler : IHttpHandler
+    public abstract class DownloadHandler
     {
-        #region Properties
-
-        /// <summary>
-        /// IsReusable
-        /// </summary>
-        public bool IsReusable => false;
-
-        #endregion Properties
-
         #region Methods
 
         /// <summary>
-        /// 处理下载结果抽象方法
-        /// </summary>
-        /// <param name="fileName">本地文件名称</param>
-        /// <param name="filePath">下载文件路径</param>
-        /// <param name="err">错误信息</param>
-        /// <returns>响应字符串</returns>
-        public abstract string GetResult(string fileName, string filePath, string err);
-
-        /// <summary>
-        ///下载文件完成抽象方法
+        ///     下载失败
         /// </summary>
         /// <param name="context">HttpContext</param>
         /// <param name="fileName">本地文件名称</param>
         /// <param name="filePath">下载文件路径</param>
-        public abstract void OnDownloaded(HttpContext context, string fileName, string filePath);
+        /// <param name="ex">错误信息</param>
+        public abstract void OnDownloadFailed(HttpContext context, string fileName, string filePath, string ex);
 
         /// <summary>
-        /// 处理文件下载入口
+        ///     下载成功
         /// </summary>
-        /// <param name="context"></param>
-        public void ProcessRequest(HttpContext context)
+        /// <param name="context">HttpContext</param>
+        /// <param name="fileName">本地文件名称</param>
+        /// <param name="filePath">下载文件路径</param>
+        public abstract void OnDownloadSucceed(HttpContext context, string fileName, string filePath);
+
+
+        /// <summary>
+        ///     开始下载
+        /// </summary>
+        /// <param name="context">HttpContext</param>
+        /// <param name="fileName"></param>
+        public virtual void StartDownloading(HttpContext context, string fileName)
         {
-            string downloadEncryptFileName = context.Request["fileName"];
-            if (!string.IsNullOrEmpty(downloadEncryptFileName))
+            fileName = fileName?.Trim();
+            if (string.IsNullOrEmpty(fileName))
             {
-                string downloadFileName = DownloadFileContext.Instance.DecryptFileName(downloadEncryptFileName);
-                string filePath = DownloadConfigContext.DownLoadMainDirectory + downloadFileName;//HttpContext.Current.Server.MapPath("~/") + "files/" + _downloadFileName;
-                FileDownloadResult result = WebDownloadFile.FileDownload(downloadFileName, filePath, DownloadConfigContext.LimitDownloadSpeedKb * 1024);
+                OnDownloadFailed(context, fileName, string.Empty, "请求下载文件非法.");
+                return;
+            }
+
+            try
+            {
+                var downloadFileName = DownloadFileContext.Instance.DecryptFileName(fileName);
+                var filePath =
+                    DownloadConfigContext.DownLoadMainDirectory +
+                    downloadFileName; //HttpContext.Current.Server.MapPath("~/") + "files/" + _downloadFileName;
+                var result = WebDownloadFile.FileDownload(context, downloadFileName, filePath,
+                    DownloadConfigContext.LimitDownloadSpeedKb * 1024);
 
                 if (result.State)
-                {
-                    OnDownloaded(context, downloadFileName, filePath);
-                }
-
-                context.Response.Write(GetResult(downloadFileName, filePath, result.Message));
+                    OnDownloadSucceed(context, downloadFileName, filePath);
+                else
+                    OnDownloadFailed(context, downloadFileName, filePath, result.Message);
+            }
+            catch (Exception ex)
+            {
+                OnDownloadFailed(context, fileName, string.Empty, ex.Message);
+            }
+            finally
+            {
                 context.Response.End();
             }
         }

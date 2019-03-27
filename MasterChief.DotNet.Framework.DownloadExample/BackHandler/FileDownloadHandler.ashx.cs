@@ -1,22 +1,32 @@
-﻿using MasterChief.DotNet.Framework.Download;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Web;
+using MasterChief.DotNet.Framework.Download;
 
 namespace MasterChief.DotNet.Framework.DownloadExample.BackHandler
 {
     /// <summary>
-    /// FileDownloadHandler 的摘要说明
+    ///     FileDownloadHandler 的摘要说明
     /// </summary>
-    public class FileDownloadHandler : DownloadHandler
+    public class FileDownloadHandler : DownloadHandler, IHttpHandler
     {
-        public override string GetResult(string fileName, string filePath, string err)
+        public void ProcessRequest(HttpContext context)
         {
-            return err;
+            var fileName = context.Request["fileName"];
+            StartDownloading(context, fileName);
+
         }
 
-        public override void OnDownloaded(HttpContext context, string fileName, string filePath)
+        public bool IsReusable { get; }
+
+        public override void OnDownloadFailed(HttpContext context, string fileName, string filePath, string ex)
         {
-            Debug.WriteLine(string.Format("文件[{0}]下载成功，映射路径：{1}", fileName, filePath));
+            context.Response.Write(ex);
+        }
+
+        public override void OnDownloadSucceed(HttpContext context, string fileName, string filePath)
+        {
+            string result = $"文件[{fileName}]下载成功，映射路径：{filePath}";
+            context.Response.Write(result);
         }
     }
 }
