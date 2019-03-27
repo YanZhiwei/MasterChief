@@ -11,10 +11,10 @@ C# 开发辅助类库，和士官长一样身经百战且越战越勇的战争�
 * [2\. 日志](#2-%E6%97%A5%E5%BF%97)
 * [3\. 缓存](#3-%E7%BC%93%E5%AD%98)
 * [4\. 配置](#4-%E9%85%8D%E7%BD%AE)
-* [5\.快速构建适用于Mvc和WebForm 验证码](#5-%E5%BF%AB%E9%80%9F%E6%9E%84%E5%BB%BA%E9%80%82%E7%94%A8%E4%BA%8Emvc%E5%92
-  %8Cwebform-%E9%AA%8C%E8%AF%81%E7%A0%81)
-* [6\.快速构建序列化与反序列化](#6-%E5%BF%AB%E9%80%9F%E6%9E%84%E5%BB%BA%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D
-  %E5%BA%8F%E5%88%97%E5%8C%96)
+* [5\. 快速构建适用于Mvc和WebForm 验证码](#5-%E5%BF%AB%E9%80%9F%E6%9E%84%E5%BB%BA%E9%80%82%E7%94%A8%E4%BA%8Emvc%E5%
+  92%8Cwebform-%E9%AA%8C%E8%AF%81%E7%A0%81)
+* [6\. 快速构建序列化与反序列化](#6-%E5%BF%AB%E9%80%9F%E6%9E%84%E5%BB%BA%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%
+  8D%E5%BA%8F%E5%88%97%E5%8C%96)
 * [7\. 快速构建EXCEL导入导出](#7-%E5%BF%AB%E9%80%9F%E6%9E%84%E5%BB%BAexcel%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA)
 
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc.go)
@@ -791,6 +791,7 @@ b. 基于ICacheProvider接口，可以很容易扩展其他缓存实现；
            }
        }
    }
+   
    ```
 
 #### 4. 配置
@@ -936,7 +937,9 @@ b. 基于IConfigProvider接口，可以很容易扩展其他配置实现；
 
    ![1552231725395](https://8y5n3a.dm.files.1drv.com/y4mqjcZUrUGGJzfE_S09gBfz-ZrWnH7vfrzxBbIb922zzqP7PU5ae5f7HgZk49_SfqZE8U3YY3H0Fn9WddI1oXRSAU9vBMcrlxX4FrXUzHBaJq9s5E8TEvaSsv-4ATHsLkHZfdttbF7h02Fo5451D2uwtxASSh8TPxrCAuJ9byRmD6qOeKYM1Kh9ZoV1HMaIVwdFF5MeS5KZ-LultAHCOvWFw?width=1155&height=235&cropmode=none)
 
-#### 5.快速构建适用于Mvc和WebForm 验证码
+
+
+#### 5. 快速构建适用于Mvc和WebForm 验证码
 
 a. 派生实现ValidateCodeType抽象类，来自定义验证码样式；
 
@@ -1021,9 +1024,10 @@ b. 派生实现VerifyCodeHandler抽象类，快速切换需要显示验证码；
            return buffer;
        }
    }
+   
    ```
 
-#### 6.快速构建序列化与反序列化
+#### 6. 快速构建序列化与反序列化
 
 a. 目前支持Json以及Protobuf两种方式的序列化与反序列化
 
