@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>YanZhiwei</authors>
+    <owners>$author$</owners>
+    <license type="expression">MIT</license>
+    <projectUrl>https://github.com/YanZhiwei/MasterChief/tree/master/MasterChief.DotNet.Infrastructure.ProtobufSerializer</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$description$</description>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright YanZhiwei 2019</copyright>
+    <tags>ProtoBuf Serializer</tags>
+  </metadata>
+</package>
