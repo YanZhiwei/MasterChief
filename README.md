@@ -14,8 +14,7 @@ C# 开发辅助类库，和士官长一样身经百战且越战越勇的战争�
 * [5\. 验证码](#5-%E9%AA%8C%E8%AF%81%E7%A0%81)
 * [6\. 序列化与反序列化](#6-%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96)
 * [7\. EXCEL导入导出](#7-excel%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA)
-
-Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc.go)
+* [8\. 文件下载](#8-%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD)
 
 #### 1. 数据库访问
 
@@ -1139,4 +1138,71 @@ c. 后续完善诸如整个Excel文件导入导出等；
        MessageBox.Show(jsonText);
    }
    ```
+
+
+
+#### 8. 文件下载
+
+a.支持下载文件加密；
+
+b.支持下载自定义限速；
+
+c.通过DownloadHandler抽象类实现扩展诸如在Asp.Net Mvc实现；
+
+代码使用说明：
+
+1. 文件下载配置文件
+
+   ```xml
+   <?xml version="1.0" encoding="utf-16"?>
+   <DownloadConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                   FileNameEncryptorIv="0102030405060708090a0a0c0d010208"
+                   FileNameEncryptorKey="DotnetDownloadConfig"
+                   LimitDownloadSpeedKb="1024"
+                   DownLoadMainDirectory="D:\OneDrive\软件\工具\">
+   </DownloadConfig>
+   ```
+
+2. 在WebForm实现DownloadHandler抽象类，迅速实现文件下载
+
+   ```c#
+   public class FileDownloadHandler : DownloadHandler, IHttpHandler
+   {
+       public void ProcessRequest(HttpContext context)
+       {
+           var fileName = context.Request["fileName"];
+           StartDownloading(context, fileName);
+       }
+    
+       public bool IsReusable => false;
+    
+       public override void OnDownloadFailed(HttpContext context, string fileName, string filePath, string ex)
+       {
+           context.Response.Write(ex);
+       }
+    
+       public override void OnDownloadSucceed(HttpContext context, string fileName, string filePath)
+       {
+           var result = $"文件[{fileName}]下载成功，映射路径：{filePath}";
+           context.Response.Write(result);
+       }
+   }
+   ```
+
+3. 修改Web.Config 文件
+
+   ```xml
+     <system.web>
+       <compilation debug="true" targetFramework="4.5"/>
+       <httpRuntime targetFramework="4.5"/>
+       <httpHandlers>
+         <add verb="*" path="FileDownloadHandler.ashx" type="MasterChief.DotNet.Framework.WbSample.BackHandler.FileDownloadHandler" />
+       </httpHandlers>
+     </system.web>
+     <system.webServer>
+       <modules runAllManagedModulesForAllRequests="true" />
+     </system.webServer>
+   ```
+
+   
 
