@@ -17,7 +17,7 @@ C# 开发辅助类库，和士官长一样身经百战且越战越勇的战争�
   8D%E5%BA%8F%E5%88%97%E5%8C%96)
 * [7\. 快速构建EXCEL导入导出](#7-%E5%BF%AB%E9%80%9F%E6%9E%84%E5%BB%BAexcel%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA)
 
-Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc.go)
+
 
 #### 1. 数据库访问
 
