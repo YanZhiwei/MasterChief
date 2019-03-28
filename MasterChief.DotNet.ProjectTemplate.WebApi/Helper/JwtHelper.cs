@@ -1,21 +1,21 @@
-﻿using JWT;
+﻿using System;
+using System.Collections.Generic;
+using JWT;
 using JWT.Algorithms;
 using JWT.Serializers;
 using MasterChief.DotNet4.Utilities.Operator;
-using System;
-using System.Collections.Generic;
 
 namespace MasterChief.DotNet.ProjectTemplate.WebApi.Helper
 {
     /// <summary>
-    /// JSON Web Token辅助类
+    ///     JSON Web Token辅助类
     /// </summary>
     public class JwtHelper
     {
         #region Methods
 
         /// <summary>
-        /// 创建Token
+        ///     创建Token
         /// </summary>
         /// <param name="secret">密钥</param>
         /// <param name="payload">负载数据</param>
@@ -31,7 +31,7 @@ namespace MasterChief.DotNet.ProjectTemplate.WebApi.Helper
         }
 
         /// <summary>
-        /// 转换Token
+        ///     转换Token
         /// </summary>
         /// <param name="token">令牌</param>
         /// <param name="secret">密钥</param>

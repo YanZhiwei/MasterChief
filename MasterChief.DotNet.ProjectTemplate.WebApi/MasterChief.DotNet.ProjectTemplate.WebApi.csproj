@@ -35,6 +35,15 @@
     <Reference Include="JWT, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\JWT.4.0.0\lib\net46\JWT.dll</HintPath>
     </Reference>
+    <Reference Include="MasterChief.DotNet.Core.Cache, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MasterChief.DotNet.Core.Cache.1.0.0.1\lib\net40\MasterChief.DotNet.Core.Cache.dll</HintPath>
+    </Reference>
+    <Reference Include="MasterChief.DotNet4.5.Utilities, Version=1.0.0.2, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MasterChief.DotNet4.5.Utilities.1.0.0.2\lib\net45\MasterChief.DotNet4.5.Utilities.dll</HintPath>
+    </Reference>
+    <Reference Include="MasterChief.DotNet4.Utilities, Version=1.0.0.4, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MasterChief.DotNet4.Utilities.1.0.0.4\lib\net40\MasterChief.DotNet4.Utilities.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -43,6 +52,7 @@
     <Reference Include="System.Net.Http.Formatting, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
+    <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Web.Http, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.7\lib\net45\System.Web.Http.dll</HintPath>
     </Reference>
@@ -55,11 +65,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApiBaseController.cs" />
+    <Compile Include="Component\JsonContentNegotiator.cs" />
     <Compile Include="Filter\ControllerExceptionAttribute.cs" />
     <Compile Include="Filter\ValidateModelAttribute.cs" />
+    <Compile Include="Filter\ControllerCacheAttribute.cs" />
     <Compile Include="Helper\HttpRequestMessageHelper.cs" />
     <Compile Include="Helper\JwtHelper.cs" />
     <Compile Include="Helper\SignatureHelper.cs" />
+    <Compile Include="IApiAuthentication.cs" />
+    <Compile Include="IApiAuthorization.cs" />
+    <Compile Include="Model\IdentityToken.cs" />
     <Compile Include="Model\ValidationError.cs" />
     <Compile Include="Model\ValidationFailedResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -67,16 +82,6 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\MasterChief.DotNet4.5.Utilities\MasterChief.DotNet4.5.Utilities.csproj">
-      <Project>{50490A4F-41A7-4968-8A92-8B49C6267066}</Project>
-      <Name>MasterChief.DotNet4.5.Utilities</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MasterChief.DotNet4.Utilities\MasterChief.DotNet4.Utilities.csproj">
-      <Project>{D1DC63AA-DB3A-4C47-9E20-F7474420BA48}</Project>
-      <Name>MasterChief.DotNet4.Utilities</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

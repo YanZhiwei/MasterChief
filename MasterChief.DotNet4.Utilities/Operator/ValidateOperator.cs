@@ -328,7 +328,7 @@ namespace MasterChief.DotNet4.Utilities.Operator
         public static Validation IsSerializable(this Validation validation, object data)
         {
             return Check<ArgumentException>(validation, () => data.GetType().IsSerializable,
-                string.Format("该参数类型{0}不能序列化！", data.GetType().FullName));
+                $"该参数类型{data.GetType().FullName}不能序列化！");
         }
 
         /// <summary>
