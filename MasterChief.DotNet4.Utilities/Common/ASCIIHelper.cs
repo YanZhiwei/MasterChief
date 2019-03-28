@@ -3,7 +3,7 @@
 namespace MasterChief.DotNet4.Utilities.Common
 {
     /// <summary>
-    /// ASCII 辅助类
+    ///     ASCII 辅助类
     /// </summary>
     public static class AsciiHelper
     {
@@ -23,26 +23,26 @@ namespace MasterChief.DotNet4.Utilities.Common
          */
 
         /// <summary>
-        /// 将byte转化为ASCII
+        ///     将byte转化为ASCII
         /// </summary>
         /// <param name="data">数值</param>
         /// <returns>ASCII</returns>
-        public static char ParseASCII(this byte data)
+        public static char ParseAscii(this byte data)
         {
-            ASCIIEncoding asciiEncoding = new ASCIIEncoding();
-            byte[] array = { data };
+            var asciiEncoding = new ASCIIEncoding();
+            byte[] array = {data};
             return asciiEncoding.GetString(array)[0];
         }
 
         /// <summary>
-        /// 将字符转化为ASCII数值
+        ///     将字符转化为ASCII数值
         /// </summary>
         /// <param name="data">字符</param>
         /// <returns>ASCII数值</returns>
-        public static int ToASCII(this char data)
+        public static int ToAscii(this char data)
         {
-            ASCIIEncoding asciiEncoding = new ASCIIEncoding();
-            char[] array = { data };
+            var asciiEncoding = new ASCIIEncoding();
+            char[] array = {data};
             return asciiEncoding.GetBytes(array)[0];
         }
 

@@ -1,21 +1,20 @@
-﻿namespace MasterChief.DotNet4.Utilities.Common
-{
-    using System;
-    using System.IO;
-    using System.Reflection;
-    using System.Runtime.Serialization;
-    using System.Runtime.Serialization.Formatters.Binary;
-    using System.Text;
+﻿using System.IO;
+using System.Reflection;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Text;
 
+namespace MasterChief.DotNet4.Utilities.Common
+{
     /// <summary>
-    /// 实体类帮助类
+    ///     实体类帮助类
     /// </summary>
     public static class ModelHelper
     {
         #region Methods
 
         /// <summary>
-        /// 实体类数值内容比较
+        ///     实体类数值内容比较
         /// </summary>
         /// <typeparam name="T">泛型</typeparam>
         /// <param name="model">实体类对象</param>
@@ -26,16 +25,13 @@
         public static bool CompletelyEqual<T>(T model, T othModel)
             where T : class
         {
-            if (null == model || null == othModel)
-            {
-                return false;
-            }
+            if (null == model || null == othModel) return false;
 
             return SerializeToString(model).Equals(SerializeToString(othModel));
         }
 
         /// <summary>
-        /// 对象深拷贝
+        ///     对象深拷贝
         /// </summary>
         /// <typeparam name="T">泛型</typeparam>
         /// <param name="model">实体类对象</param>
@@ -76,12 +72,12 @@
             {
                 formatter.Serialize(stream, model);
                 stream.Seek(0, SeekOrigin.Begin);
-                return (T)formatter.Deserialize(stream);
+                return (T) formatter.Deserialize(stream);
             }
         }
 
         /// <summary>
-        /// 将对象序列化成字符串
+        ///     将对象序列化成字符串
         /// </summary>
         /// <typeparam name="T">泛型</typeparam>
         /// <param name="model">实体类对象</param>
@@ -91,13 +87,14 @@
         public static string SerializeToString<T>(T model)
             where T : class
         {
-            Type type = typeof(T);
-            FieldInfo[] fields = type.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance);
-            StringBuilder builder = new StringBuilder();
+            var type = typeof(T);
+            var fields = type.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static |
+                                        BindingFlags.Instance);
+            var builder = new StringBuilder();
 
-            foreach (FieldInfo field in fields)
+            foreach (var field in fields)
             {
-                object fvalue = field.GetValue(model);
+                var fvalue = field.GetValue(model);
                 builder.Append(field.Name + ":" + fvalue + ";");
             }
 

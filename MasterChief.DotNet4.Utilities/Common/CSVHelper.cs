@@ -1,41 +1,41 @@
-﻿using MasterChief.DotNet4.Utilities.Model;
-using System.Data;
+﻿using System.Data;
 using System.IO;
 using System.Text;
+using MasterChief.DotNet4.Utilities.Model;
 
 namespace MasterChief.DotNet4.Utilities.Common
 {
     /// <summary>
-    /// CSV 帮助类
+    ///     CSV 帮助类
     /// </summary>
-    public static class CSVHelper
+    public static class CsvHelper
     {
         #region Methods
 
         /// <summary>
-        /// 导出到csv文件
-        /// eg:
-        /// CSVHelper.ToCSV(_personInfoView, @"C:\Users\YanZh_000\Downloads\person.csv", "用户信息表", "名称,年龄");
+        ///     导出到csv文件
+        ///     eg:
+        ///     CSVHelper.ToCSV(_personInfoView, @"C:\Users\YanZh_000\Downloads\person.csv", "用户信息表", "名称,年龄");
         /// </summary>
         /// <param name="table">DataTable</param>
         /// <param name="filePath">导出路径</param>
         /// <param name="tableheader">标题</param>
         /// <param name="columname">列名称，以','英文逗号分隔</param>
         /// <returns>是否导出成功</returns>
-        public static bool ToCSV(this DataTable table, string filePath, string tableheader, string columname)
+        public static bool ToCsv(this DataTable table, string filePath, string tableheader, string columname)
         {
             try
             {
-                using (FileStream fileStream = new FileStream(filePath, FileMode.Create, FileAccess.ReadWrite))
+                using (var fileStream = new FileStream(filePath, FileMode.Create, FileAccess.ReadWrite))
                 {
-                    using (StreamWriter writer = new StreamWriter(fileStream, Encoding.UTF8))
+                    using (var writer = new StreamWriter(fileStream, Encoding.UTF8))
                     {
                         writer.WriteLine(tableheader);
                         writer.WriteLine(columname);
 
-                        for (int i = 0; i < table.Rows.Count; i++)
+                        for (var i = 0; i < table.Rows.Count; i++)
                         {
-                            for (int j = 0; j < table.Columns.Count; j++)
+                            for (var j = 0; j < table.Columns.Count; j++)
                             {
                                 writer.Write(table.Rows[i][j].ToStringOrDefault(string.Empty));
                                 writer.Write(",");
@@ -55,7 +55,7 @@ namespace MasterChief.DotNet4.Utilities.Common
         }
 
         /// <summary>
-        /// 将CSV文件导出为DataTable
+        ///     将CSV文件导出为DataTable
         /// </summary>
         /// <param name="filePath">CSV文件</param>
         /// <param name="encoding">Encoding</param>
@@ -63,34 +63,33 @@ namespace MasterChief.DotNet4.Utilities.Common
         /// <returns>DataTable</returns>
         public static DataTable ToTable(string filePath, Encoding encoding, ushort startRowIndex)
         {
-            DataTable table = new DataTable();
-            using (StreamReader stream = new StreamReader(filePath, encoding))
+            var table = new DataTable();
+            using (var stream = new StreamReader(filePath, encoding))
             {
-                int rowIndex = 0;
-                CsvRow csvRow = new CsvRow
+                var rowIndex = 0;
+                var csvRow = new CsvRow
                 {
                     RowText = stream.ReadLine()
                 };
-                while (CheckCSVRowText(csvRow))
+                while (CheckCsvRowText(csvRow))
                 {
                     if (rowIndex == startRowIndex)
                     {
-                        foreach (string item in csvRow)
-                        {
-                            table.Columns.Add(item.Replace("\"", ""));
-                        }
+                        foreach (var item in csvRow) table.Columns.Add(item.Replace("\"", ""));
                     }
                     else if (rowIndex > startRowIndex)
                     {
-                        int index = 0;
-                        DataRow row = table.NewRow();
-                        foreach (string item in csvRow)
+                        var index = 0;
+                        var row = table.NewRow();
+                        foreach (var item in csvRow)
                         {
                             row[index] = item.Replace("\"", "");
                             index++;
                         }
+
                         table.Rows.Add(row);
                     }
+
                     rowIndex++;
                     csvRow = new CsvRow
                     {
@@ -102,24 +101,21 @@ namespace MasterChief.DotNet4.Utilities.Common
             return table;
         }
 
-        private static bool CheckCSVRowText(CsvRow row)
+        private static bool CheckCsvRowText(CsvRow row)
         {
-            if (string.IsNullOrEmpty(row.RowText))
-            {
-                return false;
-            }
+            if (string.IsNullOrEmpty(row.RowText)) return false;
 
-            int offset = 0;
-            int rowCount = 0;
+            var offset = 0;
+            var rowCount = 0;
 
             while (offset < row.RowText.Length)
             {
-                string tmpText = string.Empty;
+                string tmpText;
                 if (row.RowText[offset] == '"')
                 {
                     offset++;
 
-                    int start = offset;
+                    var start = offset;
                     while (offset < row.RowText.Length)
                     {
                         if (row.RowText[offset] == '"')
@@ -132,45 +128,32 @@ namespace MasterChief.DotNet4.Utilities.Common
                                 break;
                             }
                         }
+
                         offset++;
                     }
+
                     tmpText = row.RowText.Substring(start, offset - start);
                     tmpText = tmpText.Replace("\"\"", "\"");
                 }
                 else
                 {
-                    int start = offset;
-                    while (offset < row.RowText.Length && row.RowText[offset] != ',')
-                    {
-                        offset++;
-                    }
+                    var start = offset;
+                    while (offset < row.RowText.Length && row.RowText[offset] != ',') offset++;
 
                     tmpText = row.RowText.Substring(start, offset - start);
                 }
+
                 if (rowCount < row.Count)
-                {
                     row[rowCount] = tmpText;
-                }
                 else
-                {
                     row.Add(tmpText);
-                }
                 rowCount++;
 
-                while (offset < row.RowText.Length && row.RowText[offset] != ',')
-                {
-                    offset++;
-                }
-                if (offset < row.RowText.Length)
-                {
-                    offset++;
-                }
+                while (offset < row.RowText.Length && row.RowText[offset] != ',') offset++;
+                if (offset < row.RowText.Length) offset++;
             }
 
-            while (row.Count > rowCount)
-            {
-                row.RemoveAt(rowCount);
-            }
+            while (row.Count > rowCount) row.RemoveAt(rowCount);
             return row.Count > 0;
         }
 

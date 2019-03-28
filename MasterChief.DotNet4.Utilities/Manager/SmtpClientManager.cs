@@ -14,47 +14,47 @@
         /// <summary>
         /// 附件
         /// </summary>
-        public readonly string[] attachmentsPathList;
+        public readonly string[] AttachmentsPathList;
 
         /// <summary>
         /// 正文是否是html格式
         /// </summary>
-        public readonly bool isbodyHtml;
+        public readonly bool IsbodyHtml;
 
         /// <summary>
         /// 正文
         /// </summary>
-        public readonly string mailBody;
+        public readonly string MailBody;
 
         /// <summary>
         /// 抄送
         /// </summary>
-        public readonly string[] mailCcList;
+        public readonly string[] MailCcList;
 
         /// <summary>
         /// 标题
         /// </summary>
-        public readonly string mailSubject;
+        public readonly string MailSubject;
 
         /// <summary>
         /// 收件人
         /// </summary>
-        public readonly string[] mailToList;
+        public readonly string[] MailToList;
 
         /// <summary>
         /// 发送者昵称
         /// </summary>
-        public readonly string nickName;
+        public readonly string NickName;
 
         /// <summary>
         /// 优先级别
         /// </summary>
-        public readonly MailPriority priority;
+        public readonly MailPriority Priority;
 
         /// <summary>
         /// SMTP服务器
         /// </summary>
-        public readonly SmtpServer stmpServer;
+        public readonly SmtpServer StmpServer;
 
         #endregion Fields
 
@@ -74,15 +74,15 @@
         /// <param name="mailPriority">优先级别</param>
         public SmtpClientManager(SmtpServer stmpserver, string nickname, string mailsubject, string mailbody, string[] mailTolist, string[] mailCclist, string[] attachmentsPathlist, bool isbodyhtml, MailPriority mailPriority)
         {
-            this.stmpServer = stmpserver;
-            this.nickName = nickname;
-            this.mailSubject = mailsubject;
-            this.mailBody = mailbody;
-            this.mailToList = mailTolist;
-            this.mailCcList = mailCclist;
-            this.attachmentsPathList = attachmentsPathlist;
-            this.isbodyHtml = isbodyhtml;
-            this.priority = mailPriority;
+            StmpServer = stmpserver;
+            NickName = nickname;
+            MailSubject = mailsubject;
+            MailBody = mailbody;
+            MailToList = mailTolist;
+            MailCcList = mailCclist;
+            AttachmentsPathList = attachmentsPathlist;
+            IsbodyHtml = isbodyhtml;
+            Priority = mailPriority;
         }
 
         /// <summary>
@@ -136,15 +136,15 @@
         /// <returns>发送返回状态</returns>
         public void Send()
         {
-            MailAddress mailAddress = new MailAddress(stmpServer.SendMail, nickName);
+            MailAddress mailAddress = new MailAddress(StmpServer.SendMail, NickName);
             MailMessage mailMessage = new MailMessage();
             InitBasicInfo(mailAddress, mailMessage);
             InitSendMailList(mailMessage);
             InitSendCcList(mailMessage);
             AttachFile(mailMessage);
             SmtpClient smtpClient = new SmtpClient();
-            smtpClient.Credentials = new System.Net.NetworkCredential(stmpServer.SendMail, stmpServer.SendMailPasswrod);//设置SMTP邮件服务器
-            smtpClient.Host = stmpServer.Host;
+            smtpClient.Credentials = new System.Net.NetworkCredential(StmpServer.SendMail, StmpServer.SendMailPasswrod);//设置SMTP邮件服务器
+            smtpClient.Host = StmpServer.Host;
             smtpClient.Send(mailMessage);
         }
 
@@ -155,11 +155,11 @@
         /// <returns></returns>
         private void AttachFile(MailMessage mailMessage)
         {
-            if(attachmentsPathList != null && attachmentsPathList.Length > 0)
+            if(AttachmentsPathList != null && AttachmentsPathList.Length > 0)
             {
-                Attachment attachFile = null;
+                Attachment attachFile;
 
-                foreach(string path in attachmentsPathList)
+                foreach(string path in AttachmentsPathList)
                 {
                     attachFile = new Attachment(path);
                     mailMessage.Attachments.Add(attachFile);
@@ -177,17 +177,17 @@
             //发件人地址
             mailMessage.From = mailAddress;
             //电子邮件的标题
-            mailMessage.Subject = mailSubject;
+            mailMessage.Subject = MailSubject;
             //电子邮件的主题内容使用的编码
             mailMessage.SubjectEncoding = Encoding.UTF8;
             //电子邮件正文
-            mailMessage.Body = mailBody;
+            mailMessage.Body = MailBody;
             //电子邮件正文的编码
             mailMessage.BodyEncoding = Encoding.UTF8;
             //邮件优先级
-            mailMessage.Priority = priority;
+            mailMessage.Priority = Priority;
             //是否HTML格式
-            mailMessage.IsBodyHtml = isbodyHtml;
+            mailMessage.IsBodyHtml = IsbodyHtml;
         }
 
         /// <summary>
@@ -196,11 +196,11 @@
         /// <param name="mailMessage">MailMessage</param>
         private void InitSendCcList(MailMessage mailMessage)
         {
-            if(mailCcList != null)
+            if(MailCcList != null)
             {
-                for(int i = 0; i < mailCcList.Length; i++)
+                for(int i = 0; i < MailCcList.Length; i++)
                 {
-                    mailMessage.CC.Add(mailCcList[i].ToString());
+                    mailMessage.CC.Add(MailCcList[i]);
                 }
             }
         }
@@ -211,11 +211,11 @@
         /// <param name="mailMessage">MailMessage</param>
         private void InitSendMailList(MailMessage mailMessage)
         {
-            if(mailToList != null)
+            if(MailToList != null)
             {
-                for(int i = 0; i < mailToList.Length; i++)
+                for(int i = 0; i < MailToList.Length; i++)
                 {
-                    mailMessage.To.Add(mailToList[i].ToString());
+                    mailMessage.To.Add(MailToList[i]);
                 }
             }
         }

@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 namespace MasterChief.DotNet4.Utilities.Common
 {
     /// <summary>
-    /// 数据辅助操作类
+    ///     数据辅助操作类
     /// </summary>
     /// 时间：2016-02-25 12:00
     /// 备注：
@@ -15,20 +15,21 @@ namespace MasterChief.DotNet4.Utilities.Common
         #region Methods
 
         /// <summary>
-        /// 创建Sql Server身份认证连接字符串
+        ///     创建Sql Server身份认证连接字符串
         /// </summary>
         /// <param name="server">服务器</param>
         /// <param name="database">数据库</param>
         /// <param name="userName">用户名</param>
         /// <param name="password">密码</param>
         /// <returns>Sql Server身份认证连接字符串</returns>
-        public static string CreateSqlServerConnectString(string server, string database, string userName, string password)
+        public static string CreateSqlServerConnectString(string server, string database, string userName,
+            string password)
         {
             return string.Format(@"Server={0};DataBase={1};uid={2};pwd={3};", server, database, userName, password);
         }
 
         /// <summary>
-        /// 创建Sql Server Windows身份认证连接字符串
+        ///     创建Sql Server Windows身份认证连接字符串
         /// </summary>
         /// <param name="server">服务器</param>
         /// <param name="datatabase">数据库</param>
@@ -41,7 +42,7 @@ namespace MasterChief.DotNet4.Utilities.Common
         }
 
         /// <summary>
-        /// 过滤HTML标记
+        ///     过滤HTML标记
         /// </summary>
         /// <param name="data">包括HTML，脚本，数据库关键字，特殊字符的源码 </param>
         /// <returns>已经去除标记后的文字</returns>
@@ -71,7 +72,7 @@ namespace MasterChief.DotNet4.Utilities.Common
         }
 
         /// <summary>
-        /// 过滤特殊字符
+        ///     过滤特殊字符
         /// </summary>
         /// <param name="data">字符串</param>
         /// <returns>过滤后的字符串</returns>
@@ -96,7 +97,7 @@ namespace MasterChief.DotNet4.Utilities.Common
         }
 
         /// <summary>
-        /// 过滤SQL语句字符串中的注入脚本
+        ///     过滤SQL语句字符串中的注入脚本
         /// </summary>
         /// <param name="data">传入的字符串</param>
         /// <returns>过滤后的字符串</returns>
@@ -164,7 +165,7 @@ namespace MasterChief.DotNet4.Utilities.Common
         }
 
         /// <summary>
-        /// 过滤字符串【HTML标记，敏感SQL操作关键，特殊字符】
+        ///     过滤字符串【HTML标记，敏感SQL操作关键，特殊字符】
         /// </summary>
         /// <param name="data">字符串</param>
         /// <returns>处理后的字符串</returns>
@@ -180,26 +181,26 @@ namespace MasterChief.DotNet4.Utilities.Common
         }
 
         /// <summary>
-        /// 由错误码返回指定的自定义SqlException异常信息
+        ///     由错误码返回指定的自定义SqlException异常信息
         /// </summary>
         /// <param name="sqlException">SqlException</param>
         /// <returns>SqlException异常信息</returns>
         public static string GetSqlExceptionMessage(this SqlException sqlException)
         {
-            string msg = GetSqlExceptionMessage(sqlException.Number);
+            var msg = GetSqlExceptionMessage(sqlException.Number);
 
-            return msg = string.IsNullOrEmpty(msg) ? string.Empty : sqlException.Message.Trim();
+            return string.IsNullOrEmpty(msg) ? string.Empty : sqlException.Message.Trim();
         }
 
         /// <summary>
-        /// 由错误码返回指定的自定义SqlException异常信息
-        /// <para>DataHelper.GetSqlExceptionMessage(sqlEx.Number);</para>
+        ///     由错误码返回指定的自定义SqlException异常信息
+        ///     <para>DataHelper.GetSqlExceptionMessage(sqlEx.Number);</para>
         /// </summary>
         /// <param name="number">错误标识数字 </param>
         /// <returns>描述信息 </returns>
         public static string GetSqlExceptionMessage(int number)
         {
-            string msg = string.Empty;
+            var msg = string.Empty;
 
             switch (number)
             {
@@ -248,7 +249,7 @@ namespace MasterChief.DotNet4.Utilities.Common
         }
 
         /// <summary>
-        /// DataTable的列求和
+        ///     DataTable的列求和
         /// </summary>
         /// <param name="datatable">DataTable</param>
         /// <param name="sumColumnName">sum的列</param>
@@ -258,54 +259,51 @@ namespace MasterChief.DotNet4.Utilities.Common
             object result = null;
 
             if (datatable != null && !string.IsNullOrEmpty(sumColumnName))
-            {
                 result = datatable.Compute("Sum(" + sumColumnName + ")", string.Empty);
-            }
 
             return result;
         }
 
         /// <summary>
-        /// DataTable的group by sum计算
-        /// <para>eg:eg:DBHelper.GroupByToSum(_dt, "CTLampType", "钠灯- 100W", "CTLastMonthCount");</para>
+        ///     DataTable的group by sum计算
+        ///     <para>eg:eg:DBHelper.GroupByToSum(_dt, "CTLampType", "钠灯- 100W", "CTLastMonthCount");</para>
         /// </summary>
         /// <param name="datatable">DataTable</param>
         /// <param name="gColumnName">分组字段名称</param>
         /// <param name="gValue">分组数值</param>
         /// <param name="sColumnName">求和字段名称</param>
         /// <returns>object</returns>
-        public static object GetSumByGroup(this DataTable datatable, string gColumnName, string gValue, string sColumnName)
+        public static object GetSumByGroup(this DataTable datatable, string gColumnName, string gValue,
+            string sColumnName)
         {
             object result = null;
 
             if (datatable != null && !string.IsNullOrEmpty(gColumnName) && !string.IsNullOrEmpty(sColumnName))
-            {
                 result = datatable.Compute("Sum(" + sColumnName + ")", " " + gColumnName + "='" + gValue + "'");
-            }
 
             return result;
         }
 
         /// <summary>
-        /// 将连接字符串转换成字典
+        ///     将连接字符串转换成字典
         /// </summary>
-        /// <param name="connectString">The connect string.eg:IP=127.0.0.1; DataSource=YanZhiwei-PC;User=sa;Password=sasa;DataBase=NorthWind</param>
+        /// <param name="connectString">
+        ///     The connect string.eg:IP=127.0.0.1;
+        ///     DataSource=YanZhiwei-PC;User=sa;Password=sasa;DataBase=NorthWind
+        /// </param>
         /// <returns>字典IDictionary</returns>
         public static IDictionary<string, string> ParseConnnectString(this string connectString)
         {
-            string[] groups = connectString.Split(';');
+            var groups = connectString.Split(';');
             IDictionary<string, string> valuePairs = new Dictionary<string, string>();
 
-            foreach (string group in groups)
+            foreach (var group in groups)
             {
-                string groupOk = group.Trim();
+                var groupOk = group.Trim();
 
-                if (string.IsNullOrEmpty(groupOk))
-                {
-                    continue;
-                }
+                if (string.IsNullOrEmpty(groupOk)) continue;
 
-                string[] keyVal = groupOk.Split('=');
+                var keyVal = groupOk.Split('=');
                 valuePairs.Add(keyVal[0].Trim(), keyVal[1].Trim());
             }
 

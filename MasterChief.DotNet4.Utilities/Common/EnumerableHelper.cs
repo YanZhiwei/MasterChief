@@ -3,12 +3,12 @@
 namespace MasterChief.DotNet4.Utilities.Common
 {
     /// <summary>
-    /// IEnumerable 辅助类
+    ///     IEnumerable 辅助类
     /// </summary>
-    public static class IEnumerableHelper
+    public static class EnumerableHelper
     {
         /// <summary>
-        /// 集合是否是空或者NULL
+        ///     集合是否是空或者NULL
         /// </summary>
         /// <param name="source">IEnumerable</param>
         /// <returns>否是空或者NULL</returns>
@@ -16,7 +16,5 @@ namespace MasterChief.DotNet4.Utilities.Common
         {
             return source?.GetEnumerator().MoveNext() == false;
         }
-
-       
     }
 }

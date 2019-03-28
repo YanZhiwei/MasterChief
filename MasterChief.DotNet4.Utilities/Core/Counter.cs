@@ -3,20 +3,20 @@
 namespace MasterChief.DotNet4.Utilities.Core
 {
     /// <summary>
-    /// 计数器
+    ///     计数器
     /// </summary>
     public sealed class Counter
     {
         #region Fields
 
-        private long _current = 0;
+        private long _current;
 
         #endregion Fields
 
         #region Methods
 
         /// <summary>
-        /// 获取当前数值
+        ///     获取当前数值
         /// </summary>
         /// <returns>当前数值</returns>
         public long GetValue()
@@ -25,7 +25,7 @@ namespace MasterChief.DotNet4.Utilities.Core
         }
 
         /// <summary>
-        /// 加一
+        ///     加一
         /// </summary>
         /// <returns>当前数值</returns>
         public long NextValue()
@@ -34,7 +34,7 @@ namespace MasterChief.DotNet4.Utilities.Core
         }
 
         /// <summary>
-        /// 重置为0
+        ///     重置为0
         /// </summary>
         public void Reset()
         {
@@ -42,7 +42,7 @@ namespace MasterChief.DotNet4.Utilities.Core
         }
 
         /// <summary>
-        /// 重置
+        ///     重置
         /// </summary>
         /// <param name="resetValue">重置数值</param>
         public void Reset(long resetValue)

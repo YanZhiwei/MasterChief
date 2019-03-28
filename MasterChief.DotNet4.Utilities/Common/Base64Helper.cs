@@ -1,17 +1,17 @@
-﻿namespace MasterChief.DotNet4.Utilities.Common
-{
-    using System;
-    using System.Text;
+﻿using System;
+using System.Text;
 
+namespace MasterChief.DotNet4.Utilities.Common
+{
     /// <summary>
-    /// Base64帮助类
+    ///     Base64帮助类
     /// </summary>
     public static class Base64Helper
     {
         #region Methods
 
         /// <summary>
-        /// Base64字符串解码
+        ///     Base64字符串解码
         /// </summary>
         /// <param name="data">Base64字符串</param>
         /// <returns>解码后的字符串</returns>
@@ -21,7 +21,7 @@
         }
 
         /// <summary>
-        /// Base64字符串译码
+        ///     Base64字符串译码
         /// </summary>
         /// <param name="data">字符串</param>
         /// <returns>Base64字符串</returns>

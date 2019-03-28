@@ -8,7 +8,7 @@
     /// <summary>
     /// XML 辅助类
     /// </summary>
-    public static class XMLHelper
+    public static class XmlHelper
     {
         #region Methods
 

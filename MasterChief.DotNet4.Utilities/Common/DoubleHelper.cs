@@ -1,16 +1,16 @@
-﻿namespace MasterChief.DotNet4.Utilities.Common
-{
-    using System;
+﻿using System;
 
+namespace MasterChief.DotNet4.Utilities.Common
+{
     /// <summary>
-    /// Double 帮助类
+    ///     Double 帮助类
     /// </summary>
-    public static class Double
+    public static class DoubleHelper
     {
         #region Methods
 
         /// <summary>
-        /// 计算百分比(保持两位小数)
+        ///     计算百分比(保持两位小数)
         /// </summary>
         /// <param name="value">The value.</param>
         /// <param name="total">The total.</param>
@@ -23,7 +23,7 @@
         }
 
         /// <summary>
-        /// 转换成钱表示形式（保持两位小数）
+        ///     转换成钱表示形式（保持两位小数）
         /// </summary>
         /// <param name="data">The data.</param>
         /// <returns>double</returns>

@@ -3,7 +3,7 @@
 namespace MasterChief.DotNet4.Utilities.Common
 {
     /// <summary>
-    /// BCD码帮助类
+    ///     BCD码帮助类
     /// </summary>
     public static class BcdHelper
     {
@@ -44,29 +44,30 @@ namespace MasterChief.DotNet4.Utilities.Common
          */
 
         /// <summary>
-        /// 转为bcd码Byte描述
-        /// 其中高四位存放十位数字，低四位存放个位数字。
+        ///     转为bcd码Byte描述
+        ///     其中高四位存放十位数字，低四位存放个位数字。
         /// </summary>
         /// <param name="bcdNumber">数字</param>
         /// <returns>Byte描述</returns>
         public static byte Parse8421BcdNumber(this int bcdNumber)
         {
-            byte bcd = (byte)(bcdNumber % 10);
+            var bcd = (byte) (bcdNumber % 10);
             bcdNumber /= 10;
-            bcd |= (byte)((bcdNumber % 10) << 4);
+            bcd |= (byte) ((bcdNumber % 10) << 4);
+            // ReSharper disable once RedundantAssignment
             bcdNumber /= 10;
             return bcd;
         }
 
         /// <summary>
-        /// Int转为bcd码Byte数组描述
+        ///     Int转为bcd码Byte数组描述
         /// </summary>
         /// <param name="bcdNumber">数字</param>
         /// <param name="isLittleEndian">是否低位在前</param>
         /// <returns>Byte数组</returns>
         public static byte[] Parse8421BcdNumber(this int bcdNumber, bool isLittleEndian)
         {
-            string bcdString = bcdNumber.ToString();
+            var bcdString = bcdNumber.ToString();
 
             bcdString = bcdString.PadLeft(bcdString.Length + 1, '0');
 
@@ -74,75 +75,67 @@ namespace MasterChief.DotNet4.Utilities.Common
         }
 
         /// <summary>
-        /// 字符串转为bcd码Byte数组描述
-        /// <para>eg:CollectionAssert.AreEqual(new byte[2] { 0x01, 0x10 }, BCDHelper.ToBinaryCodedDecimal("0110", false));</para>
-        /// <para>eg:CollectionAssert.AreEqual(new byte[2] { 0x10, 0x01 }, BCDHelper.ToBinaryCodedDecimal("0110", true));</para>
+        ///     字符串转为bcd码Byte数组描述
+        ///     <para>eg:CollectionAssert.AreEqual(new byte[2] { 0x01, 0x10 }, BCDHelper.ToBinaryCodedDecimal("0110", false));</para>
+        ///     <para>eg:CollectionAssert.AreEqual(new byte[2] { 0x10, 0x01 }, BCDHelper.ToBinaryCodedDecimal("0110", true));</para>
         /// </summary>
         /// <param name="bcdString">bcd字符串</param>
         /// <param name="isLittleEndian">是否低位在前高位在后</param>
         /// <returns>Byte数组</returns>
         public static byte[] Parse8421BcdString(this string bcdString, bool isLittleEndian)
         {
-            byte[] data = null;
+            byte[] data;
 
-            char[] bcdArray = bcdString.ToCharArray();
-            int count = bcdArray.Length / 2;
+            var bcdArray = bcdString.ToCharArray();
+            var count = bcdArray.Length / 2;
             data = new byte[count];
 
             if (isLittleEndian)
-            {
-                for (int i = 0; i < count; i++)
+                for (var i = 0; i < count; i++)
                 {
-                    byte highNibble = byte.Parse(bcdArray[2 * (count - 1) - 2 * i].ToString());
-                    byte lowNibble = byte.Parse(bcdArray[2 * (count - 1) - 2 * i + 1].ToString());
-                    data[i] = (byte)((byte)(highNibble << 4) | lowNibble);
+                    var highNibble = byte.Parse(bcdArray[2 * (count - 1) - 2 * i].ToString());
+                    var lowNibble = byte.Parse(bcdArray[2 * (count - 1) - 2 * i + 1].ToString());
+                    data[i] = (byte) ((byte) (highNibble << 4) | lowNibble);
                 }
-            }
             else
-            {
-                for (int i = 0; i < count; i++)
+                for (var i = 0; i < count; i++)
                 {
-                    byte highNibble = byte.Parse(bcdArray[2 * i].ToString());
-                    byte lowNibble = byte.Parse(bcdArray[2 * i + 1].ToString());
-                    data[i] = (byte)((byte)(highNibble << 4) | lowNibble);
+                    var highNibble = byte.Parse(bcdArray[2 * i].ToString());
+                    var lowNibble = byte.Parse(bcdArray[2 * i + 1].ToString());
+                    data[i] = (byte) ((byte) (highNibble << 4) | lowNibble);
                 }
-            }
 
             return data;
         }
 
         /// <summary>
-        /// 将byte数组转为BCD字符串描述
-        /// <para>eg: Assert.AreEqual("1001", BCDHelper.ToBinaryCodedDecimal(new byte[2] { 0x01, 0x10 }, true));</para>
-        /// <para>eg: Assert.AreEqual("0110", BCDHelper.ToBinaryCodedDecimal(new byte[2] { 0x01, 0x10 }, false));</para>
+        ///     将byte数组转为BCD字符串描述
+        ///     <para>eg: Assert.AreEqual("1001", BCDHelper.ToBinaryCodedDecimal(new byte[2] { 0x01, 0x10 }, true));</para>
+        ///     <para>eg: Assert.AreEqual("0110", BCDHelper.ToBinaryCodedDecimal(new byte[2] { 0x01, 0x10 }, false));</para>
         /// </summary>
         /// <param name="data">Byte数组</param>
         /// <param name="isLittleEndian">是否低位在前高位在后</param>
         /// <returns>BCD描述</returns>
         public static string To8421BcdString(this byte[] data, bool isLittleEndian)
         {
-            StringBuilder builder = new StringBuilder(data.Length * 2);
+            var builder = new StringBuilder(data.Length * 2);
 
             if (isLittleEndian)
-            {
-                for (int i = data.Length - 1; i >= 0; i--)
+                for (var i = data.Length - 1; i >= 0; i--)
                 {
-                    byte bcdByte = data[i];
-                    int idHigh = bcdByte >> 4;
-                    int idLow = bcdByte & 0x0F;
+                    var bcdByte = data[i];
+                    var idHigh = bcdByte >> 4;
+                    var idLow = bcdByte & 0x0F;
                     builder.Append($"{idHigh}{idLow}");
                 }
-            }
             else
-            {
-                for (int i = 0; i < data.Length; i++)
+                for (var i = 0; i < data.Length; i++)
                 {
-                    byte bcdByte = data[i];
-                    int idHigh = bcdByte >> 4;
-                    int idLow = bcdByte & 0x0F;
+                    var bcdByte = data[i];
+                    var idHigh = bcdByte >> 4;
+                    var idLow = bcdByte & 0x0F;
                     builder.Append($"{idHigh}{idLow}");
                 }
-            }
 
             return builder.ToString();
         }

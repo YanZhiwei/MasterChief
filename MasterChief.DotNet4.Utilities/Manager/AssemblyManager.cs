@@ -1,6 +1,6 @@
 ﻿namespace MasterChief.DotNet4.Utilities.Manager
 {
-    using MasterChief.DotNet4.Utilities.Operator;
+    using Operator;
     using System;
     using System.IO;
     using System.Reflection;
@@ -15,12 +15,12 @@
         /// <summary>
         /// Assembly对象
         /// </summary>
-        private Assembly _assembly = null;
+        private readonly Assembly _assembly;
 
         /// <summary>
         /// 程序集路径
         /// </summary>
-        private string _filePath = string.Empty;
+        private readonly string _filePath = string.Empty;
 
         #endregion Fields
 
@@ -57,7 +57,7 @@
         /// <returns>程序集显示名称</returns>
         public string GetAppFullName()
         {
-            return _assembly.FullName.ToString();
+            return _assembly.FullName;
         }
 
         /// <summary>
@@ -98,7 +98,7 @@
         public string GetCompany()
         {
             string company = string.Empty;
-            GetAssemblyCommon<AssemblyCompanyAttribute>(_ass => company = _ass.Company);
+            GetAssemblyCommon<AssemblyCompanyAttribute>(ass => company = ass.Company);
             return company;
         }
 
@@ -109,7 +109,7 @@
         public string GetCopyright()
         {
             string copyright = string.Empty;
-            GetAssemblyCommon<AssemblyCopyrightAttribute>(_ass => copyright = _ass.Copyright);
+            GetAssemblyCommon<AssemblyCopyrightAttribute>(ass => copyright = ass.Copyright);
             return copyright;
         }
 
@@ -120,7 +120,7 @@
         public string GetDescription()
         {
             string description = string.Empty;
-            GetAssemblyCommon<AssemblyDescriptionAttribute>(_ass => description = _ass.Description);
+            GetAssemblyCommon<AssemblyDescriptionAttribute>(ass => description = ass.Description);
             return description;
         }
 
@@ -131,7 +131,7 @@
         public string GetProductName()
         {
             string product = string.Empty;
-            GetAssemblyCommon<AssemblyProductAttribute>(_ass => product = _ass.Product);
+            GetAssemblyCommon<AssemblyProductAttribute>(ass => product = ass.Product);
             return product;
         }
 
@@ -142,7 +142,7 @@
         public string GetTitle()
         {
             string title = string.Empty;
-            GetAssemblyCommon<AssemblyTitleAttribute>(_ass => title = _ass.Title);
+            GetAssemblyCommon<AssemblyTitleAttribute>(ass => title = ass.Title);
 
             if(string.IsNullOrEmpty(title))
             {

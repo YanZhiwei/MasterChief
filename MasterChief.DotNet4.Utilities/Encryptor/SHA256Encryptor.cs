@@ -1,7 +1,6 @@
 ﻿namespace MasterChief.DotNet4.Utilities.Encryptor
 {
-    using MasterChief.DotNet4.Utilities.Manager;
-    using MasterChief.DotNet4.Utilities.Operator;
+    using Operator;
     using System.Security.Cryptography;
     using System.Text;
 
@@ -10,7 +9,7 @@
     /// </summary>
     /// 时间：2016/9/22 10:08
     /// 备注：
-    public static class SHA256Encryptor
+    public static class Sha256Encryptor
     {
         #region Methods
 
@@ -32,7 +31,7 @@
                 StringBuilder builder = new StringBuilder();
                 foreach (byte item in sha256.ComputeHash(plainData))
                 {
-                    builder.Append(string.Format("{0:x2}", item));
+                    builder.Append($"{item:x2}");
                 }
 
                 return builder.ToString();

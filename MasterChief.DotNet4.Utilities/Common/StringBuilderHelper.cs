@@ -30,12 +30,7 @@
         /// <returns>StringBuilder</returns>
         public static StringBuilder NullOrCreate(this StringBuilder builder)
         {
-            if (builder == null)
-            {
-                builder = new StringBuilder();
-            }
-
-            return builder;
+            return builder ?? (new StringBuilder());
         }
 
         /// <summary>

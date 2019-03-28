@@ -38,7 +38,7 @@
         /// <param name="url">要转到的URL</param>
         public static void JumpToSpecifiedUrl(string url)
         {
-            RegisterScript(string.Format("location.href='{0}'", url));
+            RegisterScript($"location.href='{url}'");
         }
 
         /// <summary>

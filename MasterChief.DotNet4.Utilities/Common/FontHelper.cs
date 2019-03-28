@@ -49,6 +49,7 @@ namespace MasterChief.DotNet4.Utilities.Common
         }
 
         [DllImport("user32.dll")]
+        // ReSharper disable once UnusedMember.Local
         private static extern int SendMessage(int hWnd, uint msg, int wParam, int lParam);
 
         [DllImport("kernel32.dll", SetLastError = true)]

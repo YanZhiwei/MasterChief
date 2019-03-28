@@ -20,12 +20,12 @@
         /// 备注：
         public static byte[] GetBytes(this HtmlInputFile htmlInputFile)
         {
-            int _fsize = htmlInputFile.PostedFile.ContentLength;
-            if (_fsize > 0)
+            int fsize = htmlInputFile.PostedFile.ContentLength;
+            if (fsize > 0)
             {
-                byte[] _imageBuffer = new byte[_fsize];
-                htmlInputFile.PostedFile.InputStream.Read(_imageBuffer, 0, _fsize);
-                return _imageBuffer;
+                byte[] imageBuffer = new byte[fsize];
+                htmlInputFile.PostedFile.InputStream.Read(imageBuffer, 0, fsize);
+                return imageBuffer;
             }
             return null;
         }

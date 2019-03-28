@@ -1,28 +1,28 @@
-﻿namespace MasterChief.DotNet4.Utilities.Common
-{
-    using System.Collections;
-    using System.Text;
+﻿using System.Collections;
+using System.Text;
 
+namespace MasterChief.DotNet4.Utilities.Common
+{
     /// <summary>
-    /// BitArray 帮助类
+    ///     BitArray 帮助类
     /// </summary>
     public static class BitArrayHelper
     {
         #region Methods
 
         /// <summary>
-        /// 逆序
+        ///     逆序
         /// </summary>
         /// <param name="array">BitArray</param>
         /// <returns>逆序后的BitArray</returns>
         public static BitArray Reverse(this BitArray array)
         {
-            int count = array.Length;
-            int middle = count / 2;
+            var count = array.Length;
+            var middle = count / 2;
 
-            for (int i = 0; i < middle; i++)
+            for (var i = 0; i < middle; i++)
             {
-                bool tmp = array[i];
+                var tmp = array[i];
                 array[i] = array[count - i - 1];
                 array[count - i - 1] = tmp;
             }
@@ -31,7 +31,7 @@
         }
 
         /// <summary>
-        /// 转换成十六进制字符串
+        ///     转换成十六进制字符串
         /// </summary>
         /// <param name="array">需要操作的BitArray</param>
         /// <param name="trueValue">当条件成立的值</param>
@@ -41,23 +41,17 @@
         {
             var builder = new StringBuilder();
 
-            for (int i = 0; i < array.Length; i++)
-            {
+            for (var i = 0; i < array.Length; i++)
                 if (array[i])
-                {
                     builder.Append(trueValue);
-                }
                 else
-                {
                     builder.Append(falseValue);
-                }
-            }
 
             return builder.ToString();
         }
 
         /// <summary>
-        /// 转成是十六进制字符串
+        ///     转成是十六进制字符串
         /// </summary>
         /// <param name="array">需要操的在BitArray</param>
         /// <returns>十六进制字符串</returns>
@@ -67,7 +61,7 @@
         }
 
         /// <summary>
-        /// 转换为byte
+        ///     转换为byte
         /// </summary>
         /// <param name="array">需要操的在BitArray</param>
         /// <returns>byte</returns>
@@ -79,13 +73,13 @@
         }
 
         /// <summary>
-        /// 转成成byte数组
+        ///     转成成byte数组
         /// </summary>
         /// <param name="array">需要操的在BitArray</param>
         /// <returns>byte数组</returns>
         public static byte[] ToBytes(this BitArray array)
         {
-            byte[] data = new byte[((array.Length - 1) / 8) + 1];
+            var data = new byte[(array.Length - 1) / 8 + 1];
             array.CopyTo(data, 0);
             return data;
         }

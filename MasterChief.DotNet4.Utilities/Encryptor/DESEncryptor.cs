@@ -10,24 +10,24 @@
     /// DES(Data Encryption Standard)
     /// DES使用的密钥key为8字节，初始向量IV也是8字节。
     /// </summary>
-    public class DESEncryptor
+    public class DesEncryptor
     {
         #region Fields
 
         /// <summary>
         /// 默认加密Key
         /// </summary>
-        private const string _defaultKey = "MasterChief.DotNet4.Utilities";
+        private const string DefaultKey = "MasterChief.DotNet4.Utilities";
 
         /// <summary>
         /// 默认向量
         /// </summary>
-        private static readonly byte[] _defaultIV = { 0x21, 0x45, 0x65, 0x87, 0x09, 0xBA, 0xDC, 0xEF };
+        private static readonly byte[] DefaultIv = { 0x21, 0x45, 0x65, 0x87, 0x09, 0xBA, 0xDC, 0xEF };
 
         /// <summary>
         /// The DES
         /// </summary>
-        private DES _desProvider = null;
+        private DES _desProvider;
 
         #endregion Fields
 
@@ -38,7 +38,7 @@
         /// </summary>
         /// <param name="key">密钥</param>
         /// <param name="iv">向量</param>
-        public DESEncryptor(byte[] key, byte[] iv)
+        public DesEncryptor(byte[] key, byte[] iv)
         {
             _desProvider = new DESCryptoServiceProvider
             {
@@ -54,7 +54,7 @@
         /// <param name="iv">向量</param>
         /// 时间：2016-01-14 13:23
         /// 备注：
-        public DESEncryptor(string key, byte[] iv)
+        public DesEncryptor(string key, byte[] iv)
         {
             _desProvider = new DESCryptoServiceProvider();
             key = key.Substring(0, 8);
@@ -71,9 +71,9 @@
         /// 生成DES
         /// </summary>
         /// <returns>DES</returns>
-        public static DES CreateDES()
+        public static DES CreateDes()
         {
-            return CreateDES(string.Empty);
+            return CreateDes(string.Empty);
         }
 
         /// <summary>
@@ -81,7 +81,7 @@
         /// </summary>
         /// <param name="key">The key.</param>
         /// <returns>DES</returns>
-        public static DES CreateDES(string key)
+        public static DES CreateDes(string key)
         {
             DES desProvider = new DESCryptoServiceProvider();
             DESCryptoServiceProvider desCryptoService = (DESCryptoServiceProvider)DES.Create();
@@ -89,7 +89,7 @@
             if (!string.IsNullOrEmpty(key))
             {
                 MD5 md5Provider = new MD5CryptoServiceProvider();
-                desProvider.Key = ArrayHelper.Copy<byte>(md5Provider.ComputeHash(Encoding.UTF8.GetBytes(key)), 0, 8);
+                desProvider.Key = ArrayHelper.Copy(md5Provider.ComputeHash(Encoding.UTF8.GetBytes(key)), 0, 8);
             }
             else
             {
@@ -107,7 +107,7 @@
         /// <returns>解密后的字符串</returns>
         public static string Decrypt(string text)
         {
-            DESEncryptor desEncryptor = new DESEncryptor(_defaultKey, _defaultIV);
+            DesEncryptor desEncryptor = new DesEncryptor(DefaultKey, DefaultIv);
             return desEncryptor.DecryptString(text);
         }
 
@@ -118,7 +118,7 @@
         /// <returns>加密后的字符串</returns>
         public static string Encrypt(string text)
         {
-            DESEncryptor desEncryptor = new DESEncryptor(_defaultKey, _defaultIV);
+            DesEncryptor desEncryptor = new DesEncryptor(DefaultKey, DefaultIv);
             return desEncryptor.EncryptString(text);
         }
 

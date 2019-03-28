@@ -1,11 +1,11 @@
-﻿namespace MasterChief.DotNet4.Utilities.WebForm.Core
-{
-    using System;
-    using System.Web;
-    using System.Web.Caching;
+﻿using System;
+using System.Web;
+using System.Web.Caching;
 
+namespace MasterChief.DotNet4.Utilities.WebForm.Core
+{
     /// <summary>
-    /// 缓存帮助类
+    ///     缓存帮助类
     /// </summary>
     public static class CacheManger
     {
@@ -21,31 +21,20 @@
          */
 
         /// <summary>
-        /// AppPrefix
+        ///     AppPrefix
         /// </summary>
-        public static string AppPrefix
-        {
-            get
-            {
-                return AppDomain.CurrentDomain.Id.ToString();
-            }
-        }
+        public static string AppPrefix => AppDomain.CurrentDomain.Id.ToString();
 
         /// <summary>
-        /// Cache对象
+        ///     Cache对象
         /// </summary>
         public static Cache Cache
         {
             get
             {
                 if (null != HttpContext.Current)
-                {
                     return HttpContext.Current.Cache;
-                }
-                else
-                {
-                    return HttpRuntime.Cache;
-                }
+                return HttpRuntime.Cache;
             }
         }
 
@@ -54,7 +43,7 @@
         #region Methods
 
         /// <summary>
-        /// 是否已缓存
+        ///     是否已缓存
         /// </summary>
         /// <param name="key">键</param>
         /// <returns>是否已缓存</returns>
@@ -64,7 +53,7 @@
         }
 
         /// <summary>
-        /// 获取缓存内容
+        ///     获取缓存内容
         /// </summary>
         /// <param name="key">键</param>
         /// <returns>值</returns>
@@ -74,7 +63,7 @@
         }
 
         /// <summary>
-        /// 清除缓存
+        ///     清除缓存
         /// </summary>
         /// <param name="key">键</param>
         public static void Remove(string key)
@@ -83,7 +72,7 @@
         }
 
         /// <summary>
-        /// 设置缓存
+        ///     设置缓存
         /// </summary>
         /// <param name="key">键</param>
         /// <param name="value">值</param>
@@ -93,12 +82,12 @@
         }
 
         /// <summary>
-        /// 设置缓存
+        ///     设置缓存
         /// </summary>
         /// <param name="key">键</param>
         /// <param name="value">值</param>
         /// <param name="cacheDependency">
-        /// 所插入对象的文件依赖项或缓存键依赖项。当任何依赖项更改时，该对象即无效，并从缓存中移除。如果没有依赖项，则此参数包含 nullNothingnullptrnull 引用。
+        ///     所插入对象的文件依赖项或缓存键依赖项。当任何依赖项更改时，该对象即无效，并从缓存中移除。如果没有依赖项，则此参数包含 nullNothingnullptrnull 引用。
         /// </param>
         public static void Set(string key, object value, CacheDependency cacheDependency)
         {
@@ -106,16 +95,16 @@
         }
 
         /// <summary>
-        /// 设置缓存
+        ///     设置缓存
         /// </summary>
         /// <param name="key">键</param>
         /// <param name="value">值</param>
         /// <param name="cacheDependency">
-        /// 所插入对象的文件依赖项或缓存键依赖项。当任何依赖项更改时，该对象即无效，并从缓存中移除。如果没有依赖项，则此参数包含 nullNothingnullptrnull 引用
+        ///     所插入对象的文件依赖项或缓存键依赖项。当任何依赖项更改时，该对象即无效，并从缓存中移除。如果没有依赖项，则此参数包含 nullNothingnullptrnull 引用
         /// </param>
         /// <param name="dt">
-        /// 所插入对象将过期并被从缓存中移除的时间。若要避免可能出现的本地时间方面的问题（如从标准时间更改为夏时制），请对此参数值使用 UtcNow，不要使用 Now。如果使用绝对过期，则
-        /// slidingExpiration 参数必须为 NoSlidingExpiration
+        ///     所插入对象将过期并被从缓存中移除的时间。若要避免可能出现的本地时间方面的问题（如从标准时间更改为夏时制），请对此参数值使用 UtcNow，不要使用 Now。如果使用绝对过期，则
+        ///     slidingExpiration 参数必须为 NoSlidingExpiration
         /// </param>
         public static void Set(string key, object value, CacheDependency cacheDependency, DateTime dt)
         {
@@ -123,33 +112,36 @@
         }
 
         /// <summary>
-        /// 缓存写入，包括分钟，是否绝对过期及缓存过期的回调
+        ///     缓存写入，包括分钟，是否绝对过期及缓存过期的回调
         /// </summary>
         /// <param name="key">key</param>
         /// <param name="value">value</param>
         /// <param name="minutes">缓存分钟</param>
         /// <param name="isAbsoluteExpiration">是否绝对过期</param>
         /// <param name="onRemoveCallback">缓存过期回调</param>
-        public static void Set(string key, object value, int minutes, bool isAbsoluteExpiration, CacheItemRemovedCallback onRemoveCallback)
+        public static void Set(string key, object value, int minutes, bool isAbsoluteExpiration,
+            CacheItemRemovedCallback onRemoveCallback)
         {
             key = AppPrefix + key;
             if (isAbsoluteExpiration)
-                HttpRuntime.Cache.Insert(key, value, null, DateTime.Now.AddMinutes(minutes), Cache.NoSlidingExpiration, CacheItemPriority.Normal, onRemoveCallback);
+                HttpRuntime.Cache.Insert(key, value, null, DateTime.Now.AddMinutes(minutes), Cache.NoSlidingExpiration,
+                    CacheItemPriority.Normal, onRemoveCallback);
             else
-                HttpRuntime.Cache.Insert(key, value, null, Cache.NoAbsoluteExpiration, TimeSpan.FromMinutes(minutes), CacheItemPriority.Normal, onRemoveCallback);
+                HttpRuntime.Cache.Insert(key, value, null, Cache.NoAbsoluteExpiration, TimeSpan.FromMinutes(minutes),
+                    CacheItemPriority.Normal, onRemoveCallback);
         }
 
         /// <summary>
-        /// 设置缓存
+        ///     设置缓存
         /// </summary>
         /// <param name="key">键</param>
         /// <param name="value">值</param>
         /// <param name="cacheDependency">
-        /// 所插入对象的文件依赖项或缓存键依赖项。当任何依赖项更改时，该对象即无效，并从缓存中移除。如果没有依赖项，则此参数包含 nullNothingnullptrnull 引用
+        ///     所插入对象的文件依赖项或缓存键依赖项。当任何依赖项更改时，该对象即无效，并从缓存中移除。如果没有依赖项，则此参数包含 nullNothingnullptrnull 引用
         /// </param>
         /// <param name="ts">
-        /// 最后一次访问所插入对象时与该对象过期时之间的时间间隔。如果该值等效于 20 分钟，则对象在最后一次被访问 20 分钟之后将过期并被从缓存中移除。如果使用可调过期，则
-        /// absoluteExpiration 参数必须为 NoAbsoluteExpiration。
+        ///     最后一次访问所插入对象时与该对象过期时之间的时间间隔。如果该值等效于 20 分钟，则对象在最后一次被访问 20 分钟之后将过期并被从缓存中移除。如果使用可调过期，则
+        ///     absoluteExpiration 参数必须为 NoAbsoluteExpiration。
         /// </param>
         public static void Set(string key, object value, CacheDependency cacheDependency, TimeSpan ts)
         {
@@ -157,20 +149,20 @@
         }
 
         /// <summary>
-        /// 设置缓存
+        ///     设置缓存
         /// </summary>
         /// <param name="key">键</param>
         /// <param name="value">值</param>
         /// <param name="cacheDependency">
-        /// 所插入对象的文件依赖项或缓存键依赖项。当任何依赖项更改时，该对象即无效，并从缓存中移除。如果没有依赖项，则此参数包含 nullNothingnullptrnull 引用
+        ///     所插入对象的文件依赖项或缓存键依赖项。当任何依赖项更改时，该对象即无效，并从缓存中移除。如果没有依赖项，则此参数包含 nullNothingnullptrnull 引用
         /// </param>
         /// <param name="dt">
-        /// 所插入对象将过期并被从缓存中移除的时间。若要避免可能出现的本地时间方面的问题（如从标准时间更改为夏时制），请对此参数值使用 UtcNow，不要使用 Now。如果使用绝对过期，则
-        /// slidingExpiration 参数必须为 NoSlidingExpiration
+        ///     所插入对象将过期并被从缓存中移除的时间。若要避免可能出现的本地时间方面的问题（如从标准时间更改为夏时制），请对此参数值使用 UtcNow，不要使用 Now。如果使用绝对过期，则
+        ///     slidingExpiration 参数必须为 NoSlidingExpiration
         /// </param>
         /// <param name="ts">
-        /// 最后一次访问所插入对象时与该对象过期时之间的时间间隔。如果该值等效于 20 分钟，则对象在最后一次被访问 20 分钟之后将过期并被从缓存中移除。如果使用可调过期，则
-        /// absoluteExpiration 参数必须为 NoAbsoluteExpiration。
+        ///     最后一次访问所插入对象时与该对象过期时之间的时间间隔。如果该值等效于 20 分钟，则对象在最后一次被访问 20 分钟之后将过期并被从缓存中移除。如果使用可调过期，则
+        ///     absoluteExpiration 参数必须为 NoAbsoluteExpiration。
         /// </param>
         public static void Set(string key, object value, CacheDependency cacheDependency, DateTime dt, TimeSpan ts)
         {
@@ -178,52 +170,56 @@
         }
 
         /// <summary>
-        /// 设置缓存
+        ///     设置缓存
         /// </summary>
         /// <param name="key">键</param>
         /// <param name="value">值</param>
         /// <param name="cacheDependency">
-        /// 该项的文件依赖项或缓存键依赖项。当任何依赖项更改时，该对象即无效，并从缓存中移除。如果没有依赖项，则此参数包含 null。
+        ///     该项的文件依赖项或缓存键依赖项。当任何依赖项更改时，该对象即无效，并从缓存中移除。如果没有依赖项，则此参数包含 null。
         /// </param>
         /// <param name="absoluteExpiration">
-        /// 所插入对象将过期并被从缓存中移除的时间。若要避免可能出现的本地时间方面的问题（如从标准时间更改为夏时制），请对此参数值使用 UtcNow，不要使用 Now。如果使用绝对过期，则
-        /// slidingExpiration 参数必须为 NoSlidingExpiration
+        ///     所插入对象将过期并被从缓存中移除的时间。若要避免可能出现的本地时间方面的问题（如从标准时间更改为夏时制），请对此参数值使用 UtcNow，不要使用 Now。如果使用绝对过期，则
+        ///     slidingExpiration 参数必须为 NoSlidingExpiration
         /// </param>
         /// <param name="slidingExpiration">
-        /// 最后一次访问所插入对象时与该对象到期时之间的时间间隔。如果该值等效于 20 分钟，则对象在最后一次被访问 20 分钟之后将到期并被从缓存中移除。如果使用可调到期，则
-        /// absoluteExpiration 参数必须为 NoAbsoluteExpiration。
+        ///     最后一次访问所插入对象时与该对象到期时之间的时间间隔。如果该值等效于 20 分钟，则对象在最后一次被访问 20 分钟之后将到期并被从缓存中移除。如果使用可调到期，则
+        ///     absoluteExpiration 参数必须为 NoAbsoluteExpiration。
         /// </param>
         /// <param name="onUpdate">在从缓存中移除对象时将调用的委托（如果提供）。当从缓存中删除应用程序的对象时，可使用它来通知应用程序。</param>
-        public static void Set(string key, object value, CacheDependency cacheDependency, DateTime absoluteExpiration, TimeSpan slidingExpiration, CacheItemRemovedCallback onUpdate)
+        public static void Set(string key, object value, CacheDependency cacheDependency, DateTime absoluteExpiration,
+            TimeSpan slidingExpiration, CacheItemRemovedCallback onUpdate)
         {
-            Cache.Insert(AppPrefix + key, value, cacheDependency, absoluteExpiration, slidingExpiration, CacheItemPriority.Normal, onUpdate);
+            Cache.Insert(AppPrefix + key, value, cacheDependency, absoluteExpiration, slidingExpiration,
+                CacheItemPriority.Normal, onUpdate);
         }
 
         /// <summary>
-        /// 设置缓存
+        ///     设置缓存
         /// </summary>
         /// <param name="key">键</param>
         /// <param name="value">值</param>
         /// <param name="cacheDependency">
-        /// 该项的文件依赖项或缓存键依赖项。当任何依赖项更改时，该对象即无效，并从缓存中移除。如果没有依赖项，则此参数包含 null。
+        ///     该项的文件依赖项或缓存键依赖项。当任何依赖项更改时，该对象即无效，并从缓存中移除。如果没有依赖项，则此参数包含 null。
         /// </param>
         /// <param name="absoluteExpiration">
-        /// 所插入对象将过期并被从缓存中移除的时间。若要避免可能出现的本地时间方面的问题（如从标准时间更改为夏时制），请对此参数值使用 UtcNow，不要使用 Now。如果使用绝对过期，则
-        /// slidingExpiration 参数必须为 NoSlidingExpiration
+        ///     所插入对象将过期并被从缓存中移除的时间。若要避免可能出现的本地时间方面的问题（如从标准时间更改为夏时制），请对此参数值使用 UtcNow，不要使用 Now。如果使用绝对过期，则
+        ///     slidingExpiration 参数必须为 NoSlidingExpiration
         /// </param>
         /// <param name="slidingExpiration">
-        /// 最后一次访问所插入对象时与该对象到期时之间的时间间隔。如果该值等效于 20 分钟，则对象在最后一次被访问 20 分钟之后将到期并被从缓存中移除。如果使用可调到期，则
-        /// absoluteExpiration 参数必须为 NoAbsoluteExpiration。
+        ///     最后一次访问所插入对象时与该对象到期时之间的时间间隔。如果该值等效于 20 分钟，则对象在最后一次被访问 20 分钟之后将到期并被从缓存中移除。如果使用可调到期，则
+        ///     absoluteExpiration 参数必须为 NoAbsoluteExpiration。
         /// </param>
         /// <param name="priority">优先级</param>
         /// <param name="onUpdate">在从缓存中移除对象时将调用的委托（如果提供）。当从缓存中删除应用程序的对象时，可使用它来通知应用程序。</param>
-        public static void Set(string key, object value, CacheDependency cacheDependency, DateTime absoluteExpiration, TimeSpan slidingExpiration, CacheItemPriority priority, CacheItemRemovedCallback onUpdate)
+        public static void Set(string key, object value, CacheDependency cacheDependency, DateTime absoluteExpiration,
+            TimeSpan slidingExpiration, CacheItemPriority priority, CacheItemRemovedCallback onUpdate)
         {
-            Cache.Insert(AppPrefix + key, value, cacheDependency, absoluteExpiration, slidingExpiration, priority, onUpdate);
+            Cache.Insert(AppPrefix + key, value, cacheDependency, absoluteExpiration, slidingExpiration, priority,
+                onUpdate);
         }
 
         /// <summary>
-        /// 如果该键尚不存在，则使用指定函数将键/值对添加到 Session；如果该键已存在，则使用该函数更新 Session 中的键/值对。
+        ///     如果该键尚不存在，则使用指定函数将键/值对添加到 Session；如果该键已存在，则使用该函数更新 Session 中的键/值对。
         /// </summary>
         /// <typeparam name="TValue">泛型，数值类型</typeparam>
         /// <param name="key">键</param>
@@ -239,8 +235,8 @@
             {
                 if (updateFactory != null)
                 {
-                    TValue _oldValue = (TValue)Get(key);
-                    Set(key, updateFactory(key, _oldValue), 120, true, null);
+                    var oldValue = (TValue) Get(key);
+                    Set(key, updateFactory(key, oldValue), 120, true, null);
                 }
             }
         }
@@ -260,55 +256,51 @@
         //}
 
         /// <summary>
-        /// 如果该键尚不存在，则使用指定函数将键/值对添加到 Session；如果该键已存在，则使用该函数更新 Session 中的键/值对。
+        ///     如果该键尚不存在，则使用指定函数将键/值对添加到 Session；如果该键已存在，则使用该函数更新 Session 中的键/值对。
         /// </summary>
         /// <typeparam name="TValue">泛型，数值类型.</typeparam>
         /// <param name="key">键.</param>
         /// <param name="value">值.</param>
         /// <param name="addHanlder">新增委托</param>
         /// <param name="updateHanlder">更新委托</param>
-        public static void AddOrUpdate<TValue>(string key, TValue value, Action<TValue> addHanlder, Func<string, TValue, TValue> updateHanlder)
+        public static void AddOrUpdate<TValue>(string key, TValue value, Action<TValue> addHanlder,
+            Func<string, TValue, TValue> updateHanlder)
         {
             if (!Contain(key))
             {
                 Set(key, value, 120, true, null);
-                if (addHanlder != null)
-                {
-                    addHanlder(value);
-                }
+                if (addHanlder != null) addHanlder(value);
             }
             else
             {
                 if (updateHanlder != null)
                 {
-                    TValue _oldValue = (TValue)Get(key);
-                    Set(key, updateHanlder(key, _oldValue), 120, true, null);
+                    var oldValue = (TValue) Get(key);
+                    Set(key, updateHanlder(key, oldValue), 120, true, null);
                 }
             }
         }
 
         /// <summary>
-        /// 如果该键尚不存在，则使用指定函数将键/值对添加到 Session；如果该键已存在，则使用该函数更新 Session 中的键/值对。
+        ///     如果该键尚不存在，则使用指定函数将键/值对添加到 Session；如果该键已存在，则使用该函数更新 Session 中的键/值对。
         /// </summary>
         /// <typeparam name="TValue">泛型</typeparam>
         /// <param name="key">键</param>
         /// <param name="addHanlder">新增委托</param>
         /// <param name="updateHanlder">修改委托</param>
-        public static void AddOrUpdate<TValue>(string key, Func<string, TValue> addHanlder, Func<string, TValue, TValue> updateHanlder)
+        public static void AddOrUpdate<TValue>(string key, Func<string, TValue> addHanlder,
+            Func<string, TValue, TValue> updateHanlder)
         {
             if (!Contain(key))
             {
-                if (addHanlder != null)
-                {
-                    Set(key, addHanlder(key), 120, true, null);
-                }
+                if (addHanlder != null) Set(key, addHanlder(key), 120, true, null);
             }
             else
             {
                 if (updateHanlder != null)
                 {
-                    TValue _oldValue = (TValue)Get(key);
-                    Set(key, updateHanlder(key, _oldValue), 120, true, null);
+                    var oldValue = (TValue) Get(key);
+                    Set(key, updateHanlder(key, oldValue), 120, true, null);
                 }
             }
         }

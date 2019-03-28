@@ -10,26 +10,26 @@
         /// <summary>
         /// 居中
         /// </summary>
-        center = 0,
+        Center = 0,
 
         /// <summary>
         /// 左上角
         /// </summary>
-        topLeft = 1,
+        TopLeft = 1,
 
         /// <summary>
         /// 右上角
         /// </summary>
-        topRight = 2,
+        TopRight = 2,
 
         /// <summary>
         /// 左下角
         /// </summary>
-        bottomLeft = 3,
+        BottomLeft = 3,
 
         /// <summary>
         /// 右下角
         /// </summary>
-        bottomRight = 4
+        BottomRight = 4
     }
 }

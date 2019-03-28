@@ -445,7 +445,7 @@
         /// <returns>是否是URL</returns>
         public static bool IsURL(string data)
         {
-            return RegexHelper.IsMatch(data, RegexPattern.URLCheck);
+            return RegexHelper.IsMatch(data, RegexPattern.UrlCheck);
         }
 
         /// <summary>

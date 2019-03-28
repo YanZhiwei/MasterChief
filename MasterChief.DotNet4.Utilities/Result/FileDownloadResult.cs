@@ -66,8 +66,8 @@
         /// <returns>FileDownloadResult</returns>
         public static FileDownloadResult Fail(string fileName, string filePhysicsPath, string message)
         {
-            FileDownloadResult _result = new FileDownloadResult(fileName, filePhysicsPath, false, message);
-            return _result;
+            FileDownloadResult result = new FileDownloadResult(fileName, filePhysicsPath, false, message);
+            return result;
         }
 
         /// <summary>
@@ -79,8 +79,8 @@
         /// <returns>FileDownloadResult</returns>
         public static FileDownloadResult Success(string fileName, string filePhysicsPath, string message)
         {
-            FileDownloadResult _result = new FileDownloadResult(fileName, filePhysicsPath, true, message);
-            return _result;
+            FileDownloadResult result = new FileDownloadResult(fileName, filePhysicsPath, true, message);
+            return result;
         }
 
         /// <summary>

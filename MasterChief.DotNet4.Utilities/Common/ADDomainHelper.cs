@@ -6,33 +6,14 @@ using System.Text.RegularExpressions;
 namespace MasterChief.DotNet4.Utilities.Common
 {
     /// <summary>
-    /// AD域帮助类
+    ///     AD域帮助类
     /// </summary>
     public class AdDomainHelper
     {
-        #region Fields
-
-        /// <summary>
-        /// 域名称
-        /// </summary>
-        public readonly string AdDomian;
-
-        /// <summary>
-        /// 用户名称
-        /// </summary>
-        public readonly string UserName;
-
-        /// <summary>
-        /// 用户密码
-        /// </summary>
-        public readonly string UserPassword;
-
-        #endregion Fields
-
         #region Constructors
 
         /// <summary>
-        /// 构造函数
+        ///     构造函数
         /// </summary>
         /// <param name="domain">域名称</param>
         /// <param name="userName">用户名称</param>
@@ -46,32 +27,49 @@ namespace MasterChief.DotNet4.Utilities.Common
 
         #endregion Constructors
 
+        #region Fields
+
+        /// <summary>
+        ///     域名称
+        /// </summary>
+        public readonly string AdDomian;
+
+        /// <summary>
+        ///     用户名称
+        /// </summary>
+        public readonly string UserName;
+
+        /// <summary>
+        ///     用户密码
+        /// </summary>
+        public readonly string UserPassword;
+
+        #endregion Fields
+
         #region Methods
 
         /// <summary>
-        /// 取用户所对应的用户组
+        ///     取用户所对应的用户组
         /// </summary>
         /// <returns>集合</returns>
         public List<string> GetGroups()
         {
-            List<string> groups = new List<string>();
+            var groups = new List<string>();
             try
             {
-                DirectoryEntry dEntity = new DirectoryEntry($"LDAP://{AdDomian}", UserName, UserPassword);
+                var dEntity = new DirectoryEntry($"LDAP://{AdDomian}", UserName, UserPassword);
                 dEntity.RefreshCache();
-                DirectorySearcher dSearcher = new DirectorySearcher(dEntity);
+                var dSearcher = new DirectorySearcher(dEntity);
                 dSearcher.PropertiesToLoad.Add("memberof");
                 dSearcher.Filter = $"sAMAccountName={UserName}";
-                SearchResult searchResult = dSearcher.FindOne();
+                var searchResult = dSearcher.FindOne();
 
                 if (searchResult != null)
-                {
-                    foreach (object group in searchResult.Properties["memberof"])
+                    foreach (var group in searchResult.Properties["memberof"])
                     {
-                        Match match = Regex.Match(group.ToString().Trim(), @"CN=\s*(?<g>\w*)\s*.");
+                        var match = Regex.Match(group.ToString().Trim(), @"CN=\s*(?<g>\w*)\s*.");
                         groups.Add(match.Groups["g"].Value);
                     }
-                }
             }
             catch (Exception)
             {
@@ -82,16 +80,16 @@ namespace MasterChief.DotNet4.Utilities.Common
         }
 
         /// <summary>
-        /// 登陆域
+        ///     登陆域
         /// </summary>
         /// <returns>登陆是否成功</returns>
         public bool Login()
         {
-            bool result = false;
+            bool result;
 
             try
             {
-                DirectoryEntry dEntity = new DirectoryEntry(string.Format("LDAP://{0}", AdDomian), UserName, UserPassword);
+                var dEntity = new DirectoryEntry($"LDAP://{AdDomian}", UserName, UserPassword);
                 dEntity.RefreshCache();
                 result = true;
             }

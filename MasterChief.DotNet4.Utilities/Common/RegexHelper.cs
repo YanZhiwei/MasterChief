@@ -3,14 +3,14 @@
 namespace MasterChief.DotNet4.Utilities.Common
 {
     /// <summary>
-    /// 正则表达式帮助类
+    ///     正则表达式帮助类
     /// </summary>
     public static class RegexHelper
     {
         #region Methods
 
         /// <summary>
-        /// 正则表达式匹配，匹配返回true
+        ///     正则表达式匹配，匹配返回true
         /// </summary>
         /// <param name="checkString">检查字符串</param>
         /// <param name="regexString">正则表达式字符串</param>
@@ -23,7 +23,7 @@ namespace MasterChief.DotNet4.Utilities.Common
         }
 
         /// <summary>
-        /// 正则表达式匹配，匹配返回true
+        ///     正则表达式匹配，匹配返回true
         /// </summary>
         /// <param name="checkString">检查字符串</param>
         /// <param name="regexString">正则表达式字符串</param>
@@ -35,7 +35,7 @@ namespace MasterChief.DotNet4.Utilities.Common
         }
 
         /// <summary>
-        /// 正则表达式匹配，匹配返回true
+        ///     正则表达式匹配，匹配返回true
         /// </summary>
         /// <param name="checkString">检查字符串</param>
         /// <param name="regexString">模式字符串</param>
@@ -44,7 +44,7 @@ namespace MasterChief.DotNet4.Utilities.Common
         public static bool IsMatch(string checkString, string regexString, out Match result)
         {
             result = null;
-            Regex regex = new Regex(regexString);
+            var regex = new Regex(regexString);
             result = regex.Match(checkString);
             return result.Success;
         }

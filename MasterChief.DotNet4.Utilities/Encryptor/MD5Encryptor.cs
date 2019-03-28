@@ -9,7 +9,7 @@
     /// </summary>
     /// 时间：2015-11-06 9:22
     /// 备注：
-    public static class MD5Encryptor
+    public static class Md5Encryptor
     {
         #region Methods
 
@@ -21,7 +21,7 @@
         /// <returns>是否相等</returns>
         /// 时间：2015-11-06 9:24
         /// 备注：
-        public static bool EqualsRandomMD5(this string data, Guid rmd5)
+        public static bool EqualsRandomMd5(this string data, Guid rmd5)
         {
             byte[] md5Array = rmd5.ToByteArray();
             byte randomKey = md5Array[0];
@@ -50,7 +50,7 @@
         /// <returns>MD5加密Guid</returns>
         /// 时间：2015-11-06 9:20
         /// 备注：
-        public static Guid ToRandomMD5(this string data)
+        public static Guid ToRandomMd5(this string data)
         {
             using (MD5CryptoServiceProvider md5Provider = new MD5CryptoServiceProvider())
             {

@@ -1,6 +1,6 @@
 ﻿namespace MasterChief.DotNet4.Utilities.Manager
 {
-    using MasterChief.DotNet4.Utilities.Operator;
+    using Operator;
     using System.Collections.Generic;
     using System.IO;
     using System.Text;
@@ -12,7 +12,7 @@
     /// </summary>
     /// 时间：2016/8/25 13:12
     /// 备注：
-    public static class XMLManager
+    public static class XmlManager
     {
         #region Methods
 
@@ -30,8 +30,8 @@
             ValidateOperator.Begin().NotNullOrEmpty(path, "XML文件").IsFilePath(path).CheckFileExists(path);
             using(Stream stream = new FileStream(path, FileMode.Open, FileAccess.Read))
             {
-                XmlSerializer _serializer = new XmlSerializer(typeof(IEnumerable<T>));
-                return (IEnumerable<T>)_serializer.Deserialize(stream);
+                XmlSerializer serializer = new XmlSerializer(typeof(IEnumerable<T>));
+                return (IEnumerable<T>)serializer.Deserialize(stream);
             }
         }
 
@@ -43,14 +43,14 @@
         public static string DeserializeToString(string path)
         {
             ValidateOperator.Begin().NotNullOrEmpty(path, "XML文件").IsFilePath(path).CheckFileExists(path);
-            XmlDocument _xmlDoc = new XmlDocument();
-            _xmlDoc.Load(path);
-            StringBuilder _builder = new StringBuilder();
-            StringWriter _xmlSw = new StringWriter(_builder);
-            XmlTextWriter _xmlWriter = new XmlTextWriter(_xmlSw);
-            _xmlWriter.Formatting = Formatting.Indented;
-            _xmlDoc.WriteContentTo(_xmlWriter);
-            return _builder.ToString();
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.Load(path);
+            StringBuilder builder = new StringBuilder();
+            StringWriter xmlSw = new StringWriter(builder);
+            XmlTextWriter xmlWriter = new XmlTextWriter(xmlSw);
+            xmlWriter.Formatting = Formatting.Indented;
+            xmlDoc.WriteContentTo(xmlWriter);
+            return builder.ToString();
         }
 
         /// <summary>
@@ -67,12 +67,12 @@
             ValidateOperator.Begin().NotNull(data, "需要序列化集合").NotNullOrEmpty(path, "XML文件").IsFilePath(path);
             using(Stream stream = new FileStream(path, FileMode.Create, FileAccess.Write))
             {
-                XmlTextWriter _xmlTextWriter = new XmlTextWriter(stream, new UTF8Encoding(false));
-                _xmlTextWriter.Formatting = Formatting.Indented;
-                XmlSerializer _xmlSerializer = new XmlSerializer(data.GetType());
-                _xmlSerializer.Serialize(_xmlTextWriter, data);
-                _xmlTextWriter.Flush();
-                _xmlTextWriter.Close();
+                XmlTextWriter xmlTextWriter = new XmlTextWriter(stream, new UTF8Encoding(false));
+                xmlTextWriter.Formatting = Formatting.Indented;
+                XmlSerializer xmlSerializer = new XmlSerializer(data.GetType());
+                xmlSerializer.Serialize(xmlTextWriter, data);
+                xmlTextWriter.Flush();
+                xmlTextWriter.Close();
             }
         }
 
@@ -90,12 +90,12 @@
             ValidateOperator.Begin().NotNull(model, "需要序列化对象").NotNullOrEmpty(path, "XML文件").IsFilePath(path);
             using(Stream stream = new FileStream(path, FileMode.Create, FileAccess.Write))
             {
-                XmlTextWriter _xmlTextWriter = new XmlTextWriter(stream, new UTF8Encoding(false));
-                _xmlTextWriter.Formatting = Formatting.Indented;
-                XmlSerializer _xmlSerializer = new XmlSerializer(model.GetType());
-                _xmlSerializer.Serialize(_xmlTextWriter, model);
-                _xmlTextWriter.Flush();
-                _xmlTextWriter.Close();
+                XmlTextWriter xmlTextWriter = new XmlTextWriter(stream, new UTF8Encoding(false));
+                xmlTextWriter.Formatting = Formatting.Indented;
+                XmlSerializer xmlSerializer = new XmlSerializer(model.GetType());
+                xmlSerializer.Serialize(xmlTextWriter, model);
+                xmlTextWriter.Flush();
+                xmlTextWriter.Close();
             }
         }
 

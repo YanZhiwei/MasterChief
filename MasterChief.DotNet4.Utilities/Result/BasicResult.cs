@@ -30,7 +30,9 @@
         /// <param name="data">返回数据</param>
         public BasicResult(string message, T data)
         {
-            Message = message == null ? null : message.Trim();
+            // ReSharper disable once VirtualMemberCallInConstructor
+            Message = message?.Trim();
+            // ReSharper disable once VirtualMemberCallInConstructor
             Data = data;
         }
 

@@ -42,8 +42,8 @@
         /// <returns>CheckResult</returns>
         public static CheckResult Fail(string message)
         {
-            CheckResult _item = new CheckResult(message, false);
-            return _item;
+            CheckResult item = new CheckResult(message, false);
+            return item;
         }
 
         /// <summary>
@@ -53,8 +53,8 @@
         /// <returns>CheckResult</returns>
         public static CheckResult Success(string message)
         {
-            CheckResult _item = new CheckResult(message, true);
-            return _item;
+            CheckResult item = new CheckResult(message, true);
+            return item;
         }
 
         /// <summary>
@@ -113,8 +113,8 @@
         /// <returns>CheckResult</returns>
         public static CheckResult<T> Fail(string message)
         {
-            CheckResult<T> _item = new CheckResult<T>(message, false, default(T));
-            return _item;
+            CheckResult<T> item = new CheckResult<T>(message, false, default(T));
+            return item;
         }
 
         /// <summary>
@@ -125,8 +125,8 @@
         /// <returns>CheckResult</returns>
         public static CheckResult<T> Success(string message, T data)
         {
-            CheckResult<T> _item = new CheckResult<T>(message, true, data);
-            return _item;
+            CheckResult<T> item = new CheckResult<T>(message, true, data);
+            return item;
         }
 
         /// <summary>

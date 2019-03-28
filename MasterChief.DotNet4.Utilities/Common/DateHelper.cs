@@ -209,27 +209,27 @@ namespace MasterChief.DotNet4.Utilities.Common
 
             switch (part)
             {
-                case DateTimePart.year:
+                case DateTimePart.Year:
                     result = endTime.Year - startTime.Year;
                     break;
 
-                case DateTimePart.month:
+                case DateTimePart.Month:
                     result = (endTime.Year - startTime.Year) * 12 + (endTime.Month - startTime.Month);
                     break;
 
-                case DateTimePart.day:
+                case DateTimePart.Day:
                     result = (int)(endTime - startTime).TotalDays;
                     break;
 
-                case DateTimePart.hour:
+                case DateTimePart.Hour:
                     result = (int)(endTime - startTime).TotalHours;
                     break;
 
-                case DateTimePart.minute:
+                case DateTimePart.Minute:
                     result = (int)(endTime - startTime).TotalMinutes;
                     break;
 
-                case DateTimePart.second:
+                case DateTimePart.Second:
                     result = (int)(endTime - startTime).TotalSeconds;
                     break;
             }

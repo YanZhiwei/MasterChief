@@ -23,7 +23,7 @@ namespace MasterChief.DotNet.ProjectTemplate.WebApi.Helper
             string[] data = { appSecret, timestamp, nonce };
             Array.Sort(data);
             string signatureString = string.Join("", data);
-            signatureString = MD5Encryptor.Encrypt(signatureString);
+            signatureString = Md5Encryptor.Encrypt(signatureString);
             return signatureString;
         }
 
@@ -41,7 +41,7 @@ namespace MasterChief.DotNet.ProjectTemplate.WebApi.Helper
             string[] data = { appSecret, timestamp, nonce };
             Array.Sort(data);
             string signatureString = string.Join("", data);
-            signatureString = MD5Encryptor.Encrypt(signatureString);
+            signatureString = Md5Encryptor.Encrypt(signatureString);
 
             if (signature.CompareIgnoreCase(signatureString) && CheckHelper.IsNumber(timestamp))
             {

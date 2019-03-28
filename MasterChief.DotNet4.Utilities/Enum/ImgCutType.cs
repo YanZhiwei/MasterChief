@@ -8,7 +8,7 @@
         /// <summary>
         /// 根据高宽剪切
         /// </summary>
-        CutWH = 1,
+        CutWh = 1,
 
         /// <summary>
         /// 根据宽剪切

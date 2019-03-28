@@ -361,7 +361,7 @@
 
                 switch (cutType)
                 {
-                    case ImgCutType.CutWH://指定高宽缩放（可能变形）
+                    case ImgCutType.CutWh://指定高宽缩放（可能变形）
                         break;
 
                     case ImgCutType.CutW://指定宽，高按比例
@@ -683,22 +683,22 @@
 
             switch (position)
             {
-                case ImgWaterPosition.center:
+                case ImgWaterPosition.Center:
                     x = (sourceImageWidth - sourceSize.Width) / 2;
                     y = (sourceImageHight - sourceSize.Height) / 2;
                     break;
 
-                case ImgWaterPosition.topLeft:
+                case ImgWaterPosition.TopLeft:
                     x = padding;
                     y = padding;
                     break;
 
-                case ImgWaterPosition.topRight:
+                case ImgWaterPosition.TopRight:
                     x = (sourceImageWidth - sourceSize.Width) - padding;
                     y = padding;
                     break;
 
-                case ImgWaterPosition.bottomLeft:
+                case ImgWaterPosition.BottomLeft:
                     x = padding;
                     y = (sourceImageHight - sourceSize.Height) - padding;
                     break;

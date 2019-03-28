@@ -1,33 +1,33 @@
-﻿namespace MasterChief.DotNet4.Utilities.Manager
-{
-    using Common;
-    using MasterChief.DotNet4.Utilities.Operator;
-    using System.Runtime.InteropServices;
-    using System.Text;
+﻿using System.Runtime.InteropServices;
+using System.Text;
+using MasterChief.DotNet4.Utilities.Common;
+using MasterChief.DotNet4.Utilities.Operator;
 
+namespace MasterChief.DotNet4.Utilities.Manager
+{
     /// <summary>
-    /// INI文件操作
+    ///     INI文件操作
     /// </summary>
     /// 时间：2016/8/25 14:59
     /// 备注：
-    public class INIManager
+    public class IniManager
     {
-        private readonly string _filePath = null;
+        private readonly string _filePath;
 
         /// <summary>
-        /// 构造函数
+        ///     构造函数
         /// </summary>
         /// <param name="path">INI文件路径</param>
         /// 时间：2016/8/25 15:00
         /// 备注：
-        public INIManager(string path)
+        public IniManager(string path)
         {
             FileHelper.CreatePath(path);
             _filePath = path;
         }
 
         /// <summary>
-        /// 读取INI
+        ///     读取INI
         /// </summary>
         /// <param name="section">段落名称</param>
         /// <param name="key">关键字</param>
@@ -35,13 +35,13 @@
         public string Get(string section, string key)
         {
             CheckedINIParamter(section, key);
-            StringBuilder builder = new StringBuilder(500);
+            var builder = new StringBuilder(500);
             GetPrivateProfileString(section, key, string.Empty, builder, 500, _filePath);
             return builder.ToString();
         }
 
         /// <summary>
-        /// 读取INI
+        ///     读取INI
         /// </summary>
         /// <param name="section">段落名称</param>
         /// <param name="key">关键字</param>
@@ -50,14 +50,14 @@
         public string Get(string section, string key, string defaultValue)
         {
             CheckedINIParamter(section, key);
-            StringBuilder builder = new StringBuilder(500);
+            var builder = new StringBuilder(500);
             GetPrivateProfileString(section, key, defaultValue, builder, 500, _filePath);
             return builder.ToString();
         }
 
         /// <summary>
-        /// 写入INI
-        /// eg:_iniHelper.WriteValue("测试", "Name", "YanZhiwei");
+        ///     写入INI
+        ///     eg:_iniHelper.WriteValue("测试", "Name", "YanZhiwei");
         /// </summary>
         /// <param name="section">段落名称</param>
         /// <param name="key">关键字</param>
@@ -69,7 +69,7 @@
         }
 
         /// <summary>
-        /// 声明INI文件的读操作函数
+        ///     声明INI文件的读操作函数
         /// </summary>
         /// <param name="section">段落名称</param>
         /// <param name="key">关键字</param>
@@ -79,10 +79,11 @@
         /// <param name="filePath">路径</param>
         /// <returns></returns>
         [DllImport("kernel32")]
-        private static extern int GetPrivateProfileString(string section, string key, string def, StringBuilder retVal, int size, string filePath);
+        private static extern int GetPrivateProfileString(string section, string key, string def, StringBuilder retVal,
+            int size, string filePath);
 
         /// <summary>
-        /// 声明INI文件的写操作函数
+        ///     声明INI文件的写操作函数
         /// </summary>
         /// <param name="section">段落名称</param>
         /// <param name="key">关键字</param>

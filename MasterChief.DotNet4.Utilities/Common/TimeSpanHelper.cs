@@ -1,18 +1,19 @@
-﻿namespace MasterChief.DotNet4.Utilities.Common
-{
-    using System;
+﻿using System;
 
+namespace MasterChief.DotNet4.Utilities.Common
+{
     /// <summary>
-    /// TimeSpan帮助类
+    ///     TimeSpan帮助类
     /// </summary>
     /// 创建时间:2015-06-30 15:39
-    /// 备注说明:<c>null</c>
+    /// 备注说明:
+    /// <c>null</c>
     public static class TimeSpanHelper
     {
         #region Methods
 
         /// <summary>
-        /// 添加小时
+        ///     添加小时
         /// </summary>
         /// <param name="ts">TimeSpan</param>
         /// <param name="hours">小时</param>
@@ -23,7 +24,7 @@
         }
 
         /// <summary>
-        /// 添加分钟
+        ///     添加分钟
         /// </summary>
         /// <param name="ts">TimeSpan</param>
         /// <param name="minutes">分钟</param>
@@ -34,7 +35,7 @@
         }
 
         /// <summary>
-        /// 添加秒
+        ///     添加秒
         /// </summary>
         /// <param name="ts">TimeSpan</param>
         /// <param name="seconds">秒</param>
@@ -45,47 +46,44 @@
         }
 
         /// <summary>
-        /// 格式化时间
-        /// <para>eg: Assert.AreEqual("14:01", TimeSpanHelper.FormatTime(new TimeSpan(14, 1, 2)));</para>
+        ///     格式化时间
+        ///     <para>eg: Assert.AreEqual("14:01", TimeSpanHelper.FormatTime(new TimeSpan(14, 1, 2)));</para>
         /// </summary>
         /// <param name="date">The timefield.</param>
         /// <returns>格式化后的字符串</returns>
         public static string FormatTime(this TimeSpan date)
         {
             if (date.Hours == 0 && date.Minutes == 0)
-            {
                 return "24:00";
-            }
-            else
-            {
-                return date.Hours.ToString().PadLeft(2, '0') + ":" + date.Minutes.ToString().PadLeft(2, '0');
-            }
+            return date.Hours.ToString().PadLeft(2, '0') + ":" + date.Minutes.ToString().PadLeft(2, '0');
         }
 
         /// <summary>
-        /// 将时间字符串转换成TimeSpan
-        /// <para>eg: Assert.AreEqual(new TimeSpan(12, 12, 0), TimeSpanHelper.ParseTimeString("12:12:00"));</para>
+        ///     将时间字符串转换成TimeSpan
+        ///     <para>eg: Assert.AreEqual(new TimeSpan(12, 12, 0), TimeSpanHelper.ParseTimeString("12:12:00"));</para>
         /// </summary>
         /// <param name="timeString">时间字符串</param>
         /// <returns>TimeSpan</returns>
         /// 创建时间:2015-06-30 15:39
-        /// 备注说明:<c>null</c>
+        /// 备注说明:
+        /// <c>null</c>
         public static TimeSpan ParseTimeString(this string timeString)
         {
-            TimeSpan.TryParse(timeString, out TimeSpan _timeSpan);
-            return _timeSpan;
+            TimeSpan.TryParse(timeString, out var timeSpan);
+            return timeSpan;
         }
 
         /// <summary>
-        /// 将日期设置为今天
+        ///     将日期设置为今天
         /// </summary>
         /// <param name="ts">TimeSpan</param>
         /// <returns>TimeSpan</returns>
         /// 创建时间:2015-06-30 15:43
-        /// 备注说明:<c>null</c>
+        /// 备注说明:
+        /// <c>null</c>
         public static TimeSpan SetToday(this TimeSpan ts)
         {
-            DateTime now = DateTime.Now;
+            var now = DateTime.Now;
             return new TimeSpan(now.Day, ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds);
         }
 

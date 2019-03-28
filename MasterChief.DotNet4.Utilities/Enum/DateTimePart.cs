@@ -8,31 +8,31 @@
         /// <summary>
         /// 年
         /// </summary>
-        year,
+        Year,
 
         /// <summary>
         /// 月
         /// </summary>
-        month,
+        Month,
 
         /// <summary>
         /// 日
         /// </summary>
-        day,
+        Day,
 
         /// <summary>
         /// 小时
         /// </summary>
-        hour,
+        Hour,
 
         /// <summary>
         /// 分钟
         /// </summary>
-        minute,
+        Minute,
 
         /// <summary>
         /// 秒
         /// </summary>
-        second
+        Second
     }
 }

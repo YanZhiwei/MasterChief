@@ -1,9 +1,9 @@
-﻿namespace MasterChief.DotNet4.Utilities.Common
-{
-    using System;
+﻿using System;
 
+namespace MasterChief.DotNet4.Utilities.Common
+{
     /// <summary>
-    /// Unix 时间戳 帮助类
+    ///     Unix 时间戳 帮助类
     /// </summary>
     public static class UnixEpochHelper
     {
@@ -22,7 +22,7 @@
          */
 
         /// <summary>
-        /// Unix 时间戳
+        ///     Unix 时间戳
         /// </summary>
         private static readonly DateTime UnixEpochUtcValue;
 
@@ -31,7 +31,7 @@
         #region Constructors
 
         /// <summary>
-        /// Initializes the <see cref="UnixEpochHelper"/> class.
+        ///     Initializes the <see cref="UnixEpochHelper" /> class.
         /// </summary>
         static UnixEpochHelper()
         {
@@ -43,7 +43,7 @@
         #region Methods
 
         /// <summary>
-        /// 将Unix时间戳转换成DateTime
+        ///     将Unix时间戳转换成DateTime
         /// </summary>
         /// <param name="millis">毫秒</param>
         /// <returns>DateTime</returns>
@@ -53,12 +53,12 @@
         }
 
         /// <summary>
-        /// 获取当前时间Unix时间戳
+        ///     获取当前时间Unix时间戳
         /// </summary>
         /// <returns>Unix时间戳</returns>
         public static TimeSpan GetCurrentUnixTimestamp()
         {
-            return (DateTime.UtcNow - UnixEpochUtcValue);
+            return DateTime.UtcNow - UnixEpochUtcValue;
         }
 
         #endregion Methods

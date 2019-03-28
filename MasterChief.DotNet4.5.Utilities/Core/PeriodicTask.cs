@@ -5,12 +5,12 @@ using System.Threading.Tasks;
 namespace MasterChief.DotNet4._5.Utilities.Core
 {
     /// <summary>
-    /// 基于Task的定期任务
+    ///     基于Task的定期任务
     /// </summary>
     public static class PeriodicTask
     {
         /// <summary>
-        /// 执行
+        ///     执行
         /// </summary>
         /// <param name="action">业务逻辑</param>
         /// <param name="period">间隔周期</param>
@@ -22,15 +22,12 @@ namespace MasterChief.DotNet4._5.Utilities.Core
             {
                 await Task.Delay(period, cancellationToken);
 
-                if (!cancellationToken.IsCancellationRequested)
-                {
-                    action();
-                }
+                if (!cancellationToken.IsCancellationRequested) action();
             }
         }
 
         /// <summary>
-        /// 执行
+        ///     执行
         /// </summary>
         /// <param name="action">业务逻辑</param>
         /// <param name="period">间隔周期</param>

@@ -1,17 +1,17 @@
-﻿namespace MasterChief.DotNet4.Utilities.Common
-{
-    using System;
-    using System.Text;
+﻿using System;
+using System.Text;
 
+namespace MasterChief.DotNet4.Utilities.Common
+{
     /// <summary>
-    /// Exception帮助类
+    ///     Exception帮助类
     /// </summary>
     public static class ExceptionHelper
     {
         #region Methods
 
         /// <summary>
-        /// 格式化异常消息
+        ///     格式化异常消息
         /// </summary>
         /// <param name="ex">Exception</param>
         /// <param name="isHideStackTrace">是否显示堆栈信息</param>
@@ -19,7 +19,7 @@
         /// <returns>格式化后异常信息</returns>
         public static string FormatMessage(this Exception ex, bool isHideStackTrace, string appString = "  ")
         {
-            StringBuilder builder = new StringBuilder();
+            var builder = new StringBuilder();
 
             while (ex != null)
             {
@@ -28,15 +28,9 @@
                 builder.AppendLine($"{appString}异常方法：{(ex.TargetSite == null ? null : ex.TargetSite.Name)}");
                 builder.AppendLine($"{appString}异常来源：{ex.Source}");
 
-                if (!isHideStackTrace && ex.StackTrace != null)
-                {
-                    builder.AppendLine($"{appString}异常堆栈：{ex.StackTrace}");
-                }
+                if (!isHideStackTrace && ex.StackTrace != null) builder.AppendLine($"{appString}异常堆栈：{ex.StackTrace}");
 
-                if (ex.InnerException != null)
-                {
-                    builder.AppendLine($"{appString}内部异常：");
-                }
+                if (ex.InnerException != null) builder.AppendLine($"{appString}内部异常：");
 
                 ex = ex.InnerException;
             }
@@ -45,7 +39,7 @@
         }
 
         /// <summary>
-        /// 获取innerException
+        ///     获取innerException
         /// </summary>
         /// <param name="ex">Exception</param>
         /// <returns>Exception</returns>
@@ -53,35 +47,25 @@
         /// 备注：
         public static Exception GetOriginalException(this Exception ex)
         {
-            if (ex.InnerException == null)
-            {
-                return ex;
-            }
+            if (ex.InnerException == null) return ex;
 
             return ex.InnerException.GetOriginalException();
         }
 
         /// <summary>
-        /// 判断异常是哪个异常类型
+        ///     判断异常是哪个异常类型
         /// </summary>
         /// <typeparam name="T">泛型</typeparam>
         /// <param name="source">Exception</param>
         /// <returns>判断异常类型</returns>
         public static bool Is<T>(this Exception source)
-        where T : Exception
+            where T : Exception
         {
             if (source is T)
-            {
                 return true;
-            }
-            else if (source.InnerException != null)
-            {
+            if (source.InnerException != null)
                 return source.InnerException.Is<T>();
-            }
-            else
-            {
-                return false;
-            }
+            return false;
         }
 
         #endregion Methods

@@ -54,8 +54,8 @@
         /// <returns>OperatedResult</returns>
         public static OperatedResult<T> Fail(string message)
         {
-            OperatedResult<T> _failResult = new OperatedResult<T>(message, default(T), false);
-            return _failResult;
+            OperatedResult<T> failResult = new OperatedResult<T>(message, default(T), false);
+            return failResult;
         }
 
         /// <summary>
@@ -66,8 +66,8 @@
         /// <returns>OperatedResult</returns>
         public static OperatedResult<T> Success(string message, T data)
         {
-            OperatedResult<T> _successResult = new OperatedResult<T>(message, data, true);
-            return _successResult;
+            OperatedResult<T> successResult = new OperatedResult<T>(message, data, true);
+            return successResult;
         }
 
         /// <summary>
@@ -77,8 +77,8 @@
         /// <returns>OperatedResult</returns>
         public static OperatedResult<T> Success(T data)
         {
-            OperatedResult<T> _successResult = new OperatedResult<T>(null, data, true);
-            return _successResult;
+            OperatedResult<T> successResult = new OperatedResult<T>(null, data, true);
+            return successResult;
         }
 
         #endregion Methods
@@ -127,8 +127,8 @@
         /// <returns>OperatedResult</returns>
         public static OperatedResult Fail(string message)
         {
-            OperatedResult _failResult = new OperatedResult(message, null, false);
-            return _failResult;
+            OperatedResult failResult = new OperatedResult(message, null, false);
+            return failResult;
         }
 
         /// <summary>
@@ -139,8 +139,8 @@
         /// <returns>OperatedResult</returns>
         public static OperatedResult Success(string message, string data)
         {
-            OperatedResult _successResult = new OperatedResult(message, data, true);
-            return _successResult;
+            OperatedResult successResult = new OperatedResult(message, data, true);
+            return successResult;
         }
 
         /// <summary>
@@ -150,8 +150,8 @@
         /// <returns>OperatedResult</returns>
         public static OperatedResult Success(string data)
         {
-            OperatedResult _successResult = new OperatedResult(null, data, true);
-            return _successResult;
+            OperatedResult successResult = new OperatedResult(null, data, true);
+            return successResult;
         }
 
         /// <summary>
@@ -160,8 +160,8 @@
         /// <returns>OperatedResult</returns>
         public static OperatedResult Success()
         {
-            OperatedResult _successResult = new OperatedResult(null, null, true);
-            return _successResult;
+            OperatedResult successResult = new OperatedResult(null, null, true);
+            return successResult;
         }
 
         #endregion Methods
