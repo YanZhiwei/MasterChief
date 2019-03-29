@@ -76,8 +76,6 @@
     <Compile Include="Filter\ValidateModelAttribute.cs" />
     <Compile Include="Filter\ControllerCacheAttribute.cs" />
     <Compile Include="Helper\HttpRequestMessageHelper.cs" />
-    <Compile Include="Helper\JwtHelper.cs" />
-    <Compile Include="Helper\SignatureHelper.cs" />
     <Compile Include="IApiAuthenticate.cs" />
     <Compile Include="IApiAuthorize.cs" />
     <Compile Include="AuthorizeController.cs" />

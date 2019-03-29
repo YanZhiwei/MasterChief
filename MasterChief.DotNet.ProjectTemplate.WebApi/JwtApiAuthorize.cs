@@ -24,8 +24,13 @@ namespace MasterChief.DotNet.ProjectTemplate.WebApi
         /// <param name="nonce">随机数</param>
         /// <param name="appConfig">应用接入配置信息</param>
         /// <returns>CheckResult</returns>
-        public CheckResult CheckRequestSignature(string signature, string timestamp, string nonce, Model.AppConfig appConfig)
+        public CheckResult CheckRequestSignature(string signature, string timestamp, string nonce, AppConfig appConfig)
         {
+            ValidateOperator.Begin()
+                .NotNullOrEmpty(signature, "加密签名字符串")
+                .NotNullOrEmpty(timestamp, "时间戳")
+                .NotNullOrEmpty(nonce, "随机数")
+                .NotNull(appConfig, "AppConfig");
             var appSecret = appConfig.AppSecret;
             var signatureExpired = appConfig.SignatureExpiredMinutes;
             string[] data = {appSecret, timestamp, nonce};
@@ -48,8 +53,11 @@ namespace MasterChief.DotNet.ProjectTemplate.WebApi
         /// <param name="identityUser">IdentityUser</param>
         /// <param name="appConfig">AppConfig</param>
         /// <returns>IdentityToken</returns>
-        public OperatedResult<IdentityToken> CreateIdentityToken(IdentityUser identityUser, Model.AppConfig appConfig)
+        public OperatedResult<IdentityToken> CreateIdentityToken(IdentityUser identityUser, AppConfig appConfig)
         {
+            ValidateOperator.Begin()
+                .NotNull(identityUser, "IdentityUser")
+                .NotNull(appConfig, "AppConfig");
             var payload = new Dictionary<string, object>
             {
                 {"iss", identityUser.UserId},

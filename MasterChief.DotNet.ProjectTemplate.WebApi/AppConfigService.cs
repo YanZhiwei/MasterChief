@@ -19,6 +19,7 @@ namespace MasterChief.DotNet.ProjectTemplate.WebApi
         /// <param name="configContext">ConfigContext</param>
         public AppConfigService(ConfigContext configContext)
         {
+            ValidateOperator.Begin().NotNull(configContext, "ConfigContext");
             _configContext = configContext;
         }
 

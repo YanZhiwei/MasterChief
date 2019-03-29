@@ -4,7 +4,7 @@ using System.Net.Http.Headers;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
 using MasterChief.DotNet.Core.Cache;
-
+using MasterChief.DotNet4.Utilities.Operator;
 namespace MasterChief.DotNet.ProjectTemplate.WebApi.Filter
 {
     /// <summary>
@@ -22,6 +22,7 @@ namespace MasterChief.DotNet.ProjectTemplate.WebApi.Filter
         /// <param name="cacheProvider">ICacheProvider</param>
         protected ControllerCacheAttribute(bool dependsOnIdentity, ICacheProvider cacheProvider)
         {
+            ValidateOperator.Begin().NotNull(cacheProvider, "ICacheProvider");
             DependsOnIdentity = dependsOnIdentity;
             CacheProvider = cacheProvider;
         }

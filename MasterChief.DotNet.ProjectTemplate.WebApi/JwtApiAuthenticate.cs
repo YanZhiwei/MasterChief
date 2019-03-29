@@ -13,6 +13,9 @@ namespace MasterChief.DotNet.ProjectTemplate.WebApi
     {
         public OperatedResult<string> CheckIdentityToken(string token, AppConfig appConfig)
         {
+            ValidateOperator.Begin()
+                .NotNullOrEmpty(token, "Token")
+                .NotNull(appConfig, "AppConfig");
             try
             {
                 var tokenText = ParseTokens(token, appConfig.SharedKey);
@@ -47,7 +50,9 @@ namespace MasterChief.DotNet.ProjectTemplate.WebApi
         /// <returns>Token以及负载数据</returns>
         private string ParseTokens(string token, string secret)
         {
-            ValidateOperator.Begin().NotNullOrEmpty(token, "令牌").NotNullOrEmpty(secret, "密钥");
+            ValidateOperator.Begin()
+                .NotNullOrEmpty(token, "令牌")
+                .NotNullOrEmpty(secret, "密钥");
             try
             {
                 IJsonSerializer serializer = new JsonNetSerializer();

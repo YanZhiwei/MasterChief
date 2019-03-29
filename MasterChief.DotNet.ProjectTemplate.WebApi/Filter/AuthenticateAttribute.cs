@@ -8,6 +8,7 @@ namespace MasterChief.DotNet.ProjectTemplate.WebApi.Filter
     /// <summary>
     ///     WebApi 授权验证实现
     /// </summary>
+    [AttributeUsage(AttributeTargets.Method)]
     public abstract class AuthenticateAttribute : AuthorizationFilterAttribute
     {
         #region Constructors
