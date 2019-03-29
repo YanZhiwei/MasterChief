@@ -22,6 +22,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MasterChief.DotNet.Dapper.Utilities", "MasterChief.DotNet.Dapper.Utilities\MasterChief.DotNet.Dapper.Utilities.csproj", "{F7918827-A10B-4628-A956-32DB7CD61394}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{51CE4B8E-8E09-4CC9-A86A-FD79F752CF3A}"
+	ProjectSection(SolutionItems) = preProject
+		MasterChief.DotNet.ProjectTemplate.Mvc\Class1.cs = MasterChief.DotNet.ProjectTemplate.Mvc\Class1.cs
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{7E10B6E4-2FEF-4DD1-ADF7-38DAF8DD822D}"
 EndProject
@@ -105,6 +108,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugins", "Plugins", "{02F40834-5582-469F-B79D-6554AC864547}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Serializer", "Serializer", "{4FC57174-F0A4-4D3F-AF73-A48859490458}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MasterChief.DotNet.ProjectTemplate.Mvc", "MasterChief.DotNet.ProjectTemplate.Mvc\MasterChief.DotNet.ProjectTemplate.Mvc.csproj", "{793A1143-3632-4E6B-8B1C-C84577D674EE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -224,6 +229,10 @@ Global
 		{5C6ED6F9-E0FB-4896-9111-69436E795F77}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5C6ED6F9-E0FB-4896-9111-69436E795F77}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5C6ED6F9-E0FB-4896-9111-69436E795F77}.Release|Any CPU.Build.0 = Release|Any CPU
+		{793A1143-3632-4E6B-8B1C-C84577D674EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{793A1143-3632-4E6B-8B1C-C84577D674EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{793A1143-3632-4E6B-8B1C-C84577D674EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{793A1143-3632-4E6B-8B1C-C84577D674EE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -270,6 +279,7 @@ Global
 		{5C6ED6F9-E0FB-4896-9111-69436E795F77} = {02F40834-5582-469F-B79D-6554AC864547}
 		{02F40834-5582-469F-B79D-6554AC864547} = {12446941-BCC3-4AA9-BAAA-B936EF55F589}
 		{4FC57174-F0A4-4D3F-AF73-A48859490458} = {51CE4B8E-8E09-4CC9-A86A-FD79F752CF3A}
+		{793A1143-3632-4E6B-8B1C-C84577D674EE} = {689C0693-D286-4E9C-B39E-090AF0EC27C8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {90963A27-01A3-467E-9098-A6E345A4F839}

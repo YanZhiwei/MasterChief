@@ -10,6 +10,7 @@ namespace MasterChief.DotNet.ProjectTemplate.WebApi.Filter
     /// <summary>
     ///     缓存
     /// </summary>
+    [AttributeUsage(AttributeTargets.Method)]
     public abstract class ControllerCacheAttribute : ActionFilterAttribute
     {
         #region Constructors

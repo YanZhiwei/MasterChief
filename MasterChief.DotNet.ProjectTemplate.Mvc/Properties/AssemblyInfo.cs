@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // 有关程序集的一般信息由以下
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
-[assembly: AssemblyTitle("MasterChief.DotNet.ProjectTemplate.WebApi")]
-[assembly: AssemblyDescription("默认实现基于Jwt授权，验证；异常处理，参数验证，请求缓存等功能，方便快速构建WebApi项目；")]
+[assembly: AssemblyTitle("MasterChief.DotNet.ProjectTemplate.Mvc")]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("MasterChief.DotNet.ProjectTemplate.WebApi")]
-[assembly: AssemblyCopyright("Copyright © YanZhiwei 2019")]
+[assembly: AssemblyProduct("MasterChief.DotNet.ProjectTemplate.Mvc")]
+[assembly: AssemblyCopyright("Copyright ©  2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // 如果此项目向 COM 公开，则下列 GUID 用于类型库的 ID
-[assembly: Guid("2e454d79-c5f6-48b8-a58f-88c5f4e7378b")]
+[assembly: Guid("793a1143-3632-4e6b-8b1c-c84577d674ee")]
 
 // 程序集的版本信息由下列四个值组成: 
 //
@@ -29,8 +29,8 @@ using System.Runtime.InteropServices;
 //      生成号
 //      修订号
 //
-// 可以指定所有值，也可以使用以下所示的 "*" 预置版本号和修订号
+//可以指定所有这些值，也可以使用“生成号”和“修订号”的默认值
 //通过使用 "*"，如下所示:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.1")]
-[assembly: AssemblyFileVersion("1.0.0.1")]
+[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyFileVersion("1.0.0.0")]

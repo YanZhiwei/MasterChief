@@ -15,7 +15,7 @@ namespace MasterChief.DotNet.ProjectTemplate.WebApi
         /// <summary>
         ///     当前通道ID
         /// </summary>
-        public Guid CurrentAppId => Request.GetUriOrHeaderValue("Access_appId").ToGuidOrDefault(Guid.Empty);
+        public Guid CurrentAppId => Request.GetUriOrHeaderValue("Access_appId").ToGuidOrDefault();
 
         /// <summary>
         ///     当前令牌
@@ -25,7 +25,7 @@ namespace MasterChief.DotNet.ProjectTemplate.WebApi
         /// <summary>
         ///     当前用户
         /// </summary>
-        public Guid CurrentUserId => Request.GetUriOrHeaderValue("Access_userId").ToGuidOrDefault(Guid.Empty);
+        public Guid CurrentUserId => Request.GetUriOrHeaderValue("Access_userId").ToGuidOrDefault();
 
         #endregion Properties
     }
