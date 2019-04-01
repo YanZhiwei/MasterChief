@@ -32,13 +32,19 @@ namespace MasterChief.DotNet.ProjectTemplate.WebApi.Filter
         /// <param name="actionContext">操作上下文。</param>
         public override void OnActionExecuting(HttpActionContext actionContext)
         {
-            if (actionContext.ActionArguments.Any(kv => kv.Value == null)) OnParameterIsNulling(actionContext);
-
             if (!actionContext.ModelState.IsValid)
             {
-                var validateFailedResult =
-                    new ValidationFailedResult(422, "请求格式正确，但是由于含有语义错误，无法响应。", actionContext.ModelState);
-                OnParameterInvaliding(actionContext, validateFailedResult);
+                if (actionContext.ActionArguments.Any(kv => kv.Value == null))
+                {
+                    OnParameterIsNulling(actionContext);
+                }
+                else
+                {
+                    var validateFailedResult =
+                        new ValidationFailedResult(422, "请求格式正确，但是由于含有语义错误，无法响应。", actionContext.ModelState);
+                    OnParameterInvaliding(actionContext, validateFailedResult);
+                }
+
                 //actionContext.Response = actionContext.Request.CreateResponse(HttpStatusCode.BadRequest, OnParameterInvalid(_validateFailedResult));
             }
         }

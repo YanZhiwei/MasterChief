@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Web.Http.Filters;
+using MasterChief.DotNet.ProjectTemplate.WebApi.Result;
 using MasterChief.DotNet4.Utilities.Operator;
 using MasterChief.DotNet4.Utilities.Result;
 
@@ -51,14 +52,14 @@ namespace MasterChief.DotNet.ProjectTemplate.WebApi.Filter
         /// <param name="token">令牌</param>
         /// <param name="appid">应用ID</param>
         /// <returns>CheckResult</returns>
-        protected virtual OperatedResult<string> CheckIdentityToken(string token, Guid appid)
+        protected virtual ApiResult<string> CheckIdentityToken(string token, Guid appid)
         {
             #region 请求参数检查
 
             var checkResult = CheckRequest(token, appid);
 
             if (!checkResult.State)
-                return OperatedResult<string>.Fail(checkResult.Message);
+                return ApiResult<string>.Fail(checkResult.Message);
 
             #endregion
 
@@ -66,7 +67,7 @@ namespace MasterChief.DotNet.ProjectTemplate.WebApi.Filter
 
             var getAppConfig = AppCfgService.Get(appid);
 
-            if (!getAppConfig.State) return OperatedResult<string>.Fail(getAppConfig.Message);
+            if (!getAppConfig.State) return ApiResult<string>.Fail(getAppConfig.Message);
             var appConfig = getAppConfig.Data;
 
             #endregion

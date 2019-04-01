@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
 [assembly: AssemblyTitle("MasterChief.DotNet.ProjectTemplate.WebApi")]
-[assembly: AssemblyDescription("默认实现基于Jwt授权，验证；异常处理，参数验证，请求缓存等功能，方便快速构建WebApi项目；")]
+[assembly: AssemblyDescription("默认实现基于Jwt授权，验证；异常处理，参数验证，请求缓存等功能，方便快速构建WebApi项目；\ngithub:https://github.com/YanZhiwei/MasterChief \ndemo:https://github.com/YanZhiwei/MasterChief.ProjectTemplate.WebApiSample \ne-mail:yan.zhiwei@hotmail.com")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("MasterChief.DotNet.ProjectTemplate.WebApi")]
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // 可以指定所有值，也可以使用以下所示的 "*" 预置版本号和修订号
 //通过使用 "*"，如下所示:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.1")]
-[assembly: AssemblyFileVersion("1.0.0.1")]
+[assembly: AssemblyVersion("1.0.0.4")]
+[assembly: AssemblyFileVersion("1.0.0.4")]

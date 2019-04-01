@@ -36,17 +36,17 @@
     <Reference Include="JWT, Version=5.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\JWT.5.0.1\lib\net46\JWT.dll</HintPath>
     </Reference>
-    <Reference Include="MasterChief.DotNet.Core.Cache, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MasterChief.DotNet.Core.Cache.1.0.0.1\lib\net40\MasterChief.DotNet.Core.Cache.dll</HintPath>
+    <Reference Include="MasterChief.DotNet.Core.Cache, Version=1.0.0.2, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MasterChief.DotNet.Core.Cache.1.0.0.2\lib\net40\MasterChief.DotNet.Core.Cache.dll</HintPath>
     </Reference>
-    <Reference Include="MasterChief.DotNet.Core.Config, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MasterChief.DotNet.Core.Config.1.0.0.1\lib\net40\MasterChief.DotNet.Core.Config.dll</HintPath>
+    <Reference Include="MasterChief.DotNet.Core.Config, Version=1.0.0.3, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MasterChief.DotNet.Core.Config.1.0.0.3\lib\net40\MasterChief.DotNet.Core.Config.dll</HintPath>
     </Reference>
-    <Reference Include="MasterChief.DotNet4.5.Utilities, Version=1.0.0.2, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MasterChief.DotNet4.5.Utilities.1.0.0.2\lib\net45\MasterChief.DotNet4.5.Utilities.dll</HintPath>
+    <Reference Include="MasterChief.DotNet4.5.Utilities, Version=1.0.0.3, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MasterChief.DotNet4.5.Utilities.1.0.0.3\lib\net45\MasterChief.DotNet4.5.Utilities.dll</HintPath>
     </Reference>
-    <Reference Include="MasterChief.DotNet4.Utilities, Version=1.0.0.4, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MasterChief.DotNet4.Utilities.1.0.0.4\lib\net40\MasterChief.DotNet4.Utilities.dll</HintPath>
+    <Reference Include="MasterChief.DotNet4.Utilities, Version=1.0.0.5, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MasterChief.DotNet4.Utilities.1.0.0.5\lib\net40\MasterChief.DotNet4.Utilities.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -76,6 +76,7 @@
     <Compile Include="Filter\ValidateModelAttribute.cs" />
     <Compile Include="Filter\ControllerCacheAttribute.cs" />
     <Compile Include="Helper\HttpRequestMessageHelper.cs" />
+    <Compile Include="Helper\SignatureHelper.cs" />
     <Compile Include="IApiAuthenticate.cs" />
     <Compile Include="IApiAuthorize.cs" />
     <Compile Include="AuthorizeController.cs" />
@@ -88,6 +89,7 @@
     <Compile Include="Model\ValidationError.cs" />
     <Compile Include="Model\ValidationFailedResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Result\ApiResult.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

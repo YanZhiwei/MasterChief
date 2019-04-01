@@ -4,6 +4,7 @@ using JWT;
 using JWT.Algorithms;
 using JWT.Serializers;
 using MasterChief.DotNet.ProjectTemplate.WebApi.Model;
+using MasterChief.DotNet.ProjectTemplate.WebApi.Result;
 using MasterChief.DotNet4.Utilities.Common;
 using MasterChief.DotNet4.Utilities.Encryptor;
 using MasterChief.DotNet4.Utilities.Operator;
@@ -53,7 +54,7 @@ namespace MasterChief.DotNet.ProjectTemplate.WebApi
         /// <param name="identityUser">IdentityUser</param>
         /// <param name="appConfig">AppConfig</param>
         /// <returns>IdentityToken</returns>
-        public OperatedResult<IdentityToken> CreateIdentityToken(IdentityUser identityUser, AppConfig appConfig)
+        public ApiResult<IdentityToken> CreateIdentityToken(IdentityUser identityUser, AppConfig appConfig)
         {
             ValidateOperator.Begin()
                 .NotNull(identityUser, "IdentityUser")
@@ -68,7 +69,7 @@ namespace MasterChief.DotNet.ProjectTemplate.WebApi
                 AccessToken = CreateIdentityToken(appConfig.SharedKey, payload),
                 ExpiresIn = appConfig.TokenExpiredDay * 24 * 3600
             };
-            return OperatedResult<IdentityToken>.Success(identityToken);
+            return ApiResult<IdentityToken>.Success(identityToken);
         }
 
         /// <summary>

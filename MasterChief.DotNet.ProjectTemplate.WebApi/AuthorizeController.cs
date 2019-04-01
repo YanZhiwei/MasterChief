@@ -1,5 +1,6 @@
 ﻿using System;
 using MasterChief.DotNet.ProjectTemplate.WebApi.Model;
+using MasterChief.DotNet.ProjectTemplate.WebApi.Result;
 using MasterChief.DotNet4.Utilities.Operator;
 using MasterChief.DotNet4.Utilities.Result;
 
@@ -54,7 +55,7 @@ namespace MasterChief.DotNet.ProjectTemplate.WebApi
         /// <param name="nonce">随机数</param>
         /// <param name="appid">应用接入ID</param>
         /// <returns>OperatedResult</returns>
-        protected virtual OperatedResult<IdentityToken> CreateIdentityToken(string userId, string passWord,
+        protected virtual ApiResult<IdentityToken> CreateIdentityToken(string userId, string passWord,
             string signature, string timestamp,
             string nonce, Guid appid)
         {
@@ -63,7 +64,7 @@ namespace MasterChief.DotNet.ProjectTemplate.WebApi
             var checkResult = CheckRequest(userId, passWord, signature, timestamp, nonce, appid);
 
             if (!checkResult.State)
-                return OperatedResult<IdentityToken>.Fail(checkResult.Message);
+                return ApiResult<IdentityToken>.Fail(checkResult.Message);
 
             #endregion
 
@@ -71,7 +72,7 @@ namespace MasterChief.DotNet.ProjectTemplate.WebApi
 
             var getIdentityUser = GetIdentityUser(userId, passWord);
 
-            if (!getIdentityUser.State) return OperatedResult<IdentityToken>.Fail(getIdentityUser.Message);
+            if (!getIdentityUser.State) return ApiResult<IdentityToken>.Fail(getIdentityUser.Message);
 
             #endregion
 
@@ -79,7 +80,7 @@ namespace MasterChief.DotNet.ProjectTemplate.WebApi
 
             var getAppConfig = AppCfgService.Get(appid);
 
-            if (!getAppConfig.State) return OperatedResult<IdentityToken>.Fail(getAppConfig.Message);
+            if (!getAppConfig.State) return ApiResult<IdentityToken>.Fail(getAppConfig.Message);
             var appConfig = getAppConfig.Data;
 
             #endregion
@@ -87,16 +88,16 @@ namespace MasterChief.DotNet.ProjectTemplate.WebApi
             #region 检查请求签名检查
 
             var checkSignatureResult = ApiAuthorize.CheckRequestSignature(signature, timestamp, nonce, appConfig);
-            if (!checkSignatureResult.State) return OperatedResult<IdentityToken>.Fail(checkSignatureResult.Message);
+            if (!checkSignatureResult.State) return ApiResult<IdentityToken>.Fail(checkSignatureResult.Message);
 
             #endregion
 
             #region 生成基于Jwt Token
 
             var getTokenResult = ApiAuthorize.CreateIdentityToken(getIdentityUser.Data, getAppConfig.Data);
-            if (!getTokenResult.State) return OperatedResult<IdentityToken>.Fail(getTokenResult.Message);
+            if (!getTokenResult.State) return ApiResult<IdentityToken>.Fail(getTokenResult.Message);
 
-            return OperatedResult<IdentityToken>.Success(getTokenResult.Data);
+            return ApiResult<IdentityToken>.Success(getTokenResult.Data);
 
             #endregion
         }

@@ -1,6 +1,5 @@
-﻿using System;
-using MasterChief.DotNet.ProjectTemplate.WebApi.Model;
-using MasterChief.DotNet4.Utilities.Result;
+﻿using MasterChief.DotNet.ProjectTemplate.WebApi.Model;
+using MasterChief.DotNet.ProjectTemplate.WebApi.Result;
 
 namespace MasterChief.DotNet.ProjectTemplate.WebApi
 {
@@ -17,7 +16,7 @@ namespace MasterChief.DotNet.ProjectTemplate.WebApi
         /// <param name="token">令牌</param>
         /// <param name="appConfig">AppConfig</param>
         /// <returns>CheckResult</returns>
-        OperatedResult<string> CheckIdentityToken(string token, AppConfig appConfig);
+        ApiResult<string> CheckIdentityToken(string token, AppConfig appConfig);
 
         #endregion Methods
     }

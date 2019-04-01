@@ -12,6 +12,6 @@
     <description>$description$</description>
     <releaseNotes></releaseNotes>
     <copyright>Copyright YanZhiwei 2019</copyright>
-    <tags>WebApi ProjectTemplate</tags>
+    <tags>WebApi Jwt</tags>
   </metadata>
 </package>

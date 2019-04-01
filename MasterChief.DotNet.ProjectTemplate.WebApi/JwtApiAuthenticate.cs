@@ -2,16 +2,25 @@
 using JWT;
 using JWT.Serializers;
 using MasterChief.DotNet.ProjectTemplate.WebApi.Model;
+using MasterChief.DotNet.ProjectTemplate.WebApi.Result;
 using MasterChief.DotNet4.Utilities.Common;
 using MasterChief.DotNet4.Utilities.Operator;
-using MasterChief.DotNet4.Utilities.Result;
 using Newtonsoft.Json.Linq;
 
 namespace MasterChief.DotNet.ProjectTemplate.WebApi
 {
+    /// <summary>
+    ///     基于Jwt 授权验证实现
+    /// </summary>
     public sealed class JwtApiAuthenticate : IApiAuthenticate
     {
-        public OperatedResult<string> CheckIdentityToken(string token, AppConfig appConfig)
+        /// <summary>
+        ///     检查Token是否合法
+        /// </summary>
+        /// <param name="token">用户令牌</param>
+        /// <param name="appConfig">AppConfig</param>
+        /// <returns></returns>
+        public ApiResult<string> CheckIdentityToken(string token, AppConfig appConfig)
         {
             ValidateOperator.Begin()
                 .NotNullOrEmpty(token, "Token")
@@ -20,7 +29,7 @@ namespace MasterChief.DotNet.ProjectTemplate.WebApi
             {
                 var tokenText = ParseTokens(token, appConfig.SharedKey);
                 if (string.IsNullOrEmpty(tokenText))
-                    return OperatedResult<string>.Fail("用户令牌Token为空");
+                    return ApiResult<string>.Fail("用户令牌Token为空");
 
                 dynamic root = JObject.Parse(tokenText);
                 string userid = root.iss;
@@ -29,16 +38,16 @@ namespace MasterChief.DotNet.ProjectTemplate.WebApi
                     new TimeSpan((int) (UnixEpochHelper.GetCurrentUnixTimestamp().TotalSeconds - iat))
                         .TotalDays > appConfig.TokenExpiredDay;
                 return validTokenExpired
-                    ? OperatedResult<string>.Fail($"用户ID{userid}令牌失效")
-                    : OperatedResult<string>.Success(userid);
+                    ? ApiResult<string>.Fail($"用户ID{userid}令牌失效")
+                    : ApiResult<string>.Success(userid);
             }
             catch (FormatException)
             {
-                return OperatedResult<string>.Fail("用户令牌非法");
+                return ApiResult<string>.Fail("用户令牌非法");
             }
             catch (SignatureVerificationException)
             {
-                return OperatedResult<string>.Fail("用户令牌非法");
+                return ApiResult<string>.Fail("用户令牌非法");
             }
         }
 
