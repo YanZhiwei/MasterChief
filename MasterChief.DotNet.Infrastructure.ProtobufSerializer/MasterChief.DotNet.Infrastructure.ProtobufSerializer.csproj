@@ -28,8 +28,8 @@
     <DocumentationFile>bin\Release\MasterChief.DotNet.Infrastructure.ProtobufSerializer.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MasterChief.DotNet.Infrastructure.Serialize, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MasterChief.DotNet.Infrastructure.Serialize.1.0.0\lib\net40\MasterChief.DotNet.Infrastructure.Serialize.dll</HintPath>
+    <Reference Include="MasterChief.DotNet.Infrastructure.Serialize, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MasterChief.DotNet.Infrastructure.Serialize.1.0.0.1\lib\net40\MasterChief.DotNet.Infrastructure.Serialize.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>

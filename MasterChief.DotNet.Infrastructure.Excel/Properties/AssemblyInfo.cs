@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 // Change them to the values specific to your project.
 
 [assembly: AssemblyTitle("MasterChief.DotNet.Infrastructure.Excel")]
-[assembly: AssemblyDescription("DotNet 对于EXCEL操作实现")]
+[assembly: AssemblyDescription("对于EXCEL导入导出操作实现\ngithub:https://github.com/YanZhiwei/MasterChief \ndemo:https://github.com/YanZhiwei/MasterChief.Infrastructure.ExcelSample \ne-mail:yan.zhiwei@hotmail.com")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("MasterChief.DotNet.Infrastructure.Excel")]
@@ -24,5 +24,5 @@ using System.Runtime.CompilerServices;
 
 //[assembly: AssemblyDelaySign(false)]
 //[assembly: AssemblyKeyFile("")]
-[assembly: AssemblyVersion("1.0.0.1")]
-[assembly: AssemblyFileVersion("1.0.0.1")]
+[assembly: AssemblyVersion("1.0.0.2")]
+[assembly: AssemblyFileVersion("1.0.0.2")]

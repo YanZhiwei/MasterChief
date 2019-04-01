@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 // Change them to the values specific to your project.
 
 [assembly: AssemblyTitle("MasterChief.DotNet.Infrastructure.Serialize")]
-[assembly: AssemblyDescription("DotNet 对于持久化操作实现")]
+[assembly: AssemblyDescription("基于Newtonsoft.Json的序列化与反序列化操作实现\ngithub:https://github.com/YanZhiwei/MasterChief \ndemo:https://github.com/YanZhiwei/MasterChief.Infrastructure.SerializerSample \ne-mail:yan.zhiwei@hotmail.com")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("MasterChief.DotNet.Infrastructure.Serialize")]
@@ -24,5 +24,5 @@ using System.Runtime.CompilerServices;
 
 //[assembly: AssemblyDelaySign(false)]
 //[assembly: AssemblyKeyFile("")]
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion("1.0.0.1")]
+[assembly: AssemblyFileVersion("1.0.0.1")]

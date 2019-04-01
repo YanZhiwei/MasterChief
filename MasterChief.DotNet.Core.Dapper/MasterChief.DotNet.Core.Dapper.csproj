@@ -35,11 +35,11 @@
     <Reference Include="Dapper.Contrib, Version=1.50.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Dapper.Contrib.1.50.0\lib\net40\Dapper.Contrib.dll</HintPath>
     </Reference>
-    <Reference Include="MasterChief.DotNet.Core.Contract, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MasterChief.DotNet.Core.Contract.1.0.0\lib\net40\MasterChief.DotNet.Core.Contract.dll</HintPath>
+    <Reference Include="MasterChief.DotNet.Core.Contract, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MasterChief.DotNet.Core.Contract.1.0.0.1\lib\net40\MasterChief.DotNet.Core.Contract.dll</HintPath>
     </Reference>
-    <Reference Include="MasterChief.DotNet4.Utilities, Version=1.0.0.2, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MasterChief.DotNet4.Utilities.1.0.0.2\lib\net40\MasterChief.DotNet4.Utilities.dll</HintPath>
+    <Reference Include="MasterChief.DotNet4.Utilities, Version=1.0.0.5, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MasterChief.DotNet4.Utilities.1.0.0.5\lib\net40\MasterChief.DotNet4.Utilities.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="Microsoft.CSharp" />

@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 // Change them to the values specific to your project.
 
 [assembly: AssemblyTitle("MasterChief.DotNet.Infrastructure.ProtobufSerializer")]
-[assembly: AssemblyDescription("DotNet 基于ProtoBuf的持久化操作实现")]
+[assembly: AssemblyDescription("基于ProtoBuf的序列化与反序列化操作实现\ngithub:https://github.com/YanZhiwei/MasterChief \ndemo:https://github.com/YanZhiwei/MasterChief.Infrastructure.SerializerSample \ne-mail:yan.zhiwei@hotmail.com")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("MasterChief.DotNet.Infrastructure.ProtobufSerializer")]
@@ -24,5 +24,5 @@ using System.Runtime.CompilerServices;
 
 //[assembly: AssemblyDelaySign(false)]
 //[assembly: AssemblyKeyFile("")]
-[assembly: AssemblyVersion("1.0.0.1")]
-[assembly: AssemblyFileVersion("1.0.0.1")]
+[assembly: AssemblyVersion("1.0.0.2")]
+[assembly: AssemblyFileVersion("1.0.0.2")]

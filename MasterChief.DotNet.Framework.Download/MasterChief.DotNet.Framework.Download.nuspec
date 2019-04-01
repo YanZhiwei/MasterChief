@@ -12,6 +12,6 @@
     <description>$description$</description>
     <releaseNotes></releaseNotes>
     <copyright>Copyright YanZhiwei 2019</copyright>
-    <tags>Mvc FileDownload</tags>
+    <tags>Download FileDownload</tags>
   </metadata>
 </package>

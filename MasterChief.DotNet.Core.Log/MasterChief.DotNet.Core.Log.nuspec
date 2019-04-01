@@ -12,6 +12,6 @@
     <description>$description$</description>
     <releaseNotes></releaseNotes>
     <copyright>Copyright YanZhiwei 2019</copyright>
-    <tags>DotNet FileLog</tags>
+    <tags>Log Log4Net</tags>
   </metadata>
 </package>

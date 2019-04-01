@@ -12,6 +12,6 @@
     <description>$description$</description>
     <releaseNotes></releaseNotes>
     <copyright>Copyright YanZhiwei 2019</copyright>
-    <tags>DotNet Excel</tags>
+    <tags>NPOI Excel</tags>
   </metadata>
 </package>

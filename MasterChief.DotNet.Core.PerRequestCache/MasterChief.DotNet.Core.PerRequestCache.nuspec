@@ -12,6 +12,6 @@
     <description>$description$</description>
     <releaseNotes></releaseNotes>
     <copyright>Copyright YanZhiwei 2019</copyright>
-    <tags>WebForm PerRequestCache</tags>
+    <tags>Cache PerRequestCache</tags>
   </metadata>
 </package>
