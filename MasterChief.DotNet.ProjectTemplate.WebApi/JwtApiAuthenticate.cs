@@ -33,7 +33,7 @@ namespace MasterChief.DotNet.ProjectTemplate.WebApi
 
                 dynamic root = JObject.Parse(tokenText);
                 string userid = root.iss;
-                var iat = root.iat;
+                double iat = root.iat;
                 var validTokenExpired =
                     new TimeSpan((int) (UnixEpochHelper.GetCurrentUnixTimestamp().TotalSeconds - iat))
                         .TotalDays > appConfig.TokenExpiredDay;
