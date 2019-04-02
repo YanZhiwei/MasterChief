@@ -13,7 +13,7 @@ namespace MasterChief.DotNet.ProjectTemplate.WebApi.Filter
     public abstract class AuthenticateAttribute : AuthorizationFilterAttribute
     {
         #region Constructors
-
+       
         /// <summary>
         ///     构造函数
         /// </summary>

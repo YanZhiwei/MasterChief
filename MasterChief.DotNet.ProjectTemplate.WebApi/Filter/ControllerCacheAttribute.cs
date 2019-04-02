@@ -18,13 +18,15 @@ namespace MasterChief.DotNet.ProjectTemplate.WebApi.Filter
         /// <summary>
         ///     构造函数
         /// </summary>
+        /// <param name="cacheMinutes">请求缓存时间分钟</param>
         /// <param name="dependsOnIdentity">缓存取决于访问令牌</param>
         /// <param name="cacheProvider">ICacheProvider</param>
-        protected ControllerCacheAttribute(bool dependsOnIdentity, ICacheProvider cacheProvider)
+        protected ControllerCacheAttribute(int cacheMinutes, bool dependsOnIdentity, ICacheProvider cacheProvider)
         {
             ValidateOperator.Begin().NotNull(cacheProvider, "ICacheProvider");
             DependsOnIdentity = dependsOnIdentity;
             CacheProvider = cacheProvider;
+            CacheMinutes = cacheMinutes;
         }
 
         #endregion Constructors
@@ -32,9 +34,9 @@ namespace MasterChief.DotNet.ProjectTemplate.WebApi.Filter
         #region Fields
 
         /// <summary>
-        ///     缓存时间【秒】
+        ///     缓存时间【分钟】
         /// </summary>
-        protected int CacheSeconds { get; set; }
+        protected readonly int CacheMinutes;
 
         /// <summary>
         ///     缓存取决于访问令牌
@@ -132,7 +134,7 @@ namespace MasterChief.DotNet.ProjectTemplate.WebApi.Filter
         /// </summary>
         private bool CheckedCurRequestCacheEnable(HttpActionContext context)
         {
-            if (CacheSeconds <= 0) return false;
+            if (CacheMinutes <= 0) return false;
             return context.Request.Method == HttpMethod.Get || context.Request.Method == HttpMethod.Post;
         }
 
@@ -145,7 +147,7 @@ namespace MasterChief.DotNet.ProjectTemplate.WebApi.Filter
             var contentType = actionExecutedContext.Response.Content.Headers.Contains("Content-Type")
                 ? actionExecutedContext.Response.Content.Headers.ContentType
                 : MediaTypeHeaderValue.Parse("application/json; charset=utf-8");
-            var cacheExpire = TimeSpan.FromSeconds(CacheSeconds).Minutes;
+            var cacheExpire = CacheMinutes;
 
             if (CacheProvider.IsSet(cachekey))
             {

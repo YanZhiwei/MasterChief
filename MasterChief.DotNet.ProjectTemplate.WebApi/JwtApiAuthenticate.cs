@@ -62,19 +62,13 @@ namespace MasterChief.DotNet.ProjectTemplate.WebApi
             ValidateOperator.Begin()
                 .NotNullOrEmpty(token, "令牌")
                 .NotNullOrEmpty(secret, "密钥");
-            try
-            {
-                IJsonSerializer serializer = new JsonNetSerializer();
-                IDateTimeProvider provider = new UtcDateTimeProvider();
-                IJwtValidator validator = new JwtValidator(serializer, provider);
-                IBase64UrlEncoder urlEncoder = new JwtBase64UrlEncoder();
-                IJwtDecoder decoder = new JwtDecoder(serializer, validator, urlEncoder);
-                return decoder.Decode(token, secret, true);
-            }
-            catch (Exception)
-            {
-                return null;
-            }
+
+            IJsonSerializer serializer = new JsonNetSerializer();
+            IDateTimeProvider provider = new UtcDateTimeProvider();
+            IJwtValidator validator = new JwtValidator(serializer, provider);
+            IBase64UrlEncoder urlEncoder = new JwtBase64UrlEncoder();
+            IJwtDecoder decoder = new JwtDecoder(serializer, validator, urlEncoder);
+            return decoder.Decode(token, secret, true);
         }
     }
 }
