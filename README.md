@@ -1,4 +1,6 @@
-C# 开发辅助类库，和士官长一样身经百战且越战越勇的战争机器，能力无人能出其右
+> C# 开发辅助类库，和士官长一样身经百战且越战越勇的战争机器，能力无人能出其右。
+
+[![996.icu](https://img.shields.io/badge/link-996.icu-red.svg)](https://996.icu)[![LICENSE](https://img.shields.io/badge/license-Anti%20996-blue.svg)](https://github.com/996icu/996.ICU/blob/master/LICENSE)
 
 项目架构思维导图：
 
@@ -17,6 +19,8 @@ C# 开发辅助类库，和士官长一样身经百战且越战越勇的战争�
 * [8\. 文件下载](#8-%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD)
 
 #### 1. 数据库访问
+
+---
 
 
 a. 支持Dapper和Entity Framework 两种ORM框架;
@@ -367,6 +371,8 @@ GO
 
 #### 2. 日志
 
+---
+
 a. 目前实现基于Log4Net的本地文件日志以及Kafka ELK的日志；
 
 b. 基于接口ILogService可以很容易扩展其他日志显示； 
@@ -691,6 +697,8 @@ namespace MasterChief.DotNet.Core.Log.Tests
 
 #### 3. 缓存
 
+---
+
 a. 支持本地内存缓存，HttpRequest请求缓存，Redis缓存；
 
 b. 基于ICacheProvider接口，可以很容易扩展其他缓存实现；
@@ -792,6 +800,8 @@ b. 基于ICacheProvider接口，可以很容易扩展其他缓存实现；
    ```
 
 #### 4. 配置
+
+---
 
 a. 目前支持配置文件本地持久化，并且支持配置文件缓存依赖减少读取文件次数；
 
@@ -938,6 +948,8 @@ b. 基于IConfigProvider接口，可以很容易扩展其他配置实现；
 
 #### 5. 验证码
 
+---
+
 a. 派生实现ValidateCodeType抽象类，来自定义验证码样式；
 
 b. 派生实现VerifyCodeHandler抽象类，快速切换需要显示验证码；
@@ -1026,6 +1038,8 @@ b. 派生实现VerifyCodeHandler抽象类，快速切换需要显示验证码；
 
 #### 6. 序列化与反序列化
 
+---
+
 a. 目前支持Json以及Protobuf两种方式的序列化与反序列化
 
 b. 可以通过实现接口ISerializer扩展实现其他方式；
@@ -1085,6 +1099,8 @@ private static void SampleSerializer(ISerializer serializer)
 
 #### 7. EXCEL导入导出
 
+---
+
 a. 基于Npoi实现，可以基于接口IExcelManger扩展实现诸如MyXls等；
 
 b. 目前实现了将Excel导出DataTable和DataTable导出到Excel文件；
@@ -1142,6 +1158,8 @@ c. 后续完善诸如整个Excel文件导入导出等；
 
 
 #### 8. 文件下载
+
+---
 
 a.支持下载文件加密；
 
