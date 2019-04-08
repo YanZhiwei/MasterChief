@@ -9,6 +9,7 @@ using Dapper.Contrib.Extensions;
 using MasterChief.DotNet.Core.Contract;
 using MasterChief.DotNet.Core.Dapper.Helper;
 using MasterChief.DotNet4.Utilities.Common;
+using MasterChief.DotNet4.Utilities.Operator;
 
 namespace MasterChief.DotNet.Core.Dapper
 {
@@ -84,9 +85,8 @@ namespace MasterChief.DotNet.Core.Dapper
                 }
                 catch (Exception ex)
                 {
-                    if (ex.InnerException != null && ex.InnerException.InnerException is SqlException)
+                    if (ex.InnerException?.InnerException is SqlException sqlEx)
                     {
-                        var sqlEx = ex.InnerException.InnerException as SqlException;
                         var msg = DataBaseHelper.GetSqlExceptionMessage(sqlEx.Number);
                         throw new DataAccessException("提交数据更新时发生异常：" + msg, sqlEx);
                     }
@@ -103,6 +103,7 @@ namespace MasterChief.DotNet.Core.Dapper
         public bool Create<T>(T entity)
             where T : ModelBase
         {
+            ValidateOperator.Begin().NotNull(entity, "需要新增的数据记录");
             // insert single data always return 0 but the data is inserted in database successfully
             //https://github.com/StackExchange/Dapper/issues/587
             //List<T> data = new List<T>() { entity };
@@ -143,6 +144,7 @@ namespace MasterChief.DotNet.Core.Dapper
         public bool Delete<T>(T entity)
             where T : ModelBase
         {
+            ValidateOperator.Begin().NotNull(entity, "需要删除的数据记录");
             return CurrentConnection.Delete(entity);
         }
 
@@ -184,6 +186,7 @@ namespace MasterChief.DotNet.Core.Dapper
         public T GetByKeyId<T>(object id)
             where T : ModelBase
         {
+            ValidateOperator.Begin().NotNull(id, "Id");
             return CurrentConnection.Get<T>(id, CurrentTransaction);
         }
 
@@ -242,6 +245,8 @@ namespace MasterChief.DotNet.Core.Dapper
         /// <returns>集合</returns>
         public IEnumerable<T> SqlQuery<T>(string sql, IDbDataParameter[] parameters)
         {
+            ValidateOperator.Begin()
+                .NotNullOrEmpty(sql, "Sql语句");
             var dataParameters = CreateParameter(parameters);
             return CurrentConnection.Query<T>(sql, dataParameters, CurrentTransaction);
         }
@@ -254,6 +259,7 @@ namespace MasterChief.DotNet.Core.Dapper
         public bool Update<T>(T entity)
             where T : ModelBase
         {
+            ValidateOperator.Begin().NotNull(entity, "需要更新的数据记录");
             return CurrentConnection.Update(entity, CurrentTransaction);
         }
 

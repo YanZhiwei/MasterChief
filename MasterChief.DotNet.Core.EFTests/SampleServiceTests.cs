@@ -7,16 +7,17 @@ using System.Collections.Generic;
 using System.Data.Common;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
+using MasterChief.DotNet.Core.EFTests.Model;
 
 namespace MasterChief.DotNet.Core.EFTests
 {
     [TestClass()]
     public class SampleServiceTests
     {
-        private IKernel _kernel = null;
-        private ISampleService _sampleService = null;
-        private readonly Guid _testID = "2F6D3C43-C2C7-4398-AD2B-ED5E82D79999".ToGuidOrDefault(Guid.Empty);
-        private readonly string _testName = "EFSample";
+        private IKernel _kernel;
+        private ISampleService _sampleService;
+        private readonly Guid _testId = "2F6D3C43-C2C7-4398-AD2B-ED5E82D79999".ToGuidOrDefault(Guid.Empty);
+        private const string TestName = "EFSample";
 
         [TestInitialize]
         public void SetUp()
@@ -37,40 +38,41 @@ namespace MasterChief.DotNet.Core.EFTests
         [TestMethod()]
         public void CreateTest()
         {
-            bool actual = _sampleService.Create(new EFSample() { UserName = "ef" + DateTime.Now.ToString("MMddHHmmss") });
+            bool actual = _sampleService.Create(new EfSample() { UserName = "ef" + DateTime.Now.ToString("MMddHHmmss") });
             Assert.IsTrue(actual);
 
-            actual = _sampleService.Create(new EFSample() { UserName = "ef" + DateTime.Now.ToString("MMddHHmmss") });
+            actual = _sampleService.Create(new EfSample() { UserName = "ef" + DateTime.Now.ToString("MMddHHmmss") });
             Assert.IsTrue(actual);
 
-            actual = _sampleService.Create(new EFSample() { UserName = "ef" + DateTime.Now.ToString("MMddHHmmss") });
+            actual = _sampleService.Create(new EfSample() { UserName = "ef" + DateTime.Now.ToString("MMddHHmmss") });
             Assert.IsTrue(actual);
 
-            actual = _sampleService.Create(new EFSample() { UserName = "ef" + DateTime.Now.ToString("MMddHHmmss") });
+            actual = _sampleService.Create(new EfSample() { UserName = "ef" + DateTime.Now.ToString("MMddHHmmss") });
             Assert.IsTrue(actual);
 
-            actual = _sampleService.Create(new EFSample() { UserName = "ef" + DateTime.Now.ToString("MMddHHmmss") });
+            actual = _sampleService.Create(new EfSample() { UserName = "ef" + DateTime.Now.ToString("MMddHHmmss") });
             Assert.IsTrue(actual);
         }
 
         [TestMethod()]
         public void GetFirstOrDefaultTest()
         {
-            EFSample actual = _sampleService.GetFirstOrDefault(ent => ent.Id == _testID);
+            EfSample actual = _sampleService.GetFirstOrDefault(ent => ent.Id == _testId);
             Assert.IsNotNull(actual);
         }
 
         [TestMethod()]
         public void GetByKeyIdTest()
         {
-            EFSample actual = _sampleService.GetByKeyID(_testID);
+            EfSample actual = _sampleService.GetByKeyId(_testId);
             Assert.IsNotNull(actual);
         }
 
         [TestMethod()]
         public void GetListTest()
         {
-            List<EFSample> actual = _sampleService.GetList(ent => ent.Available == true);
+            // ReSharper disable once RedundantBoolCompare
+            List<EfSample> actual = _sampleService.GetList(ent => ent.Available == true);
             Assert.IsNotNull(actual);
             CollectionAssert.AllItemsAreNotNull(actual);
         }
@@ -78,9 +80,9 @@ namespace MasterChief.DotNet.Core.EFTests
         [TestMethod()]
         public void UpdateTest()
         {
-            EFSample sample = new EFSample
+            EfSample sample = new EfSample
             {
-                Id = _testID,
+                Id = _testId,
                 ModifyTime = DateTime.Now,
                 UserName = "modify"
             };
@@ -91,12 +93,12 @@ namespace MasterChief.DotNet.Core.EFTests
         [TestMethod()]
         public void TransactionSuccessTest()
         {
-            EFSample sample = new EFSample
+            EfSample sample = new EfSample
             {
                 UserName = "TransactionSuccess1"
             };
 
-            EFSample sample2 = new EFSample
+            EfSample sample2 = new EfSample
             {
                 UserName = "TransactionSuccess2"
             };
@@ -107,12 +109,12 @@ namespace MasterChief.DotNet.Core.EFTests
         [TestMethod()]
         public void TransactionFailTest()
         {
-            EFSample sample3 = new EFSample
+            EfSample sample3 = new EfSample
             {
                 UserName = "TransactionSuccess3"
             };
 
-            EFSample sample4 = new EFSample
+            EfSample sample4 = new EfSample
             {
                 UserName = null
             };
@@ -123,10 +125,10 @@ namespace MasterChief.DotNet.Core.EFTests
         [TestMethod()]
         public void ExistTest()
         {
-            bool actual = _sampleService.Exist(ent => ent.Id == _testID);
+            bool actual = _sampleService.Exist(ent => ent.Id == _testId);
             Assert.IsTrue(actual);
 
-            actual = _sampleService.Exist(ent => ent.UserName == _testName);
+            actual = _sampleService.Exist(ent => ent.UserName == TestName);
             Assert.IsTrue(actual);
 
             DateTime createTime = DateTime.Now.AddDays(-1);
@@ -136,6 +138,7 @@ namespace MasterChief.DotNet.Core.EFTests
             actual = _sampleService.Exist(ent => ent.CreateTime <= DateTime.Now);
             Assert.IsTrue(actual);
 
+            // ReSharper disable once RedundantBoolCompare
             actual = _sampleService.Exist(ent => ent.Available == true);
             Assert.IsTrue(actual);
 
@@ -154,7 +157,7 @@ order by CreateTime desc";
                     new SqlParameter(){ ParameterName="@CreateTime", Value=DateTime.Now.AddDays(-1) },
                     new SqlParameter(){ ParameterName="@Available", Value=true }
                 };
-            List<EFSample> actual = _sampleService.SqlQuery(sql, parameter);
+            List<EfSample> actual = _sampleService.SqlQuery(sql, parameter);
             Assert.IsNotNull(actual);
             CollectionAssert.AllItemsAreNotNull(actual);
         }

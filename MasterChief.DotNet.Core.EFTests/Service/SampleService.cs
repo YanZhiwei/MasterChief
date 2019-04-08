@@ -1,19 +1,20 @@
-﻿namespace MasterChief.DotNet.Core.EFTests.Service
-{
-    using MasterChief.DotNet.Core.Contract;
-    using System;
-    using System.Collections.Generic;
-    using System.Data.Common;
-    using System.Linq;
-    using System.Linq.Expressions;
+﻿using System;
+using System.Collections.Generic;
+using System.Data.Common;
+using System.Linq;
+using System.Linq.Expressions;
+using MasterChief.DotNet.Core.Contract;
+using MasterChief.DotNet.Core.EFTests.Model;
 
+namespace MasterChief.DotNet.Core.EFTests.Service
+{
     /// <summary>
-    /// 测试数据接口
+    ///     测试数据接口
     /// </summary>
     /// <seealso cref="MasterChief.DotNet.Core.EFTests.Service.ISampleService" />
     public class SampleService : ISampleService
     {
-        private readonly IDatabaseContextFactory _contextFactory = null;
+        private readonly IDatabaseContextFactory _contextFactory;
 
         public SampleService(IDatabaseContextFactory contextFactory)
         {
@@ -21,121 +22,119 @@
         }
 
         /// <summary>
-        /// 创建
+        ///     创建
         /// </summary>
         /// <param name="samle">EFSample</param>
         /// <returns></returns>
-        public bool Create(EFSample samle)
+        public bool Create(EfSample samle)
         {
-            using (IDbContext dbcontext = _contextFactory.Create())
+            using (var dbcontext = _contextFactory.Create())
             {
-                return dbcontext.Create<EFSample>(samle);
+                return dbcontext.Create(samle);
             }
         }
 
         /// <summary>
-        /// 条件查询
+        ///     条件查询
         /// </summary>
-        /// <typeparam name="T"></typeparam>
         /// <param name="predicate">The predicate.</param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public EFSample GetFirstOrDefault(Expression<Func<EFSample, bool>> predicate = null)
+        public EfSample GetFirstOrDefault(Expression<Func<EfSample, bool>> predicate = null)
         {
-            using (IDbContext dbcontext = _contextFactory.Create())
+            using (var context = _contextFactory.Create())
             {
-                return dbcontext.GetFirstOrDefault<EFSample>(predicate);
+                return context.GetFirstOrDefault(predicate);
             }
         }
 
         /// <summary>
-        /// 根据主键查询
+        ///     根据主键查询
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public EFSample GetByKeyID(Guid id)
+        public EfSample GetByKeyId(Guid id)
         {
-            using (IDbContext dbcontext = _contextFactory.Create())
+            using (var context = _contextFactory.Create())
             {
-                return dbcontext.GetByKeyId<EFSample>(id);
+                return context.GetByKeyId<EfSample>(id);
             }
         }
 
         /// <summary>
-        /// 条件查询集合
+        ///     条件查询集合
         /// </summary>
         /// <param name="predicate">The predicate.</param>
         /// <returns></returns>
-        public List<EFSample> GetList(Expression<Func<EFSample, bool>> predicate = null)
+        public List<EfSample> GetList(Expression<Func<EfSample, bool>> predicate = null)
         {
-            using (IDbContext dbcontext = _contextFactory.Create())
+            using (var context = _contextFactory.Create())
             {
-                return dbcontext.GetList<EFSample>(predicate);
+                return context.GetList(predicate);
             }
         }
 
         /// <summary>
-        /// 添加判断是否存在
+        ///     添加判断是否存在
         /// </summary>
-        /// <typeparam name="EFSample">The type of the f sample.</typeparam>
         /// <param name="predicate">The predicate.</param>
         /// <returns></returns>
-        public bool Exist(Expression<Func<EFSample, bool>> predicate = null)
+        public bool Exist(Expression<Func<EfSample, bool>> predicate = null)
         {
-            using (IDbContext dbcontext = _contextFactory.Create())
+            using (var context = _contextFactory.Create())
             {
-                return dbcontext.Exist<EFSample>(predicate);
+                return context.Exist(predicate);
             }
         }
 
         /// <summary>
-        /// 脚本查询
+        ///     脚本查询
         /// </summary>
         /// <param name="sql">The SQL.</param>
         /// <returns></returns>
-        public List<EFSample> SqlQuery(string sql, DbParameter[] parameter)
+        public List<EfSample> SqlQuery(string sql, DbParameter[] parameter)
         {
-            using (IDbContext dbcontext = _contextFactory.Create())
+            using (var context = _contextFactory.Create())
             {
-                return dbcontext.SqlQuery<EFSample>(sql, parameter)?.ToList();
+                return context.SqlQuery<EfSample>(sql, parameter)?.ToList();
             }
         }
 
         /// <summary>
-        /// 更新
+        ///     更新
         /// </summary>
         /// <param name="sample">The sample.</param>
         /// <returns></returns>
-        public bool Update(EFSample sample)
+        public bool Update(EfSample sample)
         {
-            using (IDbContext dbcontext = _contextFactory.Create())
+            using (var context = _contextFactory.Create())
             {
-                return dbcontext.Update(sample);
+                return context.Update(sample);
             }
         }
 
         /// <summary>
-        /// 事务
+        ///     事务
         /// </summary>
         /// <param name="sample">The sample.</param>
         /// <param name="sample2">The sample2.</param>
         /// <returns></returns>
-        public bool CreateWithTransaction(EFSample sample, EFSample sample2)
+        public bool CreateWithTransaction(EfSample sample, EfSample sample2)
         {
-            bool result = true;
-            using (IDbContext dbcontext = _contextFactory.Create())
+            var result = true;
+            using (var context = _contextFactory.Create())
             {
                 try
                 {
-                    dbcontext.BeginTransaction();//开启事务
-                    dbcontext.Create(sample);
-                    dbcontext.Create(sample2);
-                    dbcontext.Commit();
+                    context.BeginTransaction(); //开启事务
+                    context.Create(sample);
+                    context.Create(sample2);
+                    context.Commit();
                 }
                 catch (Exception)
                 {
-                    dbcontext.Rollback();
+                    context.Rollback();
                     result = false;
                 }
             }

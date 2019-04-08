@@ -11,6 +11,7 @@ using System.Linq.Expressions;
 using MasterChief.DotNet.Core.Contract;
 using MasterChief.DotNet.Core.EF.Helper;
 using MasterChief.DotNet4.Utilities.Common;
+using MasterChief.DotNet4.Utilities.Operator;
 
 namespace MasterChief.DotNet.Core.EF
 {
@@ -29,7 +30,7 @@ namespace MasterChief.DotNet.Core.EF
         protected EfDbContextBase(DbConnection dbConnection)
             : base(dbConnection, true)
         {
-            Configuration.LazyLoadingEnabled = false;
+            Configuration.LazyLoadingEnabled = false; //将不会查询到从表的数据，只会执行一次查询,可以使用 Inculde 进行手动加载;
             Configuration.ProxyCreationEnabled = false;
             Configuration.AutoDetectChangesEnabled = false;
         }
@@ -69,9 +70,8 @@ namespace MasterChief.DotNet.Core.EF
                 }
                 catch (DbUpdateException ex)
                 {
-                    if (ex.InnerException != null && ex.InnerException.InnerException is SqlException)
+                    if (ex.InnerException?.InnerException is SqlException sqlEx)
                     {
-                        var sqlEx = ex.InnerException.InnerException as SqlException;
                         var msg = DataBaseHelper.GetSqlExceptionMessage(sqlEx.Number);
                         throw new DataAccessException("提交数据更新时发生异常：" + msg, sqlEx);
                     }
@@ -88,7 +88,8 @@ namespace MasterChief.DotNet.Core.EF
         public bool Create<T>(T entity)
             where T : ModelBase
         {
-            var result = false;
+            ValidateOperator.Begin().NotNull(entity, "需要创建数据记录");
+            bool result;
             try
             {
                 Entry(entity).State = EntityState.Added;
@@ -110,7 +111,8 @@ namespace MasterChief.DotNet.Core.EF
         public bool Create<T>(IEnumerable<T> entities)
             where T : ModelBase
         {
-            var result = false;
+            ValidateOperator.Begin().NotNull(entities, "需要创建数据集合");
+            bool result;
             try
             {
                 foreach (var entity in entities) Entry(entity).State = EntityState.Added;
@@ -133,7 +135,8 @@ namespace MasterChief.DotNet.Core.EF
         public bool Delete<T>(T entity)
             where T : ModelBase
         {
-            var result = false;
+            ValidateOperator.Begin().NotNull(entity, "需要删除的数据记录");
+            bool result;
             try
             {
                 Entry(entity).State = EntityState.Deleted;
@@ -166,6 +169,7 @@ namespace MasterChief.DotNet.Core.EF
         public T GetByKeyId<T>(object id)
             where T : ModelBase
         {
+            ValidateOperator.Begin().NotNull(id, "Id");
             return Set<T>().Find(id);
         }
 
@@ -230,6 +234,9 @@ namespace MasterChief.DotNet.Core.EF
         /// <returns>集合</returns>
         public IEnumerable<T> SqlQuery<T>(string sql, IDbDataParameter[] parameters)
         {
+            ValidateOperator.Begin()
+                .NotNullOrEmpty(sql, "Sql语句");
+            // ReSharper disable once CoVariantArrayConversion
             return Database.SqlQuery<T>(sql, parameters);
         }
 
@@ -241,7 +248,8 @@ namespace MasterChief.DotNet.Core.EF
         public bool Update<T>(T entity)
             where T : ModelBase
         {
-            var result = false;
+            ValidateOperator.Begin().NotNull(entity, "需要更新的数据记录");
+            bool result;
             try
             {
                 var set = Set<T>();

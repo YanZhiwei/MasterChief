@@ -1,6 +1,7 @@
 ﻿using MasterChief.DotNet.Core.EF;
 using System.Data.Entity;
 using System.Data.SqlClient;
+using MasterChief.DotNet.Core.EFTests.Model;
 
 namespace MasterChief.DotNet.Core.EFTests
 {
@@ -13,6 +14,6 @@ namespace MasterChief.DotNet.Core.EFTests
         {
         }
 
-        public DbSet<EFSample> EFSample { get; set; }
+        public DbSet<EfSample> EfSample { get; set; }
     }
 }

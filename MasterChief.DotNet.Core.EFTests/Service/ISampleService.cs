@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq.Expressions;
+using MasterChief.DotNet.Core.EFTests.Model;
 
 namespace MasterChief.DotNet.Core.EFTests.Service
 {
@@ -15,51 +16,50 @@ namespace MasterChief.DotNet.Core.EFTests.Service
         /// </summary>
         /// <param name="samle">EFSample</param>
         /// <returns></returns>
-        bool Create(EFSample samle);
+        bool Create(EfSample samle);
 
         /// <summary>
         /// 条件查询
         /// </summary>
-        /// <typeparam name="T"></typeparam>
         /// <param name="predicate">The predicate.</param>
         /// <returns></returns>
-        EFSample GetFirstOrDefault(Expression<Func<EFSample, bool>> predicate = null);
+        EfSample GetFirstOrDefault(Expression<Func<EfSample, bool>> predicate = null);
 
         /// <summary>
         ///根据主键查询
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
-        EFSample GetByKeyID(Guid id);
+        EfSample GetByKeyId(Guid id);
 
         /// <summary>
         /// 条件查询集合
         /// </summary>
         /// <param name="predicate">The predicate.</param>
         /// <returns></returns>
-        List<EFSample> GetList(Expression<Func<EFSample, bool>> predicate = null);
+        List<EfSample> GetList(Expression<Func<EfSample, bool>> predicate = null);
 
         /// <summary>
         /// 添加判断是否存在
         /// </summary>
-        /// <typeparam name="EFSample">The type of the f sample.</typeparam>
         /// <param name="predicate">The predicate.</param>
         /// <returns></returns>
-        bool Exist(Expression<Func<EFSample, bool>> predicate = null);
+        bool Exist(Expression<Func<EfSample, bool>> predicate = null);
 
         /// <summary>
         /// 脚本查询
         /// </summary>
         /// <param name="sql">The SQL.</param>
+        /// <param name="parameter">DbParameter</param>
         /// <returns></returns>
-        List<EFSample> SqlQuery(string sql, DbParameter[] parameter);
+        List<EfSample> SqlQuery(string sql, DbParameter[] parameter);
 
         /// <summary>
         /// 更新
         /// </summary>
         /// <param name="sample">The sample.</param>
         /// <returns></returns>
-        bool Update(EFSample sample);
+        bool Update(EfSample sample);
 
         /// <summary>
         /// 事务成功
@@ -67,6 +67,6 @@ namespace MasterChief.DotNet.Core.EFTests.Service
         /// <param name="sample">The sample.</param>
         /// <param name="sample2">The sample2.</param>
         /// <returns></returns>
-        bool CreateWithTransaction(EFSample sample, EFSample sample2);
+        bool CreateWithTransaction(EfSample sample, EfSample sample2);
     }
 }

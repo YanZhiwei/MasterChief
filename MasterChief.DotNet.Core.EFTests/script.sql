@@ -9,7 +9,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE TABLE [dbo].[EFSample](
-	[ID] [uniqueidentifier] NOT NULL,
+	[Id] [uniqueidentifier] NOT NULL,
 	[CreateTime] [datetime] NOT NULL,
 	[ModifyTime] [datetime] NOT NULL,
 	[Available] [bit] NOT NULL,

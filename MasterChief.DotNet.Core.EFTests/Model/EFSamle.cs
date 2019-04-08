@@ -1,19 +1,19 @@
-using MasterChief.DotNet.Core.Contract;
 using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using MasterChief.DotNet.Core.Contract;
 
-namespace MasterChief.DotNet.Core.EFTests
+namespace MasterChief.DotNet.Core.EFTests.Model
 {
     [Table("EFSample")]
     [Description("EF 测试表")]
-    public sealed class EFSample : ModelBase
+    public sealed class EfSample : ModelBase
     {
         [Key]
         public override Guid Id { get => base.Id; set => base.Id = value; }
 
-        public EFSample()
+        public EfSample()
         {
             Id = Guid.NewGuid();
             CreateTime = DateTime.Now;

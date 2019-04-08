@@ -14,7 +14,7 @@ namespace MasterChief.DotNet.Core.DapperTests.Service
     /// <seealso cref="MasterChief.DotNet.Core.DapperTests.Service.ISampleService" />
     public class SampleService : ISampleService
     {
-        private readonly IDatabaseContextFactory _contextFactory = null;
+        private readonly IDatabaseContextFactory _contextFactory;
 
         public SampleService(IDatabaseContextFactory contextFactory)
         {
@@ -24,28 +24,27 @@ namespace MasterChief.DotNet.Core.DapperTests.Service
         /// <summary>
         /// 创建
         /// </summary>
-        /// <param name="samle">EFSample</param>
+        /// <param name="sample">EFSample</param>
         /// <returns></returns>
-        public bool Create(EFSample samle)
+        public bool Create(EfSample sample)
         {
-            using (IDbContext dbcontext = _contextFactory.Create())
+            using (IDbContext context = _contextFactory.Create())
             {
-                return dbcontext.Create<EFSample>(samle);
+                return context.Create(sample);
             }
         }
 
         /// <summary>
         /// 条件查询
         /// </summary>
-        /// <typeparam name="T"></typeparam>
         /// <param name="predicate">The predicate.</param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public EFSample GetFirstOrDefault(Expression<Func<EFSample, bool>> predicate = null)
+        public EfSample GetFirstOrDefault(Expression<Func<EfSample, bool>> predicate = null)
         {
-            using (IDbContext dbcontext = _contextFactory.Create())
+            using (IDbContext context = _contextFactory.Create())
             {
-                return dbcontext.GetFirstOrDefault<EFSample>(predicate);
+                return context.GetFirstOrDefault(predicate);
             }
         }
 
@@ -55,11 +54,11 @@ namespace MasterChief.DotNet.Core.DapperTests.Service
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public EFSample GetByKeyID(Guid id)
+        public EfSample GetByKeyId(Guid id)
         {
-            using (IDbContext dbcontext = _contextFactory.Create())
+            using (IDbContext context = _contextFactory.Create())
             {
-                return dbcontext.GetByKeyId<EFSample>(id);
+                return context.GetByKeyId<EfSample>(id);
             }
         }
 
@@ -68,25 +67,24 @@ namespace MasterChief.DotNet.Core.DapperTests.Service
         /// </summary>
         /// <param name="predicate">The predicate.</param>
         /// <returns></returns>
-        public List<EFSample> GetList(Expression<Func<EFSample, bool>> predicate = null)
+        public List<EfSample> GetList(Expression<Func<EfSample, bool>> predicate = null)
         {
-            using (IDbContext dbcontext = _contextFactory.Create())
+            using (IDbContext context = _contextFactory.Create())
             {
-                return dbcontext.GetList<EFSample>(predicate);
+                return context.GetList(predicate);
             }
         }
 
         /// <summary>
         /// 添加判断是否存在
         /// </summary>
-        /// <typeparam name="EFSample">The type of the f sample.</typeparam>
         /// <param name="predicate">The predicate.</param>
         /// <returns></returns>
-        public bool Exist(Expression<Func<EFSample, bool>> predicate = null)
+        public bool Exist(Expression<Func<EfSample, bool>> predicate = null)
         {
-            using (IDbContext dbcontext = _contextFactory.Create())
+            using (IDbContext context = _contextFactory.Create())
             {
-                return dbcontext.Exist<EFSample>(predicate);
+                return context.Exist(predicate);
             }
         }
 
@@ -94,12 +92,13 @@ namespace MasterChief.DotNet.Core.DapperTests.Service
         /// 脚本查询
         /// </summary>
         /// <param name="sql">The SQL.</param>
+        /// <param name="parameter">DbParameter[]</param>
         /// <returns></returns>
-        public List<EFSample> SqlQuery(string sql, DbParameter[] parameter)
+        public List<EfSample> SqlQuery(string sql, DbParameter[] parameter)
         {
-            using (IDbContext dbcontext = _contextFactory.Create())
+            using (IDbContext context = _contextFactory.Create())
             {
-                return dbcontext.SqlQuery<EFSample>(sql, parameter)?.ToList();
+                return context.SqlQuery<EfSample>(sql, parameter)?.ToList();
             }
         }
 
@@ -108,11 +107,11 @@ namespace MasterChief.DotNet.Core.DapperTests.Service
         /// </summary>
         /// <param name="sample">The sample.</param>
         /// <returns></returns>
-        public bool Update(EFSample sample)
+        public bool Update(EfSample sample)
         {
-            using (IDbContext dbcontext = _contextFactory.Create())
+            using (IDbContext context = _contextFactory.Create())
             {
-                return dbcontext.Update(sample);
+                return context.Update(sample);
             }
         }
 
@@ -122,21 +121,22 @@ namespace MasterChief.DotNet.Core.DapperTests.Service
         /// <param name="sample">The sample.</param>
         /// <param name="sample2">The sample2.</param>
         /// <returns></returns>
-        public bool CreateWithTransaction(EFSample sample, EFSample sample2)
+        public bool CreateWithTransaction(EfSample sample, EfSample sample2)
         {
-            bool result = true;
-            using (IDbContext dbcontext = _contextFactory.Create())
+            bool result;
+            using (IDbContext context = _contextFactory.Create())
             {
                 try
                 {
-                    dbcontext.BeginTransaction();//开启事务
-                    dbcontext.Create(sample);
-                    dbcontext.Create(sample2);
-                    dbcontext.Commit();
+                    context.BeginTransaction();//开启事务
+                    context.Create(sample);
+                    context.Create(sample2);
+                    context.Commit();
+                    result = false;
                 }
                 catch (Exception)
                 {
-                    dbcontext.Rollback();
+                    context.Rollback();
                     result = false;
                 }
             }
@@ -149,11 +149,11 @@ namespace MasterChief.DotNet.Core.DapperTests.Service
         /// </summary>
         /// <param name="sample"></param>
         /// <returns></returns>
-        public bool Delete(EFSample sample)
+        public bool Delete(EfSample sample)
         {
-            using (IDbContext dbcontext = _contextFactory.Create())
+            using (IDbContext context = _contextFactory.Create())
             {
-                return dbcontext.Delete(sample);
+                return context.Delete(sample);
             }
         }
     }

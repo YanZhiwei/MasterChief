@@ -8,7 +8,7 @@ namespace MasterChief.DotNet.Core.Contract
     public class ModelBase
     {
         /// <summary>
-        /// 默认构造函数
+        ///     默认构造函数
         /// </summary>
         public ModelBase()
         {
@@ -26,7 +26,7 @@ namespace MasterChief.DotNet.Core.Contract
         public virtual Guid Id
         {
             get; // int, not null
-            protected set;
+            set;
         }
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace MasterChief.DotNet.Core.Contract
         public virtual DateTime CreateTime
         {
             get; // datetime, not null
-            protected set;
+            set;
         }
 
         /// <summary>
@@ -44,12 +44,12 @@ namespace MasterChief.DotNet.Core.Contract
         public virtual DateTime ModifyTime
         {
             get; // datetime, not null
-            protected set;
+            set;
         }
 
         /// <summary>
         ///     记录是否可用
         /// </summary>
-        public virtual bool Available { get; protected set; }
+        public virtual bool Available { get; set; }
     }
 }

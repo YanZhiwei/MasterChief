@@ -39,8 +39,8 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net40\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="MasterChief.DotNet.Core.Contract, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MasterChief.DotNet.Core.Contract.1.0.0.1\lib\net40\MasterChief.DotNet.Core.Contract.dll</HintPath>
+    <Reference Include="MasterChief.DotNet.Core.Contract, Version=1.0.0.4, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MasterChief.DotNet.Core.Contract.1.0.0.4\lib\net40\MasterChief.DotNet.Core.Contract.dll</HintPath>
     </Reference>
     <Reference Include="MasterChief.DotNet4.Utilities, Version=1.0.0.5, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MasterChief.DotNet4.Utilities.1.0.0.5\lib\net40\MasterChief.DotNet4.Utilities.dll</HintPath>
