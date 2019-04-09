@@ -98,6 +98,7 @@ namespace MasterChief.DotNet.Core.DapperTests.Service
         {
             using (IDbContext context = _contextFactory.Create())
             {
+                // ReSharper disable once CoVariantArrayConversion
                 return context.SqlQuery<EfSample>(sql, parameter)?.ToList();
             }
         }
@@ -132,7 +133,7 @@ namespace MasterChief.DotNet.Core.DapperTests.Service
                     context.Create(sample);
                     context.Create(sample2);
                     context.Commit();
-                    result = false;
+                    result = true;
                 }
                 catch (Exception)
                 {
