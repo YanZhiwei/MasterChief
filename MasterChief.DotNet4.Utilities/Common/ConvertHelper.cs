@@ -42,7 +42,7 @@ namespace MasterChief.DotNet4.Utilities.Common
         public static string ToChineseDate(this DateTime date)
         {
             var cnDate = new ChineseLunisolarCalendar();
-            string[] months = {string.Empty, "正月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "冬月", "腊月"};
+            string[] months = { string.Empty, "正月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "冬月", "腊月" };
             string[] days =
             {
                 string.Empty, "初一", "初二", "初三", "初四", "初五", "初六", "初七", "初八", "初九", "初十", "十一", "十二", "十三", "十四", "十五",
@@ -64,11 +64,11 @@ namespace MasterChief.DotNet4.Utilities.Common
 
             if (leapMonth > 0)
             {
-                monthCn = month == leapMonth ? string.Format("闰{0}", months[month - 1]) : monthCn;
+                monthCn = month == leapMonth ? $"闰{months[month - 1]}" : monthCn;
                 monthCn = month > leapMonth ? months[month - 1] : monthCn;
             }
 
-            return string.Format("{0}年{1}{2}", yearCn, monthCn, days[day]);
+            return $"{yearCn}年{monthCn}{days[day]}";
         }
 
         /// <summary>
@@ -78,7 +78,7 @@ namespace MasterChief.DotNet4.Utilities.Common
         /// <returns>中文日期数字</returns>
         public static string ToChineseDay(int data)
         {
-            var reulst = string.Empty;
+            string result = string.Empty;
 
             if (!(data == 0 || data > 32))
             {
@@ -87,10 +87,10 @@ namespace MasterChief.DotNet4.Utilities.Common
                     "〇", "一", "二", "三", "四", "五", "六", "七", "八", "九", "十", "十一", "十二", "十三", "十四", "十五", "十六", "十七",
                     "十八", "十九", "廿十", "廿一", "廿二", "廿三", "廿四", "廿五", "廿六", "廿七", "廿八", "廿九", "三十", "三十一"
                 };
-                reulst = days[data];
+                result = days[data];
             }
 
-            return reulst;
+            return result;
         }
 
         /// <summary>
@@ -105,7 +105,7 @@ namespace MasterChief.DotNet4.Utilities.Common
 
             if (!(data == 0 || data > 12))
             {
-                string[] months = {"〇", "一", "二", "三", "四", "五", "六", "七", "八", "九", "十", "十一", "十二"};
+                string[] months = { "〇", "一", "二", "三", "四", "五", "六", "七", "八", "九", "十", "十一", "十二" };
                 result = months[data];
             }
 
@@ -225,7 +225,7 @@ namespace MasterChief.DotNet4.Utilities.Common
         /// <param name="columnName">列名称</param>
         /// <param name="defalut">默认数值</param>
         /// <returns>若列不等于NULL则返回实际值</returns>
-        public static int ToIntOrDefault(this DataRow row, string columnName, int defalut)
+        public static int ToIntOrDefault(this DataRow row, string columnName, int defalut = 0)
         {
             if (row != null)
                 if (row.IsNull(columnName))
@@ -293,7 +293,7 @@ namespace MasterChief.DotNet4.Utilities.Common
             if (!string.IsNullOrEmpty(data))
             {
                 var convert = TypeDescriptor.GetConverter(typeof(T));
-                result = (T) convert.ConvertFrom(data);
+                result = (T)convert.ConvertFrom(data);
             }
 
             return result;
