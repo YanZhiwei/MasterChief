@@ -122,6 +122,7 @@
     <Compile Include="Encryptor\DESEncryptor.cs" />
     <Compile Include="Encryptor\MD5Encryptor.cs" />
     <Compile Include="Encryptor\SHA256Encryptor.cs" />
+    <Compile Include="Enum\ExceptionType.cs" />
     <Compile Include="Enum\ImgCutType.cs" />
     <Compile Include="Enum\DateTimePart.cs" />
     <Compile Include="Enum\ImgWaterPosition.cs" />
@@ -161,7 +162,34 @@
     <Compile Include="WebForm\HtmlInputFileHelper.cs" />
     <Compile Include="WebForm\StaticFileHelper.cs" />
     <Compile Include="Web\SimulateWebRequest.cs" />
+    <Compile Include="WinForm\ApplicationHelper.cs" />
     <Compile Include="WinForm\BindingHelper.cs" />
+    <Compile Include="WinForm\CheckBoxHelper.cs" />
+    <Compile Include="WinForm\CheckedListBoxHelper.cs" />
+    <Compile Include="WinForm\ColorConsole.cs" />
+    <Compile Include="WinForm\ComboBoxHelper.cs" />
+    <Compile Include="WinForm\DataGridHelper.cs" />
+    <Compile Include="WinForm\DatagridViewCheckBoxHeaderCell.cs" />
+    <Compile Include="WinForm\FormHelper.cs" />
+    <Compile Include="WinForm\LanguageHelper.cs" />
+    <Compile Include="WinForm\ListBoxHelper.cs" />
+    <Compile Include="WinForm\MdiFormHelper.cs" />
+    <Compile Include="WinForm\MenuStripHelper.cs" />
+    <Compile Include="WinForm\MessageBoxHelper.cs" />
+    <Compile Include="WinForm\NotepadHelper.cs" />
+    <Compile Include="WinForm\NumericUpDownHelper.cs" />
+    <Compile Include="WinForm\OpenFileDialogHelper.cs" />
+    <Compile Include="WinForm\OpenFolderDialogHelper.cs" />
+    <Compile Include="WinForm\ProgressBarHelper.cs" />
+    <Compile Include="WinForm\RichTextBoxHelper.cs" />
+    <Compile Include="WinForm\TabControlHelper.cs" />
+    <Compile Include="WinForm\TabPageHelper.cs" />
+    <Compile Include="WinForm\TextBoxHelper.cs" />
+    <Compile Include="WinForm\TooltipHelper.cs" />
+    <Compile Include="WinForm\TreeViewHelper.cs" />
+    <Compile Include="WinForm\TreeViewSerializer.cs" />
+    <Compile Include="WinForm\UIHelper.cs" />
+    <Compile Include="WinForm\WebBrowserHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ValidateResource.resx">
