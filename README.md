@@ -1,7 +1,5 @@
 > C# 开发辅助类库，和士官长一样身经百战且越战越勇的战争机器，能力无人能出其右。
 
-[![996.icu](https://img.shields.io/badge/link-996.icu-red.svg)](https://996.icu)[![LICENSE](https://img.shields.io/badge/license-Anti%20996-blue.svg)](https://github.com/996icu/996.ICU/blob/master/LICENSE)
-
 项目架构思维导图：
 
 ![设计](https://9o7amq.dm.files.1drv.com/y4mvdeFkWkSFrsbowcTYmKLg5_xMkv2M9_7S3HwyQp1lmvOWURZQnzQN18sMDcB-sGNRf4ZS-WqImDuOKY_1huI90ubUT8uf1oaFk0ojztU9xjId0pvhTnu0B6DcMD9JdDYVOHEgBoUq3U23QntnItai4eIqrTvtHr5bkwdrQjDqHZKp2FBs0Fuv25LT-z_iSONM8mdzBCeEXzGVl6xsiLLFQ?width=1140&height=510&cropmode=none)
