@@ -311,20 +311,6 @@ namespace MasterChief.DotNet4.Utilities.Common
         }
 
         /// <summary>
-        ///     将时间类型转换为字符串表述
-        /// </summary>
-        /// <param name="data">DateTime</param>
-        /// <param name="formartString">格式化字符串</param>
-        /// <param name="defalut">默认数值</param>
-        /// <returns>字符串</returns>
-        public static string ToStringOrDefault(this DateTime data, string formartString, string defalut)
-        {
-            if (data != default) return data.ToString(formartString);
-
-            return defalut;
-        }
-
-        /// <summary>
         ///     按照列名称获取Sting值
         /// </summary>
         /// <param name="row">DataRow</param>

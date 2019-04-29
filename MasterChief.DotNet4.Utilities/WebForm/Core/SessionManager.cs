@@ -125,7 +125,7 @@ namespace MasterChief.DotNet4.Utilities.WebForm.Core
         public static T Get<T>(string key)
         {
             if (HttpContext.Current.Session[key] == null)
-                return default;
+                return default(T);
             return (T) HttpContext.Current.Session[key];
         }
 
