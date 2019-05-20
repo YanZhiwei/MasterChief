@@ -38,6 +38,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.DirectoryServices" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
@@ -111,6 +112,7 @@
     <Compile Include="Common\ThreadHelper.cs" />
     <Compile Include="Common\TimeSpanHelper.cs" />
     <Compile Include="Common\UnixEpochHelper.cs" />
+    <Compile Include="Common\Win32UserAccountHelper.cs" />
     <Compile Include="Common\XMLHelper.cs" />
     <Compile Include="ComponentModel\NotificationHelper.cs" />
     <Compile Include="ComponentModel\NotificationObject.cs" />
@@ -139,6 +141,7 @@
     <Compile Include="Manager\AssemblyManager.cs" />
     <Compile Include="Manager\INIManager.cs" />
     <Compile Include="Manager\SmtpClientManager.cs" />
+    <Compile Include="Model\Win32UserAccount.cs" />
     <Compile Include="Operator\ValidateOperator.cs" />
     <Compile Include="Manager\XMLManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

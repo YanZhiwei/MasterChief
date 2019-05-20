@@ -311,6 +311,16 @@ namespace MasterChief.DotNet4.Utilities.Common
         }
 
         /// <summary>
+        /// 转换成string类型
+        /// </summary>
+        /// <param name="data">需要转换的object</param>
+        /// <returns>转换返回</returns>
+        public static string ToStringOrDefault(this object data)
+        {
+            return ToStringOrDefault(data, string.Empty);
+        }
+
+        /// <summary>
         ///     按照列名称获取Sting值
         /// </summary>
         /// <param name="row">DataRow</param>
