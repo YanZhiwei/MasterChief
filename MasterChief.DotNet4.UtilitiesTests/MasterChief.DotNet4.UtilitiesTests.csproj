@@ -56,6 +56,7 @@
     <Compile Include="Common\CheckHelperTests.cs" />
     <Compile Include="Common\CollectionHelperTests.cs" />
     <Compile Include="Common\ObjectHelperTests.cs" />
+    <Compile Include="Common\ServiceHelperTests.cs" />
     <Compile Include="Encryptor\AESEncryptorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
