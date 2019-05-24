@@ -5,8 +5,6 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Security.AccessControl;
 using System.Text.RegularExpressions;
-using MasterChief.DotNet4.Utilities.Model;
-using Microsoft.Win32;
 
 namespace MasterChief.DotNet4.Utilities.Common
 {
@@ -15,6 +13,44 @@ namespace MasterChief.DotNet4.Utilities.Common
     /// </summary>
     public static class FileHelper
     {
+        /// <summary>
+        ///     从路径中获取文件名称（包括后缀）
+        /// </summary>
+        /// <param name="filePath">路径</param>
+        /// <returns>文件名称（包括后缀）</returns>
+        public static string GetFileName(string filePath)
+        {
+            return Path.GetFileName(filePath);
+        }
+
+        /// <summary>
+        ///     创建文件路径
+        ///     <para>eg:FileHelper.CreatePath(@"C:\aa\cc\dd\ee.xml");</para>
+        /// </summary>
+        /// <param name="path">需要创建的路径</param>
+        /// <returns>是否创建成功</returns>
+        public static bool CreatePath(string path)
+        {
+            var result = true;
+
+            if (!string.IsNullOrEmpty(path) && !File.Exists(path))
+                try
+                {
+                    var directory = Path.GetDirectoryName(path);
+                    CreateDirectory(directory);
+                    using (File.Create(path))
+                    {
+                    }
+                }
+
+                catch (Exception)
+                {
+                    result = false;
+                }
+
+            return result;
+        }
+
         #region Fields
 
         /// <summary>
@@ -36,6 +72,17 @@ namespace MasterChief.DotNet4.Utilities.Common
         ///     HFILE_ERROR
         /// </summary>
         public static readonly IntPtr HfileError = new IntPtr(-1);
+
+        /// <summary>
+        ///     从路径中获取文件名称（不包括后缀）
+        ///     <para>eg:FileHelper.GetFileNameOnly(@"C:\yanzhiwei.docx");==>yanzhiwei</para>
+        /// </summary>
+        /// <param name="filePath">路径</param>
+        /// <returns>文件名称（不包括后缀）</returns>
+        public static string GetFileNameOnly(string filePath)
+        {
+            return Path.GetFileNameWithoutExtension(filePath);
+        }
 
         #endregion Fields
 
@@ -279,7 +326,7 @@ namespace MasterChief.DotNet4.Utilities.Common
                 do
                 {
                     fileCount++;
-                    bakName = string.Format("{0}.{1}.bak", filePath, fileCount);
+                    bakName = $"{filePath}.{fileCount}.bak";
                 } while (File.Exists(bakName));
 
                 File.Copy(filePath, bakName);
@@ -315,21 +362,6 @@ namespace MasterChief.DotNet4.Utilities.Common
             CreateDirectory(parentDir + PathSplitChar + subDirName);
         }
 
-        /// <summary>
-        ///     创建文件路径
-        ///     <para>eg:FileHelper.CreatePath(@"C:\aa\cc\dd\ee.xml");</para>
-        /// </summary>
-        /// <param name="path">需要创建的路径</param>
-        public static void CreatePath(string path)
-        {
-            if (!File.Exists(path)) return;
-
-            var directory = GetExceptName(path);
-            CreateDirectory(directory);
-            using (File.Create(path))
-            {
-            }
-        }
 
         /// <summary>
         ///     根据现有路径创建临时文件路径
@@ -341,7 +373,8 @@ namespace MasterChief.DotNet4.Utilities.Common
         public static string CreateTempFilePath(this string filePath)
         {
             var fileInfo = new FileInfo(filePath);
-            var sourceFileTemp = Path.Combine(fileInfo.DirectoryName ?? throw new InvalidOperationException(), Guid.NewGuid() + fileInfo.Extension);
+            var sourceFileTemp = Path.Combine(fileInfo.DirectoryName ?? throw new InvalidOperationException(),
+                Guid.NewGuid() + fileInfo.Extension);
             fileInfo.CopyTo(sourceFileTemp);
             return sourceFileTemp;
         }
@@ -421,107 +454,6 @@ namespace MasterChief.DotNet4.Utilities.Common
             return false;
         }
 
-        /// <summary>
-        ///     获取除后缀外的路径
-        ///     <para>eg:FileHelper.GetExceptEx(@"C:\yanzhiwei.docx");==>"C:\yanzhiwei"</para>
-        /// </summary>
-        /// <param name="path">路径</param>
-        /// <returns>除后缀外的路径</returns>
-        public static string GetExceptEx(string path)
-        {
-            var fileName = string.Empty;
-
-            if (RegexHelper.IsMatch(path, RegexPattern.FileCheck, out var result))
-                fileName = result.Result("${fpath}") + result.Result("${fname}") + result.Result("${namext}");
-
-            return fileName;
-        }
-
-        /// <summary>
-        ///     获取除文件外的路径
-        ///     <para>eg:FileHelper.GetExceptName(@"C:\yanzhiwei.docx");==>"C:\"</para>
-        /// </summary>
-        /// <param name="path">路径</param>
-        /// <returns>除文件外的路径</returns>
-        public static string GetExceptName(string path)
-        {
-            var fileName = string.Empty;
-
-            if (RegexHelper.IsMatch(path, RegexPattern.FileCheck, out var result)) fileName = result.Result("${fpath}");
-
-            return fileName;
-        }
-
-        /// <summary>
-        ///     从路径中获取文件后缀
-        ///     <para>eg:FileHelper.GetFileEx(@"C:\yanzhiwei.docx");==>".docx"</para>
-        /// </summary>
-        /// <param name="path">路径</param>
-        /// <returns>文件后缀</returns>
-        public static string GetFileEx(string path)
-        {
-            var fileName = string.Empty;
-
-            if (RegexHelper.IsMatch(path, RegexPattern.FileCheck, out var result))
-                fileName = result.Result("${suffix}");
-
-            return fileName;
-        }
-
-        /// <summary>
-        ///     获取文件信息
-        /// </summary>
-        /// <param name="filepath">文件路径</param>
-        /// <param name="regexString">需要匹配的正则表达式</param>
-        /// <returns>文件信息</returns>
-        public static FileDetail GetFileInfo(string filepath, string regexString)
-        {
-            var result = Regex.Match(filepath, regexString, RegexOptions.IgnoreCase);
-
-            if (result.Success)
-                return new FileDetail
-                {
-                    Root = result.Groups[1].Value,
-                    Folder = result.Groups[2].Value,
-                    SubFolder = result.Groups[3].Value,
-                    FileName = result.Groups[4].Value,
-                    FileNameExt = result.Groups[5].Value
-                };
-
-            return null;
-        }
-
-        /// <summary>
-        ///     从路径中获取文件名称（包括后缀）
-        ///     <para>eg:FileHelper.GetFileName(@"C:\yanzhiwei.docx");==>yanzhiwei.docx</para>
-        /// </summary>
-        /// <param name="path">路径</param>
-        /// <returns>文件名称（包括后缀）</returns>
-        public static string GetFileName(string path)
-        {
-            var fileName = string.Empty;
-
-            if (RegexHelper.IsMatch(path, RegexPattern.FileCheck, out var result))
-                fileName = result.Result("${fname}") + result.Result("${namext}") + result.Result("${suffix}");
-
-            return fileName;
-        }
-
-        /// <summary>
-        ///     从路径中获取文件名称（不包括后缀）
-        ///     <para>eg:FileHelper.GetFileNameOnly(@"C:\yanzhiwei.docx");==>yanzhiwei</para>
-        /// </summary>
-        /// <param name="path">路径</param>
-        /// <returns>文件名称（不包括后缀）</returns>
-        public static string GetFileNameOnly(string path)
-        {
-            var fileName = string.Empty;
-
-            if (RegexHelper.IsMatch(path, RegexPattern.FileCheck, out var result))
-                fileName = result.Result("${fname}") + result.Result("${namext}");
-
-            return fileName;
-        }
 
         /// <summary>
         ///     获取文件大小—kb
@@ -693,43 +625,6 @@ namespace MasterChief.DotNet4.Utilities.Common
             File.WriteAllBytes(filePath, data);
         }
 
-        /// <summary>
-        ///     设置程序开机启动_注册表形式
-        /// </summary>
-        /// <param name="path">需要开机启动的exe路径</param>
-        /// <param name="keyName">注册表中键值名称</param>
-        /// <param name="set">true设置开机启动，false取消开机启动</param>
-        public static void StartupSet(string path, string keyName, bool set)
-        {
-            /*
-             * 知识：
-             * 1.管理员权限问题
-             *   在打开的工程中，看下Properties 下面是否有app.manifest 这个文件，如果没有，右击工程在菜单中选择“属性”
-             *   选中"Security"，在界面中勾选"Enable ClickOnce Security Settings"后，在Properties下就有自动生成app.manifest文件。
-             *   打开app.manifest文件，将<requestedExecutionLevel level="asInvoker" uiAccess="false" />改为
-             *   <requestedExecutionLevel level="requireAdministrator" uiAccess="false" />
-             *   然后在"Security"中再勾去"Enable ClickOnce Security Settings"后，重新编译即可。
-             * 参考:
-             * 1. http://syxc.iteye.com/blog/673972
-             * 2. http://zouqinghua11111.blog.163.com/blog/static/67997654201242334620628/
-             * 3. http://stackoverflow.com/questions/5089601/run-the-application-at-windows-startup
-             */
-            using (var registry = Registry.LocalMachine)
-            {
-                var key = registry.CreateSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run");
-
-                if (set)
-                {
-                    key?.SetValue(keyName, path);
-                }
-                else
-                {
-                    var value = key?.GetValue(keyName);
-
-                    if (value != null) key.DeleteValue(keyName);
-                }
-            }
-        }
 
         [DllImport("kernel32.dll")]
         private static extern bool CloseHandle(IntPtr hObject);

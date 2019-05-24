@@ -142,7 +142,6 @@
     <Compile Include="DbManager\IDbManager.cs" />
     <Compile Include="MimeTypes.cs" />
     <Compile Include="Model\CsvRow.cs" />
-    <Compile Include="Model\FileDetail.cs" />
     <Compile Include="Model\GeoPoint.cs" />
     <Compile Include="Model\LatLngPoint.cs" />
     <Compile Include="Model\MapCoord.cs" />

@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using MasterChief.DotNet4.Utilities.Operator;
 
 namespace MasterChief.DotNet4.Utilities.Common
 {
@@ -11,52 +14,44 @@ namespace MasterChief.DotNet4.Utilities.Common
         #region Methods
 
         /// <summary>
-        ///     动态执行一系列控制台命令
-        ///     <para>eg: ProcessHelper.ExecBatCommand(cmd =></para>
-        ///     <para>{</para>
-        ///     <para>cmd("ipconfig");</para>
-        ///     <para>cmd("getmac");</para>
-        ///     <para>cmd("exit 0");</para>
-        ///     <para> });</para>
+        ///     运行程序
         /// </summary>
-        /// <param name="keySelector">委托 </param>
-        public static void ExecBatCommand(Action<Action<string>> keySelector)
+        /// <param name="processPath">程序exe全路径</param>
+        public static void Run(string processPath)
         {
-            Process process = null;
-
-            try
+            ValidateOperator.Begin()
+                .NotNullOrEmpty(processPath, "需要运行的程序路径")
+                .CheckFileExists(processPath);
+            var fileInfo = new FileInfo(processPath);
+            var process = new Process
             {
-                process = new Process
+                StartInfo =
                 {
-                    StartInfo =
-                    {
-                        FileName = "cmd.exe",
-                        UseShellExecute = false,
-                        CreateNoWindow = true,
-                        RedirectStandardInput = true,
-                        RedirectStandardOutput = true,
-                        RedirectStandardError = true
-                    }
-                };
-                process.OutputDataReceived += (sender, e) => Console.WriteLine(e.Data);
-                process.ErrorDataReceived += (sender, e) => Console.WriteLine(e.Data);
-                process.Start();
-                using (var writer = process.StandardInput)
-                {
-                    writer.AutoFlush = true;
-                    process.BeginOutputReadLine();
-                    // ReSharper disable once AccessToDisposedClosure
-                    keySelector?.Invoke(value => { writer.WriteLine(value); });
+                    FileName = fileInfo.Name,
+                    WorkingDirectory = fileInfo.DirectoryName
                 }
+            };
 
-                process.WaitForExit();
-            }
-            finally
-            {
-                if (process != null && !process.HasExited) process.Kill();
+            process.Start();
+        }
 
-                process?.Close();
-            }
+        /// <summary>
+        ///     判断程序是否已经运行
+        /// </summary>
+        /// <param name="processPath">程序exe全路径</param>
+        /// <returns>是否已经运行</returns>
+        public static bool IsRunning(string processPath)
+        {
+            ValidateOperator.Begin()
+                .NotNullOrEmpty(processPath, "需要运行的程序路径")
+                .CheckFileExists(processPath);
+            var fileName = Path.GetFileNameWithoutExtension(processPath)?.ToLower();
+            var workingDirectory = Path.GetDirectoryName(processPath);
+            var processes = Process.GetProcessesByName(fileName);
+
+            return processes.Count(c =>
+                       // ReSharper disable once PossibleNullReferenceException
+                       c.MainModule.FileName.StartsWith(workingDirectory, StringComparison.OrdinalIgnoreCase)) > 0;
         }
 
         #endregion Methods
