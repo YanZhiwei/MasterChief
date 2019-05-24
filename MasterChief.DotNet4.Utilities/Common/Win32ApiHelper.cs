@@ -14,32 +14,61 @@ namespace MasterChief.DotNet4.Utilities.Common
     /// </summary>
     public sealed class Win32ApiHelper
     {
-        /// <summary>
-        ///     获取WindowStation名称列表
-        /// </summary>
-        /// <returns>WindowStation名称列表</returns>
-        public static string[] GetWindowStationNames()
-        {
-            return GetWindowStationNames(IntPtr.Zero);
-        }
+        #region Methods
 
         /// <summary>
-        ///     根据用户Token查询WindowStation名称列表
+        ///     以当前登录系统的用户角色权限启动指定的进程
         /// </summary>
-        /// <param name="userPtr">用户Token句柄</param>
-        /// <returns>WindowStation名称列表</returns>
-        public static string[] GetWindowStationNames(IntPtr userPtr)
+        /// <param name="processPath">指定的进程(全路径)</param>
+        public static void CreateProcess(string processPath)
         {
-            IList<string> winStations = new List<string>();
-            var callback = new Win32Api.EnumWindowStationsDelegate((windowStation, lParam) =>
+            ValidateOperator.Begin().NotNullOrEmpty(processPath, "需要运行程序全路径").CheckFileExists(processPath);
+            var ppSessionInfo = IntPtr.Zero;
+            var sessionCount = 0;
+            var hasSession = Win32Api.WTSEnumerateSessions(IntPtr.Zero, 0, 1, ref ppSessionInfo, ref sessionCount) != 0;
+
+            try
             {
-                winStations.Add(windowStation);
-                return true;
-            });
+                if (!hasSession)
+                    throw new Win32ErrorCodeException("WTSEnumerateSessions==0");
+                for (var count = 0; count < sessionCount; count++)
+                {
+                    var si = (WTS_SESSION_INFO) Marshal.PtrToStructure(
+                        ppSessionInfo + count * Marshal.SizeOf(typeof(WTS_SESSION_INFO)), typeof(WTS_SESSION_INFO));
 
-            if (!Win32Api.EnumWindowStations(callback, userPtr))
-                throw new Win32ErrorCodeException("EnumWindowStations");
-            return winStations.ToArray();
+                    if (si.State != WTS_CONNECTSTATE_CLASS.WTSActive) continue;
+
+                    if (!Win32Api.WTSQueryUserToken(si.SessionID, out var hToken)) continue;
+
+                    var tStartUpInfo = new STARTUPINFO
+                    {
+                        cb = Marshal.SizeOf(typeof(STARTUPINFO))
+                    };
+                    var childProcStarted = Win32Api.CreateProcessAsUser(
+                        hToken,
+                        processPath,
+                        null,
+                        IntPtr.Zero,
+                        IntPtr.Zero,
+                        false,
+                        0,
+                        null,
+                        null,
+                        ref tStartUpInfo,
+                        out var tProcessInfo
+                    );
+                    if (!childProcStarted) throw new Win32ErrorCodeException($"CreateProcessAsUser({processPath})");
+                    Win32Api.CloseHandle(tProcessInfo.hThread);
+                    Win32Api.CloseHandle(tProcessInfo.hProcess);
+
+                    Win32Api.CloseHandle(hToken);
+                    break;
+                }
+            }
+            finally
+            {
+                Win32Api.WTSFreeMemory(ppSessionInfo);
+            }
         }
 
         /// <summary>
@@ -101,7 +130,6 @@ namespace MasterChief.DotNet4.Utilities.Common
             var desktopHandle = Win32Api.OpenDesktop(desktopName, 0, true, WinStationAccess.GENERIC_ALL);
             if (desktopHandle == IntPtr.Zero) throw new Win32ErrorCodeException("OpenDesktop('" + desktopName + "')");
 
-
             try
             {
                 var windows = new List<Window>();
@@ -122,60 +150,34 @@ namespace MasterChief.DotNet4.Utilities.Common
             }
         }
 
+        /// <summary>
+        ///     获取WindowStation名称列表
+        /// </summary>
+        /// <returns>WindowStation名称列表</returns>
+        public static string[] GetWindowStationNames()
+        {
+            return GetWindowStationNames(IntPtr.Zero);
+        }
 
         /// <summary>
-        ///     以当前登录系统的用户角色权限启动指定的进程
+        ///     根据用户Token查询WindowStation名称列表
         /// </summary>
-        /// <param name="processPath">指定的进程(全路径)</param>
-        public static void CreateProcess(string processPath)
+        /// <param name="userPtr">用户Token句柄</param>
+        /// <returns>WindowStation名称列表</returns>
+        public static string[] GetWindowStationNames(IntPtr userPtr)
         {
-            ValidateOperator.Begin().NotNullOrEmpty(processPath, "需要运行程序全路径").CheckFileExists(processPath);
-            var ppSessionInfo = IntPtr.Zero;
-            var sessionCount = 0;
-            var hasSession = Win32Api.WTSEnumerateSessions(IntPtr.Zero, 0, 1, ref ppSessionInfo, ref sessionCount) != 0;
-
-            try
+            IList<string> winStations = new List<string>();
+            var callback = new Win32Api.EnumWindowStationsDelegate((windowStation, lParam) =>
             {
-                if (!hasSession)
-                    throw new Win32ErrorCodeException("WTSEnumerateSessions==0");
-                for (var count = 0; count < sessionCount; count++)
-                {
-                    var si = (WTS_SESSION_INFO) Marshal.PtrToStructure(
-                        ppSessionInfo + count * Marshal.SizeOf(typeof(WTS_SESSION_INFO)), typeof(WTS_SESSION_INFO));
+                winStations.Add(windowStation);
+                return true;
+            });
 
-                    if (si.State != WTS_CONNECTSTATE_CLASS.WTSActive) continue;
-
-                    if (!Win32Api.WTSQueryUserToken(si.SessionID, out var hToken)) continue;
-
-                    var tStartUpInfo = new STARTUPINFO
-                    {
-                        cb = Marshal.SizeOf(typeof(STARTUPINFO))
-                    };
-                    var childProcStarted = Win32Api.CreateProcessAsUser(
-                        hToken,
-                        processPath,
-                        null,
-                        IntPtr.Zero,
-                        IntPtr.Zero,
-                        false,
-                        0,
-                        null,
-                        null,
-                        ref tStartUpInfo,
-                        out var tProcessInfo
-                    );
-                    if (!childProcStarted) throw new Win32ErrorCodeException($"CreateProcessAsUser({processPath})");
-                    Win32Api.CloseHandle(tProcessInfo.hThread);
-                    Win32Api.CloseHandle(tProcessInfo.hProcess);
-
-                    Win32Api.CloseHandle(hToken);
-                    break;
-                }
-            }
-            finally
-            {
-                Win32Api.WTSFreeMemory(ppSessionInfo);
-            }
+            if (!Win32Api.EnumWindowStations(callback, userPtr))
+                throw new Win32ErrorCodeException("EnumWindowStations");
+            return winStations.ToArray();
         }
+
+        #endregion Methods
     }
 }
