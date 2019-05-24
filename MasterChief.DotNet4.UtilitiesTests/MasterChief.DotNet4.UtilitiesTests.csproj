@@ -57,6 +57,7 @@
     <Compile Include="Common\CollectionHelperTests.cs" />
     <Compile Include="Common\ObjectHelperTests.cs" />
     <Compile Include="Common\ServiceHelperTests.cs" />
+    <Compile Include="Common\Win32ApiHelperTests.cs" />
     <Compile Include="Common\Win32UserAccountHelperTests.cs" />
     <Compile Include="Core\ShortcutLinkTests.cs" />
     <Compile Include="Encryptor\AESEncryptorTests.cs" />

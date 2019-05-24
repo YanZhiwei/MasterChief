@@ -33,7 +33,7 @@ namespace MasterChief.DotNet4.Utilities.Common
                     throw new Win32ErrorCodeException("WTSEnumerateSessions==0");
                 for (var count = 0; count < sessionCount; count++)
                 {
-                    var si = (WTS_SESSION_INFO) Marshal.PtrToStructure(
+                    var si = (WTS_SESSION_INFO)Marshal.PtrToStructure(
                         ppSessionInfo + count * Marshal.SizeOf(typeof(WTS_SESSION_INFO)), typeof(WTS_SESSION_INFO));
 
                     if (si.State != WTS_CONNECTSTATE_CLASS.WTSActive) continue;
@@ -67,7 +67,8 @@ namespace MasterChief.DotNet4.Utilities.Common
             }
             finally
             {
-                Win32Api.WTSFreeMemory(ppSessionInfo);
+                if (ppSessionInfo != IntPtr.Zero)
+                    Win32Api.WTSFreeMemory(ppSessionInfo);
             }
         }
 
