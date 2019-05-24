@@ -1,6 +1,7 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using MasterChief.DotNet4.Utilities.Common;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace MasterChief.DotNet4.Utilities.Common.Tests
+namespace MasterChief.DotNet4.UtilitiesTests.Common
 {
     [TestClass]
     public class ServiceHelperTests

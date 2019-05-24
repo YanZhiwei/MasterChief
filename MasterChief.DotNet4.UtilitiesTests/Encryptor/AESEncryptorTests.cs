@@ -1,8 +1,9 @@
-﻿using MasterChief.DotNet4.Utilities.Common;
+﻿using System.Security.Cryptography;
+using MasterChief.DotNet4.Utilities.Common;
+using MasterChief.DotNet4.Utilities.Encryptor;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Security.Cryptography;
 
-namespace MasterChief.DotNet4.Utilities.Encryptor.Tests
+namespace MasterChief.DotNet4.UtilitiesTests.Encryptor
 {
     [TestClass()]
     public class AESEncryptorTests
