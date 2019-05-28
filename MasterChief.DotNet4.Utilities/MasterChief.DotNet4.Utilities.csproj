@@ -145,6 +145,7 @@
     <Compile Include="Model\GeoPoint.cs" />
     <Compile Include="Model\LatLngPoint.cs" />
     <Compile Include="Model\MapCoord.cs" />
+    <Compile Include="Model\Session.cs" />
     <Compile Include="Model\ShellLink.cs" />
     <Compile Include="Model\SmtpServer.cs" />
     <Compile Include="Model\StandardStruct.cs" />
