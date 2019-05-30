@@ -137,7 +137,6 @@
     <Compile Include="Enum\ImgWaterPosition.cs" />
     <Compile Include="Enum\StandardAccess.cs" />
     <Compile Include="Enum\StandardDef.cs" />
-    <Compile Include="Enum\WindowsMessage.cs" />
     <Compile Include="Enum\WinStationAccess.cs" />
     <Compile Include="FileExt.cs" />
     <Compile Include="DbManager\IDbManager.cs" />

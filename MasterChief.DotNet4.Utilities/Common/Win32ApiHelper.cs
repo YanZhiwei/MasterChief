@@ -33,7 +33,7 @@ namespace MasterChief.DotNet4.Utilities.Common
                     throw new Win32ErrorCodeException("WTSEnumerateSessions==0");
                 for (var count = 0; count < sessionCount; count++)
                 {
-                    var si = (WTS_SESSION_INFO) Marshal.PtrToStructure(
+                    var si = (WTS_SESSION_INFO)Marshal.PtrToStructure(
                         ppSessionInfo + count * Marshal.SizeOf(typeof(WTS_SESSION_INFO)), typeof(WTS_SESSION_INFO));
 
                     if (si.State != WTS_CONNECTSTATE_CLASS.WTSActive) continue;
@@ -199,7 +199,7 @@ namespace MasterChief.DotNet4.Utilities.Common
                 var sessions = new Session[sessionCount];
                 for (var i = 0; i < sessionCount; i++)
                 {
-                    var si = (WTS_SESSION_INFO) Marshal.PtrToStructure(currentSession, typeof(WTS_SESSION_INFO));
+                    var si = (WTS_SESSION_INFO)Marshal.PtrToStructure(currentSession, typeof(WTS_SESSION_INFO));
                     currentSession += dataSize;
 
                     Win32Api.WTSQuerySessionInformation(serverHandle, si.SessionID, WTS_INFO_CLASS.WTSUserName,
@@ -222,6 +222,46 @@ namespace MasterChief.DotNet4.Utilities.Common
                 if (serverHandle != IntPtr.Zero)
                     Win32Api.WTSCloseServer(serverHandle);
             }
+        }
+
+        /// <summary>
+        /// 查找窗体上控件句柄
+        /// </summary>
+        /// <param name="captionName">控件标题</param>
+        /// <param name="bChild">设定是否在子窗体中查找</param>
+        /// <returns></returns>
+        public static IntPtr FindWindow(string captionName, bool bChild = false)
+        {
+            return FindWindow(IntPtr.Zero, captionName, bChild);
+        }
+
+
+        /// <summary>
+        ///     查找窗体上控件句柄
+        /// </summary>
+        /// <param name="hwnd">父窗体句柄</param>
+        /// <param name="captionName">控件标题(Text)</param>
+        /// <param name="bChild">设定是否在子窗体中查找</param>
+        /// <returns>控件句柄</returns>
+        public static IntPtr FindWindow(IntPtr hwnd, string captionName, bool bChild = false)
+        {
+            var windowHandle = Win32Api.FindWindowEx(hwnd, IntPtr.Zero, null, captionName);
+            if (windowHandle != IntPtr.Zero) return windowHandle;
+
+            if (!bChild) return windowHandle;
+
+            Win32Api.EnumChildWindows(
+                hwnd,
+                (h, l) =>
+                {
+                    var childWinHandle = Win32Api.FindWindowEx(h, IntPtr.Zero, null, captionName);
+                    if (childWinHandle == IntPtr.Zero) return true;
+
+                    windowHandle = childWinHandle;
+                    return false;
+                },
+                0);
+            return windowHandle;
         }
 
         #endregion Methods
