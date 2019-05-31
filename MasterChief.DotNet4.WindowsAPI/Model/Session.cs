@@ -1,6 +1,6 @@
-﻿using MasterChief.DotNet4.Utilities.Enum;
+﻿using MasterChief.DotNet4.WindowsAPI.Enum;
 
-namespace MasterChief.DotNet4.Utilities.Model
+namespace MasterChief.DotNet4.WindowsAPI.Model
 {
     /// <summary>
     ///     Windows Session 信息

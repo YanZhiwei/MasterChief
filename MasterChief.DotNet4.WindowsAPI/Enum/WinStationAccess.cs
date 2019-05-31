@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MasterChief.DotNet4.Utilities.Enum
+namespace MasterChief.DotNet4.WindowsAPI.Enum
 {
     [Flags]
     public enum WinStationAccess : uint

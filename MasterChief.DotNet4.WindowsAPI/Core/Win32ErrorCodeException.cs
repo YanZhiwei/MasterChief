@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.InteropServices;
 
-namespace MasterChief.DotNet4.Utilities.Core
+namespace MasterChief.DotNet4.WindowsAPI.Core
 {
     /// <summary>
     ///     Windows Api自定义异常

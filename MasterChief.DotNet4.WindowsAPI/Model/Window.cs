@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
-using MasterChief.DotNet4.Utilities.Core;
+using MasterChief.DotNet4.WindowsAPI.Core;
 
-namespace MasterChief.DotNet4.Utilities.Model
+namespace MasterChief.DotNet4.WindowsAPI.Model
 {
     /// <summary>
     ///     窗口句柄信息

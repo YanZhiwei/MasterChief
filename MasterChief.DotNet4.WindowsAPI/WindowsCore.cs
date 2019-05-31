@@ -2,76 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
-using MasterChief.DotNet4.Utilities.Core;
-using MasterChief.DotNet4.Utilities.Enum;
-using MasterChief.DotNet4.Utilities.Model;
-using MasterChief.DotNet4.Utilities.Operator;
+using MasterChief.DotNet4.WindowsAPI.Core;
+using MasterChief.DotNet4.WindowsAPI.Enum;
+using MasterChief.DotNet4.WindowsAPI.Model;
 
-namespace MasterChief.DotNet4.Utilities.Common
+namespace MasterChief.DotNet4.WindowsAPI
 {
-    /// <summary>
-    ///     Windows Api 辅助类
-    /// </summary>
-    public sealed class Win32ApiHelper
+    public class WindowsCore
     {
-        #region Methods
-
-        /// <summary>
-        ///     以当前登录系统的用户角色权限启动指定的进程
-        /// </summary>
-        /// <param name="processPath">指定的进程(全路径)</param>
-        public static void CreateProcess(string processPath)
-        {
-            ValidateOperator.Begin().NotNullOrEmpty(processPath, "需要运行程序全路径").CheckFileExists(processPath);
-            var ppSessionInfo = IntPtr.Zero;
-            var sessionCount = 0;
-            var hasSession = Win32Api.WTSEnumerateSessions(IntPtr.Zero, 0, 1, ref ppSessionInfo, ref sessionCount) != 0;
-
-            try
-            {
-                if (!hasSession)
-                    throw new Win32ErrorCodeException("WTSEnumerateSessions==0");
-                for (var count = 0; count < sessionCount; count++)
-                {
-                    var si = (WTS_SESSION_INFO)Marshal.PtrToStructure(
-                        ppSessionInfo + count * Marshal.SizeOf(typeof(WTS_SESSION_INFO)), typeof(WTS_SESSION_INFO));
-
-                    if (si.State != WTS_CONNECTSTATE_CLASS.WTSActive) continue;
-
-                    if (!Win32Api.WTSQueryUserToken(si.SessionID, out var hToken)) continue;
-
-                    var tStartUpInfo = new STARTUPINFO
-                    {
-                        cb = Marshal.SizeOf(typeof(STARTUPINFO))
-                    };
-                    var childProcStarted = Win32Api.CreateProcessAsUser(
-                        hToken,
-                        processPath,
-                        null,
-                        IntPtr.Zero,
-                        IntPtr.Zero,
-                        false,
-                        0,
-                        null,
-                        null,
-                        ref tStartUpInfo,
-                        out var tProcessInfo
-                    );
-                    if (!childProcStarted) throw new Win32ErrorCodeException($"CreateProcessAsUser({processPath})");
-                    Win32Api.CloseHandle(tProcessInfo.hThread);
-                    Win32Api.CloseHandle(tProcessInfo.hProcess);
-
-                    Win32Api.CloseHandle(hToken);
-                    break;
-                }
-            }
-            finally
-            {
-                if (ppSessionInfo != IntPtr.Zero)
-                    Win32Api.WTSFreeMemory(ppSessionInfo);
-            }
-        }
-
         /// <summary>
         ///     根据WindowStation名称查询DesktopName列表
         /// </summary>
@@ -199,7 +137,7 @@ namespace MasterChief.DotNet4.Utilities.Common
                 var sessions = new Session[sessionCount];
                 for (var i = 0; i < sessionCount; i++)
                 {
-                    var si = (WTS_SESSION_INFO)Marshal.PtrToStructure(currentSession, typeof(WTS_SESSION_INFO));
+                    var si = (WTS_SESSION_INFO) Marshal.PtrToStructure(currentSession, typeof(WTS_SESSION_INFO));
                     currentSession += dataSize;
 
                     Win32Api.WTSQuerySessionInformation(serverHandle, si.SessionID, WTS_INFO_CLASS.WTSUserName,
@@ -223,47 +161,5 @@ namespace MasterChief.DotNet4.Utilities.Common
                     Win32Api.WTSCloseServer(serverHandle);
             }
         }
-
-        /// <summary>
-        /// 查找窗体上控件句柄
-        /// </summary>
-        /// <param name="captionName">控件标题</param>
-        /// <param name="bChild">设定是否在子窗体中查找</param>
-        /// <returns></returns>
-        public static IntPtr FindWindow(string captionName, bool bChild = false)
-        {
-            return FindWindow(IntPtr.Zero, captionName, bChild);
-        }
-
-
-        /// <summary>
-        ///     查找窗体上控件句柄
-        /// </summary>
-        /// <param name="hwnd">父窗体句柄</param>
-        /// <param name="captionName">控件标题(Text)</param>
-        /// <param name="bChild">设定是否在子窗体中查找</param>
-        /// <returns>控件句柄</returns>
-        public static IntPtr FindWindow(IntPtr hwnd, string captionName, bool bChild = false)
-        {
-            var windowHandle = Win32Api.FindWindowEx(hwnd, IntPtr.Zero, null, captionName);
-            if (windowHandle != IntPtr.Zero) return windowHandle;
-
-            if (!bChild) return windowHandle;
-
-            Win32Api.EnumChildWindows(
-                hwnd,
-                (h, l) =>
-                {
-                    var childWinHandle = Win32Api.FindWindowEx(h, IntPtr.Zero, null, captionName);
-                    if (childWinHandle == IntPtr.Zero) return true;
-
-                    windowHandle = childWinHandle;
-                    return false;
-                },
-                0);
-            return windowHandle;
-        }
-
-        #endregion Methods
     }
 }

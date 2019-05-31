@@ -1,4 +1,4 @@
-﻿namespace MasterChief.DotNet4.Utilities.Enum
+﻿namespace MasterChief.DotNet4.WindowsAPI.Enum
 {
     public enum WTS_CONNECTSTATE_CLASS
     {

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.Text;
-using MasterChief.DotNet4.Utilities.Enum;
-using MasterChief.DotNet4.Utilities.Model;
+using MasterChief.DotNet4.WindowsAPI.Enum;
+using MasterChief.DotNet4.WindowsAPI.Model;
 
-namespace MasterChief.DotNet4.Utilities.Core
+namespace MasterChief.DotNet4.WindowsAPI.Core
 {
     /// <summary>
     ///     Windows API

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using MasterChief.DotNet4.Utilities.Enum;
+using MasterChief.DotNet4.WindowsAPI.Enum;
 
-namespace MasterChief.DotNet4.Utilities.Model
+namespace MasterChief.DotNet4.WindowsAPI.Model
 {
     [StructLayout(LayoutKind.Sequential)]
     internal struct WTS_SESSION_INFO
