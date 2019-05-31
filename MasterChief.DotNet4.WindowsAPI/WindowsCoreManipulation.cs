@@ -2,14 +2,74 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
+using MasterChief.DotNet4.Utilities.Operator;
 using MasterChief.DotNet4.WindowsAPI.Core;
 using MasterChief.DotNet4.WindowsAPI.Enum;
 using MasterChief.DotNet4.WindowsAPI.Model;
 
 namespace MasterChief.DotNet4.WindowsAPI
 {
-    public class WindowsCore
+    /// <summary>
+    ///     基于Windows Api 核心操作
+    /// </summary>
+    public class WindowsCoreManipulation
     {
+        /// <summary>
+        ///     以当前登录系统的用户角色权限启动指定的进程
+        /// </summary>
+        /// <param name="processPath">指定的进程(全路径)</param>
+        public static void CreateProcess(string processPath)
+        {
+            ValidateOperator.Begin().NotNullOrEmpty(processPath, "需要运行程序全路径").CheckFileExists(processPath);
+            var ppSessionInfo = IntPtr.Zero;
+            var sessionCount = 0;
+            var hasSession = Win32Api.WTSEnumerateSessions(IntPtr.Zero, 0, 1, ref ppSessionInfo, ref sessionCount) != 0;
+
+            try
+            {
+                if (!hasSession)
+                    throw new Win32ErrorCodeException("WTSEnumerateSessions==0");
+                for (var count = 0; count < sessionCount; count++)
+                {
+                    var si = (WTS_SESSION_INFO) Marshal.PtrToStructure(
+                        ppSessionInfo + count * Marshal.SizeOf(typeof(WTS_SESSION_INFO)), typeof(WTS_SESSION_INFO));
+
+                    if (si.State != WTS_CONNECTSTATE_CLASS.WTSActive) continue;
+
+                    if (!Win32Api.WTSQueryUserToken(si.SessionID, out var hToken)) continue;
+
+                    var tStartUpInfo = new STARTUPINFO
+                    {
+                        cb = Marshal.SizeOf(typeof(STARTUPINFO))
+                    };
+                    var childProcStarted = Win32Api.CreateProcessAsUser(
+                        hToken,
+                        processPath,
+                        null,
+                        IntPtr.Zero,
+                        IntPtr.Zero,
+                        false,
+                        0,
+                        null,
+                        null,
+                        ref tStartUpInfo,
+                        out var tProcessInfo
+                    );
+                    if (!childProcStarted) throw new Win32ErrorCodeException($"CreateProcessAsUser({processPath})");
+                    Win32Api.CloseHandle(tProcessInfo.hThread);
+                    Win32Api.CloseHandle(tProcessInfo.hProcess);
+
+                    Win32Api.CloseHandle(hToken);
+                    break;
+                }
+            }
+            finally
+            {
+                if (ppSessionInfo != IntPtr.Zero)
+                    Win32Api.WTSFreeMemory(ppSessionInfo);
+            }
+        }
+
         /// <summary>
         ///     根据WindowStation名称查询DesktopName列表
         /// </summary>
@@ -42,22 +102,6 @@ namespace MasterChief.DotNet4.WindowsAPI
             }
         }
 
-        /// <summary>
-        ///     获取所有窗口列表
-        /// </summary>
-        /// <returns>窗口列表</returns>
-        public static Window[] GetWindows()
-        {
-            var windows = new List<Window>();
-            var callback = new Win32Api.EnumDesktopWindowsDelegate((hWnd, lParam) =>
-            {
-                windows.Add(new Window(hWnd));
-                return true;
-            });
-            if (!Win32Api.EnumDesktopWindows(IntPtr.Zero, callback, IntPtr.Zero))
-                throw new Win32ErrorCodeException("EnumDesktopWindows");
-            return windows.ToArray();
-        }
 
         /// <summary>
         ///     根据桌面名称查询窗口列表

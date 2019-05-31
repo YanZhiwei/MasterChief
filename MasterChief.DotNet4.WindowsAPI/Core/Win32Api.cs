@@ -14,6 +14,8 @@ namespace MasterChief.DotNet4.WindowsAPI.Core
         [DllImport("wtsapi32.dll")]
         internal static extern IntPtr WTSOpenServer([MarshalAs(UnmanagedType.LPStr)] string pServerName);
 
+        
+
         [DllImport("wtsapi32.dll")]
         internal static extern void WTSCloseServer(IntPtr hServer);
 
@@ -31,6 +33,7 @@ namespace MasterChief.DotNet4.WindowsAPI.Core
         [DllImport("Wtsapi32.dll")]
         internal static extern bool WTSQuerySessionInformation(
             IntPtr hServer, int sessionId, WTS_INFO_CLASS wtsInfoClass, out IntPtr ppBuffer, out uint pBytesReturned);
+
 
         [DllImport("user32.dll")]
         internal static extern bool EnumWindowStations(EnumWindowStationsDelegate lpEnumFunc,
@@ -173,7 +176,9 @@ namespace MasterChief.DotNet4.WindowsAPI.Core
         internal static extern IntPtr FindWindow(string className, string captionName);
 
         [DllImport("user32.dll")]
-        internal static extern bool EnumChildWindows(IntPtr hWndParent, ChildWindowsProc lpEnumFunc, int lParam);
+        internal static extern bool EnumChildWindows(IntPtr hwnd, EnumWindowDelegate lpEnumFunc, IntPtr lParam);
+
+        internal delegate bool EnumWindowDelegate(IntPtr hwnd, IntPtr lParam);
 
 
         internal delegate bool EnumDelegate(IntPtr hWnd, int lParam);
@@ -187,6 +192,9 @@ namespace MasterChief.DotNet4.WindowsAPI.Core
 
         internal delegate bool EnumWindowStationsDelegate(string windowsStation, IntPtr lParam);
 
-        internal delegate bool ChildWindowsProc(IntPtr hwnd, int lParam);
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        internal static extern int SendMessage(IntPtr hWnd, int wmUser, int wParam, [Out] StringBuilder windowText);
+        [DllImport("user32.dll")]
+        internal static extern bool ShowWindow(IntPtr hWnd, uint nCmdShow);
     }
 }
