@@ -12,7 +12,7 @@ namespace MasterChief.DotNet4.WindowsAPI
     /// <summary>
     ///     基于Windows Api 核心操作
     /// </summary>
-    public class WindowsCoreManipulation
+    public class WindowsCore
     {
         /// <summary>
         ///     以当前登录系统的用户角色权限启动指定的进程
@@ -108,17 +108,17 @@ namespace MasterChief.DotNet4.WindowsAPI
         /// </summary>
         /// <param name="desktopName">桌面名称</param>
         /// <returns>窗口列表</returns>
-        public static Window[] GetWindows(string desktopName)
+        public static Model.Window[] GetWindows(string desktopName)
         {
             var desktopHandle = Win32Api.OpenDesktop(desktopName, 0, true, WinStationAccess.GENERIC_ALL);
             if (desktopHandle == IntPtr.Zero) throw new Win32ErrorCodeException("OpenDesktop('" + desktopName + "')");
 
             try
             {
-                var windows = new List<Window>();
+                var windows = new List<Model.Window>();
                 var callback = new Win32Api.EnumDesktopWindowsDelegate((hWnd, lParam) =>
                 {
-                    windows.Add(new Window(hWnd));
+                    windows.Add(new Model.Window(hWnd));
                     return true;
                 });
 

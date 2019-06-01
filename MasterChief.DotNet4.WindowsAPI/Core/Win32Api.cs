@@ -186,6 +186,13 @@ namespace MasterChief.DotNet4.WindowsAPI.Core
         [DllImport("user32.dll")]
         internal static extern bool ShowWindow(IntPtr hWnd, uint nCmdShow);
 
+        [DllImport("user32.dll")]
+        internal static extern IntPtr FindWindowEx(IntPtr parentHandle, int childAfter, string className,
+            int windowTitle);
+
+        [DllImport("user32.dll")]
+        internal static extern IntPtr GetDesktopWindow();
+
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         internal static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
 
@@ -207,8 +214,10 @@ namespace MasterChief.DotNet4.WindowsAPI.Core
         [DllImport("user32.dll")]
         internal static extern IntPtr SetWindowPos(IntPtr hWnd, int hWndInsertAfter, int x, int y, int cX, int cY,
             int wFlags);
+
         [DllImport("user32.dll")]
         internal static extern bool PrintWindow(IntPtr hWnd, IntPtr hdcBlt, int nFlags);
+
         [DllImport("user32.dll")]
         internal static extern bool GetWindowRect(IntPtr hWnd, out Rect lpRect);
 

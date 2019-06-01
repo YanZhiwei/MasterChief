@@ -16,12 +16,12 @@ namespace MasterChief.DotNet4.WindowsAPI
         ///     获取所有窗口列表
         /// </summary>
         /// <returns>窗口列表</returns>
-        public static Window[] GetWindows()
+        public static Model.Window[] GetWindows()
         {
-            var windows = new List<Window>();
+            var windows = new List<Model.Window>();
             var callback = new Win32Api.EnumDesktopWindowsDelegate((hWnd, lParam) =>
             {
-                windows.Add(new Window(hWnd));
+                windows.Add(new Model.Window(hWnd));
                 return true;
             });
             if (!Win32Api.EnumDesktopWindows(IntPtr.Zero, callback, IntPtr.Zero))

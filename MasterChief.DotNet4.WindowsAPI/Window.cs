@@ -10,7 +10,7 @@ namespace MasterChief.DotNet4.WindowsAPI
     /// <summary>
     ///     Window 操作
     /// </summary>
-    public sealed class WindowManipulation
+    public sealed class Window
     {
         /// <summary>
         ///     最大化窗口
