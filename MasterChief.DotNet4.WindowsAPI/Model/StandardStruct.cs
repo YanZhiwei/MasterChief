@@ -24,7 +24,12 @@ namespace MasterChief.DotNet4.WindowsAPI.Model
         public STARTUPINFO StartupInfo;
         public IntPtr lpAttributeList;
     }
-
+    [StructLayout(LayoutKind.Sequential)]
+    internal struct POINT
+    {
+        public Int32 x;
+        public Int32 y;
+    }
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     // ReSharper disable once InconsistentNaming
     public struct STARTUPINFO

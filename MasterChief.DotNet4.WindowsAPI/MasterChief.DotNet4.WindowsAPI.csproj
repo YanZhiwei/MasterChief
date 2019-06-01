@@ -50,8 +50,10 @@
   <ItemGroup>
     <Compile Include="Core\Win32ErrorCodeException.cs" />
     <Compile Include="Desktop.cs" />
+    <Compile Include="Enum\MouseCursor.cs" />
     <Compile Include="Model\Session.cs" />
     <Compile Include="Model\Window.cs" />
+    <Compile Include="MouseKeyboard.cs" />
     <Compile Include="Window.cs" />
     <Compile Include="WindowsCore.cs" />
     <Compile Include="Core\Win32Api.cs" />

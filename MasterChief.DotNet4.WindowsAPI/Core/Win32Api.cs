@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Text;
 using MasterChief.DotNet4.WindowsAPI.Enum;
@@ -187,8 +188,17 @@ namespace MasterChief.DotNet4.WindowsAPI.Core
         internal static extern bool ShowWindow(IntPtr hWnd, uint nCmdShow);
 
         [DllImport("user32.dll")]
+        public static extern void keybd_event(int bVk, byte bScan, uint dwFlags, int dwExtraInfo);
+
+        [DllImport("user32.dll")]
         internal static extern IntPtr FindWindowEx(IntPtr parentHandle, int childAfter, string className,
             int windowTitle);
+
+        [DllImport("user32.dll")]
+        public static extern bool GetCursorPos(ref Point lpPoint);
+
+        [DllImport("user32.dll")]
+        private static extern void SetCursorPos(int x, int y);
 
         [DllImport("user32.dll")]
         internal static extern IntPtr GetDesktopWindow();
