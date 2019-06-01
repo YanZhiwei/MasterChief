@@ -8,7 +8,7 @@ using MasterChief.DotNet4.WindowsAPI.Enum;
 namespace MasterChief.DotNet4.WindowsAPI
 {
     /// <summary>
-    ///     Window 操控
+    ///     Window 操作
     /// </summary>
     public sealed class WindowManipulation
     {
@@ -59,25 +59,40 @@ namespace MasterChief.DotNet4.WindowsAPI
         ///     关闭窗口
         /// </summary>
         /// <param name="hWnd">句柄</param>
-        public static void CloseWindow(IntPtr hWnd)
+        public static void Close(IntPtr hWnd)
         {
             if (hWnd != IntPtr.Zero)
                 Win32Api.SendMessage(hWnd, (int) Wm.WM_SYSCOMMAND, (int) SysCommands.SC_CLOSE, null);
         }
 
+        /// <summary>
+        ///     设置该窗口句柄被激活并成为当前窗口
+        /// </summary>
+        /// <param name="hWnd">句柄</param>
         public static void SetFocused(IntPtr hWnd)
         {
             if (hWnd != IntPtr.Zero)
                 Win32Api.SetForegroundWindow(hWnd);
         }
 
+        /// <summary>
+        ///     该窗口句柄是否是当前系统中被激活的窗口
+        /// </summary>
+        /// <param name="hWnd">句柄</param>
+        /// <returns>是否当前系统中被激活的窗口</returns>
         public static bool IsFocused(IntPtr hWnd)
         {
+            if (hWnd == IntPtr.Zero) return false;
             var hWndFocused = Win32Api.GetForegroundWindow();
-            if (hWnd == IntPtr.Zero || hWndFocused == IntPtr.Zero) return false;
+            if (hWndFocused == IntPtr.Zero) return false;
             return hWnd == hWndFocused;
         }
 
+        /// <summary>
+        ///     获取矩形
+        /// </summary>
+        /// <param name="hWnd">句柄</param>
+        /// <returns>矩形</returns>
         public static Rectangle GetRectangle(IntPtr hWnd)
         {
             Win32Api.GetWindowRect(hWnd, out var hWndRect);
@@ -85,6 +100,11 @@ namespace MasterChief.DotNet4.WindowsAPI
             return new Rectangle(hWndRect.X, hWndRect.Y, hWndRect.Width, hWndRect.Height);
         }
 
+        /// <summary>
+        ///     获取大小
+        /// </summary>
+        /// <param name="hWnd">句柄</param>
+        /// <returns>大小</returns>
         public static Size GetSize(IntPtr hWnd)
         {
             var rec = GetRectangle(hWnd);
@@ -92,6 +112,11 @@ namespace MasterChief.DotNet4.WindowsAPI
             return size;
         }
 
+        /// <summary>
+        ///     获取坐标
+        /// </summary>
+        /// <param name="hWnd">句柄</param>
+        /// <returns>坐标</returns>
         public static Point GetLocation(IntPtr hWnd)
         {
             var rec = GetRectangle(hWnd);
@@ -99,6 +124,11 @@ namespace MasterChief.DotNet4.WindowsAPI
             return point;
         }
 
+        /// <summary>
+        ///     获取Title
+        /// </summary>
+        /// <param name="hWnd">句柄</param>
+        /// <returns>Title</returns>
         public static string GetTitle(IntPtr hWnd)
         {
             const int nChars = 256;
@@ -107,14 +137,15 @@ namespace MasterChief.DotNet4.WindowsAPI
             return Win32Api.GetWindowText(hWnd, builder, nChars) > 0 ? builder.ToString() : null;
         }
 
-        public static void Normalize(IntPtr hWnd)
-        {
-            Win32Api.ShowWindow(hWnd, 1);
-        }
 
+        /// <summary>
+        ///     截图
+        /// </summary>
+        /// <param name="hWnd">句柄</param>
+        /// <returns>Bitmap</returns>
         public static Bitmap Screenshot(IntPtr hWnd)
         {
-            Normalize(hWnd);
+            Restore(hWnd);
             Win32Api.GetWindowRect(hWnd, out var rc);
 
             var bmp = new Bitmap(rc.Width, rc.Height, PixelFormat.Format32bppArgb);
@@ -128,27 +159,47 @@ namespace MasterChief.DotNet4.WindowsAPI
             return bmp;
         }
 
+        /// <summary>
+        ///     移动
+        /// </summary>
+        /// <param name="hWnd">句柄</param>
+        /// <param name="x">x坐标</param>
+        /// <param name="y">y坐标</param>
         public static void Move(IntPtr hWnd, int x, int y)
         {
             Win32Api.SetWindowPos(hWnd, 0, x, y, 0, 0, 0x0001);
         }
 
+        /// <summary>
+        ///     调整大小
+        /// </summary>
+        /// <param name="hWnd">句柄</param>
+        /// <param name="width">宽</param>
+        /// <param name="height">高</param>
         public static void Resize(IntPtr hWnd, int width, int height)
         {
             Win32Api.SetWindowPos(hWnd, 0, 0, 0, width, height, 0x002);
         }
 
+        /// <summary>
+        ///     隐藏
+        /// </summary>
+        /// <param name="hWnd">句柄</param>
         public static void Hide(IntPtr hWnd)
         {
             Win32Api.SetWindowPos(hWnd, 0, 0, 0, 0, 0, 0x0080);
         }
 
+        /// <summary>
+        ///     设置关闭按钮不可用
+        /// </summary>
+        /// <param name="hWnd">句柄</param>
         public static void DisableCloseButton(IntPtr hWnd)
         {
             var hMenu = Win32Api.GetSystemMenu(hWnd, false);
             if (hMenu != IntPtr.Zero)
             {
-                int n = Win32Api.GetMenuItemCount(hMenu);
+                var n = Win32Api.GetMenuItemCount(hMenu);
                 if (n > 0)
                 {
                     Win32Api.RemoveMenu(hMenu, (uint) (n - 1), 0x400 | 0x1000);
