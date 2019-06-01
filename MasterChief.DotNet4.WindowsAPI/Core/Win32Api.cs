@@ -151,6 +151,9 @@ namespace MasterChief.DotNet4.WindowsAPI.Core
         [DllImport("kernel32.dll", SetLastError = true)]
         internal static extern int WTSGetActiveConsoleSessionId();
 
+        [DllImport("user32.dll")]
+        internal static extern bool SetForegroundWindow(IntPtr hWnd);
+
         /// <summary>
         ///     获取主窗体下子控件的句柄
         ///     类名如果为[NULL]，则通过标题查找
@@ -186,17 +189,36 @@ namespace MasterChief.DotNet4.WindowsAPI.Core
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         internal static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
 
-        internal delegate bool EnumWindowDelegate(IntPtr hwnd, IntPtr lParam);
+        [DllImport("user32.dll")]
+        internal static extern IntPtr GetSystemMenu(IntPtr hWnd, bool bRevert);
 
+        [DllImport("user32.dll")]
+        internal static extern int GetMenuItemCount(IntPtr hMenu);
+
+        [DllImport("user32.dll")]
+        internal static extern bool RemoveMenu(IntPtr hMenu, uint uPosition, uint uFlags);
+
+        [DllImport("user32.dll")]
+        internal static extern bool DrawMenuBar(IntPtr hWnd);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        internal static extern bool EndTask(IntPtr hWnd, bool fShutDown, bool fForce);
+
+        [DllImport("user32.dll")]
+        internal static extern IntPtr SetWindowPos(IntPtr hWnd, int hWndInsertAfter, int x, int y, int cX, int cY,
+            int wFlags);
+        [DllImport("user32.dll")]
+        internal static extern bool PrintWindow(IntPtr hWnd, IntPtr hdcBlt, int nFlags);
+        [DllImport("user32.dll")]
+        internal static extern bool GetWindowRect(IntPtr hWnd, out Rect lpRect);
+
+        internal delegate bool EnumWindowDelegate(IntPtr hwnd, IntPtr lParam);
 
         internal delegate bool EnumDelegate(IntPtr hWnd, int lParam);
 
-
         internal delegate bool EnumDesktopsDelegate(string desktop, IntPtr lParam);
 
-
         internal delegate bool EnumDesktopWindowsDelegate(IntPtr hWnd, IntPtr lParam);
-
 
         internal delegate bool EnumWindowStationsDelegate(string windowsStation, IntPtr lParam);
     }
