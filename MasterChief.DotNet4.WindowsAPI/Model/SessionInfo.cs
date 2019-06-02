@@ -5,7 +5,7 @@ namespace MasterChief.DotNet4.WindowsAPI.Model
     /// <summary>
     ///     Windows Session 信息
     /// </summary>
-    public sealed class Session
+    public sealed class SessionInfo
     {
         /// <summary>
         ///     状态
@@ -34,7 +34,7 @@ namespace MasterChief.DotNet4.WindowsAPI.Model
         /// <param name="domain">Domain</param>
         /// <param name="connectionState">状态</param>
         /// <param name="sessionId">SessionId</param>
-        public Session(string userName, string domain, WTS_CONNECTSTATE_CLASS connectionState, int sessionId)
+        public SessionInfo(string userName, string domain, WTS_CONNECTSTATE_CLASS connectionState, int sessionId)
         {
             UserName = userName;
             Domain = domain;

@@ -81,8 +81,7 @@ namespace MasterChief.DotNet4.WindowsAPI.Core
             IntPtr lParam);
 
         /// <summary>
-        ///     获取主窗体的句柄
-        ///     类名如果为[NULL]，则通过标题查找
+        /// 根据类名和窗口名来得到窗口句柄的。但是不能查找子窗口，也不区分大小写。
         /// </summary>
         /// <param name="className">窗体的类名</param>
         /// <param name="captionName">窗体的标题</param>

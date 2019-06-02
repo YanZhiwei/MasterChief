@@ -1,15 +1,14 @@
-﻿namespace MasterChief.DotNet4.WindowsAPI
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.InteropServices;
+using MasterChief.DotNet4.Utilities.Operator;
+using MasterChief.DotNet4.WindowsAPI.Core;
+using MasterChief.DotNet4.WindowsAPI.Enum;
+using MasterChief.DotNet4.WindowsAPI.Model;
+
+namespace MasterChief.DotNet4.WindowsAPI
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Runtime.InteropServices;
-
-    using MasterChief.DotNet4.Utilities.Operator;
-    using MasterChief.DotNet4.WindowsAPI.Core;
-    using MasterChief.DotNet4.WindowsAPI.Enum;
-    using MasterChief.DotNet4.WindowsAPI.Model;
-
     /// <summary>
     ///     基于Windows Api 核心操作
     /// </summary>
@@ -34,7 +33,7 @@
                     throw new Win32ErrorCodeException("WTSEnumerateSessions==0");
                 for (var count = 0; count < sessionCount; count++)
                 {
-                    var si = (WTS_SESSION_INFO)Marshal.PtrToStructure(
+                    var si = (WTS_SESSION_INFO) Marshal.PtrToStructure(
                         ppSessionInfo + count * Marshal.SizeOf(typeof(WTS_SESSION_INFO)), typeof(WTS_SESSION_INFO));
 
                     if (si.State != WTS_CONNECTSTATE_CLASS.WTSActive) continue;
@@ -74,6 +73,23 @@
         }
 
         /// <summary>
+        ///     获取所有窗口列表
+        /// </summary>
+        /// <returns>窗口列表</returns>
+        public static Model.WindowInfo[] GetWindows()
+        {
+            var windows = new List<Model.WindowInfo>();
+            var callback = new Win32Api.EnumDesktopWindowsDelegate((hWnd, lParam) =>
+            {
+                windows.Add(new Model.WindowInfo(hWnd));
+                return true;
+            });
+            if (!Win32Api.EnumDesktopWindows(IntPtr.Zero, callback, IntPtr.Zero))
+                throw new Win32ErrorCodeException("EnumDesktopWindows");
+            return windows.ToArray();
+        }
+
+        /// <summary>
         ///     根据WindowStation名称查询DesktopName列表
         /// </summary>
         /// <param name="winStationName">WindowStation名称</param>
@@ -109,7 +125,7 @@
         ///     获取Windows Session
         /// </summary>
         /// <returns>Session集合</returns>
-        public static Session[] GetSessions()
+        public static SessionInfo[] GetSessions()
         {
             var serverHandle = Win32Api.WTSOpenServer(Environment.MachineName);
             try
@@ -118,13 +134,13 @@
                 var sessionCount = 0;
                 var hasSession =
                     Win32Api.WTSEnumerateSessions(serverHandle, 0, 1, ref sessionInfoPtr, ref sessionCount) > 0;
-                if (!hasSession) return new Session[0];
+                if (!hasSession) return new SessionInfo[0];
                 var dataSize = Marshal.SizeOf(typeof(WTS_SESSION_INFO));
                 var currentSession = sessionInfoPtr;
-                var sessions = new Session[sessionCount];
+                var sessions = new SessionInfo[sessionCount];
                 for (var i = 0; i < sessionCount; i++)
                 {
-                    var si = (WTS_SESSION_INFO)Marshal.PtrToStructure(currentSession, typeof(WTS_SESSION_INFO));
+                    var si = (WTS_SESSION_INFO) Marshal.PtrToStructure(currentSession, typeof(WTS_SESSION_INFO));
                     currentSession += dataSize;
 
                     Win32Api.WTSQuerySessionInformation(serverHandle, si.SessionID, WTS_INFO_CLASS.WTSUserName,
@@ -133,7 +149,7 @@
                         out var domainPtr, out _);
                     var userName = Marshal.PtrToStringAnsi(userPtr);
                     var domain = Marshal.PtrToStringAnsi(domainPtr);
-                    sessions[i] = new Session(userName, domain, si.State, si.SessionID);
+                    sessions[i] = new SessionInfo(userName, domain, si.State, si.SessionID);
 
                     Win32Api.WTSFreeMemory(userPtr);
                     Win32Api.WTSFreeMemory(domainPtr);
@@ -154,17 +170,17 @@
         /// </summary>
         /// <param name="desktopName">桌面名称</param>
         /// <returns>窗口列表</returns>
-        public static Model.Window[] GetWindows(string desktopName)
+        public static Model.WindowInfo[] GetWindows(string desktopName)
         {
             var desktopHandle = Win32Api.OpenDesktop(desktopName, 0, true, WinStationAccess.GENERIC_ALL);
             if (desktopHandle == IntPtr.Zero) throw new Win32ErrorCodeException("OpenDesktop('" + desktopName + "')");
 
             try
             {
-                var windows = new List<Model.Window>();
+                var windows = new List<Model.WindowInfo>();
                 var callback = new Win32Api.EnumDesktopWindowsDelegate((hWnd, lParam) =>
                 {
-                    windows.Add(new Model.Window(hWnd));
+                    windows.Add(new Model.WindowInfo(hWnd));
                     return true;
                 });
 

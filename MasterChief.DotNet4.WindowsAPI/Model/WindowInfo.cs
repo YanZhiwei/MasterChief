@@ -3,12 +3,12 @@
     using System;
     using System.Text;
 
-    using MasterChief.DotNet4.WindowsAPI.Core;
+    using Core;
 
     /// <summary>
     ///     窗口句柄信息
     /// </summary>
-    public sealed class Window
+    public sealed class WindowInfo
     {
         #region Fields
 
@@ -25,7 +25,7 @@
         ///     构造函数
         /// </summary>
         /// <param name="hWnd">句柄信息</param>
-        public Window(IntPtr hWnd)
+        public WindowInfo(IntPtr hWnd)
         {
             HWnd = hWnd;
         }

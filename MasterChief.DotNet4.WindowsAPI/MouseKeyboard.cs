@@ -32,6 +32,7 @@ namespace MasterChief.DotNet4.WindowsAPI
             LeftClick(Cursor.Position.X, Cursor.Position.Y);
         }
 
+
         /// <summary>
         ///     在当前位置单击鼠标左键。
         /// </summary>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using MasterChief.DotNet4.WindowsAPI.Core;
+using MasterChief.DotNet4.WindowsAPI.Model;
 
 namespace MasterChief.DotNet4.WindowsAPI
 {
@@ -12,6 +13,50 @@ namespace MasterChief.DotNet4.WindowsAPI
     public sealed class WindowSearch
     {
         #region Methods
+
+        /// <summary>
+        ///     根据窗口标题查询句柄
+        /// </summary>
+        /// <param name="parentHwnd">父句柄</param>
+        /// <param name="title">窗口标题</param>
+        /// <returns>子窗口句柄</returns>
+        public static IntPtr GetChildWindowByTitle(IntPtr parentHwnd, string title)
+        {
+            if (parentHwnd == IntPtr.Zero)
+                return IntPtr.Zero;
+            var childHwnds = GetChildWindows(parentHwnd);
+
+            foreach (var hwnd in childHwnds)
+            {
+                var windows = new WindowInfo(hwnd);
+                var text = windows.GetTitle();
+                if (string.Compare(title, text, StringComparison.OrdinalIgnoreCase) == 0) return hwnd;
+            }
+
+            return IntPtr.Zero;
+        }
+
+        /// <summary>
+        ///     根据类名查询句柄
+        /// </summary>
+        /// <param name="parentHwnd">父句柄</param>
+        /// <param name="className">类名</param>
+        /// <returns>子窗口句柄</returns>
+        public static IntPtr GetChildWindowByClassName(IntPtr parentHwnd, string className)
+        {
+            if (parentHwnd == IntPtr.Zero)
+                return IntPtr.Zero;
+            var childHwnds = GetChildWindows(parentHwnd);
+
+            foreach (var hwnd in childHwnds)
+            {
+                var windows = new WindowInfo(hwnd);
+                var text = windows.GetClassName();
+                if (string.Compare(className, text, StringComparison.OrdinalIgnoreCase) == 0) return hwnd;
+            }
+
+            return IntPtr.Zero;
+        }
 
         /// <summary>
         ///     根据句柄获取子句柄列表
@@ -53,12 +98,12 @@ namespace MasterChief.DotNet4.WindowsAPI
         ///     获取所有窗口列表
         /// </summary>
         /// <returns>窗口列表</returns>
-        public static Model.Window[] GetWindows()
+        public static WindowInfo[] GetWindows()
         {
-            var windows = new List<Model.Window>();
+            var windows = new List<WindowInfo>();
             var callback = new Win32Api.EnumDesktopWindowsDelegate((hWnd, lParam) =>
             {
-                windows.Add(new Model.Window(hWnd));
+                windows.Add(new WindowInfo(hWnd));
                 return true;
             });
             if (!Win32Api.EnumDesktopWindows(IntPtr.Zero, callback, IntPtr.Zero))
