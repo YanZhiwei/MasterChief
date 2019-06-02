@@ -50,7 +50,6 @@
   <ItemGroup>
     <Compile Include="Core\Win32ErrorCodeException.cs" />
     <Compile Include="Desktop.cs" />
-    <Compile Include="Enum\MouseCursor.cs" />
     <Compile Include="Model\Session.cs" />
     <Compile Include="Model\Window.cs" />
     <Compile Include="MouseKeyboard.cs" />
@@ -59,7 +58,6 @@
     <Compile Include="Core\Win32Api.cs" />
     <Compile Include="Enum\StandardAccess.cs" />
     <Compile Include="Enum\StandardDef.cs" />
-    <Compile Include="Enum\WinStationAccess.cs" />
     <Compile Include="Model\StandardStruct.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WindowSearch.cs" />

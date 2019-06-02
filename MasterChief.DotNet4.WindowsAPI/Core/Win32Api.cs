@@ -29,15 +29,18 @@ namespace MasterChief.DotNet4.WindowsAPI.Core
         #region Methods
 
         [DllImport("user32.dll")]
-        public static extern bool GetCursorPos(ref Point lpPoint);
+        internal static extern bool GetCursorPos(ref Point lpPoint);
 
-        [DllImport("user32.dll")]
-        public static extern void keybd_event(int bVk, byte bScan, uint dwFlags, int dwExtraInfo);
+        [DllImport("user32.dll", SetLastError = true)]
+        internal static extern void keybd_event(int bVk, byte bScan, uint dwFlags, int dwExtraInfo);
 
         [DllImport("user32.dll")]
         internal static extern bool CloseDesktop(
             IntPtr hDesktop
         );
+
+        [DllImport("user32.dll")]
+        internal static extern void mouse_event(MouseFlags dwFlags, int dx, int dy, int dwData, IntPtr dwExtraInfo);
 
         [DllImport("kernel32.dll", CharSet = CharSet.Auto)]
         internal static extern bool CloseHandle(IntPtr handle);
@@ -159,7 +162,7 @@ namespace MasterChief.DotNet4.WindowsAPI.Core
             int prefmaxlen,
             out int entriesread,
             out int totalentries,
-            ref int resume_handle);
+            ref int resumeHandle);
 
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         internal static extern IntPtr OpenDesktop(
@@ -189,7 +192,7 @@ namespace MasterChief.DotNet4.WindowsAPI.Core
         internal static extern int SendMessage(IntPtr hWnd, int wmUser, int wParam, [Out] StringBuilder windowText);
 
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
-        internal static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
+        internal static extern int SendMessage(IntPtr hWnd, int msg, int wParam, int lParam);
 
         [DllImport("user32.dll")]
         internal static extern bool SetForegroundWindow(IntPtr hWnd);
@@ -242,7 +245,7 @@ namespace MasterChief.DotNet4.WindowsAPI.Core
             string pMessage, int messageLength, int style, int timeout, out int pResponse, bool bWait);
 
         [DllImport("user32.dll")]
-        private static extern void SetCursorPos(int x, int y);
+        internal static extern void SetCursorPos(int x, int y);
 
         #endregion Methods
     }

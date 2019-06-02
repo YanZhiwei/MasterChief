@@ -5,57 +5,18 @@ using MasterChief.DotNet4.WindowsAPI.Enum;
 
 namespace MasterChief.DotNet4.WindowsAPI.Model
 {
-    internal struct INPUT
-    {
-        public uint Type;
-        public MOUSEKEYBDHARDWAREINPUT Data;
-    }
-
-    [StructLayout(LayoutKind.Explicit)]
-    internal struct MOUSEKEYBDHARDWAREINPUT
-    {
-        [FieldOffset(0)] public MOUSEINPUT Mouse;
-    }
-
-    internal struct MOUSEINPUT
-    {
-        public int X;
-        public int Y;
-        public uint MouseData;
-        public uint Flags;
-        public uint Time;
-        public IntPtr ExtraInfo;
-    }
-
+    // ReSharper disable once InconsistentNaming
     [StructLayout(LayoutKind.Sequential)]
-    // ReSharper disable once InconsistentNaming
-    internal struct WTS_SESSION_INFO
+    public struct PROCESS_INFORMATION
     {
-        public readonly int SessionID;
-
-        [MarshalAs(UnmanagedType.LPStr)] public readonly string pWinStationName;
-
-        public readonly WTS_CONNECTSTATE_CLASS State;
+        public IntPtr hProcess;
+        public IntPtr hThread;
+        public int dwProcessId;
+        public int dwThreadId;
     }
 
-
+    // ReSharper disable once InconsistentNaming
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-    // ReSharper disable once InconsistentNaming
-    internal struct STARTUPINFOEX
-    {
-        public STARTUPINFO StartupInfo;
-        public IntPtr lpAttributeList;
-    }
-
-    [StructLayout(LayoutKind.Sequential)]
-    internal struct POINT
-    {
-        public int x;
-        public int y;
-    }
-
-    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-    // ReSharper disable once InconsistentNaming
     public struct STARTUPINFO
     {
         public int cb;
@@ -78,20 +39,50 @@ namespace MasterChief.DotNet4.WindowsAPI.Model
         public IntPtr hStdError;
     }
 
-    [StructLayout(LayoutKind.Sequential)]
-    // ReSharper disable once InconsistentNaming
-    public struct PROCESS_INFORMATION
+    internal struct INPUT
     {
-        public IntPtr hProcess;
-        public IntPtr hThread;
-        public int dwProcessId;
-        public int dwThreadId;
+        #region Fields
+
+        public MOUSEKEYBDHARDWAREINPUT Data;
+        public uint Type;
+
+        #endregion Fields
+    }
+
+    internal struct MOUSEINPUT
+    {
+        #region Fields
+
+        public IntPtr ExtraInfo;
+        public uint Flags;
+        public uint MouseData;
+        public uint Time;
+        public int X;
+        public int Y;
+
+        #endregion Fields
+    }
+
+    [StructLayout(LayoutKind.Explicit)]
+    internal struct MOUSEKEYBDHARDWAREINPUT
+    {
+        [FieldOffset(0)] public MOUSEINPUT Mouse;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    internal struct POINT
+    {
+        public int x;
+        public int y;
     }
 
     [StructLayout(LayoutKind.Sequential)]
     internal struct Rect
     {
-        public Rect(Rect rectangle) : this(rectangle.Left, rectangle.Top, rectangle.Right, rectangle.Bottom)
+        #region Constructors
+
+        public Rect(Rect rectangle)
+            : this(rectangle.Left, rectangle.Top, rectangle.Right, rectangle.Bottom)
         {
         }
 
@@ -103,23 +94,9 @@ namespace MasterChief.DotNet4.WindowsAPI.Model
             Bottom = bottom;
         }
 
-        public int X { get; set; }
+        #endregion Constructors
 
-        public int Y { get; set; }
-
-        public int Left
-        {
-            get => X;
-            set => X = value;
-        }
-
-        public int Top
-        {
-            get => Y;
-            set => Y = value;
-        }
-
-        public int Right { get; set; }
+        #region Properties
 
         public int Bottom { get; set; }
 
@@ -129,10 +106,10 @@ namespace MasterChief.DotNet4.WindowsAPI.Model
             set => Bottom = value + Y;
         }
 
-        public int Width
+        public int Left
         {
-            get => Right - X;
-            set => Right = value + X;
+            get => X;
+            set => X = value;
         }
 
         public Point Location
@@ -145,6 +122,8 @@ namespace MasterChief.DotNet4.WindowsAPI.Model
             }
         }
 
+        public int Right { get; set; }
+
         public Size Size
         {
             get => new Size(Width, Height);
@@ -154,6 +133,26 @@ namespace MasterChief.DotNet4.WindowsAPI.Model
                 Bottom = value.Height + Y;
             }
         }
+
+        public int Top
+        {
+            get => Y;
+            set => Y = value;
+        }
+
+        public int Width
+        {
+            get => Right - X;
+            set => Right = value + X;
+        }
+
+        public int X { get; set; }
+
+        public int Y { get; set; }
+
+        #endregion Properties
+
+        #region Methods
 
         public static implicit operator Rectangle(Rect rectangle)
         {
@@ -165,24 +164,14 @@ namespace MasterChief.DotNet4.WindowsAPI.Model
             return new Rect(rectangle.Left, rectangle.Top, rectangle.Right, rectangle.Bottom);
         }
 
-        public static bool operator ==(Rect rectangle1, Rect rectangle2)
-        {
-            return rectangle1.Equals(rectangle2);
-        }
-
         public static bool operator !=(Rect rectangle1, Rect rectangle2)
         {
             return !rectangle1.Equals(rectangle2);
         }
 
-        public override string ToString()
+        public static bool operator ==(Rect rectangle1, Rect rectangle2)
         {
-            return "{Left: " + X + "; " + "Top: " + Y + "; Right: " + Right + "; Bottom: " + Bottom + "}";
-        }
-
-        public override int GetHashCode()
-        {
-            return ToString().GetHashCode();
+            return rectangle1.Equals(rectangle2);
         }
 
         public bool Equals(Rect rectangle)
@@ -198,5 +187,34 @@ namespace MasterChief.DotNet4.WindowsAPI.Model
 
             return false;
         }
+
+        public override int GetHashCode()
+        {
+            return ToString().GetHashCode();
+        }
+
+        public override string ToString()
+        {
+            return "{Left: " + X + "; " + "Top: " + Y + "; Right: " + Right + "; Bottom: " + Bottom + "}";
+        }
+
+        #endregion Methods
+    }
+
+    // ReSharper disable once InconsistentNaming
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+    internal struct STARTUPINFOEX
+    {
+        public STARTUPINFO StartupInfo;
+        public IntPtr lpAttributeList;
+    }
+
+    // ReSharper disable once InconsistentNaming
+    [StructLayout(LayoutKind.Sequential)]
+    internal struct WTS_SESSION_INFO
+    {
+        public readonly int SessionID;
+        [MarshalAs(UnmanagedType.LPStr)] public readonly string pWinStationName;
+        public readonly WTS_CONNECTSTATE_CLASS State;
     }
 }

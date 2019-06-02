@@ -8,6 +8,8 @@ namespace MasterChief.DotNet4.WindowsAPI.Core
     /// </summary>
     public class Win32ErrorCodeException : Win32Exception
     {
+        #region Constructors
+
         /// <summary>
         ///     构造函数
         /// </summary>
@@ -20,9 +22,15 @@ namespace MasterChief.DotNet4.WindowsAPI.Core
             Message = $"{context}: (Error Code {error}) {innerException.Message}";
         }
 
+        #endregion Constructors
+
+        #region Properties
+
         /// <summary>
-        ///     相信异常信息
+        ///     详细异常信息
         /// </summary>
         public override string Message { get; }
+
+        #endregion Properties
     }
 }

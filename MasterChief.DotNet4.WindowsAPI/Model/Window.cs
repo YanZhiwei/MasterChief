@@ -1,20 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using MasterChief.DotNet4.WindowsAPI.Core;
-
-namespace MasterChief.DotNet4.WindowsAPI.Model
+﻿namespace MasterChief.DotNet4.WindowsAPI.Model
 {
+    using System;
+    using System.Text;
+
+    using MasterChief.DotNet4.WindowsAPI.Core;
+
     /// <summary>
     ///     窗口句柄信息
     /// </summary>
     public sealed class Window
     {
+        #region Fields
+
         /// <summary>
         ///     句柄
         /// </summary>
         public readonly IntPtr HWnd;
+
+        #endregion Fields
+
+        #region Constructors
 
         /// <summary>
         ///     构造函数
@@ -24,6 +29,10 @@ namespace MasterChief.DotNet4.WindowsAPI.Model
         {
             HWnd = hWnd;
         }
+
+        #endregion Constructors
+
+        #region Methods
 
         /// <summary>
         ///     获取ClassName
@@ -63,5 +72,7 @@ namespace MasterChief.DotNet4.WindowsAPI.Model
         {
             return Win32Api.IsWindowVisible(HWnd);
         }
+
+        #endregion Methods
     }
 }

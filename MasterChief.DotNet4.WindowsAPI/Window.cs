@@ -12,38 +12,7 @@ namespace MasterChief.DotNet4.WindowsAPI
     /// </summary>
     public sealed class Window
     {
-        /// <summary>
-        ///     最大化窗口
-        /// </summary>
-        /// <param name="hWnd">句柄</param>
-        public static void Maximize(IntPtr hWnd)
-        {
-            if (hWnd != IntPtr.Zero)
-            {
-                Win32Api.SendMessage(hWnd, (int) Wm.WM_SYSCOMMAND, (int) SysCommands.SC_MINIMIZE, null);
-                Win32Api.SendMessage(hWnd, (int) Wm.WM_SYSCOMMAND, (int) SysCommands.SC_MAXIMIZE, null);
-            }
-        }
-
-        /// <summary>
-        ///     最小化窗口
-        /// </summary>
-        /// <param name="hWnd">句柄</param>
-        public static void Minimize(IntPtr hWnd)
-        {
-            if (hWnd != IntPtr.Zero)
-                Win32Api.SendMessage(hWnd, (int) Wm.WM_SYSCOMMAND, (int) SysCommands.SC_MINIMIZE, null);
-        }
-
-        /// <summary>
-        ///     还原窗口
-        /// </summary>
-        /// <param name="hWnd">句柄</param>
-        public static void Restore(IntPtr hWnd)
-        {
-            if (hWnd != IntPtr.Zero)
-                Win32Api.ShowWindow(hWnd, 1);
-        }
+        #region Methods
 
         /// <summary>
         ///     激活窗口
@@ -66,26 +35,34 @@ namespace MasterChief.DotNet4.WindowsAPI
         }
 
         /// <summary>
-        ///     设置该窗口句柄被激活并成为当前窗口
+        ///     设置关闭按钮不可用
         /// </summary>
         /// <param name="hWnd">句柄</param>
-        public static void SetFocused(IntPtr hWnd)
+        public static void DisableCloseButton(IntPtr hWnd)
         {
-            if (hWnd != IntPtr.Zero)
-                Win32Api.SetForegroundWindow(hWnd);
+            var hMenu = Win32Api.GetSystemMenu(hWnd, false);
+            if (hMenu != IntPtr.Zero)
+            {
+                var n = Win32Api.GetMenuItemCount(hMenu);
+                if (n > 0)
+                {
+                    Win32Api.RemoveMenu(hMenu, (uint) (n - 1), 0x400 | 0x1000);
+                    Win32Api.RemoveMenu(hMenu, (uint) (n - 2), 0x400 | 0x1000);
+                    Win32Api.DrawMenuBar(hWnd);
+                }
+            }
         }
 
         /// <summary>
-        ///     该窗口句柄是否是当前系统中被激活的窗口
+        ///     获取坐标
         /// </summary>
         /// <param name="hWnd">句柄</param>
-        /// <returns>是否当前系统中被激活的窗口</returns>
-        public static bool IsFocused(IntPtr hWnd)
+        /// <returns>坐标</returns>
+        public static Point GetLocation(IntPtr hWnd)
         {
-            if (hWnd == IntPtr.Zero) return false;
-            var hWndFocused = Win32Api.GetForegroundWindow();
-            if (hWndFocused == IntPtr.Zero) return false;
-            return hWnd == hWndFocused;
+            var rec = GetRectangle(hWnd);
+            var point = new Point(rec.X, rec.Y);
+            return point;
         }
 
         /// <summary>
@@ -113,18 +90,6 @@ namespace MasterChief.DotNet4.WindowsAPI
         }
 
         /// <summary>
-        ///     获取坐标
-        /// </summary>
-        /// <param name="hWnd">句柄</param>
-        /// <returns>坐标</returns>
-        public static Point GetLocation(IntPtr hWnd)
-        {
-            var rec = GetRectangle(hWnd);
-            var point = new Point(rec.X, rec.Y);
-            return point;
-        }
-
-        /// <summary>
         ///     获取Title
         /// </summary>
         /// <param name="hWnd">句柄</param>
@@ -137,26 +102,49 @@ namespace MasterChief.DotNet4.WindowsAPI
             return Win32Api.GetWindowText(hWnd, builder, nChars) > 0 ? builder.ToString() : null;
         }
 
-
         /// <summary>
-        ///     截图
+        ///     隐藏
         /// </summary>
         /// <param name="hWnd">句柄</param>
-        /// <returns>Bitmap</returns>
-        public static Bitmap Screenshot(IntPtr hWnd)
+        public static void Hide(IntPtr hWnd)
         {
-            Restore(hWnd);
-            Win32Api.GetWindowRect(hWnd, out var rc);
+            Win32Api.SetWindowPos(hWnd, 0, 0, 0, 0, 0, 0x0080);
+        }
 
-            var bmp = new Bitmap(rc.Width, rc.Height, PixelFormat.Format32bppArgb);
-            var gfxBmp = Graphics.FromImage(bmp);
-            var hdcBitmap = gfxBmp.GetHdc();
+        /// <summary>
+        ///     该窗口句柄是否是当前系统中被激活的窗口
+        /// </summary>
+        /// <param name="hWnd">句柄</param>
+        /// <returns>是否当前系统中被激活的窗口</returns>
+        public static bool IsFocused(IntPtr hWnd)
+        {
+            if (hWnd == IntPtr.Zero) return false;
+            var hWndFocused = Win32Api.GetForegroundWindow();
+            if (hWndFocused == IntPtr.Zero) return false;
+            return hWnd == hWndFocused;
+        }
 
-            Win32Api.PrintWindow(hWnd, hdcBitmap, 0);
+        /// <summary>
+        ///     最大化窗口
+        /// </summary>
+        /// <param name="hWnd">句柄</param>
+        public static void Maximize(IntPtr hWnd)
+        {
+            if (hWnd != IntPtr.Zero)
+            {
+                Win32Api.SendMessage(hWnd, (int) Wm.WM_SYSCOMMAND, (int) SysCommands.SC_MINIMIZE, null);
+                Win32Api.SendMessage(hWnd, (int) Wm.WM_SYSCOMMAND, (int) SysCommands.SC_MAXIMIZE, null);
+            }
+        }
 
-            gfxBmp.ReleaseHdc(hdcBitmap);
-            gfxBmp.Dispose();
-            return bmp;
+        /// <summary>
+        ///     最小化窗口
+        /// </summary>
+        /// <param name="hWnd">句柄</param>
+        public static void Minimize(IntPtr hWnd)
+        {
+            if (hWnd != IntPtr.Zero)
+                Win32Api.SendMessage(hWnd, (int) Wm.WM_SYSCOMMAND, (int) SysCommands.SC_MINIMIZE, null);
         }
 
         /// <summary>
@@ -182,31 +170,46 @@ namespace MasterChief.DotNet4.WindowsAPI
         }
 
         /// <summary>
-        ///     隐藏
+        ///     还原窗口
         /// </summary>
         /// <param name="hWnd">句柄</param>
-        public static void Hide(IntPtr hWnd)
+        public static void Restore(IntPtr hWnd)
         {
-            Win32Api.SetWindowPos(hWnd, 0, 0, 0, 0, 0, 0x0080);
+            if (hWnd != IntPtr.Zero)
+                Win32Api.ShowWindow(hWnd, 1);
         }
 
         /// <summary>
-        ///     设置关闭按钮不可用
+        ///     截图
         /// </summary>
         /// <param name="hWnd">句柄</param>
-        public static void DisableCloseButton(IntPtr hWnd)
+        /// <returns>Bitmap</returns>
+        public static Bitmap Screenshot(IntPtr hWnd)
         {
-            var hMenu = Win32Api.GetSystemMenu(hWnd, false);
-            if (hMenu != IntPtr.Zero)
-            {
-                var n = Win32Api.GetMenuItemCount(hMenu);
-                if (n > 0)
-                {
-                    Win32Api.RemoveMenu(hMenu, (uint) (n - 1), 0x400 | 0x1000);
-                    Win32Api.RemoveMenu(hMenu, (uint) (n - 2), 0x400 | 0x1000);
-                    Win32Api.DrawMenuBar(hWnd);
-                }
-            }
+            Restore(hWnd);
+            Win32Api.GetWindowRect(hWnd, out var rc);
+
+            var bmp = new Bitmap(rc.Width, rc.Height, PixelFormat.Format32bppArgb);
+            var gfxBmp = Graphics.FromImage(bmp);
+            var hdcBitmap = gfxBmp.GetHdc();
+
+            Win32Api.PrintWindow(hWnd, hdcBitmap, 0);
+
+            gfxBmp.ReleaseHdc(hdcBitmap);
+            gfxBmp.Dispose();
+            return bmp;
         }
+
+        /// <summary>
+        ///     设置该窗口句柄被激活并成为当前窗口
+        /// </summary>
+        /// <param name="hWnd">句柄</param>
+        public static void SetFocused(IntPtr hWnd)
+        {
+            if (hWnd != IntPtr.Zero)
+                Win32Api.SetForegroundWindow(hWnd);
+        }
+
+        #endregion Methods
     }
 }

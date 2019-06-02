@@ -5,6 +5,7 @@ using System.Threading;
 using System.Windows.Forms;
 using MasterChief.DotNet4.Utilities.Common;
 using MasterChief.DotNet4.WindowsAPI.Core;
+using MasterChief.DotNet4.WindowsAPI.Enum;
 using MasterChief.DotNet4.WindowsAPI.Model;
 
 namespace MasterChief.DotNet4.WindowsAPI
@@ -14,6 +15,13 @@ namespace MasterChief.DotNet4.WindowsAPI
     /// </summary>
     public sealed class MouseKeyboard
     {
+        #region Fields
+
+        private const uint KeyeventfExtendedkey = 0x0001;
+        private const uint KeyeventfKeyup = 0x0002;
+
+        #endregion Fields
+
         #region Methods
 
         /// <summary>
@@ -157,11 +165,139 @@ namespace MasterChief.DotNet4.WindowsAPI
         }
 
         /// <summary>
+        ///     粘贴
+        /// </summary>
+        /// <param name="text">文本</param>
+        /// <param name="delay">延时间隔【毫秒】</param>
+        public static void Paste(string text, int delay)
+        {
+            Paste(text, delay, true);
+        }
+
+        /// <summary>
+        ///     粘贴
+        /// </summary>
+        /// <param name="text">文本</param>
+        /// <param name="delay">延时间隔【毫秒】</param>
+        /// <param name="backup">是否备份</param>
+        public static void Paste(string text, int delay, bool backup)
+        {
+            if (string.IsNullOrEmpty(text)) return;
+
+            string backupText = null;
+
+            if (backup)
+            {
+                backupText = Clipboard.GetText();
+
+                Thread.Sleep(delay);
+            }
+
+            Clipboard.SetText(text);
+
+            Thread.Sleep(delay);
+
+            PressKey('V', false, false, true);
+
+            Thread.Sleep(delay);
+
+            if (backup) Clipboard.SetText(backupText);
+        }
+
+        /// <summary>
+        ///     按键
+        /// </summary>
+        /// <param name="key">按键</param>
+        /// <param name="shift">是否shift</param>
+        /// <param name="alt">是否alt</param>
+        /// <param name="ctrl">是否ctrl</param>
+        public static void PressKey(int key, bool shift, bool alt, bool ctrl)
+        {
+            PressKey(key, shift, alt, ctrl, 0);
+        }
+
+        /// <summary>
+        ///     按键
+        /// </summary>
+        /// <param name="key">按键</param>
+        /// <param name="shift">是否shift</param>
+        /// <param name="alt">是否alt</param>
+        /// <param name="ctrl">是否ctrl</param>
+        /// <param name="delay">延时间隔【毫秒】</param>
+        public static void PressKey(int key, bool shift, bool alt, bool ctrl, int delay)
+        {
+            byte bScan = 0x45;
+            if (key == VIRTUALKEY.VK_SNAPSHOT) bScan = 0;
+            if (key == VIRTUALKEY.VK_SPACE) bScan = 39;
+
+            if (alt) Win32Api.keybd_event(VIRTUALKEY.VK_MENU, 0, 0, 0);
+            if (ctrl) Win32Api.keybd_event(VIRTUALKEY.VK_LCONTROL, 0, 0, 0);
+            if (shift) Win32Api.keybd_event(VIRTUALKEY.VK_LSHIFT, 0, 0, 0);
+
+            Win32Api.keybd_event(key, bScan, KeyeventfExtendedkey, 0);
+
+            if (delay > 0) Thread.Sleep(delay);
+
+            Win32Api.keybd_event(key, bScan, KeyeventfExtendedkey | KeyeventfKeyup, 0);
+
+            if (shift) Win32Api.keybd_event(VIRTUALKEY.VK_LSHIFT, 0, KeyeventfKeyup, 0);
+            if (ctrl) Win32Api.keybd_event(VIRTUALKEY.VK_LCONTROL, 0, KeyeventfKeyup, 0);
+            if (alt) Win32Api.keybd_event(VIRTUALKEY.VK_MENU, 0, KeyeventfKeyup, 0);
+        }
+
+        /// <summary>
         ///     右击
         /// </summary>
         public static void RightClick()
         {
             RightClick(Cursor.Position.X, Cursor.Position.Y);
+        }
+
+        /// <summary>
+        ///     打字输入
+        /// </summary>
+        /// <param name="text">文本</param>
+        public static void Type(string text)
+        {
+            Type(text, 50);
+        }
+
+        /// <summary>
+        ///     打字输入
+        /// </summary>
+        /// <param name="text">文本</param>
+        /// <param name="delay">延迟【毫秒】</param>
+        public static void Type(string text, int delay)
+        {
+            foreach (var c in text)
+            {
+                var shift = char.IsUpper(c);
+
+                int key;
+                if (char.IsLetterOrDigit(c))
+                {
+                    key = char.ToUpper(c);
+                }
+                else
+                {
+                    if (c == '.' || c == ',') key = VIRTUALKEY.VK_DECIMAL;
+                    else continue;
+                }
+
+                PressKey(key, shift, false, false);
+
+
+                Thread.Sleep(delay);
+            }
+        }
+
+        /// <summary>
+        ///     滚动
+        /// </summary>
+        /// <param name="scrollValue">滚动数值</param>
+        public static void Scroll(int scrollValue)
+        {
+            Win32Api.mouse_event(MouseFlags.Scroll, 0, 0, scrollValue, IntPtr.Zero);
         }
 
         /// <summary>

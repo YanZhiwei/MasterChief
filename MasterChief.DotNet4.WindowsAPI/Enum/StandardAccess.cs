@@ -2,6 +2,22 @@
 
 namespace MasterChief.DotNet4.WindowsAPI.Enum
 {
+    #region Enumerations
+
+    [Flags]
+    public enum MouseFlags
+    {
+        Move = 0x0001,
+        LeftDown = 0x0002,
+        LeftUp = 0x0004,
+        RightDown = 0x0008,
+        RightUp = 0x0010,
+        Absolute = 0x8000,
+        MiddleDown = 0x0020,
+        MiddleUp = 0x0040,
+        Scroll = 2048
+    }
+
     [Flags]
     internal enum StandardAccess : uint
     {
@@ -53,17 +69,5 @@ namespace MasterChief.DotNet4.WindowsAPI.Enum
         WINSTA_ALL_ACCESS = 0x0000037F
     }
 
-    [Flags]
-    public enum MouseFlags
-    {
-        Move = 0x0001,
-        LeftDown = 0x0002,
-        LeftUp = 0x0004,
-        RightDown = 0x0008,
-        RightUp = 0x0010,
-        Absolute = 0x8000,
-        MiddleDown = 0x0020,
-        MiddleUp = 0x0040,
-        Scroll = 2048
-    }
+    #endregion Enumerations
 }

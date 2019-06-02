@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using MasterChief.DotNet4.WindowsAPI.Core;
-using MasterChief.DotNet4.WindowsAPI.Model;
 
 namespace MasterChief.DotNet4.WindowsAPI
 {
@@ -12,23 +11,7 @@ namespace MasterChief.DotNet4.WindowsAPI
     /// </summary>
     public sealed class WindowSearch
     {
-        /// <summary>
-        ///     获取所有窗口列表
-        /// </summary>
-        /// <returns>窗口列表</returns>
-        public static Model.Window[] GetWindows()
-        {
-            var windows = new List<Model.Window>();
-            var callback = new Win32Api.EnumDesktopWindowsDelegate((hWnd, lParam) =>
-            {
-                windows.Add(new Model.Window(hWnd));
-                return true;
-            });
-            if (!Win32Api.EnumDesktopWindows(IntPtr.Zero, callback, IntPtr.Zero))
-                throw new Win32ErrorCodeException("EnumDesktopWindows");
-            return windows.ToArray();
-        }
-
+        #region Methods
 
         /// <summary>
         ///     根据句柄获取子句柄列表
@@ -65,5 +48,24 @@ namespace MasterChief.DotNet4.WindowsAPI
 
             return childHandles.Distinct().ToList();
         }
+
+        /// <summary>
+        ///     获取所有窗口列表
+        /// </summary>
+        /// <returns>窗口列表</returns>
+        public static Model.Window[] GetWindows()
+        {
+            var windows = new List<Model.Window>();
+            var callback = new Win32Api.EnumDesktopWindowsDelegate((hWnd, lParam) =>
+            {
+                windows.Add(new Model.Window(hWnd));
+                return true;
+            });
+            if (!Win32Api.EnumDesktopWindows(IntPtr.Zero, callback, IntPtr.Zero))
+                throw new Win32ErrorCodeException("EnumDesktopWindows");
+            return windows.ToArray();
+        }
+
+        #endregion Methods
     }
 }

@@ -9,6 +9,20 @@ namespace MasterChief.DotNet4.WindowsAPI
     /// </summary>
     public sealed class Desktop
     {
+        #region Methods
+
+        /// <summary>
+        ///     隐藏任务栏
+        /// </summary>
+        public static void HideTaskBar()
+        {
+            var hWndDesktop = Win32Api.GetDesktopWindow();
+            var hWndStartButton = Win32Api.FindWindowEx(hWndDesktop, 0, "button", 0);
+            var hWndTaskBar = Win32Api.FindWindowEx(hWndDesktop, 0, "Shell_TrayWnd", 0);
+            Win32Api.SetWindowPos(hWndStartButton, 0, 0, 0, 0, 0, 0x0080);
+            Win32Api.SetWindowPos(hWndTaskBar, 0, 0, 0, 0, 0, 0x0080);
+        }
+
         /// <summary>
         ///     截图
         /// </summary>
@@ -24,27 +38,6 @@ namespace MasterChief.DotNet4.WindowsAPI
         }
 
         /// <summary>
-        ///     主屏幕截图
-        /// </summary>
-        /// <returns>Bitmap</returns>
-        private static Bitmap Screenshot()
-        {
-            return Screenshot(Screen.PrimaryScreen);
-        }
-
-        /// <summary>
-        ///     隐藏任务栏
-        /// </summary>
-        public static void HideTaskBar()
-        {
-            var hWndDesktop = Win32Api.GetDesktopWindow();
-            var hWndStartButton = Win32Api.FindWindowEx(hWndDesktop, 0, "button", 0);
-            var hWndTaskBar = Win32Api.FindWindowEx(hWndDesktop, 0, "Shell_TrayWnd", 0);
-            Win32Api.SetWindowPos(hWndStartButton, 0, 0, 0, 0, 0, 0x0080);
-            Win32Api.SetWindowPos(hWndTaskBar, 0, 0, 0, 0, 0, 0x0080);
-        }
-
-        /// <summary>
         ///     显示任务栏
         /// </summary>
         public static void ShowTaskBar()
@@ -55,5 +48,16 @@ namespace MasterChief.DotNet4.WindowsAPI
             Win32Api.SetWindowPos(hWndStartButton, 0, 0, 0, 0, 0, 0x0040);
             Win32Api.SetWindowPos(hWndTaskBar, 0, 0, 0, 0, 0, 0x0040);
         }
+
+        /// <summary>
+        ///     主屏幕截图
+        /// </summary>
+        /// <returns>Bitmap</returns>
+        private static Bitmap Screenshot()
+        {
+            return Screenshot(Screen.PrimaryScreen);
+        }
+
+        #endregion Methods
     }
 }

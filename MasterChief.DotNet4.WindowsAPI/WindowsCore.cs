@@ -1,19 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using MasterChief.DotNet4.Utilities.Operator;
-using MasterChief.DotNet4.WindowsAPI.Core;
-using MasterChief.DotNet4.WindowsAPI.Enum;
-using MasterChief.DotNet4.WindowsAPI.Model;
-
-namespace MasterChief.DotNet4.WindowsAPI
+﻿namespace MasterChief.DotNet4.WindowsAPI
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Runtime.InteropServices;
+
+    using MasterChief.DotNet4.Utilities.Operator;
+    using MasterChief.DotNet4.WindowsAPI.Core;
+    using MasterChief.DotNet4.WindowsAPI.Enum;
+    using MasterChief.DotNet4.WindowsAPI.Model;
+
     /// <summary>
     ///     基于Windows Api 核心操作
     /// </summary>
-    public class WindowsCore
+    public sealed class WindowsCore
     {
+        #region Methods
+
         /// <summary>
         ///     以当前登录系统的用户角色权限启动指定的进程
         /// </summary>
@@ -31,7 +34,7 @@ namespace MasterChief.DotNet4.WindowsAPI
                     throw new Win32ErrorCodeException("WTSEnumerateSessions==0");
                 for (var count = 0; count < sessionCount; count++)
                 {
-                    var si = (WTS_SESSION_INFO) Marshal.PtrToStructure(
+                    var si = (WTS_SESSION_INFO)Marshal.PtrToStructure(
                         ppSessionInfo + count * Marshal.SizeOf(typeof(WTS_SESSION_INFO)), typeof(WTS_SESSION_INFO));
 
                     if (si.State != WTS_CONNECTSTATE_CLASS.WTSActive) continue;
@@ -102,6 +105,49 @@ namespace MasterChief.DotNet4.WindowsAPI
             }
         }
 
+        /// <summary>
+        ///     获取Windows Session
+        /// </summary>
+        /// <returns>Session集合</returns>
+        public static Session[] GetSessions()
+        {
+            var serverHandle = Win32Api.WTSOpenServer(Environment.MachineName);
+            try
+            {
+                var sessionInfoPtr = IntPtr.Zero;
+                var sessionCount = 0;
+                var hasSession =
+                    Win32Api.WTSEnumerateSessions(serverHandle, 0, 1, ref sessionInfoPtr, ref sessionCount) > 0;
+                if (!hasSession) return new Session[0];
+                var dataSize = Marshal.SizeOf(typeof(WTS_SESSION_INFO));
+                var currentSession = sessionInfoPtr;
+                var sessions = new Session[sessionCount];
+                for (var i = 0; i < sessionCount; i++)
+                {
+                    var si = (WTS_SESSION_INFO)Marshal.PtrToStructure(currentSession, typeof(WTS_SESSION_INFO));
+                    currentSession += dataSize;
+
+                    Win32Api.WTSQuerySessionInformation(serverHandle, si.SessionID, WTS_INFO_CLASS.WTSUserName,
+                        out var userPtr, out _);
+                    Win32Api.WTSQuerySessionInformation(serverHandle, si.SessionID, WTS_INFO_CLASS.WTSDomainName,
+                        out var domainPtr, out _);
+                    var userName = Marshal.PtrToStringAnsi(userPtr);
+                    var domain = Marshal.PtrToStringAnsi(domainPtr);
+                    sessions[i] = new Session(userName, domain, si.State, si.SessionID);
+
+                    Win32Api.WTSFreeMemory(userPtr);
+                    Win32Api.WTSFreeMemory(domainPtr);
+                }
+
+                Win32Api.WTSFreeMemory(sessionInfoPtr);
+                return sessions;
+            }
+            finally
+            {
+                if (serverHandle != IntPtr.Zero)
+                    Win32Api.WTSCloseServer(serverHandle);
+            }
+        }
 
         /// <summary>
         ///     根据桌面名称查询窗口列表
@@ -161,49 +207,6 @@ namespace MasterChief.DotNet4.WindowsAPI
             return winStations.ToArray();
         }
 
-
-        /// <summary>
-        ///     获取Windows Session
-        /// </summary>
-        /// <returns>Session集合</returns>
-        public static Session[] GetSessions()
-        {
-            var serverHandle = Win32Api.WTSOpenServer(Environment.MachineName);
-            try
-            {
-                var sessionInfoPtr = IntPtr.Zero;
-                var sessionCount = 0;
-                var hasSession =
-                    Win32Api.WTSEnumerateSessions(serverHandle, 0, 1, ref sessionInfoPtr, ref sessionCount) > 0;
-                if (!hasSession) return new Session[0];
-                var dataSize = Marshal.SizeOf(typeof(WTS_SESSION_INFO));
-                var currentSession = sessionInfoPtr;
-                var sessions = new Session[sessionCount];
-                for (var i = 0; i < sessionCount; i++)
-                {
-                    var si = (WTS_SESSION_INFO) Marshal.PtrToStructure(currentSession, typeof(WTS_SESSION_INFO));
-                    currentSession += dataSize;
-
-                    Win32Api.WTSQuerySessionInformation(serverHandle, si.SessionID, WTS_INFO_CLASS.WTSUserName,
-                        out var userPtr, out _);
-                    Win32Api.WTSQuerySessionInformation(serverHandle, si.SessionID, WTS_INFO_CLASS.WTSDomainName,
-                        out var domainPtr, out _);
-                    var userName = Marshal.PtrToStringAnsi(userPtr);
-                    var domain = Marshal.PtrToStringAnsi(domainPtr);
-                    sessions[i] = new Session(userName, domain, si.State, si.SessionID);
-
-                    Win32Api.WTSFreeMemory(userPtr);
-                    Win32Api.WTSFreeMemory(domainPtr);
-                }
-
-                Win32Api.WTSFreeMemory(sessionInfoPtr);
-                return sessions;
-            }
-            finally
-            {
-                if (serverHandle != IntPtr.Zero)
-                    Win32Api.WTSCloseServer(serverHandle);
-            }
-        }
+        #endregion Methods
     }
 }
