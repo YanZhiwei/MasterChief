@@ -5,6 +5,28 @@ using MasterChief.DotNet4.WindowsAPI.Enum;
 
 namespace MasterChief.DotNet4.WindowsAPI.Model
 {
+    internal struct INPUT
+    {
+        public uint Type;
+        public MOUSEKEYBDHARDWAREINPUT Data;
+    }
+
+    [StructLayout(LayoutKind.Explicit)]
+    internal struct MOUSEKEYBDHARDWAREINPUT
+    {
+        [FieldOffset(0)] public MOUSEINPUT Mouse;
+    }
+
+    internal struct MOUSEINPUT
+    {
+        public int X;
+        public int Y;
+        public uint MouseData;
+        public uint Flags;
+        public uint Time;
+        public IntPtr ExtraInfo;
+    }
+
     [StructLayout(LayoutKind.Sequential)]
     // ReSharper disable once InconsistentNaming
     internal struct WTS_SESSION_INFO
@@ -24,12 +46,14 @@ namespace MasterChief.DotNet4.WindowsAPI.Model
         public STARTUPINFO StartupInfo;
         public IntPtr lpAttributeList;
     }
+
     [StructLayout(LayoutKind.Sequential)]
     internal struct POINT
     {
-        public Int32 x;
-        public Int32 y;
+        public int x;
+        public int y;
     }
+
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     // ReSharper disable once InconsistentNaming
     public struct STARTUPINFO
