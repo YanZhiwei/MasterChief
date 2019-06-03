@@ -31,8 +31,16 @@ namespace MasterChief.DotNet4.WindowsAPI.Core
         [DllImport("user32.dll")]
         internal static extern bool GetCursorPos(ref Point lpPoint);
 
+        [DllImport("user32.dll")]
+        internal static extern bool ClientToScreen(IntPtr hWnd, ref Point lpPoint);
+
         [DllImport("user32.dll", SetLastError = true)]
         internal static extern void keybd_event(int bVk, byte bScan, uint dwFlags, int dwExtraInfo);
+
+        [DllImport("user32.dll")]
+        internal static extern uint SendInput(uint nInputs, [MarshalAs(UnmanagedType.LPArray)] [In]
+            INPUT[] pInputs,
+            int cbSize);
 
         [DllImport("user32.dll")]
         internal static extern bool CloseDesktop(
@@ -81,7 +89,7 @@ namespace MasterChief.DotNet4.WindowsAPI.Core
             IntPtr lParam);
 
         /// <summary>
-        /// 根据类名和窗口名来得到窗口句柄的。但是不能查找子窗口，也不区分大小写。
+        ///     根据类名和窗口名来得到窗口句柄的。但是不能查找子窗口，也不区分大小写。
         /// </summary>
         /// <param name="className">窗体的类名</param>
         /// <param name="captionName">窗体的标题</param>
