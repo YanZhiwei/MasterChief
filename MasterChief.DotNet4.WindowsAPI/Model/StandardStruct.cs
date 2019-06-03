@@ -41,26 +41,8 @@ namespace MasterChief.DotNet4.WindowsAPI.Model
 
     internal struct INPUT
     {
-        #region Fields
-
-        public MOUSEKEYBDHARDWAREINPUT Data;
         public uint Type;
-
-        #endregion Fields
-    }
-
-    internal struct MOUSEINPUT
-    {
-        #region Fields
-
-        public IntPtr ExtraInfo;
-        public uint Flags;
-        public uint MouseData;
-        public uint Time;
-        public int X;
-        public int Y;
-
-        #endregion Fields
+        public MOUSEKEYBDHARDWAREINPUT Data;
     }
 
     [StructLayout(LayoutKind.Explicit)]
@@ -69,11 +51,14 @@ namespace MasterChief.DotNet4.WindowsAPI.Model
         [FieldOffset(0)] public MOUSEINPUT Mouse;
     }
 
-    [StructLayout(LayoutKind.Sequential)]
-    internal struct POINT
+    internal struct MOUSEINPUT
     {
-        public int x;
-        public int y;
+        public int X;
+        public int Y;
+        public uint MouseData;
+        public uint Flags;
+        public uint Time;
+        public IntPtr ExtraInfo;
     }
 
     [StructLayout(LayoutKind.Sequential)]
