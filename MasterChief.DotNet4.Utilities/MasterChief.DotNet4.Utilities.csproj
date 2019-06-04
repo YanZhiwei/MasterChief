@@ -120,6 +120,7 @@
     <Compile Include="ComponentModel\NotificationHelper.cs" />
     <Compile Include="ComponentModel\NotificationObject.cs" />
     <Compile Include="Core\Counter.cs" />
+    <Compile Include="Core\Retry.cs" />
     <Compile Include="Core\ShortcutLink.cs" />
     <Compile Include="DbManager\AccessDbManager.cs" />
     <Compile Include="DbManager\ExcelIDbManager.cs" />
