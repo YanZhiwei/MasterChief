@@ -2,6 +2,9 @@
 
 namespace MasterChief.DotNet4.WindowsAPI.Enum
 {
+    /// <summary>
+    /// WTS_CONNECTSTATE_CLASS
+    /// </summary>
     public enum WTS_CONNECTSTATE_CLASS
     {
         WTSActive,

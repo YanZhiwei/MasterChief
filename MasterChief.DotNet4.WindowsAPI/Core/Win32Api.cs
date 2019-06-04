@@ -29,14 +29,20 @@ namespace MasterChief.DotNet4.WindowsAPI.Core
         #region Methods
 
         [DllImport("user32.dll")]
-        internal static extern bool GetCursorPos(ref Point lpPoint);
-
-        [DllImport("user32.dll")]
         internal static extern bool ClientToScreen(IntPtr hWnd, ref Point lpPoint);
 
         [DllImport("user32.dll", SetLastError = true)]
         internal static extern void keybd_event(int bVk, byte bScan, uint dwFlags, int dwExtraInfo);
 
+        /// <summary>
+        ///     该函数合成键盘事件和鼠标事件，用来模拟鼠标或者键盘操作。
+        ///     事件将被插入在鼠标或者键盘处理队列里面。
+        ///     mouse_event()在windows后期版本中逐渐被SendInPut()取代
+        /// </summary>
+        /// <param name="nInputs">插入事件的个数</param>
+        /// <param name="pInputs">该数组中的每个元素代表一个将要插入到线程事件中去的键盘或鼠标事</param>
+        /// <param name="cbSize">INPUT结构的大小</param>
+        /// <returns>成功插入操作事件的个数，如果插入出错可以利用GetLastError来查看错误类型</returns>
         [DllImport("user32.dll")]
         internal static extern uint SendInput(uint nInputs, [MarshalAs(UnmanagedType.LPArray)] [In]
             INPUT[] pInputs,
@@ -67,8 +73,6 @@ namespace MasterChief.DotNet4.WindowsAPI.Core
         [DllImport("user32.dll")]
         internal static extern bool DrawMenuBar(IntPtr hWnd);
 
-        [DllImport("user32.dll", SetLastError = true)]
-        internal static extern bool EndTask(IntPtr hWnd, bool fShutDown, bool fForce);
 
         [DllImport("user32.dll")]
         internal static extern bool EnumChildWindows(IntPtr hwnd, EnumWindowDelegate lpEnumFunc, IntPtr lParam);
@@ -117,9 +121,6 @@ namespace MasterChief.DotNet4.WindowsAPI.Core
         [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
         internal static extern int GetClassName(IntPtr hWnd, StringBuilder lpClassName, int nMaxCount);
 
-        [DllImport("kernel32.dll")]
-        internal static extern uint GetCurrentThreadId();
-
         [DllImport("user32.dll")]
         internal static extern IntPtr GetDesktopWindow();
 
@@ -128,9 +129,6 @@ namespace MasterChief.DotNet4.WindowsAPI.Core
 
         [DllImport("user32.dll")]
         internal static extern int GetMenuItemCount(IntPtr hMenu);
-
-        [DllImport("user32", SetLastError = true)]
-        internal static extern IntPtr GetProcessWindowStation();
 
         [DllImport("user32.dll")]
         internal static extern IntPtr GetSystemMenu(IntPtr hWnd, bool bRevert);
@@ -146,30 +144,11 @@ namespace MasterChief.DotNet4.WindowsAPI.Core
         internal static extern int GetWindowText(IntPtr hWnd,
             StringBuilder lpWindowText, int nMaxCount);
 
-        [DllImport("user32.dll")]
-        internal static extern IntPtr GetWindowThreadProcessId(
-            IntPtr hWnd,
-            out IntPtr processId
-        );
 
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         internal static extern bool IsWindowVisible(IntPtr hWnd);
 
-        [DllImport("advapi32.dll", SetLastError = true)]
-        internal static extern bool LogonUser(string pszUsername, string pszDomain, string pszPassword,
-            int dwLogonType, int dwLogonProvider, ref IntPtr phToken);
-
-        [DllImport("NetAPI32.dll", CharSet = CharSet.Unicode)]
-        internal static extern int NetLocalGroupGetMembers(
-            [MarshalAs(UnmanagedType.LPWStr)] string servername,
-            [MarshalAs(UnmanagedType.LPWStr)] string localgroupname,
-            int level,
-            out IntPtr bufptr,
-            int prefmaxlen,
-            out int entriesread,
-            out int totalentries,
-            ref int resumeHandle);
 
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         internal static extern IntPtr OpenDesktop(
@@ -192,11 +171,10 @@ namespace MasterChief.DotNet4.WindowsAPI.Core
         [DllImport("user32.dll")]
         internal static extern bool RemoveMenu(IntPtr hMenu, uint uPosition, uint uFlags);
 
-        [DllImport("user32.dll", SetLastError = true)]
-        internal static extern uint SendInput(uint nInputs, ref INPUT pInputs, int cbSize);
 
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         internal static extern int SendMessage(IntPtr hWnd, int wmUser, int wParam, [Out] StringBuilder windowText);
+
 
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         internal static extern int SendMessage(IntPtr hWnd, int msg, int wParam, int lParam);
@@ -204,11 +182,6 @@ namespace MasterChief.DotNet4.WindowsAPI.Core
         [DllImport("user32.dll")]
         internal static extern bool SetForegroundWindow(IntPtr hWnd);
 
-        [DllImport("user32.dll", SetLastError = true)]
-        internal static extern bool SetProcessWindowStation(IntPtr hWinSta);
-
-        [DllImport("user32.dll", SetLastError = true)]
-        internal static extern bool SetThreadDesktop(IntPtr hDesktop);
 
         [DllImport("user32.dll")]
         internal static extern IntPtr SetWindowPos(IntPtr hWnd, int hWndInsertAfter, int x, int y, int cX, int cY,
@@ -217,8 +190,6 @@ namespace MasterChief.DotNet4.WindowsAPI.Core
         [DllImport("user32.dll")]
         internal static extern bool ShowWindow(IntPtr hWnd, uint nCmdShow);
 
-        [DllImport("user32.dll")]
-        internal static extern bool SwitchDesktop(IntPtr hDesktop);
 
         [DllImport("wtsapi32.dll")]
         internal static extern void WTSCloseServer(IntPtr hServer);
@@ -234,8 +205,6 @@ namespace MasterChief.DotNet4.WindowsAPI.Core
         [DllImport("wtsapi32.dll")]
         internal static extern void WTSFreeMemory(IntPtr pMemory);
 
-        [DllImport("kernel32.dll", SetLastError = true)]
-        internal static extern int WTSGetActiveConsoleSessionId();
 
         [DllImport("wtsapi32.dll")]
         internal static extern IntPtr WTSOpenServer([MarshalAs(UnmanagedType.LPStr)] string pServerName);
@@ -246,13 +215,6 @@ namespace MasterChief.DotNet4.WindowsAPI.Core
 
         [DllImport("WTSAPI32.DLL", SetLastError = true, CharSet = CharSet.Auto)]
         internal static extern bool WTSQueryUserToken(int sessionId, out IntPtr token);
-
-        [DllImport("wtsapi32.dll", SetLastError = true)]
-        internal static extern bool WTSSendMessage(IntPtr hServer, int sessionId, string pTitle, int titleLength,
-            string pMessage, int messageLength, int style, int timeout, out int pResponse, bool bWait);
-
-        [DllImport("user32.dll")]
-        internal static extern void SetCursorPos(int x, int y);
 
         #endregion Methods
     }

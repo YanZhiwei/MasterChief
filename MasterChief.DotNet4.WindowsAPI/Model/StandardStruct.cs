@@ -41,8 +41,26 @@ namespace MasterChief.DotNet4.WindowsAPI.Model
 
     internal struct INPUT
     {
-        public uint Type;
+        #region Fields
+
         public MOUSEKEYBDHARDWAREINPUT Data;
+        public uint Type;
+
+        #endregion Fields
+    }
+
+    internal struct MOUSEINPUT
+    {
+        #region Fields
+
+        public IntPtr ExtraInfo;
+        public uint Flags;
+        public uint MouseData;
+        public uint Time;
+        public int X;
+        public int Y;
+
+        #endregion Fields
     }
 
     [StructLayout(LayoutKind.Explicit)]
@@ -51,21 +69,9 @@ namespace MasterChief.DotNet4.WindowsAPI.Model
         [FieldOffset(0)] public MOUSEINPUT Mouse;
     }
 
-    internal struct MOUSEINPUT
-    {
-        public int X;
-        public int Y;
-        public uint MouseData;
-        public uint Flags;
-        public uint Time;
-        public IntPtr ExtraInfo;
-    }
-
     [StructLayout(LayoutKind.Sequential)]
     internal struct Rect
     {
-        #region Constructors
-
         public Rect(Rect rectangle)
             : this(rectangle.Left, rectangle.Top, rectangle.Right, rectangle.Bottom)
         {
@@ -79,9 +85,6 @@ namespace MasterChief.DotNet4.WindowsAPI.Model
             Bottom = bottom;
         }
 
-        #endregion Constructors
-
-        #region Properties
 
         public int Bottom { get; set; }
 
@@ -135,9 +138,6 @@ namespace MasterChief.DotNet4.WindowsAPI.Model
 
         public int Y { get; set; }
 
-        #endregion Properties
-
-        #region Methods
 
         public static implicit operator Rectangle(Rect rectangle)
         {
@@ -182,16 +182,6 @@ namespace MasterChief.DotNet4.WindowsAPI.Model
         {
             return "{Left: " + X + "; " + "Top: " + Y + "; Right: " + Right + "; Bottom: " + Bottom + "}";
         }
-
-        #endregion Methods
-    }
-
-    // ReSharper disable once InconsistentNaming
-    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-    internal struct STARTUPINFOEX
-    {
-        public STARTUPINFO StartupInfo;
-        public IntPtr lpAttributeList;
     }
 
     // ReSharper disable once InconsistentNaming
