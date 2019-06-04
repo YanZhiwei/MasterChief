@@ -1,40 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using MasterChief.DotNet4.WindowsAPI.Core;
-using MasterChief.DotNet4.WindowsAPI.Model;
-
-namespace MasterChief.DotNet4.WindowsAPI
+﻿namespace MasterChief.DotNet4.WindowsAPI
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Runtime.InteropServices;
+
+    using MasterChief.DotNet4.WindowsAPI.Core;
+    using MasterChief.DotNet4.WindowsAPI.Model;
+
     /// <summary>
     ///     Windows 搜索
     /// </summary>
     public sealed class WindowSearch
     {
         #region Methods
-
-        /// <summary>
-        ///     根据窗口标题查询句柄
-        /// </summary>
-        /// <param name="parentHwnd">父句柄</param>
-        /// <param name="title">窗口标题</param>
-        /// <returns>子窗口句柄</returns>
-        public static IntPtr GetChildWindowByTitle(IntPtr parentHwnd, string title)
-        {
-            if (parentHwnd == IntPtr.Zero)
-                return IntPtr.Zero;
-            var childHwnds = GetChildWindows(parentHwnd);
-
-            foreach (var hwnd in childHwnds)
-            {
-                var windows = new WindowInfo(hwnd);
-                var text = windows.GetTitle();
-                if (string.Compare(title, text, StringComparison.OrdinalIgnoreCase) == 0) return hwnd;
-            }
-
-            return IntPtr.Zero;
-        }
 
         /// <summary>
         ///     根据类名查询句柄
@@ -53,6 +32,28 @@ namespace MasterChief.DotNet4.WindowsAPI
                 var windows = new WindowInfo(hwnd);
                 var text = windows.GetClassName();
                 if (string.Compare(className, text, StringComparison.OrdinalIgnoreCase) == 0) return hwnd;
+            }
+
+            return IntPtr.Zero;
+        }
+
+        /// <summary>
+        ///     根据窗口标题查询句柄
+        /// </summary>
+        /// <param name="parentHwnd">父句柄</param>
+        /// <param name="title">窗口标题</param>
+        /// <returns>子窗口句柄</returns>
+        public static IntPtr GetChildWindowByTitle(IntPtr parentHwnd, string title)
+        {
+            if (parentHwnd == IntPtr.Zero)
+                return IntPtr.Zero;
+            var childHwnds = GetChildWindows(parentHwnd);
+
+            foreach (var hwnd in childHwnds)
+            {
+                var windows = new WindowInfo(hwnd);
+                var text = windows.GetTitle();
+                if (string.Compare(title, text, StringComparison.OrdinalIgnoreCase) == 0) return hwnd;
             }
 
             return IntPtr.Zero;
@@ -109,6 +110,26 @@ namespace MasterChief.DotNet4.WindowsAPI
             if (!Win32Api.EnumDesktopWindows(IntPtr.Zero, callback, IntPtr.Zero))
                 throw new Win32ErrorCodeException("EnumDesktopWindows");
             return windows.ToArray();
+        }
+
+        /// <summary>
+        /// 根据类名查询句柄，不能查询子窗口
+        /// </summary>
+        /// <param name="className">类名</param>
+        /// <returns>句柄</returns>
+        public static IntPtr GetWindowsByClassName(string className)
+        {
+            return Win32Api.FindWindow(className, null);
+        }
+
+        /// <summary>
+        /// 根据窗口名称查询句柄，不能查询子窗口
+        /// </summary>
+        /// <param name="title">窗口名称</param>
+        /// <returns>句柄</returns>
+        public static IntPtr GetWindowsByTitle(string title)
+        {
+            return Win32Api.FindWindow(null, title);
         }
 
         #endregion Methods

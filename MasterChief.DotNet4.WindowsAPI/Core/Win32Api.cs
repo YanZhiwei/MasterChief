@@ -93,13 +93,22 @@ namespace MasterChief.DotNet4.WindowsAPI.Core
             IntPtr lParam);
 
         /// <summary>
-        ///     根据类名和窗口名来得到窗口句柄的。但是不能查找子窗口，也不区分大小写。
+        ///     索处理顶级窗口的类名和窗口名称匹配指定的字符串。这个函数不搜索子窗口。
         /// </summary>
         /// <param name="className">窗体的类名</param>
         /// <param name="captionName">窗体的标题</param>
         /// <returns>返回窗体句柄</returns>
         [DllImport("user32.dll", EntryPoint = "FindWindow", CharSet = CharSet.Auto)]
         internal static extern IntPtr FindWindow(string className, string captionName);
+
+        /// <summary>
+        ///     根据句柄判断是否是个窗口
+        /// </summary>
+        /// <param name="hWnd">句柄</param>
+        /// <returns>是否是个窗口</returns>
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool IsWindow(IntPtr hWnd);
 
         /// <summary>
         ///     获取主窗体下子控件的句柄

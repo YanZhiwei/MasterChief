@@ -15,16 +15,6 @@ namespace MasterChief.DotNet4.WindowsAPI
         #region Methods
 
         /// <summary>
-        ///     激活窗口
-        /// </summary>
-        /// <param name="hWnd">句柄</param>
-        public static void Activate(IntPtr hWnd)
-        {
-            if (hWnd != IntPtr.Zero)
-                Win32Api.SendMessage(hWnd, (int) Wm.WM_ACTIVATE, WA.WA_CLICKACTIVE, 0);
-        }
-
-        /// <summary>
         ///     关闭窗口
         /// </summary>
         /// <param name="hWnd">句柄</param>
@@ -112,7 +102,7 @@ namespace MasterChief.DotNet4.WindowsAPI
         }
 
         /// <summary>
-        ///     该窗口句柄是否是当前系统中被激活的窗口
+        ///     获取当前活动窗口，最前窗口，由此可判断一个窗口是否最前
         /// </summary>
         /// <param name="hWnd">句柄</param>
         /// <returns>是否当前系统中被激活的窗口</returns>
@@ -122,6 +112,16 @@ namespace MasterChief.DotNet4.WindowsAPI
             var hWndFocused = Win32Api.GetForegroundWindow();
             if (hWndFocused == IntPtr.Zero) return false;
             return hWnd == hWndFocused;
+        }
+
+        /// <summary>
+        ///     根据句柄判断是否是个窗口
+        /// </summary>
+        /// <param name="hWnd">句柄</param>
+        /// <returns>是否是个窗口</returns>
+        public static bool IsWindow(IntPtr hWnd)
+        {
+            return Win32Api.IsWindow(hWnd);
         }
 
         /// <summary>
@@ -208,6 +208,16 @@ namespace MasterChief.DotNet4.WindowsAPI
         {
             if (hWnd != IntPtr.Zero)
                 Win32Api.SetForegroundWindow(hWnd);
+        }
+
+        /// <summary>
+        ///     根据句柄判断一个窗口是否可见
+        /// </summary>
+        /// <param name="hWnd">句柄</param>
+        /// <returns>窗口是否可见</returns>
+        public bool IsVisible(IntPtr hWnd)
+        {
+            return Win32Api.IsWindowVisible(hWnd);
         }
 
         #endregion Methods
