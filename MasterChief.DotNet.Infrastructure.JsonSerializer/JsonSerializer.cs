@@ -1,6 +1,7 @@
-using System.Data;
+﻿using System.Data;
 using System.IO;
 using MasterChief.DotNet.Infrastructure.Serializer;
+using MasterChief.DotNet4.Utilities.Operator;
 using Newtonsoft.Json;
 
 namespace MasterChief.DotNet.Infrastructure.JsonSerializer
@@ -10,6 +11,8 @@ namespace MasterChief.DotNet.Infrastructure.JsonSerializer
     /// </summary>
     public class JsonSerializer : ISerializer
     {
+        #region Methods
+
         /// <summary>
         ///     反序列化
         /// </summary>
@@ -18,6 +21,7 @@ namespace MasterChief.DotNet.Infrastructure.JsonSerializer
         /// <returns>反序列化</returns>
         public T Deserialize<T>(string data)
         {
+            ValidateOperator.Begin().NotNullOrEmpty(data, "需要反序列化字符串");
             T deserializedType = default;
             if (!string.IsNullOrEmpty(data))
             {
@@ -43,7 +47,7 @@ namespace MasterChief.DotNet.Infrastructure.JsonSerializer
         /// <returns>Json字符串</returns>
         public string Serialize(object serializeObject)
         {
-            if (serializeObject == null) return null;
+            ValidateOperator.Begin().NotNull(serializeObject, "需要序列化对象");
 
             var type = serializeObject.GetType();
             var serializer = new Newtonsoft.Json.JsonSerializer();
@@ -77,5 +81,7 @@ namespace MasterChief.DotNet.Infrastructure.JsonSerializer
                 jsonSerializer.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             }
         }
+
+        #endregion Methods
     }
 }
