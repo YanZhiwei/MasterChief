@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using MasterChief.DotNet.Infrastructure.Serializer;
+using MasterChief.DotNet4.Utilities.Operator;
 
 namespace MasterChief.DotNet.Infrastructure.ProtobufSerializer
 {
@@ -9,6 +10,8 @@ namespace MasterChief.DotNet.Infrastructure.ProtobufSerializer
     /// </summary>
     public class ProtocolBufferSerializer : ISerializer
     {
+        #region Methods
+
         /// <summary>
         ///     反序列化
         /// </summary>
@@ -17,6 +20,7 @@ namespace MasterChief.DotNet.Infrastructure.ProtobufSerializer
         /// <returns>反序列化</returns>
         public T Deserialize<T>(string data)
         {
+            ValidateOperator.Begin().NotNullOrEmpty(data, "需要反序列化字符串");
             var buffer = Convert.FromBase64String(data);
             using (var stream = new MemoryStream(buffer))
             {
@@ -31,11 +35,14 @@ namespace MasterChief.DotNet.Infrastructure.ProtobufSerializer
         /// <returns>Json字符串</returns>
         public string Serialize(object serializeObject)
         {
+            ValidateOperator.Begin().NotNull(serializeObject, "需要序列化对象");
             using (var stream = new MemoryStream())
             {
                 ProtoBuf.Serializer.Serialize(stream, serializeObject);
                 return Convert.ToBase64String(stream.GetBuffer(), 0, (int) stream.Length);
             }
         }
+
+        #endregion Methods
     }
 }
