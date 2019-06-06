@@ -2,7 +2,7 @@
 using System.Data;
 using Newtonsoft.Json;
 
-namespace MasterChief.DotNet.Infrastructure.Serializer
+namespace MasterChief.DotNet.Infrastructure.JsonSerializer
 {
     /// <summary>
     ///     DataRowConverter转换器

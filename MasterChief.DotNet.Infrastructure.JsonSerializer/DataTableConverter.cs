@@ -2,21 +2,21 @@
 using System.Data;
 using Newtonsoft.Json;
 
-namespace MasterChief.DotNet.Infrastructure.Serializer
+namespace MasterChief.DotNet.Infrastructure.JsonSerializer
 {
     /// <summary>
-    ///     DataSetConverter转换器
+    ///     DataTableConverter转换器
     /// </summary>
-    internal class DataSetConverter : JsonConverter
+    internal class DataTableConverter : JsonConverter
     {
         /// <summary>
         ///     override CanConvert
         /// </summary>
-        /// <param name="valueType">Type</param>
+        /// <param name="valueType"></param>
         /// <returns></returns>
         public override bool CanConvert(Type valueType)
         {
-            return typeof(DataSet).IsAssignableFrom(valueType);
+            return typeof(DataTable).IsAssignableFrom(valueType);
         }
 
         /// <summary>
@@ -37,18 +37,22 @@ namespace MasterChief.DotNet.Infrastructure.Serializer
         ///     override WriteJson
         /// </summary>
         /// <param name="writer"></param>
-        /// <param name="dataset"></param>
+        /// <param name="dataTable"></param>
         /// <param name="ser"></param>
-        public override void WriteJson(JsonWriter writer, object dataset, Newtonsoft.Json.JsonSerializer ser)
+        public override void WriteJson(JsonWriter writer, object dataTable, Newtonsoft.Json.JsonSerializer ser)
         {
-            var dataSet = dataset as DataSet;
-            var converter = new DataTableConverter();
+            var table = dataTable as DataTable;
+            var converter = new DataRowConverter();
             writer.WriteStartObject();
-            writer.WritePropertyName("Tables");
+            writer.WritePropertyName("Rows");
             writer.WriteStartArray();
-            if (dataSet != null)
-                foreach (DataTable table in dataSet.Tables)
-                    converter.WriteJson(writer, table, ser);
+            if (table != null)
+            {
+                foreach (DataRow row in table.Rows)
+                {
+                    converter.WriteJson(writer, row, ser);
+                }
+            }
             writer.WriteEndArray();
             writer.WriteEndObject();
         }

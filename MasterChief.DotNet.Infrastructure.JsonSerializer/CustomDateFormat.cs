@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json.Converters;
 
-namespace MasterChief.DotNet.Infrastructure.Serializer
+namespace MasterChief.DotNet.Infrastructure.JsonSerializer
 {
     /// <summary>
     ///     序列化时候自定义时间格式

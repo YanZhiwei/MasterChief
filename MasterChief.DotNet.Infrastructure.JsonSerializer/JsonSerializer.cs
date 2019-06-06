@@ -1,8 +1,9 @@
 using System.Data;
 using System.IO;
+using MasterChief.DotNet.Infrastructure.Serializer;
 using Newtonsoft.Json;
 
-namespace MasterChief.DotNet.Infrastructure.Serializer
+namespace MasterChief.DotNet.Infrastructure.JsonSerializer
 {
     /// <summary>
     ///     Json 序列化与反序列化
