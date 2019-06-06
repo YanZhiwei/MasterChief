@@ -25,6 +25,20 @@ namespace MasterChief.DotNet4.Utilities.Common
         }
 
         /// <summary>
+        ///     运行XPath语法
+        /// </summary>
+        /// <param name="xmlText">xml内容</param>
+        /// <param name="xpath">xpath语法</param>
+        /// <returns>XmlNodeList</returns>
+        public static XmlNodeList ExecXPath(string xmlText, string xpath)
+        {
+            var doc = new XmlDocument();
+            doc.LoadXml(xmlText);
+            //eg://bus
+            return doc.SelectNodes(xpath);
+        }
+
+        /// <summary>
         ///     将XML文件读取返回成DataSet
         /// </summary>
         /// <param name="xmlFilePath">xml路径</param>
