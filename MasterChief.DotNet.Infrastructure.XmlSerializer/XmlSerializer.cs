@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Xml;
 using MasterChief.DotNet.Infrastructure.Serializer;
+using MasterChief.DotNet4.Utilities.Operator;
 
 namespace MasterChief.DotNet.Infrastructure.XmlSerializer
 {
@@ -17,6 +18,7 @@ namespace MasterChief.DotNet.Infrastructure.XmlSerializer
         /// <returns>反序列化</returns>
         public T Deserialize<T>(string data)
         {
+            ValidateOperator.Begin().NotNullOrEmpty(data, "需要反序列化字符串");
             var type = typeof(T);
             var xmlSerializer = new System.Xml.Serialization.XmlSerializer(type);
 
@@ -33,6 +35,7 @@ namespace MasterChief.DotNet.Infrastructure.XmlSerializer
         /// <returns>Json字符串</returns>
         public string Serialize(object serializeObject)
         {
+            ValidateOperator.Begin().NotNull(serializeObject, "需要序列化对象");
             var type = serializeObject.GetType();
             var xmlSerializer = new System.Xml.Serialization.XmlSerializer(type);
 
