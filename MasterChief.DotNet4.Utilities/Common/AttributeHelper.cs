@@ -21,7 +21,7 @@ namespace MasterChief.DotNet4.Utilities.Common
         // ReSharper disable once InconsistentNaming
         public static A Get<T, A>()
             where T : class
-            where A : Attribute
+            where A : System.Attribute
         {
             var modelType = typeof(T);
 

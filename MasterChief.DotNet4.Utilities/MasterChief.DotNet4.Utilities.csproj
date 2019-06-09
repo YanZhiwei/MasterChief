@@ -34,6 +34,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Core" />
@@ -51,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attribute\ValidateObjectAttribute.cs" />
     <Compile Include="Builder\ByteArrayBuilder.cs" />
     <Compile Include="Builder\CRCBuilder.cs" />
     <Compile Include="Builder\SqlScriptBuilder.cs" />
@@ -120,8 +122,10 @@
     <Compile Include="ComponentModel\NotificationHelper.cs" />
     <Compile Include="ComponentModel\NotificationObject.cs" />
     <Compile Include="Core\Counter.cs" />
+    <Compile Include="Core\DataAnnotationsValidator.cs" />
     <Compile Include="Core\Retry.cs" />
     <Compile Include="Core\ShortcutLink.cs" />
+    <Compile Include="Attribute\ValidateCollectionAttribute.cs" />
     <Compile Include="DbManager\AccessDbManager.cs" />
     <Compile Include="DbManager\ExcelIDbManager.cs" />
     <Compile Include="DesignPattern\Singleton.cs" />
@@ -153,6 +157,7 @@
     <Compile Include="RegexPattern.cs" />
     <Compile Include="Result\BasicResult.cs" />
     <Compile Include="Result\CheckResult.cs" />
+    <Compile Include="Result\DataAnnotationResult.cs" />
     <Compile Include="Result\FileDownloadResult.cs" />
     <Compile Include="Result\OperatedResult.cs" />
     <Compile Include="ValidateResource.Designer.cs">
