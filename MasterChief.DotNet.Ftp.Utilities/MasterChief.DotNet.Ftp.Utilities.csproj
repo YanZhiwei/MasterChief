@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MasterChief.DotNet4.Utilities, Version=1.0.0.11, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MasterChief.DotNet4.Utilities.1.0.0.11\lib\net40\MasterChief.DotNet4.Utilities.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Net.FtpClient, Version=1.0.5821.41114, Culture=neutral, processorArchitecture=MSIL">
@@ -52,10 +55,7 @@
     <Content Include="DLL\System.Net.FtpClient.XML" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MasterChief.DotNet4.Utilities\MasterChief.DotNet4.Utilities.csproj">
-      <Project>{d1dc63aa-db3a-4c47-9e20-f7474420ba48}</Project>
-      <Name>MasterChief.DotNet4.Utilities</Name>
-    </ProjectReference>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
