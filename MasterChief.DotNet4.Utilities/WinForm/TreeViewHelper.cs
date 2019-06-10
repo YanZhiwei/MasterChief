@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 
 namespace MasterChief.DotNet4.Utilities.WinForm
@@ -47,9 +48,9 @@ namespace MasterChief.DotNet4.Utilities.WinForm
         /// </summary>
         /// <param name="treeView">TreeView</param>
         /// <param name="contextMenu">ContextMenuStrip</param>
-        /// <param name="showContextMenuHanlder">显示ContextMenuStrip规则委托</param>
+        /// <param name="showContextMenuFactory">显示ContextMenuStrip规则委托</param>
         public static void AttachMenu(this TreeView treeView, ContextMenuStrip contextMenu,
-            Predicate<TreeNode> showContextMenuHanlder)
+            Predicate<TreeNode> showContextMenuFactory)
         {
             treeView.MouseDown += (sender, e) =>
             {
@@ -61,8 +62,8 @@ namespace MasterChief.DotNet4.Utilities.WinForm
                     // ReSharper disable once PossibleNullReferenceException
                     var curNode = curTree.GetNodeAt(clickPoint);
 
-                    if (showContextMenuHanlder != null)
-                        if (showContextMenuHanlder(curNode))
+                    if (showContextMenuFactory != null)
+                        if (showContextMenuFactory(curNode))
                         {
                             curTree.SelectedNode = curNode;
                             curNode.ContextMenuStrip = contextMenu;
@@ -132,6 +133,49 @@ namespace MasterChief.DotNet4.Utilities.WinForm
             }
 
             return result;
+        }
+
+        /// <summary>
+        ///     将目标文件夹递归加载Tree
+        /// </summary>
+        /// <param name="treeView">TreeView</param>
+        /// <param name="folder">目标文件夹</param>
+        public static void LoadDirectory(TreeView treeView, string folder)
+        {
+            var root = new DirectoryInfo(folder);
+            var parentNode = treeView.Nodes.Add(root.Name);
+            parentNode.Tag = root.FullName;
+            parentNode.StateImageIndex = 0;
+            LoadFiles(folder, parentNode);
+            LoadSubDirectories(folder, parentNode);
+            treeView.ExpandAll();
+        }
+
+        private static void LoadFiles(string dir, TreeNode node)
+        {
+            var files = Directory.GetFiles(dir, "*.*");
+            foreach (var item in files)
+            {
+                var fileInfo = new FileInfo(item);
+                var treeNode = node.Nodes.Add(fileInfo.Name);
+                treeNode.Tag = fileInfo.FullName;
+                treeNode.StateImageIndex = 1;
+            }
+        }
+
+        private static void LoadSubDirectories(string folder, TreeNode treeNode)
+        {
+            var subFolder = Directory.GetDirectories(folder);
+
+            foreach (var item in subFolder)
+            {
+                var directory = new DirectoryInfo(item);
+                var node = treeNode.Nodes.Add(directory.Name);
+                node.StateImageIndex = 0;
+                node.Tag = directory.FullName;
+                LoadFiles(item, node);
+                LoadSubDirectories(item, node);
+            }
         }
 
         #endregion Methods
