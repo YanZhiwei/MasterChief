@@ -10,7 +10,7 @@
     <projectUrl>https://github.com/YanZhiwei/MasterChief/tree/master/MasterChief.DotNet4.Utilities</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>1.修复FileDownload方法bug;2.优化命名；</releaseNotes>
+    <releaseNotes></releaseNotes>
     <copyright>Copyright YanZhiwei 2019</copyright>
     <tags>DotNet Utilities</tags>
   </metadata>
