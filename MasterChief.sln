@@ -114,6 +114,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MasterChief.DotNet.Infrastr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MasterChief.DotNet.Infrastructure.JsonSerializer", "MasterChief.DotNet.Infrastructure.JsonSerializer\MasterChief.DotNet.Infrastructure.JsonSerializer.csproj", "{2C052534-CEF4-446F-B48E-AA4FB3C84F20}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MasterChief.DotNet4.UIA", "MasterChief.DotNet4.UIA\MasterChief.DotNet4.UIA.csproj", "{1DF99484-897F-40DE-B038-6141B2E81D1E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -248,6 +250,10 @@ Global
 		{2C052534-CEF4-446F-B48E-AA4FB3C84F20}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2C052534-CEF4-446F-B48E-AA4FB3C84F20}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2C052534-CEF4-446F-B48E-AA4FB3C84F20}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1DF99484-897F-40DE-B038-6141B2E81D1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1DF99484-897F-40DE-B038-6141B2E81D1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1DF99484-897F-40DE-B038-6141B2E81D1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1DF99484-897F-40DE-B038-6141B2E81D1E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -298,6 +304,7 @@ Global
 		{23175EC1-C74A-4258-97E8-D88F2CB9844C} = {51CE4B8E-8E09-4CC9-A86A-FD79F752CF3A}
 		{BF9C9C46-51D1-4756-87DB-49FE96A6C489} = {4FC57174-F0A4-4D3F-AF73-A48859490458}
 		{2C052534-CEF4-446F-B48E-AA4FB3C84F20} = {4FC57174-F0A4-4D3F-AF73-A48859490458}
+		{1DF99484-897F-40DE-B038-6141B2E81D1E} = {51CE4B8E-8E09-4CC9-A86A-FD79F752CF3A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {90963A27-01A3-467E-9098-A6E345A4F839}
