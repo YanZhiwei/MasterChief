@@ -123,6 +123,7 @@
     <Compile Include="ComponentModel\NotificationObject.cs" />
     <Compile Include="Core\Counter.cs" />
     <Compile Include="Core\DataAnnotationsValidator.cs" />
+    <Compile Include="Core\ISerializer.cs" />
     <Compile Include="Core\Retry.cs" />
     <Compile Include="Core\ShortcutLink.cs" />
     <Compile Include="Attribute\ValidateCollectionAttribute.cs" />

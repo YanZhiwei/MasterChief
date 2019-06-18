@@ -1,4 +1,4 @@
-namespace MasterChief.DotNet.Infrastructure.Serializer
+﻿namespace MasterChief.DotNet4.Utilities.Core
 {
     /// <summary>
     ///     序列化与反序列化接口

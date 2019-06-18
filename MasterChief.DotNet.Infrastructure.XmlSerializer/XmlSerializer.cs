@@ -1,6 +1,6 @@
 ﻿using System.IO;
 using System.Xml;
-using MasterChief.DotNet.Infrastructure.Serializer;
+using MasterChief.DotNet4.Utilities.Core;
 using MasterChief.DotNet4.Utilities.Operator;
 
 namespace MasterChief.DotNet.Infrastructure.XmlSerializer

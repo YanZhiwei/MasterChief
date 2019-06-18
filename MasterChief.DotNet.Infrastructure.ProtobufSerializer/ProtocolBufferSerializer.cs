@@ -1,7 +1,8 @@
 ﻿using System;
 using System.IO;
-using MasterChief.DotNet.Infrastructure.Serializer;
+using MasterChief.DotNet4.Utilities.Core;
 using MasterChief.DotNet4.Utilities.Operator;
+using ProtoBuf;
 
 namespace MasterChief.DotNet.Infrastructure.ProtobufSerializer
 {
@@ -24,7 +25,7 @@ namespace MasterChief.DotNet.Infrastructure.ProtobufSerializer
             var buffer = Convert.FromBase64String(data);
             using (var stream = new MemoryStream(buffer))
             {
-                return ProtoBuf.Serializer.Deserialize<T>(stream);
+                return Serializer.Deserialize<T>(stream);
             }
         }
 
@@ -38,7 +39,7 @@ namespace MasterChief.DotNet.Infrastructure.ProtobufSerializer
             ValidateOperator.Begin().NotNull(serializeObject, "需要序列化对象");
             using (var stream = new MemoryStream())
             {
-                ProtoBuf.Serializer.Serialize(stream, serializeObject);
+                Serializer.Serialize(stream, serializeObject);
                 return Convert.ToBase64String(stream.GetBuffer(), 0, (int) stream.Length);
             }
         }

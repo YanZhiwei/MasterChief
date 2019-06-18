@@ -1,6 +1,6 @@
 ﻿using System.Data;
 using System.IO;
-using MasterChief.DotNet.Infrastructure.Serializer;
+using MasterChief.DotNet4.Utilities.Core;
 using MasterChief.DotNet4.Utilities.Operator;
 using Newtonsoft.Json;
 

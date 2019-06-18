@@ -32,11 +32,8 @@
     <DocumentationFile>bin\Release\MasterChief.DotNet.Infrastructure.JsonSerializer.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MasterChief.DotNet.Infrastructure.Serialize, Version=1.0.0.2, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MasterChief.DotNet.Infrastructure.Serialize.1.0.0.2\lib\net40\MasterChief.DotNet.Infrastructure.Serialize.dll</HintPath>
-    </Reference>
-    <Reference Include="MasterChief.DotNet4.Utilities, Version=1.0.0.10, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MasterChief.DotNet4.Utilities.1.0.0.10\lib\net40\MasterChief.DotNet4.Utilities.dll</HintPath>
+    <Reference Include="MasterChief.DotNet4.Utilities, Version=1.0.0.14, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MasterChief.DotNet4.Utilities.1.0.0.14\lib\net40\MasterChief.DotNet4.Utilities.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net40\Newtonsoft.Json.dll</HintPath>
