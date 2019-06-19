@@ -52,7 +52,7 @@ namespace MasterChief.DotNet4.UIA
             return null;
         }
 
-        private static AutomationElement GetChildNode(AutomationElement aeParentNode, string nextNode)
+        private static AutomationElement GetChildNode(this AutomationElement aeParentNode, string nextNode)
         {
             if (aeParentNode != null)
             {
