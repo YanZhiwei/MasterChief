@@ -1,0 +1,1 @@
+nuget pack MasterChief.DotNet.Core.EF.csproj -Prop Configuration=Release -IncludeReferencedProjects
