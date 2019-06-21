@@ -36,11 +36,11 @@
     <DocumentationFile>bin\Release\MasterChief.DotNet.Core.RedisCache.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MasterChief.DotNet.Core.Cache, Version=1.0.0.2, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MasterChief.DotNet.Core.Cache.1.0.0.2\lib\net40\MasterChief.DotNet.Core.Cache.dll</HintPath>
+    <Reference Include="MasterChief.DotNet.Core.Cache, Version=1.0.0.3, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MasterChief.DotNet.Core.Cache.1.0.0.3\lib\net40\MasterChief.DotNet.Core.Cache.dll</HintPath>
     </Reference>
-    <Reference Include="MasterChief.DotNet4.Utilities, Version=1.0.0.5, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MasterChief.DotNet4.Utilities.1.0.0.5\lib\net40\MasterChief.DotNet4.Utilities.dll</HintPath>
+    <Reference Include="MasterChief.DotNet4.Utilities, Version=1.0.0.14, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MasterChief.DotNet4.Utilities.1.0.0.14\lib\net40\MasterChief.DotNet4.Utilities.dll</HintPath>
     </Reference>
     <Reference Include="ServiceStack.Common, Version=5.0.0.0, Culture=neutral, PublicKeyToken=02c12cbda47e6587, processorArchitecture=MSIL">
       <HintPath>..\packages\ServiceStack.Common.5.4.0\lib\net45\ServiceStack.Common.dll</HintPath>
