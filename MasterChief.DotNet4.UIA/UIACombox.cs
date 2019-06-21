@@ -18,37 +18,25 @@ namespace MasterChief.DotNet4.UIA
         ///     Element with AutomationId '{comboBox.Current.AutomationId}' and Name
         ///     '{comboBox.Current.Name}' ControlType is not ComboBox.
         /// </exception>
-        public static void SetSelectedItem(this AutomationElement comboBox, string item)
+        public static bool SetSelectedItem(this AutomationElement comboBox, string item)
         {
             if (comboBox.Current.ControlType != ControlType.ComboBox)
                 throw new ArgumentException(
                     $"AutomationId '{comboBox.Current.AutomationId}' and Name '{comboBox.Current.Name}' 控件类型不是 ComboBox.");
-            var automationPatternFromElement =
-                GetSpecifiedPattern(comboBox, "ExpandCollapsePatternIdentifiers.Pattern");
 
-            var expandCollapsePattern =
-                comboBox.GetCurrentPattern(automationPatternFromElement) as ExpandCollapsePattern;
+            var listBox = comboBox.FindFirst(TreeScope.Children,
+                new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.List));
+            if (listBox == null) return false;
 
-
-            var listItem = comboBox.FindFirst(TreeScope.Subtree,
+            var listItem = listBox.FindFirst(TreeScope.Children,
                 new PropertyCondition(AutomationElement.NameProperty, item));
+            if (listItem == null) return false;
 
-            automationPatternFromElement = GetSpecifiedPattern(listItem, "SelectionItemPatternIdentifiers.Pattern");
-
-            var selectionItemPattern = listItem.GetCurrentPattern(automationPatternFromElement) as SelectionItemPattern;
-
+            if (!listItem.TryGetCurrentPattern(SelectionItemPatternIdentifiers.Pattern, out var sipCombox))
+                return false;
+            var selectionItemPattern = sipCombox as SelectionItemPattern;
             selectionItemPattern?.Select();
-        }
-
-        private static AutomationPattern GetSpecifiedPattern(AutomationElement element, string patternName)
-        {
-            var supportedPattern = element.GetSupportedPatterns();
-
-            foreach (var pattern in supportedPattern)
-                if (pattern.ProgrammaticName == patternName)
-                    return pattern;
-
-            return null;
+            return true;
         }
     }
 }
