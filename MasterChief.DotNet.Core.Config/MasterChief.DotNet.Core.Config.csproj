@@ -31,8 +31,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MasterChief.DotNet4.Utilities, Version=1.0.0.5, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MasterChief.DotNet4.Utilities.1.0.0.5\lib\net40\MasterChief.DotNet4.Utilities.dll</HintPath>
+    <Reference Include="MasterChief.DotNet4.Utilities, Version=1.0.0.14, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MasterChief.DotNet4.Utilities.1.0.0.14\lib\net40\MasterChief.DotNet4.Utilities.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
