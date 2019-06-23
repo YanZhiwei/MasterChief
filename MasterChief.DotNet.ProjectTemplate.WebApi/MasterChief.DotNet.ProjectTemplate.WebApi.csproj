@@ -36,8 +36,8 @@
     <Reference Include="JWT, Version=5.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\JWT.5.0.1\lib\net46\JWT.dll</HintPath>
     </Reference>
-    <Reference Include="MasterChief.DotNet.Core.Cache, Version=1.0.0.2, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MasterChief.DotNet.Core.Cache.1.0.0.2\lib\net40\MasterChief.DotNet.Core.Cache.dll</HintPath>
+    <Reference Include="MasterChief.DotNet.Core.Cache, Version=1.0.0.3, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MasterChief.DotNet.Core.Cache.1.0.0.3\lib\net40\MasterChief.DotNet.Core.Cache.dll</HintPath>
     </Reference>
     <Reference Include="MasterChief.DotNet.Core.Config, Version=1.0.0.3, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MasterChief.DotNet.Core.Config.1.0.0.3\lib\net40\MasterChief.DotNet.Core.Config.dll</HintPath>
@@ -49,7 +49,7 @@
       <HintPath>..\packages\MasterChief.DotNet4.Utilities.1.0.0.14\lib\net40\MasterChief.DotNet4.Utilities.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />

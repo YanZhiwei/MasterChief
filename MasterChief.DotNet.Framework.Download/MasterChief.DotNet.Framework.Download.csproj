@@ -35,8 +35,8 @@
     <Reference Include="MasterChief.DotNet.Core.Config, Version=1.0.0.3, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MasterChief.DotNet.Core.Config.1.0.0.3\lib\net40\MasterChief.DotNet.Core.Config.dll</HintPath>
     </Reference>
-    <Reference Include="MasterChief.DotNet4.Utilities, Version=1.0.0.11, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MasterChief.DotNet4.Utilities.1.0.0.11\lib\net40\MasterChief.DotNet4.Utilities.dll</HintPath>
+    <Reference Include="MasterChief.DotNet4.Utilities, Version=1.0.0.14, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MasterChief.DotNet4.Utilities.1.0.0.14\lib\net40\MasterChief.DotNet4.Utilities.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
