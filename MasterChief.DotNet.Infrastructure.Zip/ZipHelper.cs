@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using ICSharpCode.SharpZipLib.Core;
 using ICSharpCode.SharpZipLib.Zip;
@@ -28,8 +29,8 @@ namespace MasterChief.DotNet.Infrastructure.Zip
                 .NotNullOrEmpty(zipFile, "压缩文件存放路径")
                 .IsFilePath(zipFile)
                 .CheckedFileExt(Path.GetExtension(zipFile), ".zip");
-            var compressFiles = Directory.EnumerateFiles(
-                compressFolder, "*.*", SearchOption.AllDirectories);
+            CreateZipFolder(zipFile);
+            var compressFiles = GetCompressFiles(compressFolder);
 
             using (var zipOutput = new ZipOutputStream(File.Create(zipFile)))
             {
@@ -37,16 +38,18 @@ namespace MasterChief.DotNet.Infrastructure.Zip
                 zipOutput.Password = password;
                 var buffer = new byte[4096];
 
-                foreach (var file in compressFiles)
+                foreach (var item in compressFiles)
                 {
-                    var fileEntry = new ZipEntry(Path.GetFileName(file))
+                    var isFilePath = File.Exists(item);
+                    var zipName = item.Replace(compressFolder, "");
+                    zipName = isFilePath ? zipName : string.Format($"{zipName}/");
+                    var fileEntry = new ZipEntry(zipName)
                     {
                         DateTime = DateTime.Now
                     };
-
                     zipOutput.PutNextEntry(fileEntry);
-
-                    using (var fileStream = File.OpenRead(file))
+                    if (!isFilePath) continue;
+                    using (var fileStream = File.OpenRead(item))
                     {
                         int sourceBytes;
 
@@ -64,10 +67,15 @@ namespace MasterChief.DotNet.Infrastructure.Zip
         ///     解压文件
         /// </summary>
         /// <param name="zipFile">zip文件</param>
-        /// <param name="password">压缩密码</param>
         /// <param name="extractFolder">解压文件夹</param>
-        public void Extract(string zipFile, string password, string extractFolder)
+        /// <param name="password">压缩密码</param>
+        public static void Extract(string zipFile, string extractFolder, string password = null)
         {
+            ValidateOperator.Begin()
+                .CheckFileExists(zipFile)
+                .CheckedFileExt(Path.GetExtension(zipFile), ".zip")
+                .NotNullOrEmpty(extractFolder, "解压文件夹");
+            CreateExtractFolder(extractFolder);
             ZipFile file = null;
             try
             {
@@ -78,18 +86,17 @@ namespace MasterChief.DotNet.Infrastructure.Zip
 
                 foreach (ZipEntry zipEntry in file)
                 {
-                    if (!zipEntry.IsFile)
-                        continue;
+                    if (!zipEntry.IsFile) continue;
 
                     var extractFileName = zipEntry.Name;
 
                     var buffer = new byte[4096];
                     var zipStream = file.GetInputStream(zipEntry);
 
-                    var fullZipPath = Path.Combine(extractFolder, extractFileName);
+                    var fullZipPath = CreateExtractPath(extractFolder, extractFileName);
                     var folderName = Path.GetDirectoryName(fullZipPath);
 
-                    if (!string.IsNullOrEmpty(folderName))
+                    if (!Directory.Exists(folderName))
                         Directory.CreateDirectory(folderName);
 
                     using (var streamWriter = File.Create(fullZipPath))
@@ -106,6 +113,39 @@ namespace MasterChief.DotNet.Infrastructure.Zip
                     file.Close();
                 }
             }
+        }
+
+        private static string CreateExtractPath(string extractFolder, string extractFile)
+        {
+            var index = extractFile.IndexOf(@"\", StringComparison.Ordinal);
+            if (index >= 0)
+                extractFile = extractFile.Substring(index + 1);
+            return Path.Combine(extractFolder, extractFile);
+        }
+
+        private static void CreateExtractFolder(string extractFolder)
+        {
+            if (!Directory.Exists(extractFolder))
+                Directory.CreateDirectory(extractFolder);
+        }
+
+        private static void CreateZipFolder(string zipFile)
+        {
+            var folderName = new FileInfo(zipFile).DirectoryName;
+            if (!Directory.Exists(folderName))
+                Directory.CreateDirectory(folderName);
+        }
+
+        private static List<string> GetCompressFiles(string compressFolder)
+        {
+            var compressFiles = new List<string>();
+            compressFiles.AddRange(Directory.EnumerateDirectories(
+                compressFolder, "*.*", SearchOption.AllDirectories));
+            compressFiles.AddRange(Directory.EnumerateFiles(
+                compressFolder, "*.*", SearchOption.AllDirectories)
+            );
+
+            return compressFiles;
         }
 
         #endregion Methods

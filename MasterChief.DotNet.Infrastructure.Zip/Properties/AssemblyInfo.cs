@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
 [assembly: AssemblyTitle("MasterChief.DotNet.Infrastructure.Zip")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("基于SharpZipLib压缩解压类库，支持文件夹压缩；\ngithub:https://github.com/YanZhiwei/MasterChief \ndemo:https://github.com/YanZhiwei/MasterChief.DotNet.Infrastructure.ZipSample \ne-mail:yan.zhiwei@hotmail.com")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("MasterChief.DotNet.Infrastructure.Zip")]
-[assembly: AssemblyCopyright("Copyright ©  2019")]
+[assembly: AssemblyCopyright("Copyright © YanZhiwei 2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
