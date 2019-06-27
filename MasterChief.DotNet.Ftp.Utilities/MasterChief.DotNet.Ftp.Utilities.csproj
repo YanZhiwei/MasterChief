@@ -29,6 +29,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\MasterChief.DotNet.Ftp.Utilities.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="MasterChief.DotNet4.Utilities, Version=1.0.0.14, Culture=neutral, processorArchitecture=MSIL">
