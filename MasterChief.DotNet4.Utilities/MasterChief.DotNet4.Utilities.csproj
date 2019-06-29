@@ -127,6 +127,7 @@
     <Compile Include="Core\Retry.cs" />
     <Compile Include="Core\ShortcutLink.cs" />
     <Compile Include="Attribute\ValidateCollectionAttribute.cs" />
+    <Compile Include="Core\UnmanagedLib.cs" />
     <Compile Include="DbManager\AccessDbManager.cs" />
     <Compile Include="DbManager\ExcelIDbManager.cs" />
     <Compile Include="DesignPattern\Singleton.cs" />
