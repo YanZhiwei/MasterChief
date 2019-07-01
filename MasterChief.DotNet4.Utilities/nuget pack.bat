@@ -1,0 +1,1 @@
+nuget pack MasterChief.DotNet4.Utilities.csproj -Prop Configuration=Release -IncludeReferencedProjects
