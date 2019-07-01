@@ -225,6 +225,25 @@ namespace MasterChief.DotNet4.WindowsAPI.Core
         [DllImport("WTSAPI32.DLL", SetLastError = true, CharSet = CharSet.Auto)]
         internal static extern bool WTSQueryUserToken(int sessionId, out IntPtr token);
 
+
+        [DllImport("user32.dll", SetLastError = true)]
+        internal static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint lpdwProcessId);
+
+        [DllImport("user32.dll")]
+        internal static extern uint GetWindowThreadProcessId(IntPtr hWnd, IntPtr ProcessId);
+
+        [DllImport("kernel32.dll")]
+        internal static extern uint GetCurrentThreadId();
+
+        [DllImport("user32.dll")]
+        internal static extern bool AttachThreadInput(uint idAttach, uint idAttachTo, bool fAttach);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        internal static extern bool BringWindowToTop(IntPtr hWnd);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        internal static extern bool BringWindowToTop(HandleRef hWnd);
+
         #endregion Methods
     }
 }

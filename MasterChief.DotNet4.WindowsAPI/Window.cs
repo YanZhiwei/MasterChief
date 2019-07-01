@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Text;
+using System.Threading;
 using MasterChief.DotNet4.WindowsAPI.Core;
 using MasterChief.DotNet4.WindowsAPI.Enum;
 
@@ -207,8 +208,15 @@ namespace MasterChief.DotNet4.WindowsAPI
         public static void SetFocused(IntPtr hWnd)
         {
             if (hWnd != IntPtr.Zero)
-                Win32Api.SetForegroundWindow(hWnd);
+                if (!Win32Api.SetForegroundWindow(hWnd))
+                    AttachedThreadInputAction(
+                        () =>
+                        {
+                            Win32Api.BringWindowToTop(hWnd);
+                            Win32Api.ShowWindow(hWnd, SwShow);
+                        });
         }
+
 
         /// <summary>
         ///     根据句柄判断一个窗口是否可见
@@ -218,6 +226,53 @@ namespace MasterChief.DotNet4.WindowsAPI
         public bool IsVisible(IntPtr hWnd)
         {
             return Win32Api.IsWindowVisible(hWnd);
+        }
+
+        private static void AttachedThreadInputAction(Action action)
+        {
+            var foreThread = Win32Api.GetWindowThreadProcessId(Win32Api.GetForegroundWindow(),
+                IntPtr.Zero);
+            var appThread = Win32Api.GetCurrentThreadId();
+            var threadsAttached = false;
+            try
+            {
+                threadsAttached =
+                    foreThread == appThread ||
+                    Win32Api.AttachThreadInput(foreThread, appThread, true);
+                if (threadsAttached) action();
+                else throw new ThreadStateException("AttachThreadInput failed.");
+            }
+            finally
+            {
+                if (threadsAttached)
+                    Win32Api.AttachThreadInput(foreThread, appThread, false);
+            }
+        }
+
+        private const uint SwShow = 5;
+
+        /// <summary>
+        ///     强制窗口前置
+        /// </summary>
+        /// <param name="hWnd">句柄</param>
+        public static void ForceForeground(IntPtr hWnd)
+        {
+            var foreThread = Win32Api.GetWindowThreadProcessId(Win32Api.GetForegroundWindow(),
+                IntPtr.Zero);
+            var appThread = Win32Api.GetCurrentThreadId();
+
+            if (foreThread != appThread)
+            {
+                Win32Api.AttachThreadInput(foreThread, appThread, true);
+                Win32Api.BringWindowToTop(hWnd);
+                Win32Api.ShowWindow(hWnd, SwShow);
+                Win32Api.AttachThreadInput(foreThread, appThread, false);
+            }
+            else
+            {
+                Win32Api.BringWindowToTop(hWnd);
+                Win32Api.ShowWindow(hWnd, SwShow);
+            }
         }
 
         #endregion Methods
