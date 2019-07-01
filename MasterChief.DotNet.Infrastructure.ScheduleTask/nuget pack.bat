@@ -1,0 +1,1 @@
+nuget pack MasterChief.DotNet.Infrastructure.ScheduleTask.csproj -Prop Configuration=Release -IncludeReferencedProjects
