@@ -1,31 +1,20 @@
-﻿using MasterChief.DotNet4.Utilities.Operator;
-using System;
+﻿using System;
 using System.Runtime.InteropServices;
+using MasterChief.DotNet4.Utilities.Operator;
 
 namespace MasterChief.DotNet4.Utilities.Core
 {
     /// <summary>
-    /// 非托管DLL加载处理
+    ///     非托管DLL加载处理
     /// </summary>
     /// 时间：2016/11/7 13:50
     /// 备注：
     public class UnmanagedLib : IDisposable
     {
-        #region Fields
-
-        /// <summary>
-        /// 非托管DLL 路径
-        /// </summary>
-        public readonly string LibFilePath = null;
-
-        private IntPtr instance; //dll实例
-
-        #endregion Fields
-
         #region Constructors
 
         /// <summary>
-        /// 构造函数
+        ///     构造函数
         /// </summary>
         /// <param name="libFilePath">非托管DLL路径</param>
         /// 时间：2016/11/7 13:59
@@ -40,10 +29,21 @@ namespace MasterChief.DotNet4.Utilities.Core
 
         #endregion Constructors
 
+        #region Fields
+
+        /// <summary>
+        ///     非托管DLL 路径
+        /// </summary>
+        public readonly string LibFilePath;
+
+        private IntPtr _instance; //dll实例
+
+        #endregion Fields
+
         #region Methods
 
         /// <summary>
-        /// 卸载DLL
+        ///     卸载DLL
         /// </summary>
         /// <param name="hModule">hModule</param>
         /// <returns>卸载是否成功</returns>
@@ -51,7 +51,7 @@ namespace MasterChief.DotNet4.Utilities.Core
         public static extern bool FreeLibrary(IntPtr hModule);
 
         /// <summary>
-        /// 调用方法指针
+        ///     调用方法指针
         /// </summary>
         /// <param name="hModule">hModule</param>
         /// <param name="lpProcName">lpProcName</param>
@@ -60,7 +60,7 @@ namespace MasterChief.DotNet4.Utilities.Core
         public static extern IntPtr GetProcAddress(IntPtr hModule, string lpProcName);
 
         /// <summary>
-        /// 加载DLL
+        ///     加载DLL
         /// </summary>
         /// <param name="lpFileName">lpFileName</param>
         /// <returns>IntPtr</returns>
@@ -70,7 +70,7 @@ namespace MasterChief.DotNet4.Utilities.Core
         public static extern IntPtr LoadLibrary(string lpFileName);
 
         /// <summary>
-        /// Releases unmanaged and - optionally - managed resources.
+        ///     Releases unmanaged and - optionally - managed resources.
         /// </summary>
         /// 时间：2016/11/7 14:10
         /// 备注：
@@ -80,40 +80,36 @@ namespace MasterChief.DotNet4.Utilities.Core
         }
 
         /// <summary>
-        /// 释放
+        ///     释放
         /// </summary>
         public void FreeLib()
         {
-            FreeLibrary(instance);
+            FreeLibrary(_instance);
         }
 
         /// <summary>
-        /// 加载DLL
+        ///     加载DLL
         /// </summary>
         public void Load()
         {
-            instance = LoadLibrary(LibFilePath);
+            _instance = LoadLibrary(LibFilePath);
 
-            if (instance == IntPtr.Zero)
-            {
-                throw new ArgumentException("加载非托管DLL失败！");
-            }
+            if (_instance == IntPtr.Zero) throw new ArgumentException("加载非托管DLL失败！");
         }
 
         /// <summary>
-        /// 获取方法指针
+        ///     获取方法指针
         /// </summary>
         /// <param name="functionName">方法指针名称</param>
         /// <param name="t">类型</param>
         /// <returns>委托</returns>
         private Delegate GetAddress(string functionName, Type t)
         {
-            IntPtr _addr = GetProcAddress(instance, functionName);
+            var procAddr = GetProcAddress(_instance, functionName);
 
-            if (_addr == IntPtr.Zero)
+            if (procAddr == IntPtr.Zero)
                 return null;
-            else
-                return (Delegate)Marshal.GetDelegateForFunctionPointer(_addr, t);
+            return Marshal.GetDelegateForFunctionPointer(procAddr, t);
         }
 
         #endregion Methods

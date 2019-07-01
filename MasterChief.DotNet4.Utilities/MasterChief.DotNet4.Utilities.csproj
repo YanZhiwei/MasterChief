@@ -110,6 +110,7 @@
     <Compile Include="Common\RegexHelper.cs" />
     <Compile Include="Common\RegistryHelper.cs" />
     <Compile Include="Common\ResourceHelper.cs" />
+    <Compile Include="Common\RetryPolicy.cs" />
     <Compile Include="Common\SerializeHelper.cs" />
     <Compile Include="Common\ServiceHelper.cs" />
     <Compile Include="Common\StringBuilderHelper.cs" />
@@ -123,6 +124,7 @@
     <Compile Include="ComponentModel\NotificationObject.cs" />
     <Compile Include="Core\Counter.cs" />
     <Compile Include="Core\DataAnnotationsValidator.cs" />
+    <Compile Include="Core\IRetryPolicy.cs" />
     <Compile Include="Core\ISerializer.cs" />
     <Compile Include="Core\Retry.cs" />
     <Compile Include="Core\ShortcutLink.cs" />
