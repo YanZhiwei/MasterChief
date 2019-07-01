@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading;
 using MasterChief.DotNet4.Utilities.Core;
 
-namespace MasterChief.DotNet4.Utilities.Common
+namespace MasterChief.DotNet4.Utilities.Policy
 {
     /// <summary>
     ///     重试机制
