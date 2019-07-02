@@ -244,6 +244,10 @@ namespace MasterChief.DotNet4.WindowsAPI.Core
         [DllImport("user32.dll", SetLastError = true)]
         internal static extern bool BringWindowToTop(HandleRef hWnd);
 
+
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern bool IsIconic(IntPtr hWnd);
         #endregion Methods
     }
 }

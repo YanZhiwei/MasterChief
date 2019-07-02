@@ -208,13 +208,13 @@ namespace MasterChief.DotNet4.WindowsAPI
         public static void SetFocused(IntPtr hWnd)
         {
             if (hWnd != IntPtr.Zero)
-                if (!Win32Api.SetForegroundWindow(hWnd))
-                    AttachedThreadInputAction(
-                        () =>
-                        {
-                            Win32Api.BringWindowToTop(hWnd);
-                            Win32Api.ShowWindow(hWnd, SwShow);
-                        });
+                AttachedThreadInputAction(
+                    () =>
+                    {
+                        Win32Api.BringWindowToTop(hWnd);
+                        Win32Api.ShowWindow(hWnd, SwShow);
+                        Win32Api.SetForegroundWindow(hWnd);
+                    });
         }
 
 
