@@ -10,7 +10,7 @@ namespace MasterChief.DotNet.Infrastructure.WindowsService
     public sealed class ServiceConfigure<T> where T : IService, new()
     {
         /// <summary>
-        /// 运行服务
+        ///     运行服务
         /// </summary>
         /// <param name="args">参数</param>
         public static void Run(string[] args = null)
@@ -24,6 +24,7 @@ namespace MasterChief.DotNet.Infrastructure.WindowsService
                     service.WhenStarted(s => s.Start(args));
                     service.WhenStopped(s => s.Stop());
                     service.WhenPaused(s => s.Paused());
+                    service.WhenContinued(s => s.Continued());
                 });
                 SetRunAs(host, businessService);
                 //   host.EnableServiceRecovery(service => { service.RestartService(); });
@@ -31,11 +32,11 @@ namespace MasterChief.DotNet.Infrastructure.WindowsService
                     host.SetDescription(businessService.Description);
                 if (!string.IsNullOrEmpty(businessService.DisplayName))
                     host.SetDisplayName(businessService.DisplayName);
-
+                host.SetServiceName(businessService.ServiceName);
                 SetStartPattern(host, businessService);
             });
 
-            var exitCode = (int)Convert.ChangeType(rc, rc.GetTypeCode());
+            var exitCode = (int) Convert.ChangeType(rc, rc.GetTypeCode());
             Environment.ExitCode = exitCode;
         }
 

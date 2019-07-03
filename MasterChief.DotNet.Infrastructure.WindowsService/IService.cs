@@ -42,9 +42,13 @@
         void Stop();
 
         /// <summary>
-        ///  服务暂停
+        ///     服务暂停
         /// </summary>
         void Paused();
 
+        /// <summary>
+        ///     服务继续
+        /// </summary>
+        void Continued();
     }
 }
