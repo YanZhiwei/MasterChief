@@ -1,0 +1,1 @@
+nuget pack MasterChief.DotNet.Infrastructure.WindowsService.csproj -Prop Configuration=Release -IncludeReferencedProjects
