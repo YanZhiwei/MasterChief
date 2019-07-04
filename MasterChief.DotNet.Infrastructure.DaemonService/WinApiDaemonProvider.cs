@@ -36,14 +36,6 @@ namespace MasterChief.DotNet.Infrastructure.DaemonService
             if (CheckConfig(config)) WindowsCore.CreateProcess(config.InstallPath);
         }
 
-        /// <summary>
-        ///     执行批处理
-        /// </summary>
-        public virtual void RunBatchfile()
-        {
-            var config = GetConfig();
-            if (CheckConfig(config)) WindowsCore.CreateProcess(config.BatchfilePath);
-        }
 
         /// <summary>
         ///     获取进程守护配置信息
@@ -57,7 +49,7 @@ namespace MasterChief.DotNet.Infrastructure.DaemonService
         }
 
         /// <summary>
-        ///检查参数是否正确
+        ///     检查参数是否正确
         /// </summary>
         /// <param name="config">DaemonConfig.</param>
         /// <returns>是否合法</returns>

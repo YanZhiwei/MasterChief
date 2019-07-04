@@ -17,10 +17,6 @@ namespace MasterChief.DotNet.Infrastructure.DaemonService
         /// </summary>
         void Run();
 
-        /// <summary>
-        ///     执行批处理
-        /// </summary>
-        void RunBatchfile();
 
         /// <summary>
         ///     获取进程守护配置信息
