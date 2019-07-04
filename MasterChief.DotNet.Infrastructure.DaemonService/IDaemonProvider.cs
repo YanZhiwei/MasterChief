@@ -15,7 +15,7 @@ namespace MasterChief.DotNet.Infrastructure.DaemonService
         /// <summary>
         ///     运行需要守护的进程
         /// </summary>
-        void RunProcess();
+        void Run();
 
         /// <summary>
         ///     获取进程守护配置信息

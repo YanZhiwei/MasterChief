@@ -30,7 +30,7 @@ namespace MasterChief.DotNet.Infrastructure.DaemonService
         /// <summary>
         ///     运行需要守护的进程
         /// </summary>
-        public void RunProcess()
+        public void Run()
         {
             var config = GetConfig();
             ValidateOperator.Begin()
