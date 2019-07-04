@@ -18,6 +18,12 @@ namespace MasterChief.DotNet.Infrastructure.DaemonService
         /// </summary>
         public string InstallPath { get; set; }
 
+
+        /// <summary>
+        ///     批处理文件路径
+        /// </summary>
+        public string BatchfilePath { get; set; }
+
         /// <summary>
         ///     应用程序的名称
         /// </summary>

@@ -7,19 +7,19 @@ namespace MasterChief.DotNet.Infrastructure.DaemonService
     /// <summary>
     ///     基于Windows Api 进程守护
     /// </summary>
-    public sealed class WinApiDaemonProvider : IDaemonProvider
+    public abstract class WinApiDaemonProvider : IDaemonProvider
     {
-        private readonly ConfigContext _configContext;
+        protected readonly ConfigContext ConfigContext;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="WinApiDaemonProvider" /> class.
         /// </summary>
         /// <param name="configProvider">IConfigProvider</param>
-        public WinApiDaemonProvider(IConfigProvider configProvider)
+        protected WinApiDaemonProvider(IConfigProvider configProvider)
         {
             ValidateOperator.Begin().NotNull(configProvider, "IConfigProvider");
             ConfigProvider = configProvider;
-            _configContext = new ConfigContext(ConfigProvider);
+            ConfigContext = new ConfigContext(ConfigProvider);
         }
 
         /// <summary>
@@ -30,13 +30,19 @@ namespace MasterChief.DotNet.Infrastructure.DaemonService
         /// <summary>
         ///     运行需要守护的进程
         /// </summary>
-        public void Run()
+        public virtual void Run()
         {
             var config = GetConfig();
-            ValidateOperator.Begin()
-                .NotNull(config, "进程守护配置信息")
-                .CheckFileExists(config.InstallPath);
-            WindowsCore.CreateProcess(config.InstallPath);
+            if (CheckConfig(config)) WindowsCore.CreateProcess(config.InstallPath);
+        }
+
+        /// <summary>
+        ///     执行批处理
+        /// </summary>
+        public virtual void RunBatchfile()
+        {
+            var config = GetConfig();
+            if (CheckConfig(config)) WindowsCore.CreateProcess(config.BatchfilePath);
         }
 
         /// <summary>
@@ -45,9 +51,16 @@ namespace MasterChief.DotNet.Infrastructure.DaemonService
         /// <returns>
         ///     DaemonConfig
         /// </returns>
-        public DaemonConfig GetConfig()
+        public virtual DaemonConfig GetConfig()
         {
-            return _configContext.Get<DaemonConfig>();
+            return ConfigContext.Get<DaemonConfig>();
         }
+
+        /// <summary>
+        ///检查参数是否正确
+        /// </summary>
+        /// <param name="config">DaemonConfig.</param>
+        /// <returns>是否合法</returns>
+        public abstract bool CheckConfig(DaemonConfig config);
     }
 }
