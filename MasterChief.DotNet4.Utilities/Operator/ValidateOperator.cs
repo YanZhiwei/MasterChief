@@ -186,7 +186,7 @@ namespace MasterChief.DotNet4.Utilities.Operator
         /// <param name="data">中文</param>
         /// <param name="argumentName">参数名称</param>
         /// <returns>Validation</returns>
-        public static Validation IsChinses(this Validation validation, string data, string argumentName)
+        public static Validation IsChinese(this Validation validation, string data, string argumentName)
         {
             return Check(validation, () => CheckHelper.IsChinses(data), RegexPattern.ChineseCheck, argumentName);
         }
