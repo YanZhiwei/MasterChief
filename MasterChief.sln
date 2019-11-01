@@ -33,7 +33,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ProjectTemplate", "ProjectT
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Doc", "Doc", "{9766F217-8844-48FE-B2CB-6A632CB84154}"
 	ProjectSection(SolutionItems) = preProject
-		..\..\..\..\Desktop\MasterChief.xmind = ..\..\..\..\Desktop\MasterChief.xmind
+		..\..\Desktop\MasterChief.xmind = ..\..\Desktop\MasterChief.xmind
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MasterChief.DotNet.Core.Log", "MasterChief.DotNet.Core.Log\MasterChief.DotNet.Core.Log.csproj", "{5504B9A5-3D14-4ABD-8BE8-D3DE5A04FC50}"
@@ -121,6 +121,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MasterChief.DotNet.Infrastructure.WindowsService", "MasterChief.DotNet.Infrastructure.WindowsService\MasterChief.DotNet.Infrastructure.WindowsService.csproj", "{0EF4387C-C50F-46E2-B3A4-851242064584}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MasterChief.DotNet.Infrastructure.DaemonService", "MasterChief.DotNet.Infrastructure.DaemonService\MasterChief.DotNet.Infrastructure.DaemonService.csproj", "{37639957-1DB8-4F1A-A411-E019DC3C701C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MasterChief.DotNet.Infrastructure.JsonConverter", "MasterChief.DotNet.Infrastructure.JsonConverter\MasterChief.DotNet.Infrastructure.JsonConverter.csproj", "{F463F274-21CA-48F3-8FBB-ACF07BB1F8BD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -272,6 +274,10 @@ Global
 		{37639957-1DB8-4F1A-A411-E019DC3C701C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{37639957-1DB8-4F1A-A411-E019DC3C701C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{37639957-1DB8-4F1A-A411-E019DC3C701C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F463F274-21CA-48F3-8FBB-ACF07BB1F8BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F463F274-21CA-48F3-8FBB-ACF07BB1F8BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F463F274-21CA-48F3-8FBB-ACF07BB1F8BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F463F274-21CA-48F3-8FBB-ACF07BB1F8BD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -326,6 +332,7 @@ Global
 		{CAB2A996-B980-4755-9898-A608FD960D11} = {51CE4B8E-8E09-4CC9-A86A-FD79F752CF3A}
 		{0EF4387C-C50F-46E2-B3A4-851242064584} = {51CE4B8E-8E09-4CC9-A86A-FD79F752CF3A}
 		{37639957-1DB8-4F1A-A411-E019DC3C701C} = {51CE4B8E-8E09-4CC9-A86A-FD79F752CF3A}
+		{F463F274-21CA-48F3-8FBB-ACF07BB1F8BD} = {51CE4B8E-8E09-4CC9-A86A-FD79F752CF3A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {90963A27-01A3-467E-9098-A6E345A4F839}
