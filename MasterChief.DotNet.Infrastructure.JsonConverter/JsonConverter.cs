@@ -4,6 +4,7 @@ using System.Text;
 using System.Xml.Linq;
 using MasterChief.DotNet.Infrastructure.JsonConverter.Helper;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace MasterChief.DotNet.Infrastructure.JsonConverter
 {
@@ -17,7 +18,11 @@ namespace MasterChief.DotNet.Infrastructure.JsonConverter
 
         public static DataTable ToDataTable(string jsonText)
         {
-            return JsonHelper.ToDataTable(jsonText);
+            var jToken = JToken.Parse(jsonText);
+            if (jToken is JArray) return JsonConvert.DeserializeObject<DataSet>(jsonText)?.Tables[0];
+
+            var jArray = new JArray {jToken};
+            return JsonConvert.DeserializeObject<DataTable>(jArray.ToString());
         }
 
         public static void ToXmlFile(string jsonText, string xmlFile)
