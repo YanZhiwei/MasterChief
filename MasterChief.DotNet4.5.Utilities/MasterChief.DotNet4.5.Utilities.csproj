@@ -45,6 +45,7 @@
     <Compile Include="Communication\UdpAppBase.cs" />
     <Compile Include="Communication\UdpAppClient.cs" />
     <Compile Include="Communication\UdpAppServer.cs" />
+    <Compile Include="Core\LocalizedResource.cs" />
     <Compile Include="Core\PeriodicTask.cs" />
     <Compile Include="Model\HttpRequestRaw.cs" />
     <Compile Include="Model\UdpAppReceived.cs" />

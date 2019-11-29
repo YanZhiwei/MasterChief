@@ -124,6 +124,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MasterChief.DotNet.Infrastr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MasterChief.DotNet.Infrastructure.JsonConverter", "MasterChief.DotNet.Infrastructure.JsonConverter\MasterChief.DotNet.Infrastructure.JsonConverter.csproj", "{F463F274-21CA-48F3-8FBB-ACF07BB1F8BD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MasterChief.DotNet4.5.UtilitiesTests", "MasterChief.DotNet4.5.UtilitiesTests\MasterChief.DotNet4.5.UtilitiesTests.csproj", "{C5361F62-DF21-41FA-A76E-E717C0302432}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -278,6 +280,10 @@ Global
 		{F463F274-21CA-48F3-8FBB-ACF07BB1F8BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F463F274-21CA-48F3-8FBB-ACF07BB1F8BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F463F274-21CA-48F3-8FBB-ACF07BB1F8BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5361F62-DF21-41FA-A76E-E717C0302432}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5361F62-DF21-41FA-A76E-E717C0302432}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5361F62-DF21-41FA-A76E-E717C0302432}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5361F62-DF21-41FA-A76E-E717C0302432}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -333,6 +339,7 @@ Global
 		{0EF4387C-C50F-46E2-B3A4-851242064584} = {51CE4B8E-8E09-4CC9-A86A-FD79F752CF3A}
 		{37639957-1DB8-4F1A-A411-E019DC3C701C} = {51CE4B8E-8E09-4CC9-A86A-FD79F752CF3A}
 		{F463F274-21CA-48F3-8FBB-ACF07BB1F8BD} = {51CE4B8E-8E09-4CC9-A86A-FD79F752CF3A}
+		{C5361F62-DF21-41FA-A76E-E717C0302432} = {EC1286AC-36C3-4E6D-9034-C1AA373EB9A8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {90963A27-01A3-467E-9098-A6E345A4F839}
