@@ -1,6 +1,6 @@
-﻿using MasterChief.DotNet4.Utilities.Enum;
-using System;
+﻿using System;
 using System.Globalization;
+using MasterChief.DotNet4.Utilities.Enums;
 
 namespace MasterChief.DotNet4.Utilities.Common
 {

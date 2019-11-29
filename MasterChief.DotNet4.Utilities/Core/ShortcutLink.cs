@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Runtime.InteropServices.ComTypes;
-using MasterChief.DotNet4.Utilities.Model;
+using MasterChief.DotNet4.Utilities.Models;
 using MasterChief.DotNet4.Utilities.Operator;
 
 namespace MasterChief.DotNet4.Utilities.Core

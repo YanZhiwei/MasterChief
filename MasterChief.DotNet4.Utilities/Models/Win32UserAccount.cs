@@ -1,4 +1,4 @@
-﻿namespace MasterChief.DotNet4.Utilities.Model
+﻿namespace MasterChief.DotNet4.Utilities.Models
 {
     /// <summary>
     ///     Windows 账户信息

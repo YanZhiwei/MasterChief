@@ -4,7 +4,7 @@ using System.IO;
 using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
-using MasterChief.DotNet4.Utilities.Enum;
+using MasterChief.DotNet4.Utilities.Enums;
 
 namespace MasterChief.DotNet4.Utilities.WinForm
 {

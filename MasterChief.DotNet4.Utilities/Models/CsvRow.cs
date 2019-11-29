@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace MasterChief.DotNet4.Utilities.Model
+namespace MasterChief.DotNet4.Utilities.Models
 {
     /// <summary>
     /// CSV 行数据

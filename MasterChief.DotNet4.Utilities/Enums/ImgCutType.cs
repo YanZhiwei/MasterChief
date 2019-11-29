@@ -1,4 +1,4 @@
-﻿namespace MasterChief.DotNet4.Utilities.Enum
+﻿namespace MasterChief.DotNet4.Utilities.Enums
 {
     /// <summary>
     /// 图片裁剪方式

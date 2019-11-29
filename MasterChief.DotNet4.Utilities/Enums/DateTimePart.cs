@@ -1,4 +1,4 @@
-﻿namespace MasterChief.DotNet4.Utilities.Enum
+﻿namespace MasterChief.DotNet4.Utilities.Enums
 {
     /// <summary>
     /// 时间差枚举

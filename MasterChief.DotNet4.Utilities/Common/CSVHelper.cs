@@ -1,7 +1,7 @@
 ﻿using System.Data;
 using System.IO;
 using System.Text;
-using MasterChief.DotNet4.Utilities.Model;
+using MasterChief.DotNet4.Utilities.Models;
 
 namespace MasterChief.DotNet4.Utilities.Common
 {

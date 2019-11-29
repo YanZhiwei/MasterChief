@@ -1,4 +1,6 @@
-﻿namespace MasterChief.DotNet4.Utilities.Common
+﻿using MasterChief.DotNet4.Utilities.Enums;
+
+namespace MasterChief.DotNet4.Utilities.Common
 {
     using System;
     using System.Drawing;
@@ -6,8 +8,6 @@
     using System.Drawing.Imaging;
     using System.IO;
     using System.Runtime.InteropServices;
-
-    using MasterChief.DotNet4.Utilities.Enum;
 
     /// <summary>
     ///Image帮助类

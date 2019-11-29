@@ -1,6 +1,7 @@
-﻿namespace MasterChief.DotNet4.Utilities.Manager
+﻿using MasterChief.DotNet4.Utilities.Models;
+
+namespace MasterChief.DotNet4.Utilities.Manager
 {
-    using Model;
     using System.Net.Mail;
     using System.Text;
 

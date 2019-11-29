@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using MasterChief.DotNet4.Utilities.Model;
+using MasterChief.DotNet4.Utilities.Models;
 
 namespace MasterChief.DotNet4.Utilities.Common
 {

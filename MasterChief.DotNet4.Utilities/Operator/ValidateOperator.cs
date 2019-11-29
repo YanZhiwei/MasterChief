@@ -2,7 +2,7 @@
 using System.IO;
 using System.Text.RegularExpressions;
 using MasterChief.DotNet4.Utilities.Common;
-using MasterChief.DotNet4.Utilities.Model;
+using MasterChief.DotNet4.Utilities.Models;
 
 namespace MasterChief.DotNet4.Utilities.Operator
 {

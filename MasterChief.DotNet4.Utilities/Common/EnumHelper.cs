@@ -19,27 +19,17 @@ namespace MasterChief.DotNet4.Utilities.Common
         /// <typeparam name="T">枚举</typeparam>
         /// <param name="enumName">枚举常数名称</param>
         /// <returns>是否包括枚举常数名称</returns>
-        public static bool CheckedContainEnumName<T>(string enumName)
+        public static bool ContainEnumName<T>(string enumName)
             where T : struct, IConvertible
         {
-            var result = false;
+            if (!typeof(T).IsEnum) return false;
+            var array = Enum.GetNames(typeof(T));
 
-            if (typeof(T).IsEnum)
-            {
-                var array = System.Enum.GetNames(typeof(T));
+            bool? any = array.Any();
 
-                bool? any = array.Any();
+            if (!(bool) any) return false;
 
-                if ((bool) any)
-                    for (var i = 0; i < array.Length; i++)
-                        if (string.Compare(array[i], enumName, StringComparison.OrdinalIgnoreCase) == 0)
-                        {
-                            result = true;
-                            break;
-                        }
-            }
-
-            return result;
+            return array.Any(item => string.Compare(item, enumName, StringComparison.OrdinalIgnoreCase) == 0);
         }
 
         /// <summary>
@@ -47,13 +37,12 @@ namespace MasterChief.DotNet4.Utilities.Common
         /// </summary>
         /// <param name="targetEnum">需要获取枚举描述的枚举</param>
         /// <returns>描述内容</returns>
-        public static string GetDescription(this System.Enum targetEnum)
+        public static string GetDescription(this Enum targetEnum)
         {
-            string description;
             var fieldInfo = targetEnum.GetType().GetField(targetEnum.ToString());
-            var attr = fieldInfo.GetDescriptAttr();
+            var attr = fieldInfo.GetDescriptionAttr();
 
-            description = attr != null && attr.Length > 0 ? attr[0].Description : targetEnum.ToString();
+            var description = attr != null && attr.Length > 0 ? attr[0].Description : targetEnum.ToString();
 
             return description;
         }
@@ -67,7 +56,7 @@ namespace MasterChief.DotNet4.Utilities.Common
         public static string GetName<T>(this T targetEnum)
             where T : struct, IConvertible
         {
-            return System.Enum.GetName(typeof(T), targetEnum);
+            return Enum.GetName(typeof(T), targetEnum);
         }
 
         /// <summary>
@@ -79,7 +68,7 @@ namespace MasterChief.DotNet4.Utilities.Common
         public static string GetName<T>(int enumNumber)
             where T : struct, IConvertible
         {
-            return System.Enum.GetName(typeof(T), enumNumber);
+            return Enum.GetName(typeof(T), enumNumber);
         }
 
         /// <summary>
@@ -97,18 +86,15 @@ namespace MasterChief.DotNet4.Utilities.Common
         /// 备注：
         public static T[] GetValues<T>(this Type enumType)
         {
-            if (enumType.IsEnum)
-            {
-                var array = System.Enum.GetValues(enumType);
-                var count = array.Length;
-                var values = new T[count];
+            if (!enumType.IsEnum) return null;
+            var array = Enum.GetValues(enumType);
+            var count = array.Length;
+            var values = new T[count];
 
-                for (var i = 0; i < count; i++) values[i] = (T) array.GetValue(i);
+            for (var i = 0; i < count; i++) values[i] = (T) array.GetValue(i);
 
-                return values;
-            }
+            return values;
 
-            return null;
         }
 
         /// <summary>
@@ -120,7 +106,7 @@ namespace MasterChief.DotNet4.Utilities.Common
         /// <param name="data">枚举</param>
         /// <param name="values">枚举</param>
         /// <returns>是否包含</returns>
-        public static bool In(this System.Enum data, params System.Enum[] values)
+        public static bool In(this Enum data, params Enum[] values)
         {
             return Array.IndexOf(values, data) != -1;
         }
@@ -134,7 +120,7 @@ namespace MasterChief.DotNet4.Utilities.Common
         /// <param name="data">枚举</param>
         /// <param name="values">枚举</param>
         /// <returns>是否未包含</returns>
-        public static bool NotIn(this System.Enum data, params System.Enum[] values)
+        public static bool NotIn(this Enum data, params Enum[] values)
         {
             return Array.IndexOf(values, data) == -1;
         }
@@ -149,32 +135,24 @@ namespace MasterChief.DotNet4.Utilities.Common
         public static T ParseEnumDescription<T>(this string description, T defaultValue)
             where T : struct, IConvertible
         {
-            if (typeof(T).IsEnum)
+            if (!typeof(T).IsEnum) return defaultValue;
+            var curType = typeof(T);
+
+            foreach (var field in curType.GetFields())
             {
-                var curType = typeof(T);
+                var descAttr = field.GetDescriptionAttr();
 
-                foreach (var field in curType.GetFields())
+                if (descAttr != null && descAttr.Length > 0)
                 {
-                    var descAttr = field.GetDescriptAttr();
-
-                    if (descAttr != null && descAttr.Length > 0)
-                    {
-                        if (string.Compare(descAttr[0].Description, description, StringComparison.OrdinalIgnoreCase) ==
-                            0)
-                        {
-                            defaultValue = (T) field.GetValue(null);
-                            break;
-                        }
-                    }
-                    else
-                    {
-                        if (string.Compare(field.Name, description, StringComparison.OrdinalIgnoreCase) == 0)
-                        {
-                            defaultValue = (T) field.GetValue(null);
-                            break;
-                        }
-                    }
+                    if (string.Compare(descAttr[0].Description, description, StringComparison.OrdinalIgnoreCase) !=
+                        0) continue;
+                    defaultValue = (T) field.GetValue(null);
+                    break;
                 }
+
+                if (string.Compare(field.Name, description, StringComparison.OrdinalIgnoreCase) != 0) continue;
+                defaultValue = (T) field.GetValue(null);
+                break;
             }
 
             return defaultValue;
@@ -189,7 +167,7 @@ namespace MasterChief.DotNet4.Utilities.Common
         public static T ParseEnumName<T>(this string enumName)
             where T : struct, IConvertible
         {
-            return (T) System.Enum.Parse(typeof(T), enumName, true);
+            return (T) Enum.Parse(typeof(T), enumName, true);
         }
 
         /// <summary>
@@ -203,13 +181,12 @@ namespace MasterChief.DotNet4.Utilities.Common
             where T : struct, IConvertible
         {
             var keyValues = new List<KeyValuePair<int, string>>();
-            if (typeof(T).IsEnum)
-                foreach (var item in System.Enum.GetNames(typeof(T)))
-                    keyValues.Add(new KeyValuePair<int, string>((int) System.Enum.Parse(typeof(T), item), item));
+            if (!typeof(T).IsEnum) return keyValues;
+            keyValues.AddRange(Enum.GetNames(typeof(T)).Select(item => new KeyValuePair<int, string>((int) Enum.Parse(typeof(T), item), item)));
             return keyValues;
         }
 
-        private static DescriptionAttribute[] GetDescriptAttr(this FieldInfo fieldInfo)
+        private static DescriptionAttribute[] GetDescriptionAttr(this FieldInfo fieldInfo)
         {
             return (DescriptionAttribute[]) fieldInfo.GetCustomAttributes(typeof(DescriptionAttribute), false);
         }

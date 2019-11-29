@@ -1,4 +1,4 @@
-﻿namespace MasterChief.DotNet4.Utilities.Model
+﻿namespace MasterChief.DotNet4.Utilities.Models
 {
     /// <summary>
     /// 地图坐标
