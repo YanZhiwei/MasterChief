@@ -19,7 +19,7 @@ namespace MasterChief.DotNet4._5.UtilitiesTests.Core
         [TestMethod]
         public void GetStringTest()
         {
-            var actual = _localizedResource.GetString("Name");
+            var actual = _localizedResource.GetString(XfResource.Name);
 
             Assert.AreEqual("姓名", actual);
         }
