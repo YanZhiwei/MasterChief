@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
+using MasterChief.DotNet4.Utilities.Models;
 
 namespace MasterChief.DotNet4.Utilities.Common
 {
@@ -94,7 +95,6 @@ namespace MasterChief.DotNet4.Utilities.Common
             for (var i = 0; i < count; i++) values[i] = (T) array.GetValue(i);
 
             return values;
-
         }
 
         /// <summary>
@@ -182,8 +182,24 @@ namespace MasterChief.DotNet4.Utilities.Common
         {
             var keyValues = new List<KeyValuePair<int, string>>();
             if (!typeof(T).IsEnum) return keyValues;
-            keyValues.AddRange(Enum.GetNames(typeof(T)).Select(item => new KeyValuePair<int, string>((int) Enum.Parse(typeof(T), item), item)));
+            keyValues.AddRange(Enum.GetNames(typeof(T))
+                .Select(item => new KeyValuePair<int, string>((int) Enum.Parse(typeof(T), item), item)));
             return keyValues;
+        }
+
+        /// <summary>
+        ///     转换ValueDescription
+        /// </summary>
+        /// <param name="enumType">Type of the enum.</param>
+        /// <returns>ValueDescription集合</returns>
+        /// <exception cref="ArgumentException"></exception>
+        public static IEnumerable<ValueDescription> ToValueDescription(Type enumType)
+        {
+            if (!enumType.IsEnum)
+                throw new ArgumentException($"{nameof(enumType)} must be an enum type");
+
+            return Enum.GetValues(enumType).Cast<Enum>()
+                .Select(e => new ValueDescription {EnumValue = e, Description = e.GetDescription()}).ToList();
         }
 
         private static DescriptionAttribute[] GetDescriptionAttr(this FieldInfo fieldInfo)
