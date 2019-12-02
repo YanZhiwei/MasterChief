@@ -19,11 +19,11 @@ namespace MasterChief.DotNet4.Utilities.Common
         /// <summary>
         /// 秒
         /// </summary>
-        public const int SECOND = 1,
-                         MINUTE = 60 * SECOND,
-                         HOUR = 60 * MINUTE,
-                         DAY = 24 * HOUR,
-                         MONTH = 30 * DAY;
+        public const int Second = 1,
+                         Minute = 60 * Second,
+                         Hour = 60 * Minute,
+                         Day = 24 * Hour,
+                         Month = 30 * Day;
 
         #endregion Fields
 
@@ -177,7 +177,7 @@ namespace MasterChief.DotNet4.Utilities.Common
                     return dateTime.ToString("yyyyMMdd");
 
                 default:
-                    return dateTime.ToString();
+                    return dateTime.ToString(CultureInfo.InvariantCulture);
             }
         }
 
@@ -254,47 +254,47 @@ namespace MasterChief.DotNet4.Utilities.Common
         /// <returns>友好时间</returns>
         public static string GetFriendlyString(this DateTime datetime)
         {
-            string friendlyString = string.Empty;
+            string friendlyString;
             TimeSpan timeSpan = DateTime.Now - datetime;
             double totalSeconds = timeSpan.TotalSeconds;
 
-            if (totalSeconds < 1 * SECOND)
+            if (totalSeconds < 1 * Second)
             {
                 friendlyString = timeSpan.Seconds == 1 ? "1秒前" : timeSpan.Seconds + "秒前";
             }
-            else if (totalSeconds < 2 * MINUTE)
+            else if (totalSeconds < 2 * Minute)
             {
                 friendlyString = "1分钟之前";
             }
-            else if (totalSeconds < 45 * MINUTE)
+            else if (totalSeconds < 45 * Minute)
             {
                 friendlyString = timeSpan.Minutes + "分钟";
             }
-            else if (totalSeconds < 90 * MINUTE)
+            else if (totalSeconds < 90 * Minute)
             {
                 friendlyString = "1小时前";
             }
-            else if (totalSeconds < 24 * HOUR)
+            else if (totalSeconds < 24 * Hour)
             {
                 friendlyString = timeSpan.Hours + "小时前";
             }
-            else if (totalSeconds < 48 * HOUR)
+            else if (totalSeconds < 48 * Hour)
             {
                 friendlyString = "昨天";
             }
-            else if (totalSeconds < 30 * DAY)
+            else if (totalSeconds < 30 * Day)
             {
                 friendlyString = timeSpan.Days + " 天之前";
             }
-            else if (totalSeconds < 12 * MONTH)
+            else if (totalSeconds < 12 * Month)
             {
-                int _months = Convert.ToInt32(Math.Floor((double)timeSpan.Days / 30));
-                friendlyString = _months <= 1 ? "一个月之前" : _months + "月之前";
+                int months = Convert.ToInt32(Math.Floor((double)timeSpan.Days / 30));
+                friendlyString = months <= 1 ? "一个月之前" : months + "月之前";
             }
             else
             {
-                int _years = Convert.ToInt32(Math.Floor((double)timeSpan.Days / 365));
-                friendlyString = _years <= 1 ? "一年前" : _years + "年前";
+                int years = Convert.ToInt32(Math.Floor((double)timeSpan.Days / 365));
+                friendlyString = years <= 1 ? "一年前" : years + "年前";
             }
 
             return friendlyString;

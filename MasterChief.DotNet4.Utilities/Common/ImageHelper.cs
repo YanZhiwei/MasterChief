@@ -286,7 +286,7 @@ namespace MasterChief.DotNet4.Utilities.Common
 
             while (imgCount > size * 1024 && index < 10)
             {
-                string imgFullName = imgFile.Directory.FullName;
+                string imgFullName = imgFile.Directory?.FullName;
                 string imgTmpFile = Path.Combine(imgFullName, Guid.NewGuid().ToString() + "." + imgFile.Extension);
                 imgFile.CopyTo(imgTmpFile, true);
                 KiSaveAsJPEG(imgTmpFile, sourceImage, 70);

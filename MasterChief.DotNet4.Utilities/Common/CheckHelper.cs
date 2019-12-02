@@ -21,7 +21,7 @@
         public static bool InRange(string data, int minValue, int maxValue)
         {
             bool result = false;
-            int number = -1;
+            int number;
 
             if (int.TryParse(data, out number))
             {
@@ -166,7 +166,7 @@
                 data = data.Replace("月", "-");
                 data = data.Replace("日", " ");
                 data = data.Replace("  ", " ");
-                return DateTime.TryParse(data, out DateTime _date);
+                return DateTime.TryParse(data, out _);
             }
 
             return false;
@@ -236,7 +236,7 @@
                 return false;
             }
 
-            string fileClass = "";
+            string fileClass;
             int len = data.Length;
 
             try
@@ -300,7 +300,7 @@
 
                 if (hostType == UriHostNameType.Unknown)       //譬如 "192.168.1.1:8060"或者[2001:0DB8:02de::0e13]:9010
                 {
-                    if (Uri.TryCreate(string.Format("http://{0}", data), UriKind.Absolute, out Uri _url))
+                    if (Uri.TryCreate(string.Format("http://{0}", data), UriKind.Absolute, out _))
                     {
                         result = true;
                     }
@@ -443,7 +443,7 @@
         /// </summary>
         /// <param name="data">验证字符串</param>
         /// <returns>是否是URL</returns>
-        public static bool IsURL(string data)
+        public static bool IsUrl(string data)
         {
             return RegexHelper.IsMatch(data, RegexPattern.UrlCheck);
         }
@@ -457,7 +457,7 @@
         {
             bool result = false;
             int minPORT = 0, _maxPORT = 65535;
-            int portValue = -1;
+            int portValue;
 
             if (int.TryParse(port, out portValue))
             {

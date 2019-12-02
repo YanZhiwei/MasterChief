@@ -1,8 +1,7 @@
 ﻿namespace MasterChief.DotNet4.Utilities.Builder
 {
     using Common;
-    using Manager;
-    using MasterChief.DotNet4.Utilities.Operator;
+    using Operator;
     using System.Collections;
     using System.Text;
 

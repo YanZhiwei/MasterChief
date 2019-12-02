@@ -12,12 +12,12 @@
         /// <summary>
         /// False
         /// </summary>
-        private const byte streamFalse = 0;
+        private const byte StreamFalse = 0;
 
         /// <summary>
         /// True
         /// </summary>
-        private const byte streamTrue = 1;
+        private const byte StreamTrue = 1;
 
         /// <summary>
         /// MemoryStream
@@ -74,7 +74,7 @@
         /// <param name="b">bool数值</param>
         public void Append(bool b)
         {
-            _store.WriteByte(b ? streamTrue : streamFalse);
+            _store.WriteByte(b ? StreamTrue : StreamFalse);
         }
 
         /// <summary>

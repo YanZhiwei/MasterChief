@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 
 namespace MasterChief.DotNet4.Utilities.Common
 {
@@ -27,7 +26,14 @@ namespace MasterChief.DotNet4.Utilities.Common
 
             var modelAttrs = modelType.GetCustomAttributes(typeof(A), true);
 
-            return (bool) modelAttrs?.Any() ? modelAttrs.FirstOrDefault() as A : null;
+            bool? any = false;
+            foreach (var dummy in modelAttrs)
+            {
+                any = true;
+                break;
+            }
+
+            return (bool) any ? modelAttrs.FirstOrDefault() as A : null;
         }
 
         #endregion Methods

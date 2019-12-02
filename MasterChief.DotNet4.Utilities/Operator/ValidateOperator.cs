@@ -340,7 +340,7 @@ namespace MasterChief.DotNet4.Utilities.Operator
         /// <returns>Validation</returns>
         public static Validation IsUrl(this Validation validation, string data, string argumentName)
         {
-            return Check(validation, () => CheckHelper.IsURL(data), RegexPattern.UrlCheck, argumentName);
+            return Check(validation, () => CheckHelper.IsUrl(data), RegexPattern.UrlCheck, argumentName);
         }
 
         /// <summary>

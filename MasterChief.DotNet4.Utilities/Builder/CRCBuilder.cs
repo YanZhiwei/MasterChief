@@ -22,7 +22,7 @@
         public static ushort Calu16Modbus(byte[] data)
         {
             ushort ax = 0xFFFF;
-            ushort lsb = 0;
+            ushort lsb;
 
             for (int i = 0; i < data.Length; i++)
             {
@@ -50,7 +50,7 @@
         /// <returns>CRC数值</returns>
         public static byte CaluSum(byte[] data)
         {
-            byte cal = 0x00;
+            byte cal;
             uint totol = 0;
             foreach (byte item in data)
             {

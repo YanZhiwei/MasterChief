@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
 
 namespace MasterChief.DotNet4.Utilities.Common
 {
@@ -20,10 +21,10 @@ namespace MasterChief.DotNet4.Utilities.Common
         {
             var sqlText = cmd.CommandText;
 
-            for (var i = 0; i < cmd.Parameters.Count; i++)
+            foreach (var item in cmd.Parameters)
             {
-                var parameter = cmd.Parameters[i] as IDbDataParameter;
-                sqlText = sqlText.Replace(parameter.ParameterName, parameter.Value.ToStringOrDefault(string.Empty));
+                var parameter = item as IDbDataParameter;
+                sqlText = sqlText.Replace(parameter?.ParameterName ?? throw new InvalidOperationException(), parameter.Value.ToStringOrDefault(string.Empty));
             }
 
             return sqlText;
