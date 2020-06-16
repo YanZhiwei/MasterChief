@@ -74,6 +74,7 @@ namespace MasterChief.DotNet4.Utilities.Common
         /// </returns>
         public static bool IsRunning(string processPath, string owner)
         {
+            //Cherry-pick 2
             ValidateOperator.Begin()
                 .NotNullOrEmpty(processPath, "需要运行的程序路径")
                 .NotNullOrEmpty(owner, "进程拥有者")
