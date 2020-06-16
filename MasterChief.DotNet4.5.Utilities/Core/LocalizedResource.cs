@@ -41,7 +41,6 @@ namespace MasterChief.DotNet4._5.Utilities.Core
         {
             if (string.IsNullOrEmpty(key)) return key;
             var result = Resource.GetString(key, CultureInfo.DefaultThreadCurrentCulture);
-            //1
             return string.IsNullOrEmpty(result) ? key : result;
             //2
         }
