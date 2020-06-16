@@ -51,7 +51,6 @@ namespace MasterChief.DotNet4.Utilities.Common
         /// <returns>是否已经运行</returns>
         public static bool IsRunning(string processPath)
         {
-            //Cherry-pick
             ValidateOperator.Begin()
                 .NotNullOrEmpty(processPath, "需要运行的程序路径")
                 .CheckFileExists(processPath);
