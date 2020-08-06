@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using MasterChief.DotNet4.Utilities.Operator;
@@ -15,6 +17,20 @@ namespace MasterChief.DotNet4.WindowsAPI
     public sealed class WindowsCore
     {
         #region Methods
+        const int CREATE_UNICODE_ENVIRONMENT = 0x00000400;
+        const int NORMAL_PRIORITY_CLASS = 0x20;
+        const uint EXTENDED_STARTUPINFO_PRESENT = 0x00080000;
+
+        public static Process CreateProcessAsUser(string processPath, string windowsUser, bool runAsAdmin = false)
+        {
+            ValidateOperator.Begin()
+                .NotNull(processPath, nameof(windowsUser))
+                .NotNull(windowsUser, nameof(processPath))
+                .CheckFileExists(processPath);
+            SessionInfo sessionByUserName = GetSessions().FirstOrDefault(c =>
+                string.Equals($"{c.Domain}/{c.UserName}", windowsUser, StringComparison.OrdinalIgnoreCase) || string.Equals(c.UserName, windowsUser, StringComparison.OrdinalIgnoreCase));
+
+        }
 
         /// <summary>
         ///     以当前登录系统的用户角色权限启动指定的进程
@@ -33,7 +49,7 @@ namespace MasterChief.DotNet4.WindowsAPI
                     throw new Win32ErrorCodeException("WTSEnumerateSessions==0");
                 for (var count = 0; count < sessionCount; count++)
                 {
-                    var si = (WTS_SESSION_INFO) Marshal.PtrToStructure(
+                    var si = (WTS_SESSION_INFO)Marshal.PtrToStructure(
                         ppSessionInfo + count * Marshal.SizeOf(typeof(WTS_SESSION_INFO)), typeof(WTS_SESSION_INFO));
 
                     if (si.State != WTS_CONNECTSTATE_CLASS.WTSActive) continue;
@@ -44,6 +60,7 @@ namespace MasterChief.DotNet4.WindowsAPI
                     {
                         cb = Marshal.SizeOf(typeof(STARTUPINFO))
                     };
+                    var dwCreationFlags = NORMAL_PRIORITY_CLASS | CREATE_UNICODE_ENVIRONMENT | EXTENDED_STARTUPINFO_PRESENT;
                     var childProcStarted = Win32Api.CreateProcessAsUser(
                         hToken,
                         processPath,
@@ -51,13 +68,14 @@ namespace MasterChief.DotNet4.WindowsAPI
                         IntPtr.Zero,
                         IntPtr.Zero,
                         false,
-                        0,
+                        dwCreationFlags,
                         null,
-                        null,
+                        Path.GetDirectoryName(processPath),
                         ref tStartUpInfo,
                         out var tProcessInfo
                     );
-                    if (!childProcStarted) throw new Win32ErrorCodeException($"CreateProcessAsUser({processPath})");
+                    if (!childProcStarted)
+                        throw new Win32ErrorCodeException($"CreateProcessAsUser({processPath})");
                     Win32Api.CloseHandle(tProcessInfo.hThread);
                     Win32Api.CloseHandle(tProcessInfo.hProcess);
 
@@ -140,7 +158,7 @@ namespace MasterChief.DotNet4.WindowsAPI
                 var sessions = new SessionInfo[sessionCount];
                 for (var i = 0; i < sessionCount; i++)
                 {
-                    var si = (WTS_SESSION_INFO) Marshal.PtrToStructure(currentSession, typeof(WTS_SESSION_INFO));
+                    var si = (WTS_SESSION_INFO)Marshal.PtrToStructure(currentSession, typeof(WTS_SESSION_INFO));
                     currentSession += dataSize;
 
                     Win32Api.WTSQuerySessionInformation(serverHandle, si.SessionID, WTS_INFO_CLASS.WTSUserName,

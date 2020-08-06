@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="Core\Win32ErrorCodeException.cs" />
     <Compile Include="Desktop.cs" />
+    <Compile Include="Exceptions\SessionNotExistException.cs" />
     <Compile Include="Model\SessionInfo.cs" />
     <Compile Include="Model\WindowInfo.cs" />
     <Compile Include="MouseKeyboard.cs" />
@@ -65,5 +66,6 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
